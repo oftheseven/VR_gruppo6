@@ -1168,9 +1168,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1213144634}
+  - component: {fileID: 1213144638}
   - component: {fileID: 1213144636}
   - component: {fileID: 1213144637}
-  - component: {fileID: 1213144638}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1255,10 +1255,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   spawnPoint: {x: 0, y: 6, z: -7.24}
-  speed: 5
-  runSpeed: 10
-  rotationSpeed: 15
-  maxLookAngle: 80
+  _moveSpeed: 5
+  _runSpeed: 10
+  _rotationSpeed: 15
+  _maxLookAngle: 80
 --- !u!1 &1253486840 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -26537862419907395, guid: 6baf26461ca75a34b9960c30199edef5, type: 3}
