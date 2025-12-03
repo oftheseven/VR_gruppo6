@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Vector3 spawnPoint = Vector3.zero;
     [SerializeField] private float speed = 5f;
