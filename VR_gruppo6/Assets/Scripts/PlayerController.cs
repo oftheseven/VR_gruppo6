@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
         this.transform.position = spawnPoint;
     }
 
+    // da modificare, non possiamo lasciare tutto nell'update, questo era giusto per provare al volo
     void Update()
     {
         Vector2 moveInput = Vector2.zero;

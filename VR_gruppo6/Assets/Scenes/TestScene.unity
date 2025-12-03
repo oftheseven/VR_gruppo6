@@ -1168,7 +1168,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1213144634}
-  - component: {fileID: 1213144635}
   - component: {fileID: 1213144636}
   - component: {fileID: 1213144637}
   - component: {fileID: 1213144638}
@@ -1195,23 +1194,6 @@ Transform:
   - {fileID: 330585546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1213144635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1213144633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9d95be158db2fb4bb6fa5e8045ab61b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player
-  spawnPoint: {x: 0, y: 6, z: -7.24}
-  speed: 5
-  runSpeed: 10
-  rotationSpeed: 15
-  maxLookAngle: 80
 --- !u!65 &1213144636
 BoxCollider:
   m_ObjectHideFlags: 0
