@@ -1,124 +1,74 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class Player : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    [SerializeField] private float movementSpeed = 5f;
-    [SerializeField] private float rotationSpeed = 10f;
-    [SerializeField] private float smoothTime = 0.1f;
+    [SerializeField] private Vector3 spawnPoint = Vector3.zero;
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private float runSpeed = 10f;
+    [SerializeField] private float rotationSpeed = 3f;
+    [SerializeField] private float maxLookAngle = 80f; // Limite per guardare su/giù
 
-    [Header("References")]
-    [SerializeField] private Camera mainCamera;
-    [SerializeField] private Rigidbody rb;
+    private float verticalRotation = 0f;
 
-    private Vector3 currentVelocity;
-    private Vector3 moveDirection;
-    private Vector2 moveInput;
-
-    private void Start()
+    void Start()
     {
-        // Ottieni il Rigidbody se non è assegnato nell'inspector
-        if (rb == null)
-        {
-            rb = GetComponent<Rigidbody>();
-        }
-
-        // Configura il Rigidbody per evitare rotazioni indesiderate
-        rb.freezeRotation = true;
-
-        // Ottieni la main camera se non è assegnata
-        if (mainCamera == null)
-        {
-            mainCamera = Camera.main;
-        }
+        this.transform.position = spawnPoint;
     }
 
-    private void Update()
+    void Update()
     {
-        // Leggi l'input dal New Input System
-        moveInput = GetMoveInput();
+        Vector2 moveInput = Vector2.zero;
+        Vector2 lookInput = Vector2.zero;
 
-        if (IsKeyPressed())
+        if (Keyboard.current.wKey.isPressed)
         {
-            // Crea il vettore di input
-            Vector3 inputDirection = new Vector3(moveInput.x, 0f, moveInput.y);
-
-            // Trasforma la direzione in base alla camera
-            moveDirection = mainCamera.transform.TransformDirection(inputDirection);
-            moveDirection.y = 0f; // Mantieni il movimento sul piano orizzontale
-            moveDirection. Normalize();
-
-            // Ruota il player verso la direzione di movimento
-            if (moveDirection. magnitude > 0.1f)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time. deltaTime);
-            }
+            if (Keyboard.current.leftShiftKey.isPressed)
+                moveInput.y += 2;
+            else
+            moveInput.y += 1;
         }
-        else
+        if (Keyboard.current.sKey.isPressed)
         {
-            moveDirection = Vector3.zero;
+            if (Keyboard.current.leftShiftKey.isPressed)
+                moveInput.y -= 2;
+            else
+                moveInput.y -= 1;
         }
-    }
-
-    private void FixedUpdate()
-    {
-        // Usa FixedUpdate per i movimenti con Rigidbody
-        if (moveDirection.magnitude > 0.1f)
+        if (Keyboard.current.aKey.isPressed)
         {
-            // Calcola la velocità target
-            Vector3 targetVelocity = moveDirection * movementSpeed;
-
-            // Smooth del movimento per renderlo più fluido
-            Vector3 velocity = Vector3.SmoothDamp(rb.linearVelocity, targetVelocity, ref currentVelocity, smoothTime);
-            
-            // Mantieni la componente Y della velocità (gravità)
-            velocity.y = rb.linearVelocity.y;
-
-            // Applica la velocità
-            rb.linearVelocity = velocity;
+            if (Keyboard.current.leftShiftKey.isPressed)
+                moveInput.x -= 2;
+            else
+                moveInput.x -= 1;
         }
-        else
+        if (Keyboard.current.dKey.isPressed)
+        {            
+            if (Keyboard.current.leftShiftKey.isPressed)
+                moveInput.x += 2;
+            else
+                moveInput.x += 1;
+        }
+
+        if (Mouse.current.delta.x.ReadValue() != 0 || Mouse.current.delta.y.ReadValue() != 0)
         {
-            // Ferma gradualmente il player
-            Vector3 velocity = Vector3.SmoothDamp(rb.linearVelocity, Vector3.zero, ref currentVelocity, smoothTime);
-            velocity.y = rb.linearVelocity.y;
-            rb.linearVelocity = velocity;
+            lookInput = Mouse.current.delta.ReadValue();
         }
-    }
 
-    private Vector2 GetMoveInput()
-    {
-        // Usa il New Input System
-        Vector2 input = Vector2.zero;
+        // Movimento basato solo sulla rotazione Y (orizzontale)
+        Vector3 forward = new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
+        Vector3 right = new Vector3(transform.right.x, 0, transform.right.z).normalized;
         
-        // Tastiera WASD / Frecce
-        Keyboard keyboard = Keyboard.current;
-        if (keyboard != null)
-        {
-            if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed)
-                input.y += 1f;
-            if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed)
-                input.y -= 1f;
-            if (keyboard. dKey.isPressed || keyboard.rightArrowKey.isPressed)
-                input.x += 1f;
-            if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed)
-                input.x -= 1f;
-        }
+        Vector3 move = (forward * moveInput.y + right * moveInput.x) * speed * Time.deltaTime;
+        this.transform.position += move;
 
-        // Gamepad (opzionale)
-        Gamepad gamepad = Gamepad.current;
-        if (gamepad != null)
-        {
-            input += gamepad.leftStick.ReadValue();
-        }
+        // Rotazione orizzontale (Y axis)
+        Vector3 horizontalRotation = new Vector3(0, lookInput.x, 0) * rotationSpeed * Time.deltaTime;
+        this.transform.Rotate(horizontalRotation, Space.World);
 
-        return input;
-    }
-
-    private bool IsKeyPressed()
-    {
-        return moveInput.magnitude > 0.01f;
+        // Rotazione verticale (X axis) con limiti
+        verticalRotation -= lookInput.y * rotationSpeed * Time.deltaTime;
+        verticalRotation = Mathf.Clamp(verticalRotation, -maxLookAngle, maxLookAngle);
+        this.transform.localEulerAngles = new Vector3(verticalRotation, this.transform.localEulerAngles.y, 0);
     }
 }
