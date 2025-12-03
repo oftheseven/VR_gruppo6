@@ -27,6 +27,25 @@ public class PlayerController : MonoBehaviour
         Vector2 moveInput = Vector2.zero;
         Vector2 lookInput = Vector2.zero;
 
+        // DA FINIRE QUESTO SWITCH PER LA GESTIONE DEI MOVIMENTI
+        // var key = Keyboard.current;
+
+        // switch (key)
+        // {
+        //     case var k when k.wKey.isPressed:
+        //         Debug.Log("W pressed");
+        //         break;
+        //     case var k when k.sKey.isPressed:
+        //         Debug.Log("S pressed");
+        //         break;
+        //     case var k when k.aKey.isPressed:
+        //         Debug.Log("A pressed");
+        //         break;
+        //     case var k when k.dKey.isPressed:
+        //         Debug.Log("D pressed");
+        //         break;
+        // }
+
         if (Keyboard.current.wKey.isPressed)
         {
             if (Keyboard.current.leftShiftKey.isPressed)
