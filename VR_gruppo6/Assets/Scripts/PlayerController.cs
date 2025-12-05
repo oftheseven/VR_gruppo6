@@ -27,28 +27,6 @@ public class PlayerController : MonoBehaviour
         Vector2 moveInput = Vector2.zero;
         Vector2 lookInput = Vector2.zero;
 
-        // CON QUESTO SWITCH IL PLAYER NON PUO' MUOVERSI IN DIAGONALE
-        // var key = Keyboard.current;
-
-        // switch (key)
-        // {
-        //     case var k when k.wKey.isPressed:
-        //         moveInput.y += 1;
-        //         break;
-
-        //     case var k when k.sKey.isPressed:
-        //         moveInput.y -= 1;
-        //         break;
-
-        //     case var k when k.aKey.isPressed:
-        //         moveInput.x -= 1;
-        //         break;
-
-        //     case var k when k.dKey.isPressed:
-        //         moveInput.x += 1;
-        //         break;
-        // }
-
         if (Keyboard.current.wKey.isPressed)
         {
             if (Keyboard.current.leftShiftKey.isPressed)
