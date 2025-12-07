@@ -5,9 +5,9 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Vector3 spawnPoint = Vector3.zero;
     [SerializeField] private float _moveSpeed = 5f;
-    [SerializeField] private float _runSpeed = 10f;
+    [SerializeField] private float _runSpeed = 2f;
     [SerializeField] private float _rotationSpeed = 3f;
-    [SerializeField] private float _maxLookAngle = 80f; // Limite per guardare su/giù
+    [SerializeField] private float _maxLookAngle = 80f; // limite per guardare su/giù
 
     private float verticalRotation = 0f;
 
@@ -30,28 +30,28 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current.wKey.isPressed)
         {
             if (Keyboard.current.leftShiftKey.isPressed)
-                moveInput.y += 2;
+                moveInput.y += _runSpeed;
             else
             moveInput.y += 1;
         }
         if (Keyboard.current.sKey.isPressed)
         {
             if (Keyboard.current.leftShiftKey.isPressed)
-                moveInput.y -= 2;
+                moveInput.y -= _runSpeed;
             else
                 moveInput.y -= 1;
         }
         if (Keyboard.current.aKey.isPressed)
         {
             if (Keyboard.current.leftShiftKey.isPressed)
-                moveInput.x -= 2;
+                moveInput.x -= _runSpeed;
             else
                 moveInput.x -= 1;
         }
         if (Keyboard.current.dKey.isPressed)
         {            
             if (Keyboard.current.leftShiftKey.isPressed)
-                moveInput.x += 2;
+                moveInput.x += _runSpeed;
             else
                 moveInput.x += 1;
         }
@@ -61,18 +61,18 @@ public class PlayerController : MonoBehaviour
             lookInput = Mouse.current.delta.ReadValue();
         }
 
-        // Movimento basato solo sulla rotazione Y (orizzontale)
+        // movimento basato solo sulla rotazione y
         Vector3 forward = new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
         Vector3 right = new Vector3(transform.right.x, 0, transform.right.z).normalized;
         
         Vector3 move = (forward * moveInput.y + right * moveInput.x) * _moveSpeed * Time.deltaTime;
         this.transform.position += move;
 
-        // Rotazione orizzontale (Y axis)
+        // rotazione orizzontale
         Vector3 horizontalRotation = new Vector3(0, lookInput.x, 0) * _rotationSpeed * Time.deltaTime;
         this.transform.Rotate(horizontalRotation, Space.World);
 
-        // Rotazione verticale (X axis) con limiti
+        // rotazione verticale con limiti
         verticalRotation -= lookInput.y * _rotationSpeed * Time.deltaTime;
         verticalRotation = Mathf.Clamp(verticalRotation, -_maxLookAngle, _maxLookAngle);
         this.transform.localEulerAngles = new Vector3(verticalRotation, this.transform.localEulerAngles.y, 0);
