@@ -2390,12 +2390,11 @@ MonoBehaviour:
   _runMultiplier: 2
   _rotationSpeed: 15
   _maxLookAngle: 89
-  _smoothTime: 0.1
-  _jumpForce: 5
+  _jumpForce: 1000
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  _groundCheckDistance: 0.3
+  _groundCheckDistance: 7
   _cameraTransform: {fileID: 330585546}
 --- !u!1 &1242009162 stripped
 GameObject:

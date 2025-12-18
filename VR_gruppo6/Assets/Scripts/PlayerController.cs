@@ -23,10 +23,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private float verticalRotation = 0f;
     private Vector3 currentVelocity = Vector3.zero;
+    private float gravity = -9.81f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.useGravity = true;
         rb.freezeRotation = true; // evita rotazioni indesiderate da collisioni
         transform.position = spawnPoint;
 
@@ -55,6 +57,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Move();
+        ApplyExtraGravity();
     }
 
     private void Move()
@@ -118,14 +121,28 @@ public class PlayerController : MonoBehaviour
     {
         // applico una forza verso l'alto
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-        rb.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
+        rb.linearVelocity += Vector3.up * _jumpForce * Time.fixedDeltaTime;
+    }
+
+    private void ApplyExtraGravity()
+    {
+        if (rb.linearVelocity.y < 0)
+        {
+            Debug.Log("STO CADENDO");
+            rb.linearVelocity += Vector3.up * Physics.gravity.y * gravity * Time.fixedDeltaTime;
+        }
+        // else if (rb.linearVelocity.y > 0 && ! Keyboard.current.spaceKey.isPressed)
+        // {
+        //     // Sta salendo ma ha rilasciato il tasto salto: applica gravità extra per un salto più corto
+        //     rb.linearVelocity += Vector3.up * Physics.gravity.y * (_lowJumpMultiplier - 1) * Time.fixedDeltaTime;
+        // }
     }
 
     private bool IsGrounded()
     {
         // raycast verso il basso per controllare se è a terra
         Vector3 origin = transform.position + Vector3.up * 0.1f;
-        return Physics. Raycast(origin, Vector3.down, _groundCheckDistance, _groundLayer);
+        return Physics.Raycast(origin, Vector3.down, _groundCheckDistance, _groundLayer);
     }
 
     private void OnDrawGizmos()
