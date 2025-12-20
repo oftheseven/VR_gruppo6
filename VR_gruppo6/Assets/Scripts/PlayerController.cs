@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Header("Spawn")]
-    [SerializeField] private Vector3 spawnPoint = Vector3.zero;
+    //[SerializeField] private Vector3 spawnPoint = Vector3.zero;
 
     [Header("Movement")]
     [SerializeField] private float _moveSpeed = 5f;
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true;
         rb.freezeRotation = true; // evita rotazioni indesiderate da collisioni
-        transform.position = spawnPoint;
+        // transform.position = spawnPoint;
 
         // nascondo e blocco il cursore
         Cursor.lockState = CursorLockMode.Locked;
