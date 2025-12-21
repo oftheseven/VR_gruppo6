@@ -1,11 +1,10 @@
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Spawn")]
-    //[SerializeField] private Vector3 spawnPoint = Vector3.zero;
-
     [Header("Movement")]
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _runMultiplier = 2f; // moltiplicatore per la corsa
@@ -20,10 +19,16 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform _cameraTransform;
 
+    [Header("Interaction")]
+    [SerializeField] private float interactionDistance = 1f;
+    [SerializeField] private TextMeshProUGUI interactiontext;
+
     private Rigidbody rb;
     private float verticalRotation = 0f;
-    private Vector3 currentVelocity = Vector3.zero;
+    //private Vector3 currentVelocity = Vector3.zero;
     private float gravity = 9.81f;
+    private Interactable currentInteractable = null;
+    private float holdTimer = 0f;
 
     void Start()
     {
@@ -39,10 +44,22 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         HandleRotation();
+        CheckForInteractable();
 
         if (Keyboard.current.spaceKey.isPressed && IsGrounded())
         {
             Jump();
+        }
+
+        if (Keyboard.current.eKey.isPressed && currentInteractable != null && UI_ComputerPanel.instance.isOpen == false)
+        {
+            currentInteractable.Interact();
+            interactiontext.gameObject.SetActive(false);
+            UI_ComputerPanel.instance.OpenComputer();
+        }
+        if (UI_ComputerPanel.instance.isOpen)
+        {
+            HandleComputerClose();
         }
 
         // tasto ESC per sbloccare il cursore (debug)
@@ -99,12 +116,6 @@ public class PlayerController : MonoBehaviour
         {
             transform.localEulerAngles = new Vector3(verticalRotation, transform.localEulerAngles. y, 0);
         }
-
-        Physics.Raycast(transform.position, Vector3.forward, out RaycastHit hitInfo, 1f);
-        // if (hitInfo == FindAnyObjectByType())
-        // {
-            
-        // }
     }
 
     private Vector2 GetMoveInput()
@@ -149,5 +160,66 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = IsGrounded() ? Color.green : Color.red;
         Vector3 origin = transform.position + Vector3.up * 0.1f;
         Gizmos.DrawLine(origin, origin + Vector3.down * _groundCheckDistance);
+    }
+
+    private void CheckForInteractable()
+    {
+        Vector3 rayOrigin = _cameraTransform.position;
+        Vector3 rayDirection = _cameraTransform.forward;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(rayOrigin, rayDirection, out hit, interactionDistance))
+        {
+            Interactable interactable = hit.collider.GetComponent<Interactable>();
+
+            if (interactable != null)
+            {
+                if (currentInteractable != interactable)
+                {
+                    currentInteractable = interactable;
+                    ShowInteractionText(interactable.getInteractionText());
+                    Debug.Log(interactable.getInteractionText());
+                }
+            }
+            else
+            {
+                ClearInteractable();
+            }
+        }
+        else
+        {
+            ClearInteractable();
+        }
+    }
+
+    private void ClearInteractable()
+    {
+        currentInteractable = null;
+        interactiontext.gameObject.SetActive(false);
+    }
+
+    private void ShowInteractionText(string text)
+    {
+        interactiontext.text = text;
+        interactiontext.gameObject.SetActive(true);
+    }
+
+    private void HandleComputerClose()
+    {
+        if (Keyboard.current.eKey.isPressed)
+        {
+            holdTimer += Time.deltaTime;
+            Debug.Log(holdTimer);
+            if (holdTimer >= 2f)
+            {
+                UI_ComputerPanel.instance.CloseComputer();
+                holdTimer = 0f;
+            }
+        }
+        else
+        {
+            holdTimer = 0f;
+        }
     }
 }
