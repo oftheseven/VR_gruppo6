@@ -30,8 +30,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true;
         rb.freezeRotation = true; // evita rotazioni indesiderate da collisioni
-        // transform.position = spawnPoint;
-
+    
         // nascondo e blocco il cursore
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -100,6 +99,12 @@ public class PlayerController : MonoBehaviour
         {
             transform.localEulerAngles = new Vector3(verticalRotation, transform.localEulerAngles. y, 0);
         }
+
+        Physics.Raycast(transform.position, Vector3.forward, out RaycastHit hitInfo, 1f);
+        // if (hitInfo == FindAnyObjectByType())
+        // {
+            
+        // }
     }
 
     private Vector2 GetMoveInput()
