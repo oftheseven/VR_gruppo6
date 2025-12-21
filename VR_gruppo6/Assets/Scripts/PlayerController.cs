@@ -101,10 +101,10 @@ public class PlayerController : MonoBehaviour
         }
 
         Physics.Raycast(transform.position, Vector3.forward, out RaycastHit hitInfo, 1f);
-        if (hitInfo == FindAnyObjectByType())
-        {
+        // if (hitInfo == FindAnyObjectByType())
+        // {
             
-        }
+        // }
     }
 
     private Vector2 GetMoveInput()
