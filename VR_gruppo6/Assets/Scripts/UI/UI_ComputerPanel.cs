@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UI_ComputerPanel : MonoBehaviour
 {
@@ -6,7 +7,9 @@ public class UI_ComputerPanel : MonoBehaviour
     private static UI_ComputerPanel _computerPanelUI;
     public static UI_ComputerPanel instance => _computerPanelUI;
 
+    // variabili per la gestione di apertura/chiusura del pannello
     public bool isOpen = false;
+    private float holdTimer = 0f;
 
     void Start()
     {
@@ -24,5 +27,24 @@ public class UI_ComputerPanel : MonoBehaviour
     {
         this.gameObject.SetActive(false);
         isOpen = false;
+    }
+
+    // DA AGGIUSTARE LA GESTIONE DI CHIUSURA DEL PANNELLO
+    public void HandleComputerClose()
+    {
+        if (Keyboard.current.eKey.isPressed)
+        {
+            holdTimer += Time.deltaTime;
+            Debug.Log(holdTimer);
+            if (holdTimer >= 2f)
+            {
+                CloseComputer();
+                holdTimer = 0f;
+            }
+        }
+        else
+        {
+            holdTimer = 0f;
+        }
     }
 }
