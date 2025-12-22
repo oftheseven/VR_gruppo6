@@ -2,22 +2,34 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
-public class UI_ComputerPanel : MonoBehaviour
+public class UI_ComputerPanel :  MonoBehaviour
 {
-    // singleton
     private static UI_ComputerPanel _computerPanelUI;
     public static UI_ComputerPanel instance => _computerPanelUI;
 
-    // variabili per la gestione di apertura/chiusura del pannello
     public bool isOpen = false;
     public bool canInteract = true;
     private float holdTimer = 0f;
+    
     [SerializeField] private float holdTimeToClose = 2f;
+    [SerializeField] private float cooldownTime = 1f;
+
+    void Awake()
+    {
+        if (_computerPanelUI == null)
+        {
+            _computerPanelUI = this;
+            //DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
-        _computerPanelUI = this;
-        this.gameObject.SetActive(false); // all'avvio disattivo l'oggetto UI
+        this.gameObject.SetActive(false);
         canInteract = true;
     }
 
@@ -30,23 +42,25 @@ public class UI_ComputerPanel : MonoBehaviour
 
     public void CloseComputer()
     {
-        StartCoroutine(Cooldown());
-        this.gameObject.SetActive(false);
         isOpen = false;
-        Debug.Log("Computer chiuso");
+        holdTimer = 0f;
+        Debug.Log("Computer chiuso - avvio cooldown");
+        
+        StartCoroutine(CooldownAndHide());
+        this.gameObject.SetActive(false);
+        canInteract = true;
+        Debug.Log("Cooldown terminato - canInteract = " + canInteract);
     }
 
-    // DA AGGIUSTARE LA GESTIONE DI CHIUSURA DEL PANNELLO (aggiungere un timer tra la chiusura e la possibilità di riaprirlo)
     public void HandleComputerClose()
     {
-        if (Keyboard.current.eKey.isPressed)
+        if (Keyboard. current.eKey.isPressed)
         {
             holdTimer += Time.deltaTime;
-            Debug.Log(holdTimer);
-            if (holdTimer >= 2f)
+            
+            if (holdTimer >= holdTimeToClose)
             {
                 CloseComputer();
-                holdTimer = 0f;
             }
         }
         else
@@ -55,10 +69,11 @@ public class UI_ComputerPanel : MonoBehaviour
         }
     }
 
-    private IEnumerator Cooldown()
+    private IEnumerator CooldownAndHide()
     {
         canInteract = false;
-        yield return new WaitForSeconds(1f);
-        canInteract = true;
+        Debug.Log("Cooldown iniziato - canInteract = " + canInteract);
+        
+        yield return new WaitForSeconds(cooldownTime);
     }
 }

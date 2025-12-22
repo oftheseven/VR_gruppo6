@@ -44,12 +44,13 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
-        if (Keyboard.current.eKey.isPressed && currentInteractable != null && UI_ComputerPanel.instance.isOpen == false && UI_ComputerPanel.instance.canInteract)
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentInteractable != null && !UI_ComputerPanel.instance.isOpen && UI_ComputerPanel.instance.canInteract)
         {
             currentInteractable.Interact();
             interactiontext.gameObject.SetActive(false);
             UI_ComputerPanel.instance.OpenComputer();
         }
+
         if (UI_ComputerPanel.instance.isOpen)
         {
             UI_ComputerPanel.instance.HandleComputerClose();
