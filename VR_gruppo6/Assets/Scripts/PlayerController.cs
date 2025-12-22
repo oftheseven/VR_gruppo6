@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
     private float verticalRotation = 0f;
-    //private Vector3 currentVelocity = Vector3.zero;
     private float gravity = 9.81f;
     private Interactable currentInteractable = null;
 
@@ -33,10 +32,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true;
         rb.freezeRotation = true; // evita rotazioni indesiderate da collisioni
-    
-        // nascondo e blocco il cursore
-        // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
     }
 
     void Update()
@@ -49,7 +44,7 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
-        if (Keyboard.current.eKey.isPressed && currentInteractable != null && UI_ComputerPanel.instance.isOpen == false)
+        if (Keyboard.current.eKey.isPressed && currentInteractable != null && UI_ComputerPanel.instance.isOpen == false && UI_ComputerPanel.instance.canInteract)
         {
             currentInteractable.Interact();
             interactiontext.gameObject.SetActive(false);
@@ -59,13 +54,6 @@ public class PlayerController : MonoBehaviour
         {
             UI_ComputerPanel.instance.HandleComputerClose();
         }
-
-        // tasto ESC per sbloccare il cursore (debug)
-        // if (Keyboard. current.escapeKey.isPressed)
-        // {
-        //     Cursor.lockState = CursorLockMode. None;
-        //     Cursor.visible = true;
-        // }
     }
 
     void FixedUpdate()
@@ -202,23 +190,4 @@ public class PlayerController : MonoBehaviour
         interactiontext.text = text;
         interactiontext.gameObject.SetActive(true);
     }
-
-    // DA AGGIUSTARE LA GESTIONE DI CHIUSURA DEL PANNELLO
-    // private void HandleComputerClose()
-    // {
-    //     if (Keyboard.current.eKey.isPressed)
-    //     {
-    //         holdTimer += Time.deltaTime;
-    //         Debug.Log(holdTimer);
-    //         if (holdTimer >= 2f)
-    //         {
-    //             UI_ComputerPanel.instance.CloseComputer();
-    //             holdTimer = 0f;
-    //         }
-    //     }
-    //     else
-    //     {
-    //         holdTimer = 0f;
-    //     }
-    // }
 }
