@@ -19,7 +19,6 @@ public class UI_ComputerPanel :  MonoBehaviour
         if (_computerPanelUI == null)
         {
             _computerPanelUI = this;
-            //DontDestroyOnLoad(this.gameObject);
         }
         else
         {
@@ -37,19 +36,19 @@ public class UI_ComputerPanel :  MonoBehaviour
     {
         this.gameObject.SetActive(true);
         isOpen = true;
-        Debug.Log("Computer aperto");
+        //Debug.Log("Computer aperto");
     }
 
     public void CloseComputer()
     {
         isOpen = false;
         holdTimer = 0f;
-        Debug.Log("Computer chiuso - avvio cooldown");
+        //Debug.Log("Computer chiuso - avvio cooldown");
         
         StartCoroutine(CooldownAndHide());
         this.gameObject.SetActive(false);
         canInteract = true;
-        Debug.Log("Cooldown terminato - canInteract = " + canInteract);
+        //Debug.Log("Cooldown terminato - canInteract = " + canInteract);
     }
 
     public void HandleComputerClose()
@@ -72,8 +71,7 @@ public class UI_ComputerPanel :  MonoBehaviour
     private IEnumerator CooldownAndHide()
     {
         canInteract = false;
-        Debug.Log("Cooldown iniziato - canInteract = " + canInteract);
-        
+        //Debug.Log("Cooldown iniziato - canInteract = " + canInteract);
         yield return new WaitForSeconds(cooldownTime);
     }
 }
