@@ -1,16 +1,73 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using System.Collections;
 
-public class UI_CameraPanel : MonoBehaviour
-{
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+public class UI_CameraPanel :  MonoBehaviour
+{   
+    [Header("Camera timer settings")]
+    [SerializeField] private float holdTimeToClose = 2f;
+    [SerializeField] private float cooldownTime = 1f;
+
+    private bool isOpen = false;
+    public bool IsOpen => isOpen;
+    private bool canInteract = true;
+    public bool CanInteract => canInteract;
+    private float holdTimer = 0f;
+
     void Start()
     {
-        
+        this.gameObject.SetActive(false);
+        canInteract = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OpenCamera()
     {
+        this.gameObject.SetActive(true);
+        isOpen = true;
+        //Debug.Log("Computer aperto");
+    }
+
+    public void CloseCamera()
+    {
+        isOpen = false;
+        holdTimer = 0f;
+        //Debug.Log("Camera chiuso - avvio cooldown");
         
+        StartCoroutine(CooldownAndHide());
+        this.gameObject.SetActive(false);
+        canInteract = true;
+        //Debug.Log("Cooldown terminato - canInteract = " + canInteract);
+    }
+
+    public void CloseCameraImmediate()
+    {
+        isOpen = false;
+        holdTimer = 0f;
+        this.gameObject.SetActive(false);
+        canInteract = true;
+    }
+
+    public void HandleCameraClose()
+    {
+        if (Keyboard. current.eKey.isPressed)
+        {
+            holdTimer += Time.deltaTime;
+            
+            if (holdTimer >= holdTimeToClose)
+            {
+                CloseCamera();
+            }
+        }
+        else
+        {
+            holdTimer = 0f;
+        }
+    }
+
+    private IEnumerator CooldownAndHide()
+    {
+        canInteract = false;
+        //Debug.Log("Cooldown iniziato - canInteract = " + canInteract);
+        yield return new WaitForSeconds(cooldownTime);
     }
 }

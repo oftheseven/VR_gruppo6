@@ -2,15 +2,29 @@ using UnityEngine;
 
 public class InteractableCamera : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [Header("Interaction text")]
+    [SerializeField] private string interactionText = "Premi E per eseguire l'interazione";
+
+    [Header("Camera panel reference")]
+    [SerializeField] private UI_CameraPanel cameraPanel;
+
+    public void Interact()
     {
-        
+        Debug.Log("Interazione con " + this.gameObject.name);
+
+        if (cameraPanel != null)
+        {
+            cameraPanel.OpenCamera();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public string getInteractionText()
     {
-        
+        return interactionText;
+    }
+
+    public UI_CameraPanel GetCameraPanel()
+    {
+        return cameraPanel;
     }
 }
