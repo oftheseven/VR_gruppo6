@@ -1,8 +1,17 @@
 using UnityEngine;
 
-public interface Interactable
+public class Interactable : MonoBehaviour
 {
-    void Interact();
+    [Header("Interaction text")]
+    [SerializeField] private string interactionText = "Premi E per eseguire l'interazione";
 
-    string getInteractionText();
+    public void Interact()
+    {
+        Debug.Log("Interazione con " + this.gameObject.name);
+    }
+
+    public string getInteractionText()
+    {
+        return interactionText;
+    }
 }
