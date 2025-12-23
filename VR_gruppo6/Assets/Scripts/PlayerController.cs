@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,8 +26,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private float verticalRotation = 0f;
     private float gravity = 9.81f;
-    private Interactable currentInteractable = null;
+
+    [Header("Computer interaction")]
+    private InteractableComputer currentComputer = null;
     private UI_ComputerPanel currentComputerPanel = null;
+
+    [Header("Camera interaction")]
+    private InteractableCamera currentCamera = null;
+    private UI_CameraPanel currentCameraPanel = null;
 
     void Start()
     {
@@ -48,25 +55,27 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
-        if (Keyboard.current.eKey.wasPressedThisFrame && currentInteractable != null)
-        {
-            UI_ComputerPanel panel = currentInteractable.GetComputerPanel();
-            if (panel != null && !panel.IsOpen && panel.CanInteract)
-            {
-                currentInteractable.Interact();
-                interactiontext.gameObject.SetActive(false);
-                currentComputerPanel = panel;
-            }
-        }
+        // if (Keyboard.current.eKey.wasPressedThisFrame && currentComputer != null)
+        // {
+        //     UI_ComputerPanel panel = currentComputer.GetComputerPanel();
+        //     if (panel != null && !panel.IsOpen && panel.CanInteract)
+        //     {
+        //         currentComputer.Interact();
+        //         interactiontext.gameObject.SetActive(false);
+        //         currentComputerPanel = panel;
+        //     }
+        // }
 
-        if (currentComputerPanel != null && currentComputerPanel.IsOpen)
-        {
-            currentComputerPanel.HandleComputerClose();
-        }
-        else
-        {
-            currentComputerPanel = null;
-        }
+        // if (currentComputerPanel != null && currentComputerPanel.IsOpen)
+        // {
+        //     currentComputerPanel.HandleComputerClose();
+        // }
+        // else
+        // {
+        //     currentComputerPanel = null;
+        // }
+
+        HandleComputerInteraction();
     }
 
     void FixedUpdate()
@@ -170,20 +179,46 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(rayOrigin, rayDirection, out hit, interactionDistance))
         {
-            Interactable interactable = hit.collider.GetComponent<Interactable>();
+            // InteractableComputer computer = hit.collider.GetComponent<InteractableComputer>();
 
-            if (interactable != null)
+            // if (computer != null)
+            // {
+            //     if (currentComputer != computer)
+            //     {
+            //         currentComputer = computer;
+            //         ShowInteractionText(currentComputer.getInteractionText());
+            //         Debug.Log(currentComputer.getInteractionText());
+            //     }
+            // }
+            // else
+            // {
+            //     ClearInteractable();
+            // }
+
+            // switch sul tag che viene rilevato dal raycast
+            switch(hit.collider.tag)
             {
-                if (currentInteractable != interactable)
-                {
-                    currentInteractable = interactable;
-                    ShowInteractionText(currentInteractable.getInteractionText());
-                    Debug.Log(currentInteractable.getInteractionText());
-                }
-            }
-            else
-            {
-                ClearInteractable();
+                case "Computer":
+                    InteractableComputer computer = hit.collider.GetComponent<InteractableComputer>();
+                    if (computer != null)
+                    {
+                        if (currentComputer != computer)
+                        {
+                            currentComputer = computer;
+                            ShowInteractionText(currentComputer.getInteractionText());
+                            Debug.Log(currentComputer.getInteractionText());
+                        }
+                    }
+                    else
+                    {
+                        ClearInteractable();
+                    }
+                    break;
+
+                case "Camera":
+                    InteractableCamera camera = hit.collider.GetComponent<InteractableCamera>();
+                    Debug.Log("Rilevata Camera");
+                    break;
             }
         }
         else
@@ -194,7 +229,8 @@ public class PlayerController : MonoBehaviour
 
     private void ClearInteractable()
     {
-        currentInteractable = null;
+        currentComputer = null;
+        currentCamera = null;
         interactiontext.gameObject.SetActive(false);
     }
 
@@ -202,5 +238,28 @@ public class PlayerController : MonoBehaviour
     {
         interactiontext.text = text;
         interactiontext.gameObject.SetActive(true);
+    }
+
+    private void HandleComputerInteraction()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentComputer != null)
+        {
+            UI_ComputerPanel panel = currentComputer.GetComputerPanel();
+            if (panel != null && !panel.IsOpen && panel.CanInteract)
+            {
+                currentComputer.Interact();
+                interactiontext.gameObject.SetActive(false);
+                currentComputerPanel = panel;
+            }
+        }
+
+        if (currentComputerPanel != null && currentComputerPanel.IsOpen)
+        {
+            currentComputerPanel.HandleComputerClose();
+        }
+        else
+        {
+            currentComputerPanel = null;
+        }
     }
 }

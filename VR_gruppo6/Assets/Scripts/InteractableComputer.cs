@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Interactable : MonoBehaviour
+public class InteractableComputer : MonoBehaviour
 {
     [Header("Interaction text")]
     [SerializeField] private string interactionText = "Premi E per eseguire l'interazione";
