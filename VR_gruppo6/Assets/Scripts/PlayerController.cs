@@ -54,6 +54,9 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+        
+        HandleComputerInteraction();
+        HandleCameraInteraction();
 
         // if (Keyboard.current.eKey.wasPressedThisFrame && currentComputer != null)
         // {
@@ -74,8 +77,6 @@ public class PlayerController : MonoBehaviour
         // {
         //     currentComputerPanel = null;
         // }
-
-        HandleComputerInteraction();
     }
 
     void FixedUpdate()
@@ -217,7 +218,19 @@ public class PlayerController : MonoBehaviour
 
                 case "Camera":
                     InteractableCamera camera = hit.collider.GetComponent<InteractableCamera>();
-                    Debug.Log("Rilevata Camera");
+                    if (camera != null)
+                    {
+                        if (currentCamera != camera)
+                        {
+                            currentCamera = camera;
+                            ShowInteractionText(currentCamera.getInteractionText());
+                            Debug.Log(currentCamera.getInteractionText());
+                        }
+                    }
+                    else
+                    {
+                        ClearInteractable();
+                    }
                     break;
             }
         }
@@ -260,6 +273,29 @@ public class PlayerController : MonoBehaviour
         else
         {
             currentComputerPanel = null;
+        }
+    }
+
+    private void HandleCameraInteraction()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentCamera != null)
+        {
+            UI_CameraPanel panel = currentCamera.GetCameraPanel();
+            if (panel != null && !panel.IsOpen && panel.CanInteract)
+            {
+                currentCamera.Interact();
+                interactiontext.gameObject.SetActive(false);
+                currentCameraPanel = panel;
+            }
+        }
+
+        if (currentCameraPanel != null && currentCameraPanel.IsOpen)
+        {
+            currentCameraPanel.HandleCameraClose();
+        }
+        else
+        {
+            currentCameraPanel = null;
         }
     }
 }
