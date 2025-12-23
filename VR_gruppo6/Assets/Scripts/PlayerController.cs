@@ -174,8 +174,8 @@ public class PlayerController : MonoBehaviour
                 if (currentInteractable != interactable)
                 {
                     currentInteractable = interactable;
-                    ShowInteractionText(interactable.getInteractionText());
-                    Debug.Log(interactable.getInteractionText());
+                    ShowInteractionText(currentInteractable.getInteractionText());
+                    Debug.Log(currentInteractable.getInteractionText());
                 }
             }
             else
