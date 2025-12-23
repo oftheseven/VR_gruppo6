@@ -4,8 +4,8 @@ using System.Collections;
 
 public class UI_ComputerPanel :  MonoBehaviour
 {
-    private static UI_ComputerPanel _computerPanelUI;
-    public static UI_ComputerPanel instance => _computerPanelUI;
+    // private static UI_ComputerPanel _computerPanelUI;
+    // public static UI_ComputerPanel instance => _computerPanelUI;
     
     [Header("Computer timer settings")]
     [SerializeField] private float holdTimeToClose = 2f;
@@ -17,17 +17,17 @@ public class UI_ComputerPanel :  MonoBehaviour
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
 
-    void Awake()
-    {
-        if (_computerPanelUI == null)
-        {
-            _computerPanelUI = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    // void Awake()
+    // {
+    //     if (_computerPanelUI == null)
+    //     {
+    //         _computerPanelUI = this;
+    //     }
+    //     else
+    //     {
+    //         Destroy(gameObject);
+    //     }
+    // }
 
     void Start()
     {

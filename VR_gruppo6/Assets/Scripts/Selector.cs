@@ -12,6 +12,7 @@ public class Selector : MonoBehaviour
     private int currentImageIndex = 0;
     private float inputCooldown = 0.2f;
     private float lastInputTime = 0f;
+    private UI_ComputerPanel computerPanel;
 
     void Start()
     {
@@ -20,12 +21,18 @@ public class Selector : MonoBehaviour
             Debug.LogError("Manca la reference al renderer a cui applicare l'immagine!");
             return;
         }
+
+        computerPanel = GetComponent<UI_ComputerPanel>();
+        UpdateImageColors();
     }
 
     void Update()
     {
-        HandleImageSelection();
-        HandleConfirmation();
+        if (computerPanel != null && computerPanel.IsOpen)
+        {
+            HandleImageSelection();
+            HandleConfirmation();
+        }
     }
 
     private void HandleImageSelection()
@@ -52,7 +59,6 @@ public class Selector : MonoBehaviour
         {
             lastInputTime = Time.time;
             UpdateImageColors();
-            //ApplyCurrentImage();
         }
     }
 
@@ -61,7 +67,7 @@ public class Selector : MonoBehaviour
         if (Keyboard.current.enterKey.wasPressedThisFrame)
         {
             ApplyCurrentImage();
-            UI_ComputerPanel.instance.CloseComputerImmediate();
+            computerPanel.CloseComputerImmediate();
         }
     }
 

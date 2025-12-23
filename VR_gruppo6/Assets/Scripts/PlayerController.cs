@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private float verticalRotation = 0f;
     private float gravity = 9.81f;
     private Interactable currentInteractable = null;
+    private UI_ComputerPanel currentComputerPanel = null;
 
     void Start()
     {
@@ -37,6 +38,35 @@ public class PlayerController : MonoBehaviour
         // Cursor.visible = false;
     }
 
+    // void Update()
+    // {
+    //     HandleRotation();
+    //     CheckForInteractable();
+
+    //     if (Keyboard.current.spaceKey.isPressed && IsGrounded())
+    //     {
+    //         Jump();
+    //     }
+
+    //     if (Keyboard.current.eKey.wasPressedThisFrame && currentInteractable != null && !UI_ComputerPanel.instance.IsOpen && UI_ComputerPanel.instance.CanInteract)
+    //     {
+    //         currentInteractable.Interact();
+    //         interactiontext.gameObject.SetActive(false);
+    //         UI_ComputerPanel.instance.OpenComputer();
+    //     }
+
+    //     if (UI_ComputerPanel.instance.IsOpen)
+    //     {
+    //         UI_ComputerPanel.instance.HandleComputerClose();
+    //     }
+
+    //     // if (Keyboard.current.escapeKey.wasPressedThisFrame)
+    //     // {
+    //     //     Cursor.lockState = CursorLockMode.None;
+    //     //     Cursor.visible = true;
+    //     // }
+    // }
+
     void Update()
     {
         HandleRotation();
@@ -47,23 +77,25 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
-        if (Keyboard.current.eKey.wasPressedThisFrame && currentInteractable != null && !UI_ComputerPanel.instance.IsOpen && UI_ComputerPanel.instance.CanInteract)
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentInteractable != null)
         {
-            currentInteractable.Interact();
-            interactiontext.gameObject.SetActive(false);
-            UI_ComputerPanel.instance.OpenComputer();
+            UI_ComputerPanel panel = currentInteractable.GetComputerPanel();
+            if (panel != null && !panel.IsOpen && panel.CanInteract)
+            {
+                currentInteractable.Interact();
+                interactiontext.gameObject.SetActive(false);
+                currentComputerPanel = panel;
+            }
         }
 
-        if (UI_ComputerPanel.instance.IsOpen)
+        if (currentComputerPanel != null && currentComputerPanel.IsOpen)
         {
-            UI_ComputerPanel.instance.HandleComputerClose();
+            currentComputerPanel.HandleComputerClose();
         }
-
-        // if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        // {
-        //     Cursor.lockState = CursorLockMode.None;
-        //     Cursor.visible = true;
-        // }
+        else
+        {
+            currentComputerPanel = null;
+        }
     }
 
     void FixedUpdate()

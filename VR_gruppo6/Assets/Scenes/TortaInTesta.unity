@@ -830,6 +830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Computer
   interactionText: Premi E per usare il computer
+  computerPanel: {fileID: 2085245860}
 --- !u!1 &421644698 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 984191732666224814, guid: f04196816facd1e4aa0f441951137ae1, type: 3}
@@ -2875,6 +2876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Computer
   interactionText: Premi E per usare il computer
+  computerPanel: {fileID: 1260686330}
 --- !u!65 &1530726485
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4800,6 +4802,54 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: c2a54846a48de6144a4d4eedf2d7f234, type: 2}
+    - target: {fileID: 6065549395280270258, guid: 979b03c8bd9b20d43b24a4ee1e6b5e7c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5992361
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065549395280270258, guid: 979b03c8bd9b20d43b24a4ee1e6b5e7c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.3926402
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065549395280270258, guid: 979b03c8bd9b20d43b24a4ee1e6b5e7c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.00000013086633
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065549395280270258, guid: 979b03c8bd9b20d43b24a4ee1e6b5e7c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065549395280270258, guid: 979b03c8bd9b20d43b24a4ee1e6b5e7c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.6198375
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065549395280270258, guid: 979b03c8bd9b20d43b24a4ee1e6b5e7c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065549395280270258, guid: 979b03c8bd9b20d43b24a4ee1e6b5e7c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065549395280270258, guid: 979b03c8bd9b20d43b24a4ee1e6b5e7c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065549395280270258, guid: 979b03c8bd9b20d43b24a4ee1e6b5e7c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065549395280270258, guid: 979b03c8bd9b20d43b24a4ee1e6b5e7c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065549395280270258, guid: 979b03c8bd9b20d43b24a4ee1e6b5e7c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065549395280270258, guid: 979b03c8bd9b20d43b24a4ee1e6b5e7c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
