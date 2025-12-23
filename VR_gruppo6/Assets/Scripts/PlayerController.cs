@@ -32,6 +32,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true;
         rb.freezeRotation = true; // evita rotazioni indesiderate da collisioni
+
+        // Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.visible = false;
     }
 
     void Update()
@@ -44,17 +47,23 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
-        if (Keyboard.current.eKey.wasPressedThisFrame && currentInteractable != null && !UI_ComputerPanel.instance.isOpen && UI_ComputerPanel.instance.canInteract)
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentInteractable != null && !UI_ComputerPanel.instance.IsOpen && UI_ComputerPanel.instance.CanInteract)
         {
             currentInteractable.Interact();
             interactiontext.gameObject.SetActive(false);
             UI_ComputerPanel.instance.OpenComputer();
         }
 
-        if (UI_ComputerPanel.instance.isOpen)
+        if (UI_ComputerPanel.instance.IsOpen)
         {
             UI_ComputerPanel.instance.HandleComputerClose();
         }
+
+        // if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        // {
+        //     Cursor.lockState = CursorLockMode.None;
+        //     Cursor.visible = true;
+        // }
     }
 
     void FixedUpdate()
