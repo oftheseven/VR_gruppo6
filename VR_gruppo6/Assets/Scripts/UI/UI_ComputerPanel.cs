@@ -10,10 +10,6 @@ public class UI_ComputerPanel :  MonoBehaviour
     [Header("Computer timer settings")]
     [SerializeField] private float holdTimeToClose = 2f;
     [SerializeField] private float cooldownTime = 1f;
-    
-    [Header("Green screen images and references")]
-    [SerializeField] private Texture2D[] greenScreenImages;
-    [SerializeField] private Renderer objectRenderer;
 
     private bool isOpen = false;
     public bool IsOpen => isOpen;
@@ -37,8 +33,6 @@ public class UI_ComputerPanel :  MonoBehaviour
     {
         this.gameObject.SetActive(false);
         canInteract = true;
-        objectRenderer.material.color = Color.white;
-        objectRenderer.material.mainTexture = greenScreenImages[0];
     }
 
     public void OpenComputer()
@@ -58,6 +52,14 @@ public class UI_ComputerPanel :  MonoBehaviour
         this.gameObject.SetActive(false);
         canInteract = true;
         //Debug.Log("Cooldown terminato - canInteract = " + canInteract);
+    }
+
+    public void CloseComputerImmediate()
+    {
+        isOpen = false;
+        holdTimer = 0f;
+        this.gameObject.SetActive(false);
+        canInteract = true;
     }
 
     public void HandleComputerClose()
