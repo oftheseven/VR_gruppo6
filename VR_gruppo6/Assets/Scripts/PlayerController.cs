@@ -38,35 +38,6 @@ public class PlayerController : MonoBehaviour
         // Cursor.visible = false;
     }
 
-    // void Update()
-    // {
-    //     HandleRotation();
-    //     CheckForInteractable();
-
-    //     if (Keyboard.current.spaceKey.isPressed && IsGrounded())
-    //     {
-    //         Jump();
-    //     }
-
-    //     if (Keyboard.current.eKey.wasPressedThisFrame && currentInteractable != null && !UI_ComputerPanel.instance.IsOpen && UI_ComputerPanel.instance.CanInteract)
-    //     {
-    //         currentInteractable.Interact();
-    //         interactiontext.gameObject.SetActive(false);
-    //         UI_ComputerPanel.instance.OpenComputer();
-    //     }
-
-    //     if (UI_ComputerPanel.instance.IsOpen)
-    //     {
-    //         UI_ComputerPanel.instance.HandleComputerClose();
-    //     }
-
-    //     // if (Keyboard.current.escapeKey.wasPressedThisFrame)
-    //     // {
-    //     //     Cursor.lockState = CursorLockMode.None;
-    //     //     Cursor.visible = true;
-    //     // }
-    // }
-
     void Update()
     {
         HandleRotation();
