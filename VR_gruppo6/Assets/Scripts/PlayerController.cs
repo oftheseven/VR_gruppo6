@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,6 +25,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private float verticalRotation = 0f;
     private float gravity = 9.81f;
+    private static bool moveEnabled = true; // bool per abilitare/disabilitare il movimento
+    public static void EnableMovement(bool enable) { moveEnabled = enable; } // funzione che modifica il valore di moveEnabled in modo che la varaibile non sia pubblica
 
     [Header("Computer interaction")]
     private InteractableComputer currentComputer = null;
@@ -47,41 +48,27 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        HandleRotation();
+        if (moveEnabled)
+        {
+            HandleRotation();
+        }
         CheckForInteractable();
 
-        if (Keyboard.current.spaceKey.isPressed && IsGrounded())
+        if (Keyboard.current.spaceKey.isPressed && IsGrounded() && moveEnabled)
         {
             Jump();
         }
         
         HandleComputerInteraction();
         HandleCameraInteraction();
-
-        // if (Keyboard.current.eKey.wasPressedThisFrame && currentComputer != null)
-        // {
-        //     UI_ComputerPanel panel = currentComputer.GetComputerPanel();
-        //     if (panel != null && !panel.IsOpen && panel.CanInteract)
-        //     {
-        //         currentComputer.Interact();
-        //         interactiontext.gameObject.SetActive(false);
-        //         currentComputerPanel = panel;
-        //     }
-        // }
-
-        // if (currentComputerPanel != null && currentComputerPanel.IsOpen)
-        // {
-        //     currentComputerPanel.HandleComputerClose();
-        // }
-        // else
-        // {
-        //     currentComputerPanel = null;
-        // }
     }
 
     void FixedUpdate()
     {
-        Move();
+        if (moveEnabled)
+        {
+            Move();
+        }
         ApplyExtraGravity();
     }
 
@@ -180,22 +167,6 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(rayOrigin, rayDirection, out hit, interactionDistance))
         {
-            // InteractableComputer computer = hit.collider.GetComponent<InteractableComputer>();
-
-            // if (computer != null)
-            // {
-            //     if (currentComputer != computer)
-            //     {
-            //         currentComputer = computer;
-            //         ShowInteractionText(currentComputer.getInteractionText());
-            //         Debug.Log(currentComputer.getInteractionText());
-            //     }
-            // }
-            // else
-            // {
-            //     ClearInteractable();
-            // }
-
             // switch sul tag che viene rilevato dal raycast
             switch(hit.collider.tag)
             {
