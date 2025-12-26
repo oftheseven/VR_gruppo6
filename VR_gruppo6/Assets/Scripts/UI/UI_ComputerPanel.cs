@@ -24,6 +24,7 @@ public class UI_ComputerPanel :  MonoBehaviour
     {
         this.gameObject.SetActive(true);
         isOpen = true;
+        PlayerController.EnableMovement(false);
         //Debug.Log("Computer aperto");
     }
 
@@ -37,6 +38,7 @@ public class UI_ComputerPanel :  MonoBehaviour
         this.gameObject.SetActive(false);
         canInteract = true;
         //Debug.Log("Cooldown terminato - canInteract = " + canInteract);
+        PlayerController.EnableMovement(true);
     }
 
     public void CloseComputerImmediate()
@@ -45,6 +47,7 @@ public class UI_ComputerPanel :  MonoBehaviour
         holdTimer = 0f;
         this.gameObject.SetActive(false);
         canInteract = true;
+        PlayerController.EnableMovement(true);
     }
 
     public void HandleComputerClose()
