@@ -887,6 +887,68 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.6000006, y: 0.24999987, z: 0.30000004}
   m_Center: {x: -0.00000023841858, y: 0.024998937, z: 0.15000002}
+--- !u!1001 &608706035
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 721695829}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.82
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.51
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
+      propertyPath: m_Name
+      value: Stunt x torta
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
+--- !u!4 &608706036 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
+  m_PrefabInstance: {fileID: 608706035}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &721695828
 GameObject:
   m_ObjectHideFlags: 0
@@ -928,6 +990,7 @@ Transform:
   - {fileID: 320128636}
   - {fileID: 1530726483}
   - {fileID: 1338002659}
+  - {fileID: 608706036}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &724110556
