@@ -447,6 +447,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 28e3710a16df3fd4ab2cdf675ac7de7e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 214487963}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 28e3710a16df3fd4ab2cdf675ac7de7e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 214487966}
   m_SourcePrefab: {fileID: 100100000, guid: 28e3710a16df3fd4ab2cdf675ac7de7e, type: 3}
 --- !u!1 &214487960 stripped
 GameObject:
@@ -476,6 +479,19 @@ CapsuleCollider:
   m_Height: 1.8846467
   m_Direction: 1
   m_Center: {x: 0, y: 0.8607683, z: 0}
+--- !u!114 &214487966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214487960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece5d4e6fac9bd94fbabe1239f761bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableOperator
+  interactionText: Premi E per parlare con l'operatore
 --- !u!1 &225183360
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +691,10 @@ PrefabInstance:
     - target: {fileID: 4105894339680933913, guid: 61306a57ad34142419453d72a87fdeb8, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4424661002355758493, guid: 61306a57ad34142419453d72a87fdeb8, type: 3}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4826189107763573736, guid: 61306a57ad34142419453d72a87fdeb8, type: 3}
       propertyPath: m_Name
@@ -1235,6 +1255,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fc9eeabbf4d980244bcf173fdc48b5d2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1365757183}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fc9eeabbf4d980244bcf173fdc48b5d2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1365757186}
   m_SourcePrefab: {fileID: 100100000, guid: fc9eeabbf4d980244bcf173fdc48b5d2, type: 3}
 --- !u!20 &896280243 stripped
 Camera:
@@ -2040,6 +2063,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3644077162500553409, guid: 61306a57ad34142419453d72a87fdeb8, type: 3}
       propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4424661002355758493, guid: 61306a57ad34142419453d72a87fdeb8, type: 3}
+      propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4826189107763573736, guid: 61306a57ad34142419453d72a87fdeb8, type: 3}
@@ -2969,6 +2996,19 @@ CapsuleCollider:
   m_Height: 1.9462546
   m_Direction: 1
   m_Center: {x: 0, y: 0.87739116, z: 0}
+--- !u!114 &1365757186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365757180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece5d4e6fac9bd94fbabe1239f761bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableOperator
+  interactionText: Premi E per parlare con l'operatrice
 --- !u!1 &1439454397 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3851331974149126812, guid: 979b03c8bd9b20d43b24a4ee1e6b5e7c, type: 3}

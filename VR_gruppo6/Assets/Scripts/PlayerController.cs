@@ -203,6 +203,16 @@ public class PlayerController : MonoBehaviour
                         ClearInteractable();
                     }
                     break;
+                
+                case "Operatore":
+                    //InteractableOperator operatore = hit.collider.GetComponent<InteractableOperator>();
+                    HandleOperatorInteraction();
+                    break;
+                
+                case "Operatrice":
+                    //InteractableOperator operatrice = hit.collider.GetComponent<InteractableOperator>();
+                    HandleOperatorInteraction();
+                    break;
             }
         }
         else
@@ -267,6 +277,19 @@ public class PlayerController : MonoBehaviour
         else
         {
             currentCameraPanel = null;
+        }
+    }
+
+    private void HandleOperatorInteraction()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            UI_DialoguePanel.instance.OpenDialogue();
+
+            if (Keyboard.current.escapeKey.wasPressedThisFrame && UI_DialoguePanel.instance != null && UI_DialoguePanel.instance.IsOpen)
+            {
+                UI_DialoguePanel.instance.CloseDialogue();
+            }
         }
     }
 }
