@@ -204,14 +204,9 @@ public class PlayerController : MonoBehaviour
                     }
                     break;
                 
-                case "Operatore":
-                    //InteractableOperator operatore = hit.collider.GetComponent<InteractableOperator>();
-                    HandleOperatorInteraction();
-                    break;
-                
-                case "Operatrice":
-                    //InteractableOperator operatrice = hit.collider.GetComponent<InteractableOperator>();
-                    HandleOperatorInteraction();
+                case "Operatore" or "Operatrice":
+                    InteractableOperator operatore = hit.collider.GetComponent<InteractableOperator>();
+                    HandleOperatorInteraction(operatore);
                     break;
             }
         }
@@ -280,16 +275,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void HandleOperatorInteraction()
+    private void HandleOperatorInteraction(InteractableOperator operatore)
     {
+        if (operatore != null)
+        {
+            UI_DialoguePanel.instance.dialogueText.text = operatore.getInteractionText();
+        }
+        
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
             UI_DialoguePanel.instance.OpenDialogue();
+        }
 
-            if (Keyboard.current.escapeKey.wasPressedThisFrame && UI_DialoguePanel.instance != null && UI_DialoguePanel.instance.IsOpen)
-            {
-                UI_DialoguePanel.instance.CloseDialogue();
-            }
+        if (Keyboard.current.escapeKey.wasPressedThisFrame && UI_DialoguePanel.instance != null && UI_DialoguePanel.instance.IsOpen)
+        {
+            UI_DialoguePanel.instance.CloseDialogue();
         }
     }
 }

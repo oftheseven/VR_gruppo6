@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class UI_DialoguePanel : MonoBehaviour
@@ -7,6 +8,7 @@ public class UI_DialoguePanel : MonoBehaviour
     public static UI_DialoguePanel instance => _instance;
     private bool isOpen = false;
     public bool IsOpen => isOpen;
+    public TextMeshProUGUI dialogueText;
 
     public void Awake()
     {
@@ -20,8 +22,8 @@ public class UI_DialoguePanel : MonoBehaviour
     void Start()
     {
         this.gameObject.SetActive(false);
+        dialogueText = this.GetComponentInChildren<TextMeshProUGUI>();
     }
-
     public void OpenDialogue()
     {
         this.gameObject.SetActive(true);
