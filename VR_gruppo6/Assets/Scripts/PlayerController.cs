@@ -42,8 +42,8 @@ public class PlayerController : MonoBehaviour
         rb.useGravity = true;
         rb.freezeRotation = true; // evita rotazioni indesiderate da collisioni
 
-        // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -52,12 +52,15 @@ public class PlayerController : MonoBehaviour
         {
             HandleRotation();
         }
+        
         CheckForInteractable();
 
         if (Keyboard.current.spaceKey.isPressed && IsGrounded() && moveEnabled)
         {
             Jump();
         }
+
+        CheckPanelsInteraction(); // controllo aperture e chiusure dei pannelli
         
         HandleComputerInteraction();
         HandleCameraInteraction();
@@ -290,6 +293,27 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current.escapeKey.wasPressedThisFrame && UI_DialoguePanel.instance != null && UI_DialoguePanel.instance.IsOpen)
         {
             UI_DialoguePanel.instance.CloseDialogue();
+        }
+    }
+
+    private void CheckPanelsInteraction()
+    {
+        if (Keyboard.current.tabKey.wasPressedThisFrame)
+        {
+            UI_Screenplay.instance.OpenScreenplay();
+        }
+        if (Keyboard.current.escapeKey.wasPressedThisFrame && UI_Screenplay.instance.IsOpen)
+        {
+            UI_Screenplay.instance.CloseScreenplay();
+        }
+
+        if (Keyboard.current.mKey.wasPressedThisFrame)
+        {
+            UI_MenuPanel.instance.OpenMenu();
+        }
+        if (Keyboard.current.escapeKey.wasPressedThisFrame && UI_MenuPanel.instance.IsOpen)
+        {
+            UI_MenuPanel.instance.CloseMenu();
         }
     }
 }
