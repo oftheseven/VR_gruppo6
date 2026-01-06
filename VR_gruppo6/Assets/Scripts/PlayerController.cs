@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private float verticalRotation = 0f;
     private float gravity = 9.81f;
     private static bool moveEnabled = true; // bool per abilitare/disabilitare il movimento
-    public static void EnableMovement(bool enable) { moveEnabled = enable; } // funzione che modifica il valore di moveEnabled in modo che la varaibile non sia pubblica
+    public static void EnableMovement(bool enable) { moveEnabled = enable; } // funzione che modifica il valore di moveEnabled in modo che la variabile non sia pubblica
 
     [Header("Computer interaction")]
     private InteractableComputer currentComputer = null;
@@ -42,8 +42,8 @@ public class PlayerController : MonoBehaviour
         rb.useGravity = true;
         rb.freezeRotation = true; // evita rotazioni indesiderate da collisioni
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Locked;
+        // Cursor.visible = false;
     }
 
     void Update()

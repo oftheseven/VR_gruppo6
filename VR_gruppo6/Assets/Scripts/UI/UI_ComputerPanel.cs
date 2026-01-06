@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections;
 
@@ -8,11 +9,17 @@ public class UI_ComputerPanel :  MonoBehaviour
     [SerializeField] private float holdTimeToClose = 2f;
     [SerializeField] private float cooldownTime = 1f;
 
+    [Header("Info Panel")]
+    [SerializeField] private GameObject infoPanel; // pannello con le informazioni
+    [SerializeField] private Button infoButton; // bottone per riaprire le info
+    [SerializeField] private Button closeInfoButton; // bottone per chiudere le info
+
     private bool isOpen = false;
     public bool IsOpen => isOpen;
     private bool canInteract = true;
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
+    private bool isFirstTime = true;
 
     void Start()
     {
@@ -26,6 +33,30 @@ public class UI_ComputerPanel :  MonoBehaviour
         isOpen = true;
         PlayerController.EnableMovement(false);
         //Debug.Log("Computer aperto");
+
+        if (isFirstTime)
+        {
+            ShowInfoPanel();
+            isFirstTime = false;
+
+            if (infoButton != null)
+            {
+                infoButton.gameObject.SetActive(false);
+            }
+        }
+
+        else
+        {
+            if (infoButton != null)
+            {
+                infoButton.gameObject.SetActive(true);
+            }
+
+            if (infoPanel != null)
+            {
+                infoPanel.SetActive(false);
+            }
+        }
     }
 
     public void CloseComputer()
@@ -72,5 +103,31 @@ public class UI_ComputerPanel :  MonoBehaviour
         canInteract = false;
         //Debug.Log("Cooldown iniziato - canInteract = " + canInteract);
         yield return new WaitForSeconds(cooldownTime);
+    }
+
+    public void ShowInfoPanel()
+    {
+        if (infoPanel != null)
+        {
+            infoPanel.SetActive(true);
+        }
+
+        if (infoButton != null)
+        {
+            infoButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void HideInfoPanel()
+    {
+        if (infoPanel != null)
+        {
+            infoPanel.SetActive(false);
+        }
+
+        if (infoButton != null && ! isFirstTime)
+        {
+            infoButton.gameObject. SetActive(true);
+        }
     }
 }
