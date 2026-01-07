@@ -2,33 +2,27 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-// codice per la selezione di immagini tramite frecce direzionali
-public class Selector : MonoBehaviour
+// codice per la selezione delle lenti tramite frecce direzionali
+public class LensesSelector : MonoBehaviour
 {
-    [Header("Green screen images and references")]
-    [SerializeField] private RawImage[] images;
-    [SerializeField] private Renderer objectRenderer;
+    [Header("Lenses images and references")]
+    [SerializeField] private RawImage[] images; // immagini delle lenti nell'UI
+    [SerializeField] private GameObject[] lenses; // reference alle lenti da attivare/disattivare
 
     private int currentImageIndex = 0;
     private float inputCooldown = 0.2f;
     private float lastInputTime = 0f;
-    private UI_ComputerPanel computerPanel;
+    private UI_CameraPanel cameraPanel;
 
     void Start()
     {
-        if (objectRenderer == null)
-        {
-            Debug.LogError("Manca la reference al renderer a cui applicare l'immagine!");
-            return;
-        }
-
-        computerPanel = GetComponent<UI_ComputerPanel>();
+        cameraPanel = GetComponent<UI_CameraPanel>();
         UpdateImageColors();
     }
 
     void Update()
     {
-        if (computerPanel != null && computerPanel.IsOpen)
+        if (cameraPanel != null && cameraPanel.IsOpen)
         {
             HandleImageSelection();
             HandleConfirmation();
@@ -66,24 +60,26 @@ public class Selector : MonoBehaviour
     {
         if (Keyboard.current.enterKey.wasPressedThisFrame)
         {
-            ApplyCurrentImage();
-            computerPanel.CloseComputerImmediate();
+            ApplyCurrentLens();
+            cameraPanel.CloseCameraImmediate();
         }
     }
 
-    private void ApplyCurrentImage()
+    private void ApplyCurrentLens()
     {
-        RawImage selectedImage = images[currentImageIndex];
-        if (selectedImage != null)
+        for (int i = 0; i < lenses.Length; i++)
         {
-            objectRenderer.material.color = Color.white;
-            objectRenderer.material.mainTexture = selectedImage.texture;
-        }
-        else
-        {
-            Debug.LogWarning("L'immagine all'indice " + currentImageIndex + " è null.");
+            if (i == currentImageIndex)
+            {
+                lenses[i].SetActive(true);
+            }
+            else
+            {
+                lenses[i].SetActive(false);
+            }
         }
     }
+
 
     private void UpdateImageColors()
     {

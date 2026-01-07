@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractableCamera : MonoBehaviour
@@ -8,9 +9,21 @@ public class InteractableCamera : MonoBehaviour
     [Header("Camera panel reference")]
     [SerializeField] private UI_CameraPanel cameraPanel;
 
+    [Header("Camera Lenses")]
+    [SerializeField] private GameObject[] cameraLenses;
+
+    void Start()
+    {
+        foreach (GameObject lens in cameraLenses)
+        {
+            lens.SetActive(false);
+        }
+        cameraLenses[0].SetActive(true); // all'inizio attivo solo la prima lente
+    }
+
     public void Interact()
     {
-        Debug.Log("Interazione con " + this.gameObject.name);
+        Debug.Log("Interazione con " + this.name);
 
         if (cameraPanel != null)
         {

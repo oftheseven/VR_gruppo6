@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class UI_InfoPanel : MonoBehaviour
 {
     [Header("Info Panel Settings")]
-    [SerializeField] private string panelID = "DefaultPanel"; // identificatore univoco tipo tag
+    //[SerializeField] private string panelID = "DefaultPanel"; // identificatore univoco tipo tag
     [SerializeField] private Sprite tutorialImage;
 
     [Header("UI Elements")]
@@ -105,9 +105,9 @@ public class UI_InfoPanel : MonoBehaviour
     //     }
     // }
 
-    public void ResetFirstTime()
-    {
-        isFirstTime = true;
-        Debug.Log($"[{panelID}] First time flag resettato");
-    }
+    // public void ResetFirstTime()
+    // {
+    //     isFirstTime = true;
+    //     Debug.Log($"[{panelID}] First time flag resettato");
+    // }
 }
