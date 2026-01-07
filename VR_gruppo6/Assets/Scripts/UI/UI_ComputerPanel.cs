@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections;
+using TMPro;
 
 public class UI_ComputerPanel :  MonoBehaviour
 {   
@@ -14,6 +15,11 @@ public class UI_ComputerPanel :  MonoBehaviour
     [SerializeField] private Button infoButton; // bottone per riaprire le info
     [SerializeField] private Button closeInfoButton; // bottone per chiudere le info
 
+    [Header("Hold to close UI")]
+    [SerializeField] private GameObject holdIndicator; // container del cerchio
+    [SerializeField] private Image holdFillImage; // image con fill radial
+    [SerializeField] private TextMeshProUGUI holdText; // tasto da cliccare
+
     private bool isOpen = false;
     public bool IsOpen => isOpen;
     private bool canInteract = true;
@@ -25,6 +31,16 @@ public class UI_ComputerPanel :  MonoBehaviour
     {
         this.gameObject.SetActive(false);
         canInteract = true;
+
+        if (holdIndicator != null)
+        {
+            holdIndicator. SetActive(false);
+        }
+
+        if (holdFillImage != null)
+        {
+            holdFillImage.fillAmount = 0;
+        }
     }
 
     public void OpenComputer()
@@ -64,6 +80,11 @@ public class UI_ComputerPanel :  MonoBehaviour
         isOpen = false;
         holdTimer = 0f;
         //Debug.Log("Computer chiuso - avvio cooldown");
+
+        if (holdIndicator != null)
+        {
+            holdIndicator.SetActive(false);
+        }
         
         StartCoroutine(CooldownAndHide());
         this.gameObject.SetActive(false);
@@ -76,16 +97,56 @@ public class UI_ComputerPanel :  MonoBehaviour
     {
         isOpen = false;
         holdTimer = 0f;
+        if (holdIndicator != null)
+        {
+            holdIndicator.SetActive(false);
+        }
         this.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
     }
 
+    // public void HandleComputerClose()
+    // {
+    //     if (Keyboard. current.eKey.isPressed)
+    //     {
+    //         holdTimer += Time.deltaTime;
+            
+    //         if (holdTimer >= holdTimeToClose)
+    //         {
+    //             CloseComputer();
+    //         }
+    //     }
+    //     else
+    //     {
+    //         holdTimer = 0f;
+    //     }
+    // }
+
     public void HandleComputerClose()
     {
-        if (Keyboard. current.eKey.isPressed)
+        if (Keyboard.current.eKey.isPressed)
         {
             holdTimer += Time.deltaTime;
+
+            // Mostra l'indicatore quando inizi a premere
+            if (holdIndicator != null && ! holdIndicator.activeSelf)
+            {
+                holdIndicator. SetActive(true);
+            }
+
+            // Aggiorna il fill dell'immagine radiale
+            if (holdFillImage != null)
+            {
+                holdFillImage.fillAmount = Mathf.Clamp01(holdTimer / holdTimeToClose);
+            }
+
+            // Aggiorna il testo opzionale
+            if (holdText != null)
+            {
+                float percentage = (holdTimer / holdTimeToClose) * 100f;
+                holdText.text = "E";
+            }
             
             if (holdTimer >= holdTimeToClose)
             {
@@ -94,7 +155,20 @@ public class UI_ComputerPanel :  MonoBehaviour
         }
         else
         {
+            // Resetta quando rilasci il tasto
             holdTimer = 0f;
+
+            // Nascondi l'indicatore
+            if (holdIndicator != null)
+            {
+                holdIndicator.SetActive(false);
+            }
+
+            // Resetta il fill
+            if (holdFillImage != null)
+            {
+                holdFillImage.fillAmount = 0;
+            }
         }
     }
 
@@ -125,7 +199,7 @@ public class UI_ComputerPanel :  MonoBehaviour
             infoPanel.SetActive(false);
         }
 
-        if (infoButton != null && ! isFirstTime)
+        if (infoButton != null && !isFirstTime)
         {
             infoButton.gameObject. SetActive(true);
         }

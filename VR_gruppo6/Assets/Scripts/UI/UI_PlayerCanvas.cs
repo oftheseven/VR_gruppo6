@@ -22,4 +22,9 @@ public class UI_PlayerCanvas : MonoBehaviour
     {
         this.gameObject.SetActive(false); // disattivo l'oggetto UI se clicco il bottone di chiusura
     }
+
+    private void LongPressToClose()
+    {
+        
+    }
 }
