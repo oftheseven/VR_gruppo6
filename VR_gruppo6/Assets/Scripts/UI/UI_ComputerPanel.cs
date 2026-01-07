@@ -10,10 +10,8 @@ public class UI_ComputerPanel :  MonoBehaviour
     [SerializeField] private float holdTimeToClose = 2f;
     [SerializeField] private float cooldownTime = 1f;
 
-    [Header("Info Panel")]
-    [SerializeField] private GameObject infoPanel; // pannello con le informazioni
-    [SerializeField] private Button infoButton; // bottone per riaprire le info
-    [SerializeField] private Button closeInfoButton; // bottone per chiudere le info
+    [Header("Info Panel Reference")]
+    [SerializeField] private UI_InfoPanel infoPanel; // reference al pannello info specifico per questo computer
 
     [Header("Hold to close UI")]
     [SerializeField] private GameObject holdIndicator; // container del cerchio
@@ -25,7 +23,6 @@ public class UI_ComputerPanel :  MonoBehaviour
     private bool canInteract = true;
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
-    private bool isFirstTime = true;
 
     void Start()
     {
@@ -48,30 +45,10 @@ public class UI_ComputerPanel :  MonoBehaviour
         this.gameObject.SetActive(true);
         isOpen = true;
         PlayerController.EnableMovement(false);
-        //Debug.Log("Computer aperto");
 
-        if (isFirstTime)
+        if (infoPanel != null)
         {
-            ShowInfoPanel();
-            isFirstTime = false;
-
-            if (infoButton != null)
-            {
-                infoButton.gameObject.SetActive(false);
-            }
-        }
-
-        else
-        {
-            if (infoButton != null)
-            {
-                infoButton.gameObject.SetActive(true);
-            }
-
-            if (infoPanel != null)
-            {
-                infoPanel.SetActive(false);
-            }
+            infoPanel.OnDeviceOpened();
         }
     }
 
@@ -84,6 +61,11 @@ public class UI_ComputerPanel :  MonoBehaviour
         if (holdIndicator != null)
         {
             holdIndicator.SetActive(false);
+        }
+
+        if (infoPanel != null)
+        {
+            infoPanel.OnDeviceClosed();
         }
         
         StartCoroutine(CooldownAndHide());
@@ -101,27 +83,16 @@ public class UI_ComputerPanel :  MonoBehaviour
         {
             holdIndicator.SetActive(false);
         }
+
+        if (infoPanel != null)
+        {
+            infoPanel.OnDeviceClosed();
+        }
+
         this.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
     }
-
-    // public void HandleComputerClose()
-    // {
-    //     if (Keyboard. current.eKey.isPressed)
-    //     {
-    //         holdTimer += Time.deltaTime;
-            
-    //         if (holdTimer >= holdTimeToClose)
-    //         {
-    //             CloseComputer();
-    //         }
-    //     }
-    //     else
-    //     {
-    //         holdTimer = 0f;
-    //     }
-    // }
 
     public void HandleComputerClose()
     {
@@ -177,31 +148,5 @@ public class UI_ComputerPanel :  MonoBehaviour
         canInteract = false;
         //Debug.Log("Cooldown iniziato - canInteract = " + canInteract);
         yield return new WaitForSeconds(cooldownTime);
-    }
-
-    public void ShowInfoPanel()
-    {
-        if (infoPanel != null)
-        {
-            infoPanel.SetActive(true);
-        }
-
-        if (infoButton != null)
-        {
-            infoButton.gameObject.SetActive(false);
-        }
-    }
-
-    public void HideInfoPanel()
-    {
-        if (infoPanel != null)
-        {
-            infoPanel.SetActive(false);
-        }
-
-        if (infoButton != null && !isFirstTime)
-        {
-            infoButton.gameObject. SetActive(true);
-        }
     }
 }
