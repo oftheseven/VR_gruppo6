@@ -115,16 +115,14 @@ public class UI_CameraPanel :  MonoBehaviour
         }
         else
         {
-            // Resetta quando rilasci il tasto
+            // resetto quando rilascio il tasto
             holdTimer = 0f;
 
-            // Nascondi l'indicatore
             if (holdIndicator != null)
             {
                 holdIndicator.SetActive(false);
             }
 
-            // Resetta il fill
             if (holdFillImage != null)
             {
                 holdFillImage.fillAmount = 0;

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class UI_Screenplay : MonoBehaviour
@@ -17,19 +18,21 @@ public class UI_Screenplay : MonoBehaviour
     public void OpenScreenplay()
     {
         this.gameObject.SetActive(true); // attivo l'oggetto UI se clicco il bottone di apertura
-        UI_PlayerCanvas.instance.ClosePlayerCanvas(); // chiudo il player canvas se apro lo screenplay
-        isOpen = true;
-        
-        // DA AGGIUNGERE POI UNA PAUSA DELL'APPLICAZIONE MENTRE IL CANVAS E' ATTIVO
         PlayerController.EnableMovement(false);
+        StartCoroutine(CooldownCoroutine());
     }
 
     public void CloseScreenplay()
     {
         this.gameObject.SetActive(false); // disattivo l'oggetto UI se clicco il bottone di chiusura
-        isOpen = false;
-        
-        // DA AGGIUNGERE POI LA RIPRESA DELL'APPLICAZIONE MENTRE IL CANVAS E' ATTIVO
         PlayerController.EnableMovement(true);
+        isOpen = false;
+    }
+
+    private IEnumerator CooldownCoroutine()
+    {   
+        yield return new WaitForSeconds(0.1f);
+        //Debug.Log("Coroutine finita");
+        isOpen = true;
     }
 }
