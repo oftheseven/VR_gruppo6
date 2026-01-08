@@ -280,19 +280,16 @@ public class PlayerController : MonoBehaviour
 
     private void HandleOperatorInteraction(InteractableOperator operatore)
     {
-        if (operatore != null)
-        {
-            UI_DialoguePanel.instance.dialogueText.text = operatore.getInteractionText();
-        }
-        
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
-            UI_DialoguePanel.instance.OpenDialogue();
-        }
-
-        if (Keyboard.current.escapeKey.wasPressedThisFrame && UI_DialoguePanel.instance != null && UI_DialoguePanel.instance.IsOpen)
-        {
-            UI_DialoguePanel.instance.CloseDialogue();
+            if (operatore != null)
+            {
+                operatore.Interact();
+            }
+            else
+            {
+                Debug.LogError("Operatore null in HandleOperatorInteraction");
+            }
         }
     }
 
