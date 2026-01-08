@@ -35,7 +35,7 @@ public class InteractableOperator : MonoBehaviour
                 }
             }
 
-            Debug.Log($"Caricato dialogo per {operatorName}: {dialogueLines.Count} righe");
+            // Debug.Log($"Caricato dialogo per {operatorName}: {dialogueLines.Count} righe");
         }
         else
         {
@@ -45,8 +45,6 @@ public class InteractableOperator : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("Interazione con " + this.gameObject.name);
-
         if (dialoguePanel != null)
         {
             StartDialogue();
@@ -67,6 +65,11 @@ public class InteractableOperator : MonoBehaviour
     public void OnDialogueEnd()
     {
         PlayerController.EnableMovement(true);
-        Debug.Log($"Dialogo con {operatorName} terminato");
+        
+        PlayerController playerController = FindAnyObjectByType<PlayerController>();
+        if (playerController != null)
+        {
+            playerController. OnDialogueEnded();
+        }
     }
 }

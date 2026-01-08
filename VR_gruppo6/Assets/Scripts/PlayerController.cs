@@ -36,6 +36,10 @@ public class PlayerController : MonoBehaviour
     private InteractableCamera currentCamera = null;
     private UI_CameraPanel currentCameraPanel = null;
 
+    [Header("Operator interaction")]
+    private InteractableOperator currentOperator = null;
+    private bool isDialogueActive = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -64,6 +68,7 @@ public class PlayerController : MonoBehaviour
         
         HandleComputerInteraction();
         HandleCameraInteraction();
+        HandleOperatorInteraction();
     }
 
     void FixedUpdate()
@@ -154,22 +159,20 @@ public class PlayerController : MonoBehaviour
         return Physics.Raycast(origin, Vector3.down, _groundCheckDistance, _groundLayer);
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = IsGrounded() ? Color.green : Color.red;
-        Vector3 origin = transform.position + Vector3.up * 0.1f;
-        Gizmos.DrawLine(origin, origin + Vector3.down * _groundCheckDistance);
-    }
-
     private void CheckForInteractable()
     {
+        if (isDialogueActive)
+        {
+            return;
+        }
+
         Vector3 rayOrigin = _cameraTransform.position;
         Vector3 rayDirection = _cameraTransform.forward;
 
         RaycastHit hit;
 
         if (Physics.Raycast(rayOrigin, rayDirection, out hit, interactionDistance))
-        {
+        {   
             // switch sul tag che viene rilevato dal raycast
             switch(hit.collider.tag)
             {
@@ -209,7 +212,18 @@ public class PlayerController : MonoBehaviour
                 
                 case "Operatore" or "Operatrice":
                     InteractableOperator operatore = hit.collider.GetComponent<InteractableOperator>();
-                    HandleOperatorInteraction(operatore);
+                    if (operatore != null)
+                    {
+                        if (currentOperator != operatore)
+                        {
+                            currentOperator = operatore;
+                            ShowInteractionText(currentOperator.getInteractionText());
+                        }
+                    }
+                    else
+                    {
+                        ClearInteractable();
+                    }
                     break;
             }
         }
@@ -223,6 +237,7 @@ public class PlayerController : MonoBehaviour
     {
         currentComputer = null;
         currentCamera = null;
+        currentOperator = null;
         interactiontext.gameObject.SetActive(false);
     }
 
@@ -278,19 +293,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void HandleOperatorInteraction(InteractableOperator operatore)
+    private void HandleOperatorInteraction()
     {
-        if (Keyboard.current.eKey.wasPressedThisFrame)
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentOperator != null && !isDialogueActive)
         {
-            if (operatore != null)
-            {
-                operatore.Interact();
-            }
-            else
-            {
-                Debug.LogError("Operatore null in HandleOperatorInteraction");
-            }
+            currentOperator.Interact();
+            interactiontext.gameObject.SetActive(false);
+            isDialogueActive = true;
         }
+    }
+
+    public void OnDialogueEnded()
+    {
+        isDialogueActive = false;
+        currentOperator = null;
     }
 
     private void CheckPanelsInteraction()
