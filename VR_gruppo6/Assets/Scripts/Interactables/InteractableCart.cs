@@ -64,7 +64,7 @@ public class InteractableCart : MonoBehaviour
 
             playerController.SetPushingCart(this);
 
-            Debug.Log("Carrello preso in mano");
+            // Debug.Log("Carrello preso in mano");
         }
     }
 
@@ -82,11 +82,9 @@ public class InteractableCart : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        // rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, 0.5f);
-
         rb.isKinematic = true;
 
-        Debug.Log("Carrello lasciato");
+        // Debug.Log("Carrello lasciato");
     }
 
     private void FollowPlayer()

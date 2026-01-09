@@ -42,7 +42,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Cart interaction")]
     private InteractableCart currentCart = null;
-private InteractableCart pushingCart = null;
+    private InteractableCart pushingCart = null;
+
+    private bool isInteracting = false;
 
     void Start()
     {
@@ -60,14 +62,13 @@ private InteractableCart pushingCart = null;
         {
             HandleRotation();
         }
-        
-        CheckForInteractable();
 
         if (Keyboard.current.spaceKey.isPressed && IsGrounded() && moveEnabled)
         {
             Jump();
         }
 
+        CheckForInteractable(); // controllo se c'è un oggetto interagibile davanti al player
         CheckPanelsInteraction(); // controllo aperture e chiusure dei pannelli
         
         HandleComputerInteraction();
@@ -166,7 +167,7 @@ private InteractableCart pushingCart = null;
 
     private void CheckForInteractable()
     {
-        if (isDialogueActive)
+        if (isDialogueActive || isInteracting)
         {
             return;
         }
@@ -277,6 +278,7 @@ private InteractableCart pushingCart = null;
             if (panel != null && !panel.IsOpen && panel.CanInteract)
             {
                 currentComputer.Interact();
+                isInteracting = true;
                 interactiontext.gameObject.SetActive(false);
                 currentComputerPanel = panel;
             }
@@ -286,9 +288,10 @@ private InteractableCart pushingCart = null;
         {
             currentComputerPanel.HandleComputerClose();
         }
-        else
+        else if (currentComputerPanel != null && !currentComputerPanel.IsOpen)
         {
             currentComputerPanel = null;
+            isInteracting = false;
         }
     }
 
@@ -300,6 +303,7 @@ private InteractableCart pushingCart = null;
             if (panel != null && !panel.IsOpen && panel.CanInteract)
             {
                 currentCamera.Interact();
+                isInteracting = true;
                 interactiontext.gameObject.SetActive(false);
                 currentCameraPanel = panel;
             }
@@ -309,9 +313,10 @@ private InteractableCart pushingCart = null;
         {
             currentCameraPanel.HandleCameraClose();
         }
-        else
+        else if (currentCameraPanel != null && !currentCameraPanel.IsOpen)
         {
             currentCameraPanel = null;
+            isInteracting = false;
         }
     }
 
@@ -320,6 +325,7 @@ private InteractableCart pushingCart = null;
         if (Keyboard.current.eKey.wasPressedThisFrame && currentOperator != null && !isDialogueActive)
         {
             currentOperator.Interact();
+            isInteracting = true;
             interactiontext.gameObject.SetActive(false);
             isDialogueActive = true;
         }
@@ -334,20 +340,17 @@ private InteractableCart pushingCart = null;
             {
                 pushingCart.Interact();
                 interactiontext.gameObject.SetActive(false);
+                isInteracting = false;
             }
-
-            // if (! interactiontext.gameObject.activeSelf)
-            // {
-            //     ShowInteractionText(pushingCart.getInteractionText());
-            // }
         }
         else
         {   
             // l'utente non sta tenendo niente
             if (Keyboard.current.eKey.wasPressedThisFrame && currentCart != null && !isDialogueActive)
             {
-                currentCart. Interact();
-                interactiontext. gameObject.SetActive(false);
+                currentCart.Interact();
+                interactiontext.gameObject.SetActive(false);
+                isInteracting = true;
             }
         }
     }
@@ -358,11 +361,11 @@ private InteractableCart pushingCart = null;
 
         if (cart != null)
         {
-            _moveSpeed *= 0.7f; // 30% più lento
+            _moveSpeed *= 0.7f;
         }
         else
         {
-            _moveSpeed /= 0.7f; // Ripristina velocità normale
+            _moveSpeed /= 0.7f;
         }
     }
 
@@ -370,6 +373,7 @@ private InteractableCart pushingCart = null;
     {
         isDialogueActive = false;
         currentOperator = null;
+        isInteracting = false;
     }
 
     private void CheckPanelsInteraction()
