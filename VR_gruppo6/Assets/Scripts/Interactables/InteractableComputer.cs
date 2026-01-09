@@ -3,7 +3,7 @@ using UnityEngine;
 public class InteractableComputer : MonoBehaviour
 {
     [Header("Interaction text")]
-    [SerializeField] private string interactionText = "Premi E per eseguire l'interazione";
+    [SerializeField] private string interactionText = "Premi E per usare il computer";
 
     [Header("Computer panel reference")]
     [SerializeField] private UI_ComputerPanel computerPanel;

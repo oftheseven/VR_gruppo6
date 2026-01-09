@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -40,6 +41,9 @@ public class PlayerController : MonoBehaviour
     private InteractableOperator currentOperator = null;
     private bool isDialogueActive = false;
 
+    [Header("Cart interaction")]
+    private InteractableCart currentCart = null;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -69,6 +73,7 @@ public class PlayerController : MonoBehaviour
         HandleComputerInteraction();
         HandleCameraInteraction();
         HandleOperatorInteraction();
+        HandleCartInteraction();
     }
 
     void FixedUpdate()
@@ -225,6 +230,18 @@ public class PlayerController : MonoBehaviour
                         ClearInteractable();
                     }
                     break;
+                
+                case "Carrello":
+                    InteractableCart carrello = hit.collider.GetComponent<InteractableCart>();
+                    if (carrello != null)
+                    {
+                        ShowInteractionText(carrello.getInteractionText());
+                    }
+                    else
+                    {
+                        ClearInteractable();
+                    }
+                    break;
             }
         }
         else
@@ -238,6 +255,7 @@ public class PlayerController : MonoBehaviour
         currentComputer = null;
         currentCamera = null;
         currentOperator = null;
+        currentCart = null;
         interactiontext.gameObject.SetActive(false);
     }
 
@@ -300,6 +318,14 @@ public class PlayerController : MonoBehaviour
             currentOperator.Interact();
             interactiontext.gameObject.SetActive(false);
             isDialogueActive = true;
+        }
+    }
+
+    private void HandleCartInteraction()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentCart != null)
+        {
+            Debug.Log("Interaction with cart");
         }
     }
 

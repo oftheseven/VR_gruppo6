@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class InteractableOperator : MonoBehaviour
 {
     [Header("Interaction text")]
-    [SerializeField] private string interactionText = "Premi E per eseguire l'interazione";
+    [SerializeField] private string interactionText = "Premi E per parlare";
     
     [Header("Dialogue settings")]
     [SerializeField] private string operatorName = "Operatore";

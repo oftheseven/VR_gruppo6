@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractableCamera : MonoBehaviour
 {
     [Header("Interaction text")]
-    [SerializeField] private string interactionText = "Premi E per eseguire l'interazione";
+    [SerializeField] private string interactionText = "Premi E per gestire la camera";
 
     [Header("Camera panel reference")]
     [SerializeField] private UI_CameraPanel cameraPanel;
