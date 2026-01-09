@@ -85,9 +85,7 @@ public class GreenScreenSelector : MonoBehaviour
             // controllo se l'immagine selezionata è quella corretta
             if (currentImageIndex == correctImageIndex)
             {
-                Debug.Log("Immagine corretta selezionata!");
-
-                // AGGIUNGERE UNA SORTA DI MESSAGGIO, SE POI ENTRAMBE LE IMMAGINI SONO CORRETTE ALLORA AGGIORNARE IL TICK SULLO UI_SCREENPLAY
+                UI_Screenplay.instance.AdvanceGreenScreenProgress();
             }
         }
         else

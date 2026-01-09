@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -185,7 +184,7 @@ public class PlayerController : MonoBehaviour
                     InteractableComputer computer = hit.collider.GetComponent<InteractableComputer>();
                     if (computer != null)
                     {
-                        if (currentComputer != computer)
+                        if (currentComputer != computer && !UI_Screenplay.instance.IsGreenScreenComplete())
                         {
                             currentComputer = computer;
                             ShowInteractionText(currentComputer.getInteractionText());
