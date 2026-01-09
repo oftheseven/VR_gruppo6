@@ -56,7 +56,6 @@ public class UI_ComputerPanel :  MonoBehaviour
     {
         isOpen = false;
         holdTimer = 0f;
-        //Debug.Log("Computer chiuso - avvio cooldown");
 
         if (holdIndicator != null)
         {
@@ -71,7 +70,6 @@ public class UI_ComputerPanel :  MonoBehaviour
         StartCoroutine(CooldownAndHide());
         this.gameObject.SetActive(false);
         canInteract = true;
-        //Debug.Log("Cooldown terminato - canInteract = " + canInteract);
         PlayerController.EnableMovement(true);
     }
 
@@ -100,19 +98,16 @@ public class UI_ComputerPanel :  MonoBehaviour
         {
             holdTimer += Time.deltaTime;
 
-            // Mostra l'indicatore quando inizi a premere
             if (holdIndicator != null && ! holdIndicator.activeSelf)
             {
                 holdIndicator. SetActive(true);
             }
 
-            // Aggiorna il fill dell'immagine radiale
             if (holdFillImage != null)
             {
                 holdFillImage.fillAmount = Mathf.Clamp01(holdTimer / holdTimeToClose);
             }
 
-            // Aggiorna il testo opzionale
             if (holdText != null)
             {
                 float percentage = (holdTimer / holdTimeToClose) * 100f;
@@ -126,16 +121,13 @@ public class UI_ComputerPanel :  MonoBehaviour
         }
         else
         {
-            // Resetta quando rilasci il tasto
             holdTimer = 0f;
 
-            // Nascondi l'indicatore
             if (holdIndicator != null)
             {
                 holdIndicator.SetActive(false);
             }
 
-            // Resetta il fill
             if (holdFillImage != null)
             {
                 holdFillImage.fillAmount = 0;
@@ -146,7 +138,6 @@ public class UI_ComputerPanel :  MonoBehaviour
     private IEnumerator CooldownAndHide()
     {
         canInteract = false;
-        //Debug.Log("Cooldown iniziato - canInteract = " + canInteract);
         yield return new WaitForSeconds(cooldownTime);
     }
 }

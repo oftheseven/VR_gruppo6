@@ -2042,10 +2042,9 @@ GameObject:
   m_Component:
   - component: {fileID: 442211101}
   - component: {fileID: 442211103}
-  - component: {fileID: 442211102}
   m_Layer: 0
   m_Name: InteractableCamera
-  m_TagString: Camera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2059,7 +2058,7 @@ Transform:
   m_GameObject: {fileID: 442211100}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.49, y: 1.37, z: -3.349}
+  m_LocalPosition: {x: 2.49, y: 1.37, z: -5.84}
   m_LocalScale: {x: 0.60225, y: 0.60225, z: 0.60225}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2070,25 +2069,6 @@ Transform:
   - {fileID: 2031637521}
   m_Father: {fileID: 44355299}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &442211102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 442211100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8a594f0301d24ebfb342b5362faa9f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableCamera
-  interactionText: Premi E per gestire la camera
-  cameraPanel: {fileID: 1864586731}
-  cameraLenses:
-  - {fileID: 630469909}
-  - {fileID: 1279900353}
-  - {fileID: 1265151794}
-  - {fileID: 2031637520}
 --- !u!65 &442211103
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4433,6 +4413,7 @@ MonoBehaviour:
   - {fileID: 292459056}
   - {fileID: 1196750643}
   objectRenderer: {fileID: 2022582945}
+  correctImageIndex: 0
 --- !u!114 &1260686330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5228,6 +5209,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7ad9faffd23a014787269faca14c220, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_
+  emptyTick1: {fileID: 1800568348}
+  emptyTick2: {fileID: 1908562783}
+  emptyTick3: {fileID: 1415300450}
+  emptyTick4: {fileID: 699770424}
+  fullTick1: {fileID: 242422114}
+  fullTick2: {fileID: 1719628729}
+  fullTick3: {fileID: 1658441254}
+  fullTick4: {fileID: 1482634543}
 --- !u!1 &1331266205
 GameObject:
   m_ObjectHideFlags: 0
@@ -5276,9 +5265,10 @@ GameObject:
   - component: {fileID: 1338002662}
   - component: {fileID: 1338002661}
   - component: {fileID: 1338002660}
+  - component: {fileID: 1338002663}
   m_Layer: 0
   m_Name: CameraBody
-  m_TagString: Untagged
+  m_TagString: Camera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5375,6 +5365,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338002658}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1338002663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338002658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8a594f0301d24ebfb342b5362faa9f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableCamera
+  interactionText: Premi E per gestire la camera
+  cameraPanel: {fileID: 1864586731}
+  cameraLenses:
+  - {fileID: 630469909}
+  - {fileID: 1279900353}
+  - {fileID: 1265151794}
+  - {fileID: 2031637520}
 --- !u!1 &1344306674
 GameObject:
   m_ObjectHideFlags: 0
@@ -8963,6 +8972,7 @@ MonoBehaviour:
   - {fileID: 225183362}
   - {fileID: 1849344736}
   objectRenderer: {fileID: 1274509992}
+  correctImageIndex: 0
 --- !u!1 &2124818809
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,9 @@ public class GreenScreenSelector : MonoBehaviour
     [SerializeField] private RawImage[] images;
     [SerializeField] private Renderer objectRenderer;
 
+    [Header("Correct image index")]
+    [SerializeField] private int correctImageIndex = 0; // indice dell'immagine corretta da scegliere
+
     private int currentImageIndex = 0;
     private float inputCooldown = 0.2f;
     private float lastInputTime = 0f;
@@ -78,6 +81,14 @@ public class GreenScreenSelector : MonoBehaviour
         {
             objectRenderer.material.color = Color.white;
             objectRenderer.material.mainTexture = selectedImage.texture;
+
+            // controllo se l'immagine selezionata è quella corretta
+            if (currentImageIndex == correctImageIndex)
+            {
+                Debug.Log("Immagine corretta selezionata!");
+
+                // AGGIUNGERE UNA SORTA DI MESSAGGIO, SE POI ENTRAMBE LE IMMAGINI SONO CORRETTE ALLORA AGGIORNARE IL TICK SULLO UI_SCREENPLAY
+            }
         }
         else
         {
