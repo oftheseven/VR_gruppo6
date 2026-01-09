@@ -1438,6 +1438,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &290358326 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8899695880865628900, guid: 356d63ea1579d441ab03c66bb62a3298, type: 3}
+  m_PrefabInstance: {fileID: 95938618}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9d95be158db2fb4bb6fa5e8045ab61b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
 --- !u!1 &292459054
 GameObject:
   m_ObjectHideFlags: 0
@@ -9243,6 +9254,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5661600360993622565, guid: 3de5e0d85b86de24aa24f5fe790c0d2d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2394709970964577504}
+    - targetCorrespondingSourceObject: {fileID: 5661600360993622565, guid: 3de5e0d85b86de24aa24f5fe790c0d2d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2394709970964577505}
   m_SourcePrefab: {fileID: 100100000, guid: 3de5e0d85b86de24aa24f5fe790c0d2d, type: 3}
 --- !u!4 &2394709970964577501 stripped
 Transform:
@@ -9283,6 +9297,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableCart
   interactionText: Premi E per muovere il carrello
+  playerController: {fileID: 290358326}
+  followDistance: 1
+  followSpeed: 10
+  rotationSpeed: 4
+--- !u!54 &2394709970964577505
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576685630}
+  serializedVersion: 5
+  m_Mass: 1000
+  m_LinearDamping: 2
+  m_AngularDamping: 5
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 2
 --- !u!1001 &2631522656648299850
 PrefabInstance:
   m_ObjectHideFlags: 0

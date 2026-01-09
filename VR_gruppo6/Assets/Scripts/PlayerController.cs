@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Cart interaction")]
     private InteractableCart currentCart = null;
+private InteractableCart pushingCart = null;
 
     void Start()
     {
@@ -126,7 +127,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private Vector2 GetMoveInput()
+    public Vector2 GetMoveInput()
     {
         Vector2 input = Vector2.zero;
         var kb = Keyboard.current;
@@ -234,7 +235,11 @@ public class PlayerController : MonoBehaviour
                     InteractableCart carrello = hit.collider.GetComponent<InteractableCart>();
                     if (carrello != null)
                     {
-                        ShowInteractionText(carrello.getInteractionText());
+                        if (currentCart != carrello)
+                        {
+                            currentCart = carrello;
+                            ShowInteractionText(currentCart.getInteractionText());
+                        }
                     }
                     else
                     {
@@ -322,9 +327,42 @@ public class PlayerController : MonoBehaviour
 
     private void HandleCartInteraction()
     {
-        if (Keyboard.current.eKey.wasPressedThisFrame && currentCart != null)
+        if (pushingCart != null)
         {
-            Debug.Log("Interaction with cart");
+            // l'utente sta già tenendo il carrello
+            if (Keyboard.current.eKey.wasPressedThisFrame)
+            {
+                pushingCart.Interact();
+                interactiontext.gameObject.SetActive(false);
+            }
+
+            // if (! interactiontext.gameObject.activeSelf)
+            // {
+            //     ShowInteractionText(pushingCart.getInteractionText());
+            // }
+        }
+        else
+        {   
+            // l'utente non sta tenendo niente
+            if (Keyboard.current.eKey.wasPressedThisFrame && currentCart != null && !isDialogueActive)
+            {
+                currentCart. Interact();
+                interactiontext. gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void SetPushingCart(InteractableCart cart)
+    {
+        pushingCart = cart;
+
+        if (cart != null)
+        {
+            _moveSpeed *= 0.7f; // 30% più lento
+        }
+        else
+        {
+            _moveSpeed /= 0.7f; // Ripristina velocità normale
         }
     }
 
