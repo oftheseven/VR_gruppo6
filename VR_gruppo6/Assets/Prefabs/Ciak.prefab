@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4549998224449860748}
   - component: {fileID: 3466700803690283957}
   m_Layer: 0
-  m_Name: ciack
+  m_Name: Ciak
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1696566826735522517}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.8307917, y: 0.95387954, z: 0.51072717}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -116,8 +116,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6667440341119491160}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.8312904, y: 1.082076, z: 0.6180144}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.00049871206, y: 0.12819642, z: 0.108287215}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -206,8 +206,8 @@ Transform:
   m_GameObject: {fileID: 7134332163659201589}
   serializedVersion: 2
   m_LocalRotation: {x: 0.17733487, y: -0.005361677, z: -0.0009661392, w: 0.9841355}
-  m_LocalPosition: {x: -0.83047324, y: 1.0889, z: 0.6481794}
-  m_LocalScale: {x: 1, y: 0.99999994, z: 0.9999999}
+  m_LocalPosition: {x: 0.00031846762, y: 0.13502043, z: 0.13845223}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6776260029280606902}
@@ -277,9 +277,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6776260029280606902}
+  - component: {fileID: 1361563628021354653}
+  - component: {fileID: 7935635657803583753}
+  - component: {fileID: 461097450094402936}
+  - component: {fileID: 3446298137213861477}
   m_Layer: 0
-  m_Name: ciack
-  m_TagString: Untagged
+  m_Name: Ciak
+  m_TagString: Ciak
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -292,8 +296,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8874427827425477381}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.7026553, z: -0, w: 0.7115304}
-  m_LocalPosition: {x: 1.48, y: 0, z: -0.82}
+  m_LocalRotation: {x: 0, y: -0.7026562, z: 0, w: 0.7115296}
+  m_LocalPosition: {x: 1.478, y: 0, z: -1.014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -302,3 +306,78 @@ Transform:
   - {fileID: 7204561308351433582}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -89.281, z: 0}
+--- !u!65 &1361563628021354653
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8874427827425477381}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.03, y: 0.37208495, z: 0.2945099}
+  m_Center: {x: 0, y: 0.068311945, z: 0.0017490387}
+--- !u!54 &7935635657803583753
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8874427827425477381}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 2
+--- !u!114 &461097450094402936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8874427827425477381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2a908fb5dd9a94d8592bade992a870, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickableItem
+  itemName: Ciak
+  interactionText: Premi E per prendere il ciak
+--- !u!114 &3446298137213861477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8874427827425477381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cadc40ebe64cd046b36a6dae6201184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableCiak
+  interactionText: Premi E per prendere il ciak

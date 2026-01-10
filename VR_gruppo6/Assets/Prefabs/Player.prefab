@@ -146,10 +146,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4134167842104455575}
-  - component: {fileID: 8899695880865628900}
   - component: {fileID: 1871527241946297893}
   - component: {fileID: 239431829218852824}
   - component: {fileID: 2859370080568025140}
+  - component: {fileID: 8899695880865628900}
+  - component: {fileID: 7142357418301249556}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -173,28 +174,6 @@ Transform:
   - {fileID: 6206136061979084514}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8899695880865628900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8625873275658748454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9d95be158db2fb4bb6fa5e8045ab61b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player
-  _moveSpeed: 10
-  _runMultiplier: 2
-  _rotationSpeed: 15
-  _maxLookAngle: 89
-  _jumpForce: 1000
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  _groundCheckDistance: 2
-  _cameraTransform: {fileID: 6206136061979084514}
 --- !u!54 &1871527241946297893
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -267,3 +246,39 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &8899695880865628900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8625873275658748454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9d95be158db2fb4bb6fa5e8045ab61b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  _moveSpeed: 10
+  _runMultiplier: 2
+  _rotationSpeed: 15
+  _maxLookAngle: 89
+  _jumpForce: 250
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  _groundCheckDistance: 2
+  _cameraTransform: {fileID: 6206136061979084514}
+  interactionDistance: 2
+  interactiontext: {fileID: 0}
+--- !u!114 &7142357418301249556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8625873275658748454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f341166dfad9144b9c1431f827c3e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory

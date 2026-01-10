@@ -10,7 +10,7 @@ public class UI_ComputerPanel :  MonoBehaviour
     [SerializeField] private float holdTimeToClose = 2f;
     [SerializeField] private float cooldownTime = 1f;
 
-    [Header("Info Panel Reference")]
+    [Header("Info panel reference")]
     [SerializeField] private UI_InfoPanel infoPanel; // reference al pannello info specifico per questo computer
 
     [Header("Hold to close UI")]

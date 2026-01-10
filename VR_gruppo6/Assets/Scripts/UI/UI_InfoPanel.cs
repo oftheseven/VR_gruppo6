@@ -5,7 +5,7 @@ public class UI_InfoPanel : MonoBehaviour
 {
     [SerializeField] private Sprite tutorialImage;
 
-    [Header("UI Elements")]
+    [Header("UI elements")]
     [SerializeField] private Button infoButton; // bottone per riaprire le info
     [SerializeField] private Button closeInfoButton; // bottone per chiudere le info
 

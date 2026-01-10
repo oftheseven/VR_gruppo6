@@ -8,7 +8,7 @@ public class InteractableCamera : MonoBehaviour
     [Header("Camera panel reference")]
     [SerializeField] private UI_CameraPanel cameraPanel;
 
-    [Header("Camera Lenses")]
+    [Header("Camera lenses")]
     [SerializeField] private GameObject[] cameraLenses;
 
     void Start()

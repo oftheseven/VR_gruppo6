@@ -28,14 +28,11 @@ public class UI_MenuPanel : MonoBehaviour
         this.gameObject.SetActive(false); // disattivo l'oggetto UI se clicco il bottone di chiusura
         PlayerController.EnableMovement(true); // riabilito il movimento del player quando chiudo il menu
         isOpen = false;
-        // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
     }
 
     private IEnumerator CooldownCoroutine()
     {   
         yield return new WaitForSeconds(0.1f);
-        //Debug.Log("Coroutine finita");
         isOpen = true;
     }
 }

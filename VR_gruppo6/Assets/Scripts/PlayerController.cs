@@ -44,6 +44,9 @@ public class PlayerController : MonoBehaviour
     private InteractableCart currentCart = null;
     private InteractableCart pushingCart = null;
 
+    [Header("Ciak interaction")]
+    private InteractableCiak currentCiak = null;
+
     private bool isInteracting = false;
 
     void Start()
@@ -216,7 +219,7 @@ public class PlayerController : MonoBehaviour
                     }
                     break;
                 
-                case "Operatore" or "Operatrice":
+                case "Operatore":
                     InteractableOperator operatore = hit.collider.GetComponent<InteractableOperator>();
                     if (operatore != null)
                     {
@@ -247,6 +250,38 @@ public class PlayerController : MonoBehaviour
                         ClearInteractable();
                     }
                     break;
+                
+                // case "Ciak":
+                //     InteractableCiak ciak = hit.collider.GetComponent<InteractableCiak>();
+                //     if (ciak != null)
+                //     {
+                //         if (currentCiak != ciak)
+                //         {
+                //             currentCiak = ciak;
+                //             ShowInteractionText(currentCiak.getInteractionText());
+                //         }
+                //     }
+                //     else
+                //     {
+                //         ClearInteractable();
+                //     }
+                //     break;
+
+                case "Pickable":
+                    PickableItem item = hit.collider.GetComponent<PickableItem>();
+                    if (item != null)
+                    {
+                        ShowInteractionText("Premi E per prendere l'oggetto");
+                        if (Keyboard.current.eKey.wasPressedThisFrame)
+                        {
+                            Inventory.instance.AddItem(item);
+                        }
+                    }
+                    else
+                    {
+                        ClearInteractable();
+                    }
+                    break;
             }
         }
         else
@@ -261,6 +296,7 @@ public class PlayerController : MonoBehaviour
         currentCamera = null;
         currentOperator = null;
         currentCart = null;
+        currentCiak = null;
         interactiontext.gameObject.SetActive(false);
     }
 
@@ -396,6 +432,16 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current.tabKey.wasPressedThisFrame && UI_Screenplay.instance.IsOpen)
         {
             UI_Screenplay.instance.CloseScreenplay();
+        }
+
+        // APERTURA/CHIUSURA INVENTARIO
+        if (Keyboard.current.iKey.wasPressedThisFrame)
+        {
+            UI_InventoryPanel.instance.OpenInventory();
+        }
+        if (Keyboard.current.iKey.wasPressedThisFrame && UI_InventoryPanel.instance.IsOpen)
+        {
+            UI_InventoryPanel.instance.CloseInventory();
         }
     }
 }

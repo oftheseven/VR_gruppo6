@@ -1,0 +1,2 @@
+Strumento su cui sono scritti tutti i dettagli della scena da girare.
+Serve per sincronizzare l'audio e il video ed identificare le scene e le inquadrature girate.

@@ -7,8 +7,9 @@ TagManager:
   - Computer
   - Camera
   - Operatore
-  - Operatrice
   - Carrello
+  - Ciak
+  - Pickable
   layers:
   - Default
   - TransparentFX

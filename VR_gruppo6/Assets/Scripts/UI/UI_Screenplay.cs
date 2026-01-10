@@ -8,14 +8,14 @@ public class UI_Screenplay : MonoBehaviour
     public static UI_Screenplay instance => _screenplayUI;
 
     // CAPIRE SE HA PIU' SENSO USARE DEGLI ARRAY PER I TICK
-    [Header("Empty Tick References")]
+    [Header("Empty tick references")]
     // [SerializeField] private GameObject emptyticks;
     [SerializeField] private GameObject emptyTick1;
     [SerializeField] private GameObject emptyTick2;
     [SerializeField] private GameObject emptyTick3;
     [SerializeField] private GameObject emptyTick4;
 
-    [Header("Full Tick References")]
+    [Header("Full tick references")]
     // [SerializeField] private GameObject fullticks;
     [SerializeField] private GameObject fullTick1;
     [SerializeField] private GameObject fullTick2;
