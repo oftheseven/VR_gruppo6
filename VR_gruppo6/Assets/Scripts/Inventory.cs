@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 // script dell'inventario attaccato al player
 public class Inventory : MonoBehaviour
@@ -8,7 +9,9 @@ public class Inventory : MonoBehaviour
     private static Inventory _instance;
     public static Inventory instance => _instance;
 
-    private List<PickableItem> items = new List<PickableItem>(); // lista degli oggetti nell'inventario (ovviamente questi oggetti possono essere solo di tipo PickableItem)
+    // private List<PickableItem> items = new List<PickableItem>(); // lista degli oggetti nell'inventario (ovviamente questi oggetti possono essere solo di tipo PickableItem)
+    private Dictionary<string, PickableItem> itemTemplates = new Dictionary<string, PickableItem>();
+
     void Awake()
     {
         if (_instance != null && _instance != this)
@@ -23,57 +26,87 @@ public class Inventory : MonoBehaviour
 
     public bool AddItem(PickableItem item)
     {
-        // if (item != null && !items.Contains(item))
-        // {
-        //     items.Add(item);
-        //     item.gameObject.SetActive(false); // disattiva l'oggetto nella scena
-        //     Debug.Log("Oggetto " + item.name + " aggiunto all'inventario. Totale oggetti: " + items.Count);
-        //     return true;
-        // }
-        // return false;
-
         if (item == null)
         {
-            Debug.LogWarning("Tentativo di aggiungere item null");
             return false;
         }
 
-        if (items.Contains(item))
+        string itemID = item.GetItemID();
+
+        if (item.IsAccumulable() && itemTemplates.ContainsKey(itemID))
         {
-            Debug.LogWarning($"Item {item.GetDisplayName()} già nell'inventario");
+            PickableItem template = itemTemplates[itemID];
+
+            template.AddQuantity();
+            Destroy(item.gameObject); // rimuovo l'oggetto dalla scena
+            NotifyInventoryChanged();
+            return true;
+        }
+        else if (!item.IsAccumulable() && itemTemplates.ContainsKey(itemID))
+        {
             return false;
         }
+        else
+        {
+            item.AddQuantity();
+            item.gameObject.SetActive(false); // disattivo l'oggetto nella scena
+            itemTemplates.Add(itemID, item);
+            NotifyInventoryChanged();
+            return true;
+        }
+    }
 
-        items. Add(item);
-        item.gameObject.SetActive(false);
-        Debug.Log($"Oggetto {item.GetDisplayName()} aggiunto all'inventario.");
+    public void RemoveItem(string itemID)
+    {
+        if (!itemTemplates.ContainsKey(itemID))
+        {
+            return;
+        }
 
+        PickableItem item = itemTemplates[itemID];
+
+        SpawnItemInWorld(item);
+        item.RemoveQuantity();
+
+        if (item.GetQuantity() <= 0)
+        {
+            itemTemplates.Remove(itemID);
+            Destroy(item.gameObject);
+        }
         NotifyInventoryChanged();
-
-        return true;
     }
 
     public void RemoveItem(PickableItem item)
     {
-        if (item != null && items.Contains(item))
+        if (item != null)
         {
-            items.Remove(item);
-            item.transform.position = this.transform.position + this.transform.forward; // posiziona l'oggetto davanti al player
-            item.gameObject.SetActive(true); // riattiva l'oggetto nella scena
-            Debug.Log("Oggetto " + item.name + " rimosso dall'inventario. Totale oggetti: " + items.Count);
-
-            NotifyInventoryChanged();
-
-            // if (items.Count == 0)
-            // {
-            //     Debug.Log("L'inventario è vuoto.");
-            //     UI_InventoryPanel.instance.CloseInventory();
-            // }
+            RemoveItem(item.GetItemID());
         }
+    }
 
-        else
+    private void SpawnItemInWorld(PickableItem item)
+    {
+        Vector3 spawnPosition = transform.position + transform.forward * 1.0f;
+        spawnPosition += new Vector3(
+                                    Random.Range(-0.3f, 0.3f),
+                                    0.5f,
+                                    Random.Range(-0.3f, 0.3f)
+                                    );
+
+        GameObject spawnedItem = item.SpawnInWorld(spawnPosition, Quaternion.identity);
+
+        if (spawnedItem != null)
         {
-            Debug.LogWarning("Impossibile rimuovere l'oggetto " + item.name + " dall'inventario perché non è presente.");
+            Rigidbody rb = spawnedItem.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                Vector3 randomForce = new Vector3(
+                                                Random.Range(-1f, 1f),
+                                                Random.Range(0.5f, 1.5f),
+                                                Random.Range(-1f, 1f)
+                                                );
+                rb.AddForce(randomForce, ForceMode.Impulse);
+            }
         }
     }
 
@@ -87,6 +120,26 @@ public class Inventory : MonoBehaviour
 
     public List<PickableItem> GetItems()
     {
-        return new List<PickableItem>(items); // restituisce una copia della lista degli oggetti
+        return itemTemplates.Values.ToList();
+    }
+
+    public int GetUniqueItemCount()
+    {
+        return itemTemplates.Count;
+    }
+
+    public int GetTotalItemCount()
+    {
+        int total = 0;
+        foreach (var item in itemTemplates.Values)
+        {
+            total += item. GetQuantity();
+        }
+        return total;
+    }
+
+    public PickableItem GetItem(string itemID)
+    {
+        return itemTemplates.ContainsKey(itemID) ? itemTemplates[itemID] :  null;
     }
 }

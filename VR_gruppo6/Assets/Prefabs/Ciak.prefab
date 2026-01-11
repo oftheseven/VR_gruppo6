@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 3446298137213861477}
   m_Layer: 0
   m_Name: Ciak
-  m_TagString: Ciak
+  m_TagString: Pickable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -366,8 +366,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2a908fb5dd9a94d8592bade992a870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickableItem
-  itemName: Ciak
+  itemID: Ciak
+  itemDisplayName: Ciak
   interactionText: Premi E per prendere il ciak
+  itemIcon: {fileID: 1980477378, guid: 64459ec3dd41e414592157d7160e3651, type: 3}
+  isAccumulable: 1
+  itemPrefab: {fileID: 8874427827425477381}
 --- !u!114 &3446298137213861477
 MonoBehaviour:
   m_ObjectHideFlags: 0

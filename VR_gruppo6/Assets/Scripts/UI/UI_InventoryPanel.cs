@@ -16,13 +16,17 @@ public class UI_InventoryPanel : MonoBehaviour
 
     [Header("Item description UI references")]
     [SerializeField] private GameObject detailsPanel; // pannello con nome, descrizione, icona, bottone di drop e quantità dell'oggetto
-    [SerializeField] private TextMeshProUGUI itemnNameText;
+    [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
-    // [SerializeField] private Image itemIconImage;
+    [SerializeField] private Image itemIconImage;
     [SerializeField] private Button dropItemButton;
-    // [SerializeField] private TextMeshProUGUI itemCountText; // testo che mostra il numero di oggetti nell'inventario
+    [SerializeField] private TextMeshProUGUI itemCountText; // testo che mostra il numero di item di quel tipo nell'inventario
 
     [Header("Navigation settings")]
+    [SerializeField] private Image[] itemPreviewImages; // immagini degli slot dell'inventario
+    [SerializeField] private Color selectedColor = Color.green;
+    [SerializeField] private Color normalColor = Color.white;
+    [SerializeField] private Color emptySlotColor = new Color(0.3f, 0.3f, 0.3f, 0.5f);
     [SerializeField] private float inputCooldown = 0.2f;
 
     [Header("Item descriptions files")]
@@ -32,7 +36,6 @@ public class UI_InventoryPanel : MonoBehaviour
     private List<PickableItem> currentItems = new List<PickableItem>();
     private int selectedIndex = 0;
     private float lastInputTime = 0f;
-
     private bool isOpen = false;
     public bool IsOpen => isOpen;
 
@@ -63,6 +66,8 @@ public class UI_InventoryPanel : MonoBehaviour
         {
             detailsPanel.SetActive(false);
         }
+
+        InitializeEmptySlots();
     }
 
     void Update()
@@ -77,6 +82,7 @@ public class UI_InventoryPanel : MonoBehaviour
     {
         this.gameObject.SetActive(true); // attivo l'oggetto UI se clicco il bottone di apertura
         PlayerController.EnableMovement(false); // disabilito il movimento del player quando apro l'inventario
+        selectedIndex = 0;
         RefreshInventory();
         StartCoroutine(CooldownCoroutine());
     }
@@ -104,33 +110,75 @@ public class UI_InventoryPanel : MonoBehaviour
 
         currentItems = inventory.GetItems();
 
-        // if (itemCountText != null)
-        // {
-        //     itemCountText.text = "Oggetti nell'inventario: " + currentItems.Count;
-        // }
+        UpdateInventorySlots();
 
         if (currentItems.Count == 0)
         {
-            selectedIndex = 0;
+            // selectedIndex = 0;
             HideItemDetails();
         }
         else
         {
-            selectedIndex = Mathf.Clamp(selectedIndex, 0, currentItems.Count - 1);
+            selectedIndex = Mathf.Clamp(selectedIndex, 0, currentItems. Count - 1);
             ShowSelectedItem();
         }
     }
 
-    private void LoadAllDescriptions()
+    private void UpdateInventorySlots()
     {
-        // foreach (TextAsset file in itemDescriptionFiles)
-        // {
-        //     string itemName = file.name;
-        //     string itemDescription = file.text;
+        for (int i = 0; i < itemPreviewImages.Length; i++)
+        {
+            if (i < currentItems.Count)
+            {
+                PickableItem item = currentItems[i];
+                Sprite icon = item.GetItemIcon();
 
-        //     Debug.Log($"Descrizione per l'oggetto {itemName}: {itemDescription}");
-        // }
+                if (icon != null)
+                {
+                    itemPreviewImages[i].sprite = icon;
+                    // itemPreviewImages[i].enabled = true;
 
+                    if (i == selectedIndex)
+                    {
+                        itemPreviewImages[i].color = selectedColor;
+                    }
+                    else
+                    {
+                        itemPreviewImages[i].color = normalColor;
+                    }
+                }
+                else
+                {
+                    itemPreviewImages[i].sprite = null;
+                    itemPreviewImages[i].color = emptySlotColor;
+                }
+            }
+            else
+            {
+                itemPreviewImages[i].sprite = null;
+                itemPreviewImages[i].color = emptySlotColor;
+            }
+        }
+    }
+
+    private void InitializeEmptySlots()
+    {
+        if (itemPreviewImages == null)
+            return;
+
+        for (int i = 0; i < itemPreviewImages.Length; i++)
+        {
+            if (itemPreviewImages[i] != null)
+            {
+                itemPreviewImages[i].sprite = null;
+                itemPreviewImages[i].color = emptySlotColor;
+                itemPreviewImages[i].enabled = true;
+            }
+        }
+    }
+
+    private void LoadAllDescriptions()
+    {   
         descriptions.Clear();
 
         foreach (TextAsset file in itemDescriptionFiles)
@@ -164,6 +212,7 @@ public class UI_InventoryPanel : MonoBehaviour
         }
 
         bool inputDetected = false;
+        int previousIndex = selectedIndex;
 
         if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
         {
@@ -176,10 +225,35 @@ public class UI_InventoryPanel : MonoBehaviour
             inputDetected = true;
         }
 
-        if (inputDetected)
+        if (inputDetected && previousIndex != selectedIndex)
         {
             lastInputTime = Time.time;
+            UpdateSlotColors();
             ShowSelectedItem();
+        }
+    }
+
+    private void UpdateSlotColors()
+    {
+        for (int i = 0; i < itemPreviewImages.Length; i++)
+        {
+            if (i < currentItems.Count)
+            {
+                // slot con oggetto
+                if (i == selectedIndex)
+                {
+                    itemPreviewImages[i].color = selectedColor;
+                }
+                else
+                {
+                    itemPreviewImages[i].color = normalColor;
+                }
+            }
+            else
+            {
+                // slot vuoto
+                itemPreviewImages[i].color = emptySlotColor;
+            }
         }
     }
 
@@ -204,9 +278,9 @@ public class UI_InventoryPanel : MonoBehaviour
             detailsPanel.SetActive(true);
         }
 
-        if (itemnNameText != null)
+        if (itemNameText != null)
         {
-            itemnNameText.text = selectedItem.GetDisplayName();
+            itemNameText.text = selectedItem.GetDisplayName();
         }
 
         if (itemDescriptionText != null)
@@ -214,9 +288,28 @@ public class UI_InventoryPanel : MonoBehaviour
             itemDescriptionText.text = GetDescription(selectedItem);
         }
 
+        if (itemCountText != null)
+        {
+            if (selectedItem.IsAccumulable())
+            {
+                itemCountText.text = $"Quantità: x{selectedItem.GetQuantity()}";
+                itemCountText.gameObject.SetActive(true);
+            }
+            else
+            {
+                itemCountText.text = "";
+                itemCountText.gameObject.SetActive(false);
+            }
+        }
+
         if (dropItemButton != null)
         {
             dropItemButton.gameObject.SetActive(true);
+        }
+
+        if (itemIconImage != null)
+        {
+            itemIconImage.sprite = selectedItem.GetItemIcon();
         }
     }
 
@@ -236,13 +329,14 @@ public class UI_InventoryPanel : MonoBehaviour
     private void DropSelectedItem()
     {
         if (currentItems.Count == 0 || selectedIndex < 0 || selectedIndex >= currentItems.Count)
-            return;
+        return;
 
         PickableItem itemToDrop = currentItems[selectedIndex];
 
         if (itemToDrop != null && inventory != null)
         {
             inventory.RemoveItem(itemToDrop);
+            selectedIndex = 0;
         }
     }
 
