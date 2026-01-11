@@ -8,8 +8,6 @@ public class Inventory : MonoBehaviour
     private static Inventory _instance;
     public static Inventory instance => _instance;
 
-    // PROBABILMENTE SERVE FARE UN DIZIONARIO PER GLI OGGETTI, ALTRIMENTI E' IMPOSSIBILE GESTIRLI
-
     private List<PickableItem> items = new List<PickableItem>(); // lista degli oggetti nell'inventario (ovviamente questi oggetti possono essere solo di tipo PickableItem)
     void Awake()
     {
@@ -23,14 +21,36 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AddItem(PickableItem item)
+    public bool AddItem(PickableItem item)
     {
-        if (item != null && !items.Contains(item))
+        // if (item != null && !items.Contains(item))
+        // {
+        //     items.Add(item);
+        //     item.gameObject.SetActive(false); // disattiva l'oggetto nella scena
+        //     Debug.Log("Oggetto " + item.name + " aggiunto all'inventario. Totale oggetti: " + items.Count);
+        //     return true;
+        // }
+        // return false;
+
+        if (item == null)
         {
-            items.Add(item);
-            item.gameObject.SetActive(false); // disattiva l'oggetto nella scena
-            Debug.Log("Oggetto " + item.name + " aggiunto all'inventario. Totale oggetti: " + items.Count);
+            Debug.LogWarning("Tentativo di aggiungere item null");
+            return false;
         }
+
+        if (items.Contains(item))
+        {
+            Debug.LogWarning($"Item {item.GetDisplayName()} già nell'inventario");
+            return false;
+        }
+
+        items. Add(item);
+        item.gameObject.SetActive(false);
+        Debug.Log($"Oggetto {item.GetDisplayName()} aggiunto all'inventario.");
+
+        NotifyInventoryChanged();
+
+        return true;
     }
 
     public void RemoveItem(PickableItem item)
@@ -42,11 +62,13 @@ public class Inventory : MonoBehaviour
             item.gameObject.SetActive(true); // riattiva l'oggetto nella scena
             Debug.Log("Oggetto " + item.name + " rimosso dall'inventario. Totale oggetti: " + items.Count);
 
-            if (items.Count == 0)
-            {
-                Debug.Log("L'inventario è vuoto.");
-                UI_InventoryPanel.instance.CloseInventory();
-            }
+            NotifyInventoryChanged();
+
+            // if (items.Count == 0)
+            // {
+            //     Debug.Log("L'inventario è vuoto.");
+            //     UI_InventoryPanel.instance.CloseInventory();
+            // }
         }
 
         else
@@ -55,8 +77,16 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    private void NotifyInventoryChanged()
+    {
+        if (UI_InventoryPanel.instance != null)
+        {
+            UI_InventoryPanel.instance.OnInventoryChanged();
+        }
+    }
+
     public List<PickableItem> GetItems()
     {
-        return items;
+        return new List<PickableItem>(items); // restituisce una copia della lista degli oggetti
     }
 }

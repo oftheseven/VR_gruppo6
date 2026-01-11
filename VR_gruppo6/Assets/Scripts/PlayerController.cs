@@ -44,8 +44,8 @@ public class PlayerController : MonoBehaviour
     private InteractableCart currentCart = null;
     private InteractableCart pushingCart = null;
 
-    [Header("Ciak interaction")]
-    private InteractableCiak currentCiak = null;
+    [Header("Item interaction")]
+    private PickableItem currentItem = null;
 
     private bool isInteracting = false;
 
@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
         HandleCameraInteraction();
         HandleOperatorInteraction();
         HandleCartInteraction();
+        HandleItemInteraction();
     }
 
     void FixedUpdate()
@@ -250,31 +251,15 @@ public class PlayerController : MonoBehaviour
                         ClearInteractable();
                     }
                     break;
-                
-                // case "Ciak":
-                //     InteractableCiak ciak = hit.collider.GetComponent<InteractableCiak>();
-                //     if (ciak != null)
-                //     {
-                //         if (currentCiak != ciak)
-                //         {
-                //             currentCiak = ciak;
-                //             ShowInteractionText(currentCiak.getInteractionText());
-                //         }
-                //     }
-                //     else
-                //     {
-                //         ClearInteractable();
-                //     }
-                //     break;
 
                 case "Pickable":
                     PickableItem item = hit.collider.GetComponent<PickableItem>();
                     if (item != null)
                     {
-                        ShowInteractionText("Premi E per prendere l'oggetto");
-                        if (Keyboard.current.eKey.wasPressedThisFrame)
+                        if (currentItem != item)
                         {
-                            Inventory.instance.AddItem(item);
+                            currentItem = item;
+                            ShowInteractionText(item.GetInteractionText());
                         }
                     }
                     else
@@ -296,7 +281,7 @@ public class PlayerController : MonoBehaviour
         currentCamera = null;
         currentOperator = null;
         currentCart = null;
-        currentCiak = null;
+        currentItem = null;
         interactiontext.gameObject.SetActive(false);
     }
 
@@ -387,6 +372,24 @@ public class PlayerController : MonoBehaviour
                 currentCart.Interact();
                 interactiontext.gameObject.SetActive(false);
                 isInteracting = true;
+            }
+        }
+    }
+
+    private void HandleItemInteraction()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentItem != null && ! isDialogueActive && !isInteracting)
+        {
+            bool success = Inventory.instance.AddItem(currentItem);
+            if (success)
+            {
+                interactiontext.gameObject.SetActive(false);
+                currentItem = null;
+            }
+            else
+            {
+                // Inventario pieno o altro errore
+                ShowInteractionText("Inventario pieno!");
             }
         }
     }
