@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class InteractableCamera : MonoBehaviour
 {
+    // singleton
+    private static InteractableCamera _instance;
+    public static InteractableCamera instance => _instance;
+
     [Header("Interaction text")]
     [SerializeField] private string interactionText = "Premi E per gestire la camera";
 
@@ -11,21 +15,30 @@ public class InteractableCamera : MonoBehaviour
     [Header("Camera lenses")]
     [SerializeField] private GameObject[] cameraLenses;
 
-    private Camera interactableCamera; // camera associata all'InteractableCamera (viene usata dall'utente nell'UI_CameraPanel)
-    public Camera Camera => interactableCamera;
+    private Camera viewCamera; // camera associata all'InteractableCamera (viene usata dall'utente nell'UI_CameraPanel)
+    public Camera ViewCamera => viewCamera;
 
     void Awake()
     {
-        interactableCamera = GetComponentInChildren<Camera>();
+        viewCamera = GetComponentInChildren<Camera>();
 
-        if (interactableCamera == null)
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
+        if (viewCamera == null)
         {
             Debug.LogError("Nessuna camera trovata come figlia di " + this.name);
         }
         else
         {
             Debug.Log("Camera trovata in " + this.name);
-            interactableCamera.gameObject.SetActive(false); // disattivo la camera all'inizio
+            viewCamera.gameObject.SetActive(false); // disattivo la camera all'inizio
         }
     }
 
