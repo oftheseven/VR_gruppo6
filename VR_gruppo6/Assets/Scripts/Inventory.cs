@@ -8,8 +8,6 @@ public class Inventory : MonoBehaviour
     // singleton
     private static Inventory _instance;
     public static Inventory instance => _instance;
-
-    // private List<PickableItem> items = new List<PickableItem>(); // lista degli oggetti nell'inventario (ovviamente questi oggetti possono essere solo di tipo PickableItem)
     private Dictionary<string, PickableItem> itemTemplates = new Dictionary<string, PickableItem>();
 
     void Awake()

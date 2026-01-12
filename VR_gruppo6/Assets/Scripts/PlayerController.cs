@@ -207,7 +207,6 @@ public class PlayerController : MonoBehaviour
                         {
                             currentComputer = computer;
                             ShowInteractionText(currentComputer.getInteractionText());
-                            // Debug.Log(currentComputer.getInteractionText());
                         }
                     }
                     else
@@ -224,7 +223,6 @@ public class PlayerController : MonoBehaviour
                         {
                             currentCamera = camera;
                             ShowInteractionText(currentCamera.getInteractionText());
-                            // Debug.Log(currentCamera.getInteractionText());
                         }
                     }
                     else

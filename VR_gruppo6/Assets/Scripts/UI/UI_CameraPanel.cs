@@ -31,7 +31,7 @@ public class UI_CameraPanel :  MonoBehaviour
 
         if (holdIndicator != null)
         {
-            holdIndicator. SetActive(false);
+            holdIndicator.SetActive(false);
         }
 
         if (holdFillImage != null)

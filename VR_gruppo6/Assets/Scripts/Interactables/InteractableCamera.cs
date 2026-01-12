@@ -11,6 +11,24 @@ public class InteractableCamera : MonoBehaviour
     [Header("Camera lenses")]
     [SerializeField] private GameObject[] cameraLenses;
 
+    private Camera interactableCamera; // camera associata all'InteractableCamera (viene usata dall'utente nell'UI_CameraPanel)
+    public Camera Camera => interactableCamera;
+
+    void Awake()
+    {
+        interactableCamera = GetComponentInChildren<Camera>();
+
+        if (interactableCamera == null)
+        {
+            Debug.LogError("Nessuna camera trovata come figlia di " + this.name);
+        }
+        else
+        {
+            Debug.Log("Camera trovata in " + this.name);
+            interactableCamera.gameObject.SetActive(false); // disattivo la camera all'inizio
+        }
+    }
+
     void Start()
     {
         foreach (GameObject lens in cameraLenses)

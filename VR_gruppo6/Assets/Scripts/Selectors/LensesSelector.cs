@@ -7,7 +7,8 @@ public class LensesSelector : MonoBehaviour
 {
     [Header("Lenses images and references")]
     [SerializeField] private RawImage[] images; // immagini delle lenti nell'UI
-    [SerializeField] private GameObject[] lenses; // reference alle lenti da attivare/disattivare
+    // [SerializeField] private GameObject[] lenses; // reference alle lenti da attivare/disattivare
+    [SerializeField] private CameraLens[] cameraLenses; // reference agli script delle lenti
 
     private int currentImageIndex = 0;
     private float inputCooldown = 0.2f;
@@ -67,15 +68,15 @@ public class LensesSelector : MonoBehaviour
 
     private void ApplyCurrentLens()
     {
-        for (int i = 0; i < lenses.Length; i++)
+        for (int i = 0; i < cameraLenses.Length; i++)
         {
             if (i == currentImageIndex)
             {
-                lenses[i].SetActive(true);
+                cameraLenses[i].gameObject.SetActive(true);
             }
             else
             {
-                lenses[i].SetActive(false);
+                cameraLenses[i].gameObject.SetActive(false);
             }
         }
     }

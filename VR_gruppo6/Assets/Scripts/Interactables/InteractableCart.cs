@@ -90,7 +90,7 @@ public class InteractableCart : MonoBehaviour
     private void FollowPlayer()
     {
         Vector3 targetPosition = playerTransform.position + playerTransform.forward * followDistance;
-        targetPosition.y = transform.position. y;
+        targetPosition.y = transform.position.y;
 
         Vector3 newPosition = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.fixedDeltaTime);
         rb.MovePosition(newPosition);

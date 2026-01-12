@@ -2517,11 +2517,10 @@ Transform:
   m_LocalScale: {x: 0.60225, y: 0.60225, z: 0.60225}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 802428323}
   - {fileID: 1338002659}
-  - {fileID: 630469910}
-  - {fileID: 1279900354}
   - {fileID: 1265151795}
+  - {fileID: 1279900354}
+  - {fileID: 630469910}
   - {fileID: 2031637521}
   m_Father: {fileID: 44355299}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3172,8 +3171,9 @@ GameObject:
   - component: {fileID: 630469913}
   - component: {fileID: 630469912}
   - component: {fileID: 630469911}
+  - component: {fileID: 630469914}
   m_Layer: 0
-  m_Name: Lens1
+  m_Name: 50mm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3273,6 +3273,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 630469909}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &630469914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 630469909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d340e813fde24c409b326b176d17c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraLens
+  focalLength: 50
+  lensModel: {fileID: 630469909}
 --- !u!1 &652449283 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7599760464832222720, guid: 47c0487f78462b940a01bf034727f276, type: 3}
@@ -3678,7 +3692,6 @@ GameObject:
   m_Component:
   - component: {fileID: 802428323}
   - component: {fileID: 802428326}
-  - component: {fileID: 802428325}
   - component: {fileID: 802428324}
   m_Layer: 0
   m_Name: Camera
@@ -3686,7 +3699,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &802428323
 Transform:
   m_ObjectHideFlags: 0
@@ -3695,12 +3708,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802428322}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.777, z: -0.008}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.7769999, z: -0.007999938}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 442211101}
+  m_Father: {fileID: 1338002659}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &802428324
 MonoBehaviour:
@@ -3746,14 +3759,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &802428325
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 802428322}
-  m_Enabled: 1
 --- !u!20 &802428326
 Camera:
   m_ObjectHideFlags: 0
@@ -3772,7 +3777,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 20.78461
+  m_FocalLength: 35
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -3787,7 +3792,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 48.34965
+  field of view: 29.852646
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -5792,8 +5797,9 @@ GameObject:
   - component: {fileID: 1265151798}
   - component: {fileID: 1265151797}
   - component: {fileID: 1265151796}
+  - component: {fileID: 1265151799}
   m_Layer: 0
-  m_Name: Lens3
+  m_Name: 24mm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5807,9 +5813,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265151794}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0, z: 0.634}
-  m_LocalScale: {x: 0.53154, y: 0.17110272, z: 0.53154}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0.6339998}
+  m_LocalScale: {x: 0.53154, y: 0.17110272, z: 0.5315399}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 442211101}
@@ -5893,6 +5899,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1265151794}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1265151799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265151794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d340e813fde24c409b326b176d17c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraLens
+  focalLength: 24
+  lensModel: {fileID: 1265151794}
 --- !u!1 &1274509989
 GameObject:
   m_ObjectHideFlags: 0
@@ -6128,8 +6148,9 @@ GameObject:
   - component: {fileID: 1279900357}
   - component: {fileID: 1279900356}
   - component: {fileID: 1279900355}
+  - component: {fileID: 1279900358}
   m_Layer: 0
-  m_Name: Lens2
+  m_Name: 35mm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6144,7 +6165,7 @@ Transform:
   m_GameObject: {fileID: 1279900353}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0, z: 0.779}
+  m_LocalPosition: {x: 0, y: 0, z: 0.779}
   m_LocalScale: {x: 0.53154, y: 0.3251483, z: 0.53154}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6229,6 +6250,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279900353}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1279900358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279900353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d340e813fde24c409b326b176d17c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraLens
+  focalLength: 35
+  lensModel: {fileID: 1279900353}
 --- !u!1 &1297779014
 GameObject:
   m_ObjectHideFlags: 0
@@ -6532,7 +6567,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 802428323}
   m_Father: {fileID: 442211101}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1338002660
@@ -6627,9 +6663,9 @@ MonoBehaviour:
   interactionText: Premi E per gestire la camera
   cameraPanel: {fileID: 1864586731}
   cameraLenses:
-  - {fileID: 630469909}
-  - {fileID: 1279900353}
   - {fileID: 1265151794}
+  - {fileID: 1279900353}
+  - {fileID: 630469909}
   - {fileID: 2031637520}
 --- !u!1 &1344306674
 GameObject:
@@ -9826,11 +9862,11 @@ MonoBehaviour:
   - {fileID: 1297779016}
   - {fileID: 1805584384}
   - {fileID: 1032563670}
-  lenses:
-  - {fileID: 630469909}
-  - {fileID: 1279900353}
-  - {fileID: 1265151794}
-  - {fileID: 2031637520}
+  cameraLenses:
+  - {fileID: 1265151799}
+  - {fileID: 1279900358}
+  - {fileID: 630469914}
+  - {fileID: 2031637525}
 --- !u!1 &1868719499 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 68aa6417d3574d94b9e2f12d667c4927, type: 3}
@@ -10561,8 +10597,9 @@ GameObject:
   - component: {fileID: 2031637524}
   - component: {fileID: 2031637523}
   - component: {fileID: 2031637522}
+  - component: {fileID: 2031637525}
   m_Layer: 0
-  m_Name: Lens4
+  m_Name: 85mm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10662,6 +10699,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2031637520}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2031637525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031637520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d340e813fde24c409b326b176d17c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraLens
+  focalLength: 85
+  lensModel: {fileID: 2031637520}
 --- !u!1 &2038458238
 GameObject:
   m_ObjectHideFlags: 0
