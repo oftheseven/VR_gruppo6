@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    // singleton
+    private static PlayerController _instance;
+    public static PlayerController instance => _instance;
+
     [Header("Movement")]
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _runMultiplier = 2f; // moltiplicatore per la corsa
@@ -48,6 +52,18 @@ public class PlayerController : MonoBehaviour
     private PickableItem currentItem = null;
 
     private bool isInteracting = false;
+
+    void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
 
     void Start()
     {
@@ -191,7 +207,7 @@ public class PlayerController : MonoBehaviour
                         {
                             currentComputer = computer;
                             ShowInteractionText(currentComputer.getInteractionText());
-                            Debug.Log(currentComputer.getInteractionText());
+                            // Debug.Log(currentComputer.getInteractionText());
                         }
                     }
                     else
@@ -208,7 +224,7 @@ public class PlayerController : MonoBehaviour
                         {
                             currentCamera = camera;
                             ShowInteractionText(currentCamera.getInteractionText());
-                            Debug.Log(currentCamera.getInteractionText());
+                            // Debug.Log(currentCamera.getInteractionText());
                         }
                     }
                     else
@@ -382,11 +398,6 @@ public class PlayerController : MonoBehaviour
             {
                 interactiontext.gameObject.SetActive(false);
                 currentItem = null;
-            }
-            else
-            {
-                // Inventario pieno o altro errore
-                ShowInteractionText("Inventario pieno!");
             }
         }
     }

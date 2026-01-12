@@ -3,11 +3,13 @@ using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private AudioSource _audioSourceLoop;
     // singleton
     private static AudioManager _audioManager;
     public static AudioManager instance => _audioManager;
+
+    [Header("Audio references")]
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioSource _audioSourceLoop;
     public Button audioButton;
 
     public void Awake()
