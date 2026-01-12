@@ -8,17 +8,17 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: 24_275mm_mat
-    second: {fileID: 2100000, guid: b89edb3e8c9fb4d30841bd9296cc4356, type: 2}
+    second: {fileID: 2100000, guid: 379ab7338cfa64e12992923a34b52e0d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Glass_mat
-    second: {fileID: 2100000, guid: 8bbce0665e60543b38c453fd82a3555d, type: 2}
+    second: {fileID: 2100000, guid: 2da3c0ed744174067a47af7517b9f22d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Wheel_mat
-    second: {fileID: 2100000, guid: 7989ed7202e5c49feb4be0b949141322, type: 2}
+    second: {fileID: 2100000, guid: 03343d183ba8346fbbda6a06b6f7a9d4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
