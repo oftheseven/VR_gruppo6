@@ -81,7 +81,6 @@ public class LensesSelector : MonoBehaviour
         }
     }
 
-
     private void UpdateImageColors()
     {
         for (int i = 0; i < images.Length; i++)
