@@ -1,2 +1,0 @@
-Ciao, io sono lo stuntman che muoverà la torta all'interno della scena per far sembrare che voli.
-Dovresti posizionare il braccio meccanico al suo posto così da poter iniziare a girare.

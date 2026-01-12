@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = true;
-        rb.freezeRotation = true; // evita rotazioni indesiderate da collisioni
+        rb.freezeRotation = true;
 
         // Cursor.lockState = CursorLockMode.Locked;
         // Cursor.visible = false;
@@ -61,16 +61,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (moveEnabled)
-        {
-            HandleRotation();
-        }
-
-        if (Keyboard.current.spaceKey.isPressed && IsGrounded() && moveEnabled)
-        {
-            Jump();
-        }
-
         CheckForInteractable(); // controllo se c'è un oggetto interagibile davanti al player
         CheckPanelsInteraction(); // controllo aperture e chiusure dei pannelli
         
@@ -86,8 +76,15 @@ public class PlayerController : MonoBehaviour
         if (moveEnabled)
         {
             Move();
+            HandleRotation();
         }
+
         ApplyExtraGravity();
+
+        if (Keyboard.current.spaceKey.isPressed && IsGrounded() && moveEnabled)
+        {
+            Jump();
+        }
     }
 
     private void Move()
