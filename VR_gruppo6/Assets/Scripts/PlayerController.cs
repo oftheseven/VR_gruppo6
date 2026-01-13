@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     private PickableItem currentItem = null;
 
     private bool isInteracting = false;
+    public Camera playerCamera => _cameraTransform.GetComponent<Camera>();
 
     void Awake()
     {

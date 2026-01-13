@@ -16,7 +16,7 @@ public class UI_CameraPanel :  MonoBehaviour
     [Header("Hold to close UI")]
     [SerializeField] private GameObject holdIndicator; // container del cerchio
     [SerializeField] private Image holdFillImage; // image con fill radial
-    [SerializeField] private TextMeshProUGUI holdText; // tasto da cliccare
+    // [SerializeField] private TextMeshProUGUI holdText; // tasto da cliccare
 
     private bool isOpen = false;
     public bool IsOpen => isOpen;
@@ -45,6 +45,8 @@ public class UI_CameraPanel :  MonoBehaviour
         this.gameObject.SetActive(true);
         isOpen = true;
         PlayerController.EnableMovement(false);
+        PlayerController.instance.playerCamera.gameObject.SetActive(false); // disattivo la camera dell'utente
+        InteractableCamera.instance.ViewCamera.gameObject.SetActive(true); // attivo la camera dell'InteractableCamera
 
         if (infoPanel != null)
         {
@@ -68,27 +70,31 @@ public class UI_CameraPanel :  MonoBehaviour
         }
         
         StartCoroutine(CooldownAndHide());
+        PlayerController.instance.playerCamera.gameObject.SetActive(true); // attivo la camera dell'utente
+        InteractableCamera.instance.ViewCamera.gameObject.SetActive(false); // disattivo la camera dell'InteractableCamera
         this.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
     }
 
-    public void CloseCameraImmediate()
-    {
-        isOpen = false;
-        holdTimer = 0f;
-        if (holdIndicator != null)
-        {
-            holdIndicator.SetActive(false);
-        }
-        if (infoPanel != null)
-        {
-            infoPanel.OnDeviceClosed();
-        }
-        this.gameObject.SetActive(false);
-        canInteract = true;
-        PlayerController.EnableMovement(true);
-    }
+    // public void CloseCameraImmediate()
+    // {
+    //     isOpen = false;
+    //     holdTimer = 0f;
+    //     if (holdIndicator != null)
+    //     {
+    //         holdIndicator.SetActive(false);
+    //     }
+    //     if (infoPanel != null)
+    //     {
+    //         infoPanel.OnDeviceClosed();
+    //     }
+    //     PlayerController.instance.playerCamera.gameObject.SetActive(true); // attivo la camera dell'utente
+    //     InteractableCamera.instance.ViewCamera.gameObject.SetActive(false); // disattivo la camera dell'InteractableCamera
+    //     this.gameObject.SetActive(false);
+    //     canInteract = true;
+    //     PlayerController.EnableMovement(true);
+    // }
 
     public void HandleCameraClose()
     {

@@ -61,7 +61,7 @@ public class LensesSelector : MonoBehaviour
         if (Keyboard.current.enterKey.wasPressedThisFrame)
         {
             ApplyCurrentLens();
-            cameraPanel.CloseCameraImmediate();
+            //cameraPanel.CloseCameraImmediate();
         }
     }
 
