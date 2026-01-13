@@ -5548,6 +5548,7 @@ MonoBehaviour:
   - {fileID: 292459056}
   - {fileID: 1196750643}
   objectRenderer: {fileID: 2022582945}
+  inputCooldown: 0.1
   correctImageIndex: 0
 --- !u!114 &1260686330
 MonoBehaviour:
@@ -10483,6 +10484,7 @@ MonoBehaviour:
   - {fileID: 225183362}
   - {fileID: 1849344736}
   objectRenderer: {fileID: 1274509992}
+  inputCooldown: 0.1
   correctImageIndex: 0
 --- !u!1 &2124818809
 GameObject:

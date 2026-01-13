@@ -9,11 +9,13 @@ public class GreenScreenSelector : MonoBehaviour
     [SerializeField] private RawImage[] images;
     [SerializeField] private Renderer objectRenderer;
 
+    [Header("Input settings")]
+    [SerializeField] private float inputCooldown = 0.1f;
+
     [Header("Correct image index")]
     [SerializeField] private int correctImageIndex = 0; // indice dell'immagine corretta da scegliere
 
     private int currentImageIndex = 0;
-    private float inputCooldown = 0.2f;
     private float lastInputTime = 0f;
     private UI_ComputerPanel computerPanel;
 
