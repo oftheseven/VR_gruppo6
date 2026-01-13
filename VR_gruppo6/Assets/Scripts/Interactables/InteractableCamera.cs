@@ -49,6 +49,7 @@ public class InteractableCamera : MonoBehaviour
             lens.SetActive(false);
         }
         cameraLenses[0].SetActive(true); // all'inizio attivo solo la prima lente
+        cameraLenses[0].GetComponent<CameraLens>().ApplyToCamera(viewCamera); // applico la lente di default alla camera
     }
 
     public void Interact()
