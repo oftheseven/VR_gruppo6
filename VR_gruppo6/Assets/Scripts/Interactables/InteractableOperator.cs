@@ -54,7 +54,7 @@ public class InteractableOperator : MonoBehaviour
         }
     }
 
-    public string getInteractionText()
+    public string GetInteractionText()
     {
         return interactionText;
     }

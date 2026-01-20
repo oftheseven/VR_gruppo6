@@ -51,6 +51,10 @@ public class PlayerController : MonoBehaviour
     [Header("Item interaction")]
     private PickableItem currentItem = null;
 
+    [Header("Dolly interaction")]
+    private InteractableDolly currentDolly = null;
+    private UI_DollyPanel currentDollyPanel = null;
+
     private bool isInteracting = false;
     public Camera playerCamera => _cameraTransform.GetComponent<Camera>();
 
@@ -85,6 +89,7 @@ public class PlayerController : MonoBehaviour
         HandleCameraInteraction();
         HandleOperatorInteraction();
         HandleCartInteraction();
+        HandleDollyInteraction();
         HandleItemInteraction();
     }
 
@@ -223,7 +228,7 @@ public class PlayerController : MonoBehaviour
                         if (currentCamera != camera)
                         {
                             currentCamera = camera;
-                            ShowInteractionText(currentCamera.getInteractionText());
+                            ShowInteractionText(currentCamera.GetInteractionText());
                         }
                     }
                     else
@@ -239,7 +244,7 @@ public class PlayerController : MonoBehaviour
                         if (currentOperator != operatore)
                         {
                             currentOperator = operatore;
-                            ShowInteractionText(currentOperator.getInteractionText());
+                            ShowInteractionText(currentOperator.GetInteractionText());
                         }
                     }
                     else
@@ -255,7 +260,7 @@ public class PlayerController : MonoBehaviour
                         if (currentCart != carrello)
                         {
                             currentCart = carrello;
-                            ShowInteractionText(currentCart.getInteractionText());
+                            ShowInteractionText(currentCart.GetInteractionText());
                         }
                     }
                     else
@@ -279,6 +284,22 @@ public class PlayerController : MonoBehaviour
                         ClearInteractable();
                     }
                     break;
+                
+                case "Dolly":
+                    InteractableDolly dolly = hit.collider.GetComponent<InteractableDolly>();
+                    if (dolly != null)
+                    {
+                        if (currentDolly != dolly)
+                        {
+                            currentDolly = dolly;
+                            ShowInteractionText(currentDolly.GetInteractionText());
+                        }
+                    }
+                    else
+                    {
+                        ClearInteractable();
+                    }
+                    break;
             }
         }
         else
@@ -294,6 +315,7 @@ public class PlayerController : MonoBehaviour
         currentOperator = null;
         currentCart = null;
         currentItem = null;
+        currentDolly = null;
         interactiontext.gameObject.SetActive(false);
     }
 
@@ -390,7 +412,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleItemInteraction()
     {
-        if (Keyboard.current.eKey.wasPressedThisFrame && currentItem != null && ! isDialogueActive && !isInteracting)
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentItem != null && !isDialogueActive && !isInteracting)
         {
             bool success = Inventory.instance.AddItem(currentItem);
             if (success)
@@ -398,6 +420,31 @@ public class PlayerController : MonoBehaviour
                 interactiontext.gameObject.SetActive(false);
                 currentItem = null;
             }
+        }
+    }
+
+    private void HandleDollyInteraction()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentDolly != null)
+        {
+            UI_DollyPanel panel = currentDolly.GetDollyPanel();
+            if (panel != null && !panel.IsOpen && panel.CanInteract)
+            {
+                currentDolly.Interact();
+                isInteracting = true;
+                interactiontext.gameObject.SetActive(false);
+                currentDollyPanel = panel;
+            }
+        }
+
+        if (currentDollyPanel != null && currentDollyPanel.IsOpen)
+        {
+            currentDollyPanel.HandleDollyClose();
+        }
+        else if (currentDollyPanel != null && !currentDollyPanel.IsOpen)
+        {
+            currentDollyPanel = null;
+            isInteracting = false;
         }
     }
 

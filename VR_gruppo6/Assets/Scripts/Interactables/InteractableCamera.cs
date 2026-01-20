@@ -62,7 +62,7 @@ public class InteractableCamera : MonoBehaviour
         }
     }
 
-    public string getInteractionText()
+    public string GetInteractionText()
     {
         return interactionText;
     }

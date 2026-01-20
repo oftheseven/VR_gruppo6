@@ -45,7 +45,7 @@ public class InteractableCart : MonoBehaviour
         }
     }
 
-    public string getInteractionText()
+    public string GetInteractionText()
     {
         return interactionText;
     }

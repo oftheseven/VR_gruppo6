@@ -2,21 +2,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections;
-using TMPro;
 
-public class UI_ComputerPanel :  MonoBehaviour
-{   
-    [Header("Computer timer settings")]
+public class UI_DollyPanel :  MonoBehaviour
+{
+    [Header("Dolly timer settings")]
     [SerializeField] private float holdTimeToClose = 2f;
     [SerializeField] private float cooldownTime = 1f;
 
     [Header("Info panel reference")]
-    [SerializeField] private UI_InfoPanel infoPanel; // reference al pannello info specifico per questo computer
+    [SerializeField] private UI_InfoPanel infoPanel; // reference al pannello info
 
     [Header("Hold to close UI")]
     [SerializeField] private GameObject holdIndicator; // container del cerchio
     [SerializeField] private Image holdFillImage; // image con fill radial
-    [SerializeField] private TextMeshProUGUI holdText; // tasto da cliccare
 
     private bool isOpen = false;
     public bool IsOpen => isOpen;
@@ -31,7 +29,7 @@ public class UI_ComputerPanel :  MonoBehaviour
 
         if (holdIndicator != null)
         {
-            holdIndicator. SetActive(false);
+            holdIndicator.SetActive(false);
         }
 
         if (holdFillImage != null)
@@ -40,14 +38,8 @@ public class UI_ComputerPanel :  MonoBehaviour
         }
     }
 
-    public void OpenComputer()
+    public void OpenDolly()
     {
-        // se la missione è completa non si può più aprire il computer
-        if (UI_Screenplay.instance.IsGreenScreenComplete())
-        {
-            return;
-        }
-
         this.gameObject.SetActive(true);
         isOpen = true;
         PlayerController.EnableMovement(false);
@@ -58,7 +50,7 @@ public class UI_ComputerPanel :  MonoBehaviour
         }
     }
 
-    public void CloseComputer()
+    public void CloseDolly()
     {
         isOpen = false;
         holdTimer = 0f;
@@ -79,54 +71,32 @@ public class UI_ComputerPanel :  MonoBehaviour
         PlayerController.EnableMovement(true);
     }
 
-    public void CloseComputerImmediate()
-    {
-        isOpen = false;
-        holdTimer = 0f;
-        if (holdIndicator != null)
-        {
-            holdIndicator.SetActive(false);
-        }
-
-        if (infoPanel != null)
-        {
-            infoPanel.OnDeviceClosed();
-        }
-
-        this.gameObject.SetActive(false);
-        canInteract = true;
-        PlayerController.EnableMovement(true);
-    }
-
-    public void HandleComputerClose()
+    public void HandleDollyClose()
     {
         if (Keyboard.current.eKey.isPressed)
         {
             holdTimer += Time.deltaTime;
 
+            // mostro l'indicatore quando inizio a premere
             if (holdIndicator != null && !holdIndicator.activeSelf)
             {
                 holdIndicator.SetActive(true);
             }
 
+            // aggiorno il fill dell'immagine radiale
             if (holdFillImage != null)
             {
                 holdFillImage.fillAmount = Mathf.Clamp01(holdTimer / holdTimeToClose);
             }
-
-            if (holdText != null)
-            {
-                float percentage = (holdTimer / holdTimeToClose) * 100f;
-                holdText.text = "E";
-            }
             
             if (holdTimer >= holdTimeToClose)
             {
-                CloseComputer();
+                CloseDolly();
             }
         }
         else
         {
+            // resetto quando rilascio il tasto
             holdTimer = 0f;
 
             if (holdIndicator != null)
@@ -144,6 +114,7 @@ public class UI_ComputerPanel :  MonoBehaviour
     private IEnumerator CooldownAndHide()
     {
         canInteract = false;
+        //Debug.Log("Cooldown iniziato - canInteract = " + canInteract);
         yield return new WaitForSeconds(cooldownTime);
     }
 }

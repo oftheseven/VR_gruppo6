@@ -10,6 +10,7 @@ TagManager:
   - Carrello
   - Ciak
   - Pickable
+  - Dolly
   layers:
   - Default
   - TransparentFX
