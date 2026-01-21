@@ -104,7 +104,7 @@ public class UI_ComputerPanel :  MonoBehaviour
 
     public void HandleComputerClose()
     {
-        if (Keyboard.current.eKey.isPressed)
+        if (Keyboard.current.eKey.isPressed && !infoPanel.IsOpen)
         {
             holdTimer += Time.deltaTime;
 

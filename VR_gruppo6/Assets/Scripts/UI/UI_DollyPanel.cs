@@ -77,7 +77,7 @@ public class UI_DollyPanel :  MonoBehaviour
 
     public void HandleDollyClose()
     {
-        if (Keyboard.current.eKey.isPressed)
+        if (Keyboard.current.eKey.isPressed && !infoPanel.IsOpen)
         {
             holdTimer += Time.deltaTime;
 

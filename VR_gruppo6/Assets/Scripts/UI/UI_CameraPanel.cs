@@ -96,7 +96,7 @@ public class UI_CameraPanel :  MonoBehaviour
 
     public void HandleCameraClose()
     {
-        if (Keyboard.current.eKey.isPressed)
+        if (Keyboard.current.eKey.isPressed && !infoPanel.IsOpen)
         {
             holdTimer += Time.deltaTime;
 
