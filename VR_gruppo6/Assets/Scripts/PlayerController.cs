@@ -89,8 +89,8 @@ public class PlayerController : MonoBehaviour
         HandleCameraInteraction();
         HandleOperatorInteraction();
         HandleCartInteraction();
-        HandleDollyInteraction();
         HandleItemInteraction();
+        HandleDollyInteraction();
     }
 
     void FixedUpdate()

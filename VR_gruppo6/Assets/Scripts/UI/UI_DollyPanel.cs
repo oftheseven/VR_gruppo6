@@ -48,6 +48,10 @@ public class UI_DollyPanel :  MonoBehaviour
         {
             infoPanel.OnDeviceOpened();
         }
+        else
+        {
+            Debug.LogWarning("Info panel reference is null in UI_DollyPanel.");
+        }
     }
 
     public void CloseDolly()

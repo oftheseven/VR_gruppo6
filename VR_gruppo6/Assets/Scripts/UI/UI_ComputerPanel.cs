@@ -31,7 +31,7 @@ public class UI_ComputerPanel :  MonoBehaviour
 
         if (holdIndicator != null)
         {
-            holdIndicator. SetActive(false);
+            holdIndicator.SetActive(false);
         }
 
         if (holdFillImage != null)
@@ -55,6 +55,10 @@ public class UI_ComputerPanel :  MonoBehaviour
         if (infoPanel != null)
         {
             infoPanel.OnDeviceOpened();
+        }
+        else
+        {
+            Debug.LogWarning("Info panel reference is null in UI_ComputerPanel.");
         }
     }
 

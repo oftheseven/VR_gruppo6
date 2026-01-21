@@ -14,7 +14,7 @@ public class UI_InfoPanel : MonoBehaviour
     private bool isFirstTime = true;
     public bool IsFirstTime => isFirstTime;
 
-    void Start()
+    void Awake()
     {
         this.gameObject.SetActive(false);
 
@@ -32,6 +32,10 @@ public class UI_InfoPanel : MonoBehaviour
         {
             this.gameObject.SetActive(true);
             isOpen = true;
+        }
+        else
+        {
+            Debug.LogWarning("Info panel GameObject is null.");
         }
 
         // nascondo il bottone info quando il pannello è aperto

@@ -12,17 +12,17 @@ public class InteractableDolly : MonoBehaviour
     [Header("Dolly panel reference")]
     [SerializeField] private UI_DollyPanel dollyPanel;
 
-    void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
+    // void Awake()
+    // {
+    //     if (_instance == null)
+    //     {
+    //         _instance = this;
+    //     }
+    //     else
+    //     {
+    //         Destroy(this.gameObject);
+    //     }
+    // }
 
     public void Interact()
     {
