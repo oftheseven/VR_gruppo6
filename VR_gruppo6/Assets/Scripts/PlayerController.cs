@@ -55,6 +55,10 @@ public class PlayerController : MonoBehaviour
     private InteractableDolly currentDolly = null;
     private UI_DollyPanel currentDollyPanel = null;
 
+    [Header("Arm interaction")]
+    private InteractableArm currentArm = null;
+    private UI_ArmPanel currentArmPanel = null;
+
     private bool isInteracting = false;
     public Camera playerCamera => _cameraTransform.GetComponent<Camera>();
 
@@ -91,6 +95,7 @@ public class PlayerController : MonoBehaviour
         HandleCartInteraction();
         HandleItemInteraction();
         HandleDollyInteraction();
+        HandleArmInteraction();
     }
 
     void FixedUpdate()
@@ -300,6 +305,22 @@ public class PlayerController : MonoBehaviour
                         ClearInteractable();
                     }
                     break;
+                
+                case "Arm":
+                    InteractableArm arm = hit.collider.GetComponent<InteractableArm>();
+                    if (arm != null)
+                    {
+                        if (currentArm != arm)
+                        {
+                            currentArm = arm;
+                            ShowInteractionText(currentArm.GetInteractionText());
+                        }
+                    }
+                    else
+                    {
+                        ClearInteractable();
+                    }
+                    break;
             }
         }
         else
@@ -316,6 +337,7 @@ public class PlayerController : MonoBehaviour
         currentCart = null;
         currentItem = null;
         currentDolly = null;
+        currentArm = null;
         interactiontext.gameObject.SetActive(false);
     }
 
@@ -420,6 +442,31 @@ public class PlayerController : MonoBehaviour
                 interactiontext.gameObject.SetActive(false);
                 currentItem = null;
             }
+        }
+    }
+
+    private void HandleArmInteraction()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentArm != null)
+        {
+            UI_ArmPanel panel = currentArm.GetArmPanel();
+            if (panel != null && !panel.IsOpen && panel.CanInteract)
+            {
+                currentArm.Interact();
+                isInteracting = true;
+                interactiontext.gameObject.SetActive(false);
+                currentArmPanel = panel;
+            }
+        }
+
+        if (currentArmPanel != null && currentArmPanel.IsOpen)
+        {
+            currentArmPanel.HandleArmClose();
+        }
+        else if (currentArmPanel != null && !currentArmPanel.IsOpen)
+        {
+            currentArmPanel = null;
+            isInteracting = false;
         }
     }
 
