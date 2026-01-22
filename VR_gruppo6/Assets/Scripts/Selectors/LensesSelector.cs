@@ -9,8 +9,11 @@ public class LensesSelector : MonoBehaviour
     [SerializeField] private RawImage[] images; // immagini delle lenti nell'UI
     [SerializeField] private CameraLens[] cameraLenses; // reference agli script delle lenti
 
+    [Header("Input settings")]
+    [SerializeField] private float inputCooldown = 0.2f;
+
     private int currentImageIndex = 0;
-    private float inputCooldown = 0.2f;
+    
     private float lastInputTime = 0f;
     private UI_CameraPanel cameraPanel;
 
