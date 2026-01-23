@@ -14172,8 +14172,8 @@ MonoBehaviour:
   rotationSpeed: 20
   minPivot1X: -12
   maxPivot1X: 12
-  minPivot2X: -12
-  maxPivot2X: 12
+  minPivot2X: -90
+  maxPivot2X: -2.3
 --- !u!54 &1423724219592639728
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15150,27 +15150,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2203080518827267001, guid: 67ab558f4963142a28411516542189ff, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3.466
+      value: 0.14697556
       objectReference: {fileID: 0}
     - target: {fileID: 2203080518827267001, guid: 67ab558f4963142a28411516542189ff, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.466
+      value: 0.14697556
       objectReference: {fileID: 0}
     - target: {fileID: 2203080518827267001, guid: 67ab558f4963142a28411516542189ff, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3.466
+      value: 0.14697556
       objectReference: {fileID: 0}
     - target: {fileID: 2203080518827267001, guid: 67ab558f4963142a28411516542189ff, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.1489
+      value: 7.069
       objectReference: {fileID: 0}
     - target: {fileID: 2203080518827267001, guid: 67ab558f4963142a28411516542189ff, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.234
+      value: 0.176
       objectReference: {fileID: 0}
     - target: {fileID: 2203080518827267001, guid: 67ab558f4963142a28411516542189ff, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.5289
+      value: -1.261
       objectReference: {fileID: 0}
     - target: {fileID: 2203080518827267001, guid: 67ab558f4963142a28411516542189ff, type: 3}
       propertyPath: m_LocalRotation.w
