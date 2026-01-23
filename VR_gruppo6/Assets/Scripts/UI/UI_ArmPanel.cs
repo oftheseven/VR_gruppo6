@@ -26,7 +26,10 @@ public class UI_ArmPanel :  MonoBehaviour
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
 
+    private GameObject currentPivot = null;
+
     private float targetPivot1X = 0f;
+    private float targetPivot2X = 0f;
 
     void Start()
     {
@@ -151,12 +154,10 @@ public class UI_ArmPanel :  MonoBehaviour
         {
             if (Keyboard.current.upArrowKey.isPressed)
             {
-                // InteractableArm.instance.Pivot1.transform.Rotate(Vector3.right * 20f * Time.deltaTime);
                 targetPivot1X += InteractableArm.instance.RotationSpeed * Time.deltaTime;
             }
             else if (Keyboard.current.downArrowKey.isPressed)
             {
-                // InteractableArm.instance.Pivot1.transform.Rotate(Vector3.right * -20f * Time.deltaTime);
                 targetPivot1X -= InteractableArm.instance.RotationSpeed * Time.deltaTime;
             }
 
@@ -165,7 +166,27 @@ public class UI_ArmPanel :  MonoBehaviour
             InteractableArm.instance.Pivot1.transform.localRotation = Quaternion.Lerp(
                                                                                       InteractableArm.instance.Pivot1.transform.localRotation,
                                                                                       targetRotation,
-                                                                                      Time.deltaTime * 5f // Velocità smoothing
+                                                                                      Time.deltaTime * 5f
+                                                                                     );
+        }
+
+        if (InteractableArm.instance.Pivot2 != null)
+        {
+            if (Keyboard.current.upArrowKey.isPressed)
+            {
+                targetPivot2X += InteractableArm.instance.RotationSpeed * Time.deltaTime;
+            }
+            else if (Keyboard.current.downArrowKey.isPressed)
+            {
+                targetPivot2X -= InteractableArm.instance.RotationSpeed * Time.deltaTime;
+            }
+
+            targetPivot2X = Mathf.Clamp(targetPivot2X, InteractableArm.instance.MinPivot2X, InteractableArm.instance.MaxPivot2X);
+            Quaternion targetRotation = Quaternion.Euler(targetPivot2X, 0, 0);
+            InteractableArm.instance.Pivot2.transform.localRotation = Quaternion.Lerp(
+                                                                                      InteractableArm.instance.Pivot2.transform.localRotation,
+                                                                                      targetRotation,
+                                                                                      Time.deltaTime * 5f
                                                                                      );
         }
     }

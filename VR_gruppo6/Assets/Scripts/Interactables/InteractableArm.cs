@@ -22,6 +22,8 @@ public class InteractableArm : MonoBehaviour
     [SerializeField] private float rotationSpeed = 20f;
     [SerializeField] private float minPivot1X = -12f;
     [SerializeField] private float maxPivot1X = 12f;
+    [SerializeField] private float minPivot2X = -12f;
+    [SerializeField] private float maxPivot2X = 12f;
 
     public float RotationSpeed => rotationSpeed;
     public GameObject MechanicalArmPivot => mechanicalArmPivot;
@@ -29,7 +31,8 @@ public class InteractableArm : MonoBehaviour
     public float MinPivot1X => minPivot1X;
     public float MaxPivot1X => maxPivot1X;
     public GameObject Pivot2 => pivot2;
-
+    public float MinPivot2X => minPivot2X;
+    public float MaxPivot2X => maxPivot2X;
     void Awake()
     {
         if (_instance == null)

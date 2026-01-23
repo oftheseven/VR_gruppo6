@@ -14031,6 +14031,9 @@ MonoBehaviour:
   mechanicalArmPivot: {fileID: 1047545685}
   pivot1: {fileID: 1524492766}
   pivot2: {fileID: 1959583190}
+  rotationSpeed: 20
+  minPivot1X: -12
+  maxPivot1X: 12
 --- !u!54 &1423724219592639728
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15448,11 +15451,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6518825602173795191, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9945219
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6518825602173795191, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.10452837
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6518825602173795191, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
       propertyPath: m_LocalRotation.y
@@ -15464,7 +15467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6518825602173795191, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7576300193206956649, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
       propertyPath: m_LocalPosition.x
