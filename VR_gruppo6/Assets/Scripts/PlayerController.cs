@@ -17,10 +17,8 @@ public class PlayerController : MonoBehaviour
     [Header("Jump")]
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private LayerMask _groundLayer; // layer del terreno
-    // [SerializeField] private float _groundCheckDistance = 0.3f;
 
     private bool _isGrounded = false;
-    private float _lastGroundedTime = 0f;
     private int _groundContactCount = 0;
 
     [Header("References")]
@@ -188,7 +186,6 @@ public class PlayerController : MonoBehaviour
         {
             _groundContactCount++;
             _isGrounded = true;
-            _lastGroundedTime = Time.time;
         }
     }
 
@@ -197,7 +194,6 @@ public class PlayerController : MonoBehaviour
         if (IsGroundLayer(collision.gameObject))
         {
             _isGrounded = true;
-            _lastGroundedTime = Time.time;
         }
     }
 
