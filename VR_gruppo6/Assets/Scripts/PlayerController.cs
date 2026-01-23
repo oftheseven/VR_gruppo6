@@ -17,7 +17,11 @@ public class PlayerController : MonoBehaviour
     [Header("Jump")]
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private LayerMask _groundLayer; // layer del terreno
-    [SerializeField] private float _groundCheckDistance = 0.3f;
+    // [SerializeField] private float _groundCheckDistance = 0.3f;
+
+    private bool _isGrounded = false;
+    private float _lastGroundedTime = 0f;
+    private int _groundContactCount = 0;
 
     [Header("References")]
     [SerializeField] private Transform _cameraTransform;
@@ -108,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
         ApplyExtraGravity();
 
-        if (Keyboard.current.spaceKey.isPressed && IsGrounded() && moveEnabled)
+        if (Keyboard.current.spaceKey.isPressed && _isGrounded && moveEnabled)
         {
             Jump();
         }
@@ -178,19 +182,50 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity += Vector3.up * _jumpForce * Time.fixedDeltaTime;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (IsGroundLayer(collision.gameObject))
+        {
+            _groundContactCount++;
+            _isGrounded = true;
+            _lastGroundedTime = Time.time;
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (IsGroundLayer(collision.gameObject))
+        {
+            _isGrounded = true;
+            _lastGroundedTime = Time.time;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (IsGroundLayer(collision.gameObject))
+        {
+            _groundContactCount--;
+
+            if (_groundContactCount <= 0)
+            {
+                _groundContactCount = 0;
+                _isGrounded = false;
+            }
+        }
+    }
+
+    private bool IsGroundLayer(GameObject obj)
+    {
+        return ((1 << obj.layer) & _groundLayer) != 0;
+    }
+
     private void ApplyExtraGravity()
     {
         if (rb.linearVelocity.y < 0)
         {
             rb.linearVelocity += Vector3.up * Physics.gravity.y * gravity * Time.fixedDeltaTime;
         }
-    }
-
-    private bool IsGrounded()
-    {
-        // raycast verso il basso per controllare se è a terra
-        Vector3 origin = transform.position + Vector3.up * 0.1f;
-        return Physics.Raycast(origin, Vector3.down, _groundCheckDistance, _groundLayer);
     }
 
     private void CheckForInteractable()
