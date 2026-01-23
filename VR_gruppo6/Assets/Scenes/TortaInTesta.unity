@@ -6091,6 +6091,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1031780548}
   m_CullTransparentMesh: 1
+--- !u!1 &1047545685 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2851869654865768248, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+  m_PrefabInstance: {fileID: 7816342897673802716}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1057826708 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4719023811152675723, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
@@ -9169,7 +9174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9730,6 +9735,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1511757221}
   m_CullTransparentMesh: 1
+--- !u!1 &1524492766 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6083788508246870040, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+  m_PrefabInstance: {fileID: 7816342897673802716}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1530726482
 GameObject:
   m_ObjectHideFlags: 0
@@ -13198,6 +13208,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1956849221}
   m_CullTransparentMesh: 1
+--- !u!1 &1959583190 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6738192243711912770, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+  m_PrefabInstance: {fileID: 7816342897673802716}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1983170332
 GameObject:
   m_ObjectHideFlags: 0
@@ -14013,6 +14028,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InteractableArm
   interactionText: Premi E per gestire il braccio
   armPanel: {fileID: 1455228699}
+  mechanicalArmPivot: {fileID: 1047545685}
+  pivot1: {fileID: 1524492766}
+  pivot2: {fileID: 1959583190}
 --- !u!54 &1423724219592639728
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15427,6 +15445,26 @@ PrefabInstance:
     - target: {fileID: 3711517052644322726, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
       propertyPath: m_TagString
       value: Arm
+      objectReference: {fileID: 0}
+    - target: {fileID: 6518825602173795191, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9945219
+      objectReference: {fileID: 0}
+    - target: {fileID: 6518825602173795191, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.10452837
+      objectReference: {fileID: 0}
+    - target: {fileID: 6518825602173795191, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6518825602173795191, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6518825602173795191, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -12
       objectReference: {fileID: 0}
     - target: {fileID: 7576300193206956649, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
       propertyPath: m_LocalPosition.x

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections;
+using System.Runtime.InteropServices;
 
 public class UI_ArmPanel :  MonoBehaviour
 {
@@ -25,13 +26,7 @@ public class UI_ArmPanel :  MonoBehaviour
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
 
-    void Awake()
-    {
-        if (interactableArm == null)
-        {
-            Rigidbody armRb = interactableArm.GetComponent<Rigidbody>();
-        }
-    }
+    private float targetPivot1X = 0f;
 
     void Start()
     {
@@ -46,6 +41,14 @@ public class UI_ArmPanel :  MonoBehaviour
         if (holdFillImage != null)
         {
             holdFillImage.fillAmount = 0;
+        }
+    }
+
+    void Update()
+    {
+        if (isOpen)
+        {
+            HandleArmMovement();
         }
     }
 
@@ -127,5 +130,43 @@ public class UI_ArmPanel :  MonoBehaviour
         canInteract = false;
         //Debug.Log("Cooldown iniziato - canInteract = " + canInteract);
         yield return new WaitForSeconds(cooldownTime);
+    }
+
+    // funzione che gestisce le varie rotazioni del braccio meccanico
+    private void HandleArmMovement()
+    {
+        if (InteractableArm.instance.MechanicalArmPivot != null)
+        {
+            if (Keyboard.current.rightArrowKey.isPressed)
+            {
+                InteractableArm.instance.MechanicalArmPivot.transform.Rotate(Vector3.up * 20f * Time.deltaTime);
+            }
+            else if (Keyboard.current.leftArrowKey.isPressed)
+            {
+                InteractableArm.instance.MechanicalArmPivot.transform.Rotate(Vector3.up * -20f * Time.deltaTime);
+            }
+        }
+ 
+        if (InteractableArm.instance.Pivot1 != null)
+        {
+            if (Keyboard.current.upArrowKey.isPressed)
+            {
+                // InteractableArm.instance.Pivot1.transform.Rotate(Vector3.right * 20f * Time.deltaTime);
+                targetPivot1X += InteractableArm.instance.RotationSpeed * Time.deltaTime;
+            }
+            else if (Keyboard.current.downArrowKey.isPressed)
+            {
+                // InteractableArm.instance.Pivot1.transform.Rotate(Vector3.right * -20f * Time.deltaTime);
+                targetPivot1X -= InteractableArm.instance.RotationSpeed * Time.deltaTime;
+            }
+
+            targetPivot1X = Mathf.Clamp(targetPivot1X, InteractableArm.instance.MinPivot1X, InteractableArm.instance.MaxPivot1X);
+            Quaternion targetRotation = Quaternion.Euler(targetPivot1X, 0, 0);
+            InteractableArm.instance.Pivot1.transform.localRotation = Quaternion.Lerp(
+                                                                                      InteractableArm.instance.Pivot1.transform.localRotation,
+                                                                                      targetRotation,
+                                                                                      Time.deltaTime * 5f // Velocità smoothing
+                                                                                     );
+        }
     }
 }
