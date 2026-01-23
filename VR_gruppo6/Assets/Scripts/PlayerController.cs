@@ -551,7 +551,7 @@ public class PlayerController : MonoBehaviour
     private void CheckPanelsInteraction()
     {
         // APERTURA/CHIUSURA MENU
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        if (Keyboard.current.escapeKey.wasPressedThisFrame && !isInteracting)
         {
             UI_MenuPanel.instance.OpenMenu();
         }
@@ -561,7 +561,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // APERTURA/CHIUSURA SCREENPLAY
-        if (Keyboard.current.tabKey.wasPressedThisFrame)
+        if (Keyboard.current.tabKey.wasPressedThisFrame && !isInteracting)
         {
             UI_Screenplay.instance.OpenScreenplay();
         }
@@ -571,7 +571,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // APERTURA/CHIUSURA INVENTARIO
-        if (Keyboard.current.iKey.wasPressedThisFrame)
+        if (Keyboard.current.iKey.wasPressedThisFrame && !isInteracting)
         {
             UI_InventoryPanel.instance.OpenInventory();
         }
