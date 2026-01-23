@@ -11,6 +11,7 @@ TagManager:
   - Ciak
   - Pickable
   - Dolly
+  - Arm
   layers:
   - Default
   - TransparentFX

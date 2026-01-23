@@ -5,7 +5,6 @@ using System.Collections;
 
 public class UI_ArmPanel :  MonoBehaviour
 {
-
     [Header("Camera timer settings")]
     [SerializeField] private float holdTimeToClose = 2f;
     [SerializeField] private float cooldownTime = 1f;
@@ -17,11 +16,22 @@ public class UI_ArmPanel :  MonoBehaviour
     [SerializeField] private GameObject holdIndicator; // container del cerchio
     [SerializeField] private Image holdFillImage; // image con fill radial
 
+    [Header("Arm reference")]
+    [SerializeField] private InteractableArm interactableArm; // reference all'InteractableArm da far muovere
+
     private bool isOpen = false;
     public bool IsOpen => isOpen;
     private bool canInteract = true;
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
+
+    void Awake()
+    {
+        if (interactableArm == null)
+        {
+            Rigidbody armRb = interactableArm.GetComponent<Rigidbody>();
+        }
+    }
 
     void Start()
     {
