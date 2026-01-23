@@ -14172,6 +14172,8 @@ MonoBehaviour:
   rotationSpeed: 20
   minPivot1X: -12
   maxPivot1X: 12
+  minPivot2X: -12
+  maxPivot2X: 12
 --- !u!54 &1423724219592639728
 Rigidbody:
   m_ObjectHideFlags: 0
