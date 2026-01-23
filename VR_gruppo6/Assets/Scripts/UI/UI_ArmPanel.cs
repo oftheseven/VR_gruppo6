@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System.Runtime.InteropServices;
+using TMPro;
 
 public class UI_ArmPanel :  MonoBehaviour
 {
@@ -20,13 +21,25 @@ public class UI_ArmPanel :  MonoBehaviour
     [Header("Arm reference")]
     [SerializeField] private InteractableArm interactableArm; // reference all'InteractableArm da far muovere
 
+    [Header("Pivot selection UI")]
+    [SerializeField] private TextMeshProUGUI selectedPivotText; // testo che mostra il pivot selezionato
+    // [SerializeField] private Color selectedColor = Color.green;
+    // [SerializeField] private Color unselectedColor = Color.white;
+
     private bool isOpen = false;
     public bool IsOpen => isOpen;
     private bool canInteract = true;
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
 
-    private GameObject currentPivot = null;
+    private enum PivotSelection
+    {
+        Base,
+        Pivot1,
+        Pivot2
+    }
+
+    private PivotSelection currentSelection = PivotSelection.Base;
 
     private float targetPivot1X = 0f;
     private float targetPivot2X = 0f;
@@ -34,6 +47,7 @@ public class UI_ArmPanel :  MonoBehaviour
     void Start()
     {
         this.gameObject.SetActive(false);
+        selectedPivotText.gameObject.SetActive(false);
         canInteract = true;
 
         if (holdIndicator != null)
@@ -51,6 +65,7 @@ public class UI_ArmPanel :  MonoBehaviour
     {
         if (isOpen)
         {
+            HandlePivotSelection();
             HandleArmMovement();
         }
     }
@@ -58,8 +73,12 @@ public class UI_ArmPanel :  MonoBehaviour
     public void OpenArm()
     {
         this.gameObject.SetActive(true);
+        selectedPivotText.gameObject.SetActive(true);
         isOpen = true;
         PlayerController.EnableMovement(false);
+
+        currentSelection = PivotSelection.Base;
+        UpdateSelectionUI();
 
         if (infoPanel != null)
         {
@@ -84,6 +103,7 @@ public class UI_ArmPanel :  MonoBehaviour
         
         StartCoroutine(CooldownAndHide());
         this.gameObject.SetActive(false);
+        selectedPivotText.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
     }
@@ -135,10 +155,48 @@ public class UI_ArmPanel :  MonoBehaviour
         yield return new WaitForSeconds(cooldownTime);
     }
 
+    private void HandlePivotSelection()
+    {
+        if (Keyboard.current.digit1Key.wasPressedThisFrame)
+        {
+            currentSelection = PivotSelection.Base;
+            UpdateSelectionUI();
+        }
+        else if (Keyboard.current.digit2Key.wasPressedThisFrame)
+        {
+            currentSelection = PivotSelection.Pivot1;
+            UpdateSelectionUI();
+        }
+        else if (Keyboard.current.digit3Key.wasPressedThisFrame)
+        {
+            currentSelection = PivotSelection.Pivot2;
+            UpdateSelectionUI();
+        }
+    }
+
+    private void UpdateSelectionUI()
+    {
+        if (selectedPivotText != null)
+        {
+            switch (currentSelection)
+            {
+                case PivotSelection.Base:
+                    selectedPivotText.text = "Selezionato: Base";
+                    break;
+                case PivotSelection.Pivot1:
+                    selectedPivotText.text = "Selezionato: Pivot 1";
+                    break;
+                case PivotSelection.Pivot2:
+                    selectedPivotText.text = "Selezionato: Pivot 2";
+                    break;
+            }
+        }
+    }
+
     // funzione che gestisce le varie rotazioni del braccio meccanico
     private void HandleArmMovement()
     {
-        if (InteractableArm.instance.MechanicalArmPivot != null)
+        if (currentSelection == PivotSelection.Base && InteractableArm.instance.MechanicalArmPivot != null)
         {
             if (Keyboard.current.rightArrowKey.isPressed)
             {
@@ -150,7 +208,7 @@ public class UI_ArmPanel :  MonoBehaviour
             }
         }
  
-        if (InteractableArm.instance.Pivot1 != null)
+        if (currentSelection == PivotSelection.Pivot1 && InteractableArm.instance.Pivot1 != null)
         {
             if (Keyboard.current.upArrowKey.isPressed)
             {
@@ -164,30 +222,30 @@ public class UI_ArmPanel :  MonoBehaviour
             targetPivot1X = Mathf.Clamp(targetPivot1X, InteractableArm.instance.MinPivot1X, InteractableArm.instance.MaxPivot1X);
             Quaternion targetRotation = Quaternion.Euler(targetPivot1X, 0, 0);
             InteractableArm.instance.Pivot1.transform.localRotation = Quaternion.Lerp(
-                                                                                      InteractableArm.instance.Pivot1.transform.localRotation,
-                                                                                      targetRotation,
-                                                                                      Time.deltaTime * 5f
-                                                                                     );
+                InteractableArm.instance.Pivot1.transform.localRotation,
+                targetRotation,
+                Time.deltaTime * 5f
+            );
         }
 
-        if (InteractableArm.instance.Pivot2 != null)
+        if (currentSelection == PivotSelection.Pivot2 && InteractableArm.instance.Pivot2 != null)
         {
             if (Keyboard.current.upArrowKey.isPressed)
             {
-                targetPivot2X += InteractableArm.instance.RotationSpeed * Time.deltaTime;
+                targetPivot2X -= InteractableArm.instance.RotationSpeed * Time.deltaTime;
             }
             else if (Keyboard.current.downArrowKey.isPressed)
             {
-                targetPivot2X -= InteractableArm.instance.RotationSpeed * Time.deltaTime;
+                targetPivot2X += InteractableArm.instance.RotationSpeed * Time.deltaTime;
             }
 
             targetPivot2X = Mathf.Clamp(targetPivot2X, InteractableArm.instance.MinPivot2X, InteractableArm.instance.MaxPivot2X);
             Quaternion targetRotation = Quaternion.Euler(targetPivot2X, 0, 0);
             InteractableArm.instance.Pivot2.transform.localRotation = Quaternion.Lerp(
-                                                                                      InteractableArm.instance.Pivot2.transform.localRotation,
-                                                                                      targetRotation,
-                                                                                      Time.deltaTime * 5f
-                                                                                     );
+                InteractableArm.instance.Pivot2.transform.localRotation,
+                targetRotation,
+                Time.deltaTime * 5f
+            );
         }
     }
 }
