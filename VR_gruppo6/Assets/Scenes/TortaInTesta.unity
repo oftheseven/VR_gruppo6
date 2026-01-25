@@ -15654,6 +15654,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 44355299}
     m_Modifications:
+    - target: {fileID: 694137555329645407, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -2635916011978275355, guid: 99095aa762ccf064cb08b39fa8ef4599, type: 3}
+    - target: {fileID: 1445991566767895830, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -2635916011978275355, guid: 99095aa762ccf064cb08b39fa8ef4599, type: 3}
+    - target: {fileID: 1765152986642046412, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d041b2ef89fa8404cbf80e038946d367, type: 2}
+    - target: {fileID: 2996414696972137244, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -2635916011978275355, guid: 99095aa762ccf064cb08b39fa8ef4599, type: 3}
+    - target: {fileID: 3659882033453659635, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -2635916011978275355, guid: 99095aa762ccf064cb08b39fa8ef4599, type: 3}
     - target: {fileID: 3711517052644322726, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
       propertyPath: m_Name
       value: BraccioMeccanico
@@ -15662,6 +15682,26 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Arm
       objectReference: {fileID: 0}
+    - target: {fileID: 3798199640057056941, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d041b2ef89fa8404cbf80e038946d367, type: 2}
+    - target: {fileID: 3977527820888412314, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d041b2ef89fa8404cbf80e038946d367, type: 2}
+    - target: {fileID: 4135557031110103934, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d041b2ef89fa8404cbf80e038946d367, type: 2}
+    - target: {fileID: 4543123617295926392, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d041b2ef89fa8404cbf80e038946d367, type: 2}
+    - target: {fileID: 5710005785003960148, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d041b2ef89fa8404cbf80e038946d367, type: 2}
     - target: {fileID: 6518825602173795191, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
@@ -15682,6 +15722,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6604093737662322259, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d041b2ef89fa8404cbf80e038946d367, type: 2}
+    - target: {fileID: 7240002047534573319, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -2635916011978275355, guid: 99095aa762ccf064cb08b39fa8ef4599, type: 3}
+    - target: {fileID: 7458028751723066264, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d041b2ef89fa8404cbf80e038946d367, type: 2}
     - target: {fileID: 7576300193206956649, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.96
@@ -15722,6 +15774,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7990728657012615129, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -2635916011978275355, guid: 99095aa762ccf064cb08b39fa8ef4599, type: 3}
+    - target: {fileID: 8710288594547285953, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d041b2ef89fa8404cbf80e038946d367, type: 2}
+    - target: {fileID: 9084098339316809718, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d041b2ef89fa8404cbf80e038946d367, type: 2}
+    - target: {fileID: 9134113383712344946, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -2635916011978275355, guid: 99095aa762ccf064cb08b39fa8ef4599, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
