@@ -23,8 +23,10 @@ public class UI_ArmPanel :  MonoBehaviour
 
     [Header("Pivot selection UI")]
     [SerializeField] private TextMeshProUGUI selectedPivotText; // testo che mostra il pivot selezionato
-    // [SerializeField] private Color selectedColor = Color.green;
-    // [SerializeField] private Color unselectedColor = Color.white;
+
+    [Header("Visual effect pivot selection")]
+    [SerializeField] private Color selectedColor = Color.green;
+    [SerializeField] private float outlineWidth = 5f;
 
     private bool isOpen = false;
     public bool IsOpen => isOpen;
@@ -59,6 +61,8 @@ public class UI_ArmPanel :  MonoBehaviour
         {
             holdFillImage.fillAmount = 0;
         }
+
+        SetupOutlines();
     }
 
     void Update()
@@ -79,6 +83,7 @@ public class UI_ArmPanel :  MonoBehaviour
 
         currentSelection = PivotSelection.Base;
         UpdateSelectionUI();
+        UpdateSelectionHighlight();
 
         if (infoPanel != null)
         {
@@ -90,6 +95,8 @@ public class UI_ArmPanel :  MonoBehaviour
     {
         isOpen = false;
         holdTimer = 0f;
+
+        DisableAllOutlines();
 
         if (holdIndicator != null)
         {
@@ -161,16 +168,19 @@ public class UI_ArmPanel :  MonoBehaviour
         {
             currentSelection = PivotSelection.Base;
             UpdateSelectionUI();
+            UpdateSelectionHighlight();
         }
         else if (Keyboard.current.digit2Key.wasPressedThisFrame)
         {
             currentSelection = PivotSelection.Pivot1;
             UpdateSelectionUI();
+            UpdateSelectionHighlight();
         }
         else if (Keyboard.current.digit3Key.wasPressedThisFrame)
         {
             currentSelection = PivotSelection.Pivot2;
             UpdateSelectionUI();
+            UpdateSelectionHighlight();
         }
     }
 
@@ -190,6 +200,86 @@ public class UI_ArmPanel :  MonoBehaviour
                     selectedPivotText.text = "Selezionato: Pivot 2";
                     break;
             }
+        }
+    }
+
+    private void UpdateSelectionHighlight()
+    {
+        DisableAllOutlines();
+
+        switch (currentSelection)
+        {
+            case PivotSelection.Base:
+                if (InteractableArm.instance.MechanicalArmPivot != null)
+                    SetOutlinesEnabled(InteractableArm.instance.MechanicalArmPivot, true);
+                break;
+            case PivotSelection.Pivot1:
+                if (InteractableArm.instance.Pivot1 != null)
+                    SetOutlinesEnabled(InteractableArm.instance.Pivot1, true);
+                break;
+            case PivotSelection.Pivot2:
+                if (InteractableArm.instance.Pivot2 != null)
+                    SetOutlinesEnabled(InteractableArm.instance.Pivot2, true);
+                break;
+        }
+    }
+
+    private void SetOutlinesEnabled(GameObject parent, bool enabled)
+    {
+        Outline[] outlines = parent.GetComponentsInChildren<Outline>();
+        foreach (Outline outline in outlines)
+        {
+            outline.enabled = enabled;
+        }
+    }
+
+    private void DisableAllOutlines()
+    {
+        if (InteractableArm.instance.MechanicalArmPivot != null)
+            SetOutlinesEnabled(InteractableArm.instance.MechanicalArmPivot, false);
+
+        if (InteractableArm.instance.Pivot1 != null)
+            SetOutlinesEnabled(InteractableArm.instance.Pivot1, false);
+
+        if (InteractableArm.instance.Pivot2 != null)
+            SetOutlinesEnabled(InteractableArm.instance.Pivot2, false);
+    }
+    
+    private void SetupOutlines()
+    {
+        if (InteractableArm.instance.MechanicalArmPivot != null)
+        {
+            GetOrAddOutline(InteractableArm.instance.MechanicalArmPivot);
+        }
+
+        if (InteractableArm.instance.Pivot1 != null)
+        {
+            GetOrAddOutline(InteractableArm.instance.Pivot1);
+        }
+
+        if (InteractableArm.instance.Pivot2 != null)
+        {
+            GetOrAddOutline(InteractableArm.instance.Pivot2);
+        }
+
+        DisableAllOutlines();
+    }
+
+    private void GetOrAddOutline(GameObject obj)
+    {
+        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+    
+        foreach (Renderer renderer in renderers)
+        {
+            Outline outline = renderer.gameObject.GetComponent<Outline>();
+            if (outline == null)
+            {
+                outline = renderer.gameObject.AddComponent<Outline>();
+            }
+
+            outline.effectColor = selectedColor;
+            outline.effectDistance = new Vector2(outlineWidth, outlineWidth);
+            outline.enabled = false;
         }
     }
 
