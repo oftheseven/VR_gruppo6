@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections;
-using System.Runtime.InteropServices;
 using TMPro;
 
 public class UI_ArmPanel :  MonoBehaviour
@@ -277,8 +276,8 @@ public class UI_ArmPanel :  MonoBehaviour
                 outline = renderer.gameObject.AddComponent<Outline>();
             }
 
-            outline.effectColor = selectedColor;
-            outline.effectDistance = new Vector2(outlineWidth, outlineWidth);
+            outline.OutlineColor = selectedColor;
+            outline.OutlineWidth = outlineWidth;
             outline.enabled = false;
         }
     }
