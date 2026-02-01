@@ -12,6 +12,7 @@ TagManager:
   - Pickable
   - Dolly
   - Arm
+  - Door
   layers:
   - Default
   - TransparentFX

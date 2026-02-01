@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1090622889332629832}
   - component: {fileID: 8919572929696045783}
   - component: {fileID: 5502322314796796572}
+  - component: {fileID: 8806081025275414819}
   m_Layer: 0
   m_Name: Anta piccola
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0.00000004371139}
   m_LocalPosition: {x: 0.44097286, y: 1.0072359, z: 0}
-  m_LocalScale: {x: -0.44230795, y: -1, z: -0.07377111}
+  m_LocalScale: {x: 0.4423079, y: 1, z: 0.07377111}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3454543465542622512}
@@ -67,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3689632459631213275, guid: 3abf7355256210f4da04ff338421e47c, type: 3}
+  - {fileID: 2100000, guid: 645f346962fcc2b4c8a50023be62d9e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -90,6 +91,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8806081025275414819
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191114884397977861}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.0000002, y: 2, z: 2.0000007}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1363181084177481576
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +210,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3806955169531897799, guid: 3abf7355256210f4da04ff338421e47c, type: 3}
+  - {fileID: 2100000, guid: 54224add7264cc3449b5213d78726c8e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -222,9 +244,11 @@ GameObject:
   - component: {fileID: 7166788694900103739}
   - component: {fileID: 9093179520153815931}
   - component: {fileID: 5113909237979202621}
+  - component: {fileID: 2773609841081180798}
+  - component: {fileID: 5056910304927796045}
   m_Layer: 0
   m_Name: Anta grande
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -239,7 +263,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0.00000004371139}
   m_LocalPosition: {x: -0.69857836, y: 1.0072359, z: 0}
-  m_LocalScale: {x: -0.69890934, y: -1, z: -0.07377111}
+  m_LocalScale: {x: 0.6989093, y: 1, z: 0.07377111}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5047747075936884291}
@@ -278,7 +302,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3689632459631213275, guid: 3abf7355256210f4da04ff338421e47c, type: 3}
+  - {fileID: 2100000, guid: 645f346962fcc2b4c8a50023be62d9e7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -301,6 +325,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2773609841081180798
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2410435343099858081}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.0000002, y: 2, z: 2.000001}
+  m_Center: {x: 0.00000047683716, y: 0, z: 0.0000076293945}
+--- !u!114 &5056910304927796045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2410435343099858081}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db4a28ff62a5a74cb2fb27de01aae54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableDoor
+  interactionText: Premi E per aprire la porta
+  subDoor: {fileID: 2588107232344395390}
+  doorAnimator: {fileID: 0}
+  sceneToLoad: {fileID: 102900000, guid: 0a241085d64a9414f871778bf86fe3e0, type: 3}
 --- !u!1 &2588107232344395390
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,8 +421,8 @@ Transform:
   m_GameObject: {fileID: 2692701001002995854}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0.000000053385076, z: -0.00000000843216, w: -0.7071067}
-  m_LocalPosition: {x: 0.808307, y: -0.06546983, z: 0.930035}
-  m_LocalScale: {x: -2.260868, y: -13.555442, z: -1}
+  m_LocalPosition: {x: -0.904, y: 0.066, z: -0.94}
+  m_LocalScale: {x: 2.260868, y: 13.55544, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1090622889332629832}
@@ -399,7 +460,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 742296346950618927, guid: 3abf7355256210f4da04ff338421e47c, type: 3}
+  - {fileID: 2100000, guid: 54224add7264cc3449b5213d78726c8e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -431,6 +492,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 387771339971342684}
+  - component: {fileID: 5062434400644380761}
   m_Layer: 0
   m_Name: Porta
   m_TagString: Untagged
@@ -448,7 +510,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0848333, y: 1.0148113, z: 1.0148113}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8727990784938998140}
@@ -456,6 +518,22 @@ Transform:
   - {fileID: 2934198248622710179}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5062434400644380761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6704219984737766551}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db4a28ff62a5a74cb2fb27de01aae54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableDoor
+  interactionText: Premi E per aprire la porta
+  subDoor: {fileID: 2588107232344395390}
+  doorAnimator: {fileID: 0}
+  sceneToLoad: {fileID: 102900000, guid: 0a241085d64a9414f871778bf86fe3e0, type: 3}
 --- !u!1 &7514412803101366145
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,8 +561,8 @@ Transform:
   m_GameObject: {fileID: 7514412803101366145}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0.000000053385076, z: -0.00000000843216, w: -0.7071067}
-  m_LocalPosition: {x: -0.8754845, y: -0.06546991, z: 0.930035}
-  m_LocalScale: {x: -1.4308007, y: -13.555442, z: -1}
+  m_LocalPosition: {x: 0.939, y: 0.061, z: -0.94}
+  m_LocalScale: {x: 1.430801, y: 13.55544, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7166788694900103739}
@@ -522,7 +600,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 742296346950618927, guid: 3abf7355256210f4da04ff338421e47c, type: 3}
+  - {fileID: 2100000, guid: 54224add7264cc3449b5213d78726c8e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

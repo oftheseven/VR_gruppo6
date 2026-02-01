@@ -61,6 +61,9 @@ public class PlayerController : MonoBehaviour
     private InteractableArm currentArm = null;
     private UI_ArmPanel currentArmPanel = null;
 
+    [Header("Door interaction")]
+    private InteractableDoor currentDoor = null;
+
     private bool isInteracting = false;
     public Camera playerCamera => _cameraTransform.GetComponent<Camera>();
 
@@ -98,6 +101,7 @@ public class PlayerController : MonoBehaviour
         HandleItemInteraction();
         HandleDollyInteraction();
         HandleArmInteraction();
+        HandleDoorInteraction();
     }
 
     void FixedUpdate()
@@ -353,6 +357,22 @@ public class PlayerController : MonoBehaviour
                         ClearInteractable();
                     }
                     break;
+
+                case "Door":
+                    InteractableDoor door = hit.collider.GetComponent<InteractableDoor>();
+                    if (door != null)
+                    {
+                        if (currentDoor != door)
+                        {
+                            currentDoor = door;
+                            ShowInteractionText(currentDoor.GetInteractionText());
+                        }
+                    }
+                    else
+                    {
+                        ClearInteractable();
+                    }
+                    break;
             }
         }
         else
@@ -370,6 +390,7 @@ public class PlayerController : MonoBehaviour
         currentItem = null;
         currentDolly = null;
         currentArm = null;
+        currentDoor = null;
         interactiontext.gameObject.SetActive(false);
     }
 
@@ -524,6 +545,15 @@ public class PlayerController : MonoBehaviour
         {
             currentDollyPanel = null;
             isInteracting = false;
+        }
+    }
+
+    private void HandleDoorInteraction()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentDoor != null)
+        {
+            currentDoor.Interact();
+            interactiontext.gameObject.SetActive(false);
         }
     }
 
