@@ -9579,7 +9579,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3620627133780665084, guid: e698c38739751984a855f8ca60409f1f, type: 3}
   m_PrefabInstance: {fileID: 8383090401007348756}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &1478767505
+--- !u!65 &1478767509
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9598,8 +9598,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.20000002, y: 4, z: 10.000001}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.19999994, y: 4, z: 7.43916}
+  m_Center: {x: 0.0000011136806, y: -0.00000022497754, z: -1.2804115}
 --- !u!1 &1482634543
 GameObject:
   m_ObjectHideFlags: 0
@@ -14571,6 +14571,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.026
       objectReference: {fileID: 0}
+    - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
+      propertyPath: sceneToLoad
+      value: DivinationClass
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
+      propertyPath: sceneOffset.z
+      value: -17.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
+      propertyPath: unloadPreviousScene
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6704219984737766551, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: m_Name
       value: Porta
@@ -16601,7 +16613,7 @@ PrefabInstance:
       addedObject: {fileID: 797137045}
     - targetCorrespondingSourceObject: {fileID: 3620627133780665084, guid: e698c38739751984a855f8ca60409f1f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1478767505}
+      addedObject: {fileID: 1478767509}
     - targetCorrespondingSourceObject: {fileID: 978630556009936394, guid: e698c38739751984a855f8ca60409f1f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1712822944}
