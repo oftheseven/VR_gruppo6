@@ -2036,7 +2036,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 387771339971342684, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.825
+      value: -7.948
       objectReference: {fileID: 0}
     - target: {fileID: 387771339971342684, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2070,6 +2070,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 54224add7264cc3449b5213d78726c8e, type: 2}
+    - target: {fileID: 2934198248622710179, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2581938
+      objectReference: {fileID: 0}
     - target: {fileID: 3240694471592539073, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -14533,15 +14537,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 387771339971342684, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.69
+      value: -7.932
       objectReference: {fileID: 0}
     - target: {fileID: 387771339971342684, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.001
       objectReference: {fileID: 0}
     - target: {fileID: 387771339971342684, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.19
+      value: -6.186
       objectReference: {fileID: 0}
     - target: {fileID: 387771339971342684, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -14572,19 +14576,7 @@ PrefabInstance:
       value: -0.026
       objectReference: {fileID: 0}
     - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
-      propertyPath: sceneToLoad
-      value: DivinationClass
-      objectReference: {fileID: 0}
-    - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
-      propertyPath: sceneOffset.x
-      value: -17.39
-      objectReference: {fileID: 0}
-    - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
-      propertyPath: sceneOffset.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
-      propertyPath: unloadPreviousScene
+      propertyPath: loadDelay
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6704219984737766551, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
