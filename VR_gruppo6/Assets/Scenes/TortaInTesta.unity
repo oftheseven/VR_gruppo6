@@ -14576,12 +14576,16 @@ PrefabInstance:
       value: DivinationClass
       objectReference: {fileID: 0}
     - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
-      propertyPath: sceneOffset.z
+      propertyPath: sceneOffset.x
       value: -17.39
       objectReference: {fileID: 0}
     - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
+      propertyPath: sceneOffset.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: unloadPreviousScene
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6704219984737766551, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: m_Name

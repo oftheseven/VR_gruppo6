@@ -99,7 +99,7 @@ public class InteractableDoor : MonoBehaviour
 
         GameObject[] rootObjects = loadedScene.GetRootGameObjects();
 
-        Vector3 targetPosition = this.transform.position + transform.TransformDirection(sceneOffset);
+        Vector3 targetPosition = sceneOffset;
 
         foreach (GameObject obj in rootObjects)
         {
@@ -113,7 +113,7 @@ public class InteractableDoor : MonoBehaviour
         
         if (currentScene.IsValid())
         {
-            Debug.Log($"🗑️ Scaricamento scena: {currentScene.name}");
+            Debug.Log($"Scaricamento scena: {currentScene.name}");
             SceneManager.UnloadSceneAsync(currentScene);
         }
     }
