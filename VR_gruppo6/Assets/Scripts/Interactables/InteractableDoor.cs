@@ -6,11 +6,7 @@ public class InteractableDoor : MonoBehaviour
     [Header("Interaction text")]
     [SerializeField] private string interactionText = "Premi E per aprire la porta";
 
-    [Header("Sub-door reference")]
-    [SerializeField] private GameObject subDoor; // riferimento alla sotto-porta che si apre/chiude
-
     [Header("Door settings")]
-    [SerializeField] private float openAngle = 89f;
     [SerializeField] private Animator doorAnimator;
     // [SerializeField] private AudioSource doorAudioSource;
     // [SerializeField] private AudioClip openClip;
@@ -29,32 +25,35 @@ public class InteractableDoor : MonoBehaviour
     {
         Debug.Log("Interazione con " + this.name);
 
-        if (subDoor != null)
+        if (!isOpen)
         {
-            if (!isOpen)
-            {
-                doorAnimator.SetTrigger("Open");
-                isOpen = true;
+            doorAnimator.SetTrigger("Open");
+            isOpen = true;
 
-                // // carico la scena specificata
-                // if (sceneToLoad != null)
-                // {
-                //     string sceneName = sceneToLoad.name;
-                //     UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
-                // }
-            }
-            else
-            {
-                doorAnimator.SetTrigger("Close");
-                // chiudo la porta
-                
-                isOpen = false;
-            }
+            // // carico la scena specificata
+            // if (sceneToLoad != null)
+            // {
+            //     string sceneName = sceneToLoad.name;
+            //     UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+            // }
+        }
+        else
+        {
+            doorAnimator.SetTrigger("Close");
+            isOpen = false;
         }
     }
 
     public string GetInteractionText()
     {
+        if (!isOpen)
+        {
+            interactionText = "Premi E per aprire la porta";
+        }
+        else
+        {
+            interactionText = "Premi E per chiudere la porta";
+        }
         return interactionText;
     }
 }

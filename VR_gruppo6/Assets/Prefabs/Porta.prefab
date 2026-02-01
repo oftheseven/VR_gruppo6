@@ -353,14 +353,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2410435343099858081}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9db4a28ff62a5a74cb2fb27de01aae54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableDoor
   interactionText: Premi E per aprire la porta
-  subDoor: {fileID: 2588107232344395390}
-  doorAnimator: {fileID: 0}
+  openAngle: 89
+  doorAnimator: {fileID: 2519088374208465599}
   sceneToLoad: {fileID: 102900000, guid: 0a241085d64a9414f871778bf86fe3e0, type: 3}
 --- !u!1 &2588107232344395390
 GameObject:
@@ -371,6 +371,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8727990784938998140}
+  - component: {fileID: 2519088374208465599}
   m_Layer: 0
   m_Name: Anta grande
   m_TagString: Untagged
@@ -394,6 +395,28 @@ Transform:
   - {fileID: 7166788694900103739}
   m_Father: {fileID: 387771339971342684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &2519088374208465599
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2588107232344395390}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3f6ad2f331fd57c4a8ce0857aab814b7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2692701001002995854
 GameObject:
   m_ObjectHideFlags: 0
