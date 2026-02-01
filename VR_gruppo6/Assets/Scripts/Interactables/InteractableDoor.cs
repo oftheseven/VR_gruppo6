@@ -10,6 +10,7 @@ public class InteractableDoor : MonoBehaviour
     [SerializeField] private GameObject subDoor; // riferimento alla sotto-porta che si apre/chiude
 
     [Header("Door settings")]
+    [SerializeField] private float openAngle = 89f;
     [SerializeField] private Animator doorAnimator;
     // [SerializeField] private AudioSource doorAudioSource;
     // [SerializeField] private AudioClip openClip;
@@ -21,17 +22,35 @@ public class InteractableDoor : MonoBehaviour
     private bool isOpen = false;
     public bool IsOpen => isOpen;
 
-    private bool isLocked = false;
-    public bool IsLocked => isLocked;
-
-    void Start()
-    {
-        
-    }
+    // private bool isLocked = false;
+    // public bool IsLocked => isLocked;
 
     public void Interact()
     {
         Debug.Log("Interazione con " + this.name);
+
+        if (subDoor != null)
+        {
+            if (!isOpen)
+            {
+                doorAnimator.SetTrigger("Open");
+                isOpen = true;
+
+                // // carico la scena specificata
+                // if (sceneToLoad != null)
+                // {
+                //     string sceneName = sceneToLoad.name;
+                //     UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+                // }
+            }
+            else
+            {
+                doorAnimator.SetTrigger("Close");
+                // chiudo la porta
+                
+                isOpen = false;
+            }
+        }
     }
 
     public string GetInteractionText()
