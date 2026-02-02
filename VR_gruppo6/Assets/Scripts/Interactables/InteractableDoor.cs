@@ -144,10 +144,6 @@ public class InteractableDoor : MonoBehaviour
         {
             offset = offsetFromAToB;
         }
-        // else if (fromScene == sceneB && loadedScene == sceneA)
-        // {
-        //     offset = -offsetFromAToB;
-        // }
 
         GameObject[] rootObjects = scene.GetRootGameObjects();
         foreach (GameObject obj in rootObjects)
