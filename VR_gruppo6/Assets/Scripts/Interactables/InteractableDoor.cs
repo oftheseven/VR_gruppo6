@@ -1,26 +1,22 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using UnityEngine.EventSystems;
 
 public class InteractableDoor : MonoBehaviour
 {
-    [Header("Interaction text")]
-    [SerializeField] private string interactionText = "Premi E per aprire la porta";
-
     [Header("Door settings")]
     [SerializeField] private Animator doorAnimator;
 
     [Header("Connected Scenes")]
-    [SerializeField] private string sceneA = "TortaInTesta"; // Prima scena
-    [SerializeField] private string sceneB = "DivinationClass"; // Seconda scena
-    [SerializeField] private Vector3 offsetFromAToB = new Vector3(0, 0, 10); // Offset quando carichi B da A
+    [SerializeField] private string sceneA = "TortaInTesta"; // prima scena
+    [SerializeField] private string sceneB = "DivinationClass"; // seconda scena
+    [SerializeField] private Vector3 offsetFromAToB = new Vector3(0, 0, 0);
     [SerializeField] private float loadDelay = 1f;
 
     private bool isOpen = false;
     public bool IsOpen => isOpen;
 
-    private string currentLoadedScene = ""; // Quale scena "extra" è caricata
+    private string currentLoadedScene = "";
 
     public void Interact()
     {
@@ -39,11 +35,9 @@ public class InteractableDoor : MonoBehaviour
         isOpen = true;
         doorAnimator.SetTrigger("Open");
         
-        // Rileva da quale scena sto aprendo
         string playerScene = SceneZone.GetCurrentPlayerScene();
-        Debug.Log($"🚪 Apro porta da: {playerScene}");
+        // Debug.Log($"Apro porta da: {playerScene}");
 
-        // Determina quale scena caricare
         string sceneToLoad = GetSceneToLoad(playerScene);
 
         if (!string.IsNullOrEmpty(sceneToLoad) && !IsSceneLoaded(sceneToLoad))
@@ -52,7 +46,7 @@ public class InteractableDoor : MonoBehaviour
         }
         else
         {
-            Debug.Log($"✓ Scena {sceneToLoad} già caricata");
+            // Debug.Log($"Scena {sceneToLoad} già caricata");
         }
     }
 
@@ -62,50 +56,46 @@ public class InteractableDoor : MonoBehaviour
         doorAnimator.SetTrigger("Close");
         
         string playerScene = SceneZone.GetCurrentPlayerScene();
-        Debug.Log($"🚪 Chiudo porta, player in: {playerScene}");
+        // Debug.Log($"Chiudo porta, player in: {playerScene}");
 
-        // Se player è dall'altra parte, scarica la scena vecchia
+        // se il player è dall'altra parte, faccio l'unload dell'altra scena
         string sceneToUnload = GetSceneToUnload(playerScene);
         
-        // if (!string.IsNullOrEmpty(sceneToUnload) && IsSceneLoaded(sceneToUnload))
-        // {
-        //     StartCoroutine(UnloadOldScene(sceneToUnload));
-        // }
+        if (!string.IsNullOrEmpty(sceneToUnload) && IsSceneLoaded(sceneToUnload))
+        {
+            StartCoroutine(UnloadOldScene(sceneToUnload));
+        }
     }
 
-    // ⭐ Determina quale scena caricare in base a dove è il player
     private string GetSceneToLoad(string playerScene)
     {
         if (playerScene == sceneA)
         {
-            return sceneB; // Player in A, carica B
+            return sceneB;
         }
         else if (playerScene == sceneB)
         {
-            return sceneA; // Player in B, carica A
+            return sceneA;
         }
         
-        // Default: carica B se non sappiamo dove è il player
-        Debug.LogWarning($"⚠️ Player in scena sconosciuta: {playerScene}, carico {sceneB}");
+        // Debug.LogWarning($"Player in scena sconosciuta: {playerScene}, carico {sceneB}");
         return sceneB;
     }
 
-    // ⭐ Determina quale scena scaricare
     private string GetSceneToUnload(string playerScene)
     {
         if (playerScene == sceneA)
         {
-            return sceneB; // Player in A, scarica B
+            return sceneB;
         }
         else if (playerScene == sceneB)
         {
-            return sceneA; // Player in B, scarica A
+            return sceneA;
         }
         
         return "";
     }
 
-    // ⭐ Controlla se una scena è già caricata
     private bool IsSceneLoaded(string sceneName)
     {
         for (int i = 0; i < SceneManager.sceneCount; i++)
@@ -123,7 +113,7 @@ public class InteractableDoor : MonoBehaviour
     {
         yield return new WaitForSeconds(loadDelay);
 
-        Debug.Log($"🌍 Carico {sceneToLoad} (aperto da {fromScene})");
+        // Debug.Log($"Carico {sceneToLoad} (aperto da {fromScene})");
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
 
@@ -133,78 +123,62 @@ public class InteractableDoor : MonoBehaviour
         }
 
         currentLoadedScene = sceneToLoad;
-        Debug.Log($"✅ Scena {sceneToLoad} caricata!");
-
-        // Persist player e UI
-        if (PlayerController.instance != null)
-        {
-            DontDestroyOnLoad(PlayerController.instance.gameObject);
-        }
-        
-        if (EventSystem.current != null)
-        {
-            DontDestroyOnLoad(EventSystem.current.gameObject);
-        }
-
-        // Posiziona la scena caricata
+        // Debug.Log($"Scena {sceneToLoad} caricata!");
+    
         PositionScene(sceneToLoad, fromScene);
     }
 
-    // ⭐ Posiziona la scena caricata in base a da dove è stata aperta
     private void PositionScene(string loadedScene, string fromScene)
     {
         Scene scene = SceneManager.GetSceneByName(loadedScene);
         
         if (!scene.IsValid())
         {
-            Debug.LogWarning($"⚠️ Scena {loadedScene} non valida");
+            // Debug.LogWarning($"Scena {loadedScene} non valida");
             return;
         }
 
-        // Calcola offset
         Vector3 offset = Vector3.zero;
         
         if (fromScene == sceneA && loadedScene == sceneB)
         {
-            offset = offsetFromAToB; // A → B: usa offset configurato
+            offset = offsetFromAToB;
         }
-        else if (fromScene == sceneB && loadedScene == sceneA)
-        {
-            offset = -offsetFromAToB; // B → A: offset opposto
-        }
+        // else if (fromScene == sceneB && loadedScene == sceneA)
+        // {
+        //     offset = -offsetFromAToB;
+        // }
 
-        // Applica offset
         GameObject[] rootObjects = scene.GetRootGameObjects();
         foreach (GameObject obj in rootObjects)
         {
             obj.transform.position += offset;
         }
 
-        Debug.Log($"📦 Scena {loadedScene} posizionata a offset {offset}");
+        // Debug.Log($"Scena {loadedScene} posizionata a offset {offset}");
     }
 
-    // private IEnumerator UnloadOldScene(string sceneToUnload)
-    // {
-    //     yield return new WaitForSeconds(0.5f);
+    private IEnumerator UnloadOldScene(string sceneToUnload)
+    {
+        yield return new WaitForSeconds(2f);
 
-    //     // Verifica che player NON sia nella scena da scaricare
-    //     string playerScene = SceneZone.GetCurrentPlayerScene();
+        string playerScene = SceneZone.GetCurrentPlayerScene();
         
-    //     if (playerScene == sceneToUnload)
-    //     {
-    //         Debug.Log($"⚠️ Player ancora in {sceneToUnload}, annullo scaricamento");
-    //         yield break;
-    //     }
+        if (playerScene == sceneToUnload)
+        {
+            // Debug.Log($"Player ancora in {sceneToUnload}, annullo scaricamento");
+            yield break;
+        }
 
-    //     Scene scene = SceneManager.GetSceneByName(sceneToUnload);
+        Scene scene = SceneManager.GetSceneByName(sceneToUnload);
         
-    //     if (scene.IsValid())
-    //     {
-    //         Debug.Log($"🗑️ Scarico scena: {sceneToUnload}");
-    //         SceneManager.UnloadSceneAsync(sceneToUnload);
-    //         currentLoadedScene = "";
-    //     }
-    // }
+        if (scene.IsValid())
+        {
+            // Debug.Log($"Scarico scena: {sceneToUnload}");
+            SceneManager.UnloadSceneAsync(sceneToUnload);
+            currentLoadedScene = "";
+        }
+    }
 
     public string GetInteractionText()
     {
