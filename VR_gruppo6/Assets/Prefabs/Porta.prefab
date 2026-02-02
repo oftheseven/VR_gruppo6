@@ -27,13 +27,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 191114884397977861}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0.00000004371139}
-  m_LocalPosition: {x: 0.44097286, y: 1.0072359, z: 0}
-  m_LocalScale: {x: 0.4423079, y: 1, z: 0.07377111}
+  m_LocalRotation: {x: 0.0000000019313118, y: -1.1641531e-10, z: 1, w: 0.000000043655742}
+  m_LocalPosition: {x: 0.49443763, y: 0.96354437, z: 0}
+  m_LocalScale: {x: 0.47983038, y: 1.0148113, z: 0.07486375}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3454543465542622512}
-  m_Father: {fileID: 3729368944522191092}
+  m_Father: {fileID: 733563485288348145}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8919572929696045783
 MeshFilter:
@@ -112,38 +112,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.0000002, y: 2, z: 2.0000007}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1363181084177481576
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3729368944522191092}
-  m_Layer: 0
-  m_Name: Anta piccola
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3729368944522191092
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1363181084177481576}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0798, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1090622889332629832}
-  m_Father: {fileID: 387771339971342684}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1972405437339707989
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,13 +229,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2410435343099858081}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0.00000004371139}
-  m_LocalPosition: {x: -0.69857836, y: 1.0072359, z: 0}
-  m_LocalScale: {x: 0.6989093, y: 1, z: 0.07377111}
+  m_LocalRotation: {x: 0.0000000019313118, y: -1.1641531e-10, z: 1, w: 0.000000043655742}
+  m_LocalPosition: {x: -0.7601189, y: 1.0008432, z: 0}
+  m_LocalScale: {x: 0.75820017, y: 1.0148113, z: 0.07486375}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5047747075936884291}
-  m_Father: {fileID: 8727990784938998140}
+  m_Father: {fileID: 8384820944367763440}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9093179520153815931
 MeshFilter:
@@ -359,66 +327,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableDoor
   interactionText: Premi E per aprire la porta
-  doorAnimator: {fileID: 2519088374208465599}
+  doorAnimator: {fileID: 0}
+  sceneName: 
   sceneToLoad: DivinationClass
   sceneOffset: {x: -17.39, y: 0, z: 0}
-  unloadPreviousScene: 0
   loadDelay: 1
---- !u!1 &2588107232344395390
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8727990784938998140}
-  - component: {fileID: 2519088374208465599}
-  m_Layer: 0
-  m_Name: Anta grande
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8727990784938998140
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2588107232344395390}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.3639, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7166788694900103739}
-  m_Father: {fileID: 387771339971342684}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &2519088374208465599
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2588107232344395390}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3f6ad2f331fd57c4a8ce0857aab814b7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2692701001002995854
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,6 +421,38 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4206859286731595454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8384820944367763440}
+  m_Layer: 0
+  m_Name: Anta grande (perno)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8384820944367763440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4206859286731595454}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.366, y: 0.021, z: 0}
+  m_LocalScale: {x: 0.9218006, y: 0.9854049, z: 0.9854049}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7166788694900103739}
+  m_Father: {fileID: 387771339971342684}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6704219984737766551
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,10 +482,42 @@ Transform:
   m_LocalScale: {x: 1.0848333, y: 1.0148113, z: 1.0148113}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8727990784938998140}
-  - {fileID: 3729368944522191092}
+  - {fileID: 8384820944367763440}
+  - {fileID: 733563485288348145}
   - {fileID: 2934198248622710179}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7257482190331171598
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 733563485288348145}
+  m_Layer: 0
+  m_Name: Anta piccola (perno)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &733563485288348145
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7257482190331171598}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.065, y: 0.057754576, z: 0}
+  m_LocalScale: {x: 0.92180055, y: 0.9854049, z: 0.9854049}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1090622889332629832}
+  m_Father: {fileID: 387771339971342684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7514412803101366145
 GameObject:
