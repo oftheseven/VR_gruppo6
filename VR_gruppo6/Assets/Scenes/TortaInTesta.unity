@@ -830,6 +830,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8625873275658748454, guid: 356d63ea1579d441ab03c66bb62a3298, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 8899695880865628900, guid: 356d63ea1579d441ab03c66bb62a3298, type: 3}
       propertyPath: _jumpForce
       value: 500
@@ -5630,8 +5634,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9002404, y: 0.16737546, z: 18.00684}
-  m_Center: {x: 0.054224826, y: 0.046784632, z: 0.8518715}
+  m_Size: {x: 0.9002404, y: 4.380765, z: 18.00684}
+  m_Center: {x: 0.054224826, y: 2.1534796, z: 0.8518715}
 --- !u!114 &857602726
 MonoBehaviour:
   m_ObjectHideFlags: 0

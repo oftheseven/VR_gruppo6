@@ -30,7 +30,7 @@ public class InteractableDoor : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("Interazione con " + this.name);
+        // Debug.Log("Interazione con " + this.name);
 
         if (!isOpen)
         {
@@ -70,7 +70,7 @@ public class InteractableDoor : MonoBehaviour
 
         while (!asyncLoad.isDone)
         {
-            Debug.Log("Caricamento scena in corso...");
+            // Debug.Log("Caricamento scena in corso...");
             yield return null;
         }
 
@@ -79,7 +79,7 @@ public class InteractableDoor : MonoBehaviour
 
         DontDestroyOnLoad(PlayerController.instance.gameObject);
 
-        Debug.Log("Scena caricata: " + loadedScene.name);
+        // Debug.Log("Scena caricata: " + loadedScene.name);
         
         PositionLoadedScene();
 

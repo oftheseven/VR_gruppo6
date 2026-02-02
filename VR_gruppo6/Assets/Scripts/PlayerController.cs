@@ -345,7 +345,6 @@ public class PlayerController : MonoBehaviour
                     InteractableArm arm = hit.collider.GetComponent<InteractableArm>();
                     if (arm != null)
                     {
-                        Debug.Log("Rilevato braccio interagibile");
                         if (currentArm != arm)
                         {
                             currentArm = arm;
