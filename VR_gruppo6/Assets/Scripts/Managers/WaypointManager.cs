@@ -95,6 +95,7 @@ public class WaypointManager : MonoBehaviour
             Waypoint waypoint = waypointObj.GetComponent<Waypoint>();
             if (waypoint != null)
             {
+                waypoint.Initialize(i + 1);
                 waypoint.gameObject.SetActive(true);
                 waypoints.Add(waypoint);
             }

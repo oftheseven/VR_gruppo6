@@ -43,6 +43,18 @@ public class Waypoint : MonoBehaviour
         SetInactive();
     }
 
+    public void Initialize(int index)
+    {
+        waypointIndex = index;
+        
+        if (waypointLabel != null)
+        {
+            waypointLabel.text = index.ToString();
+        }
+        
+        Debug.Log($"🔧 Waypoint inizializzato con indice {index}");
+    }
+
     public void SetActive()
     {
         isActive = true;
@@ -85,7 +97,7 @@ public class Waypoint : MonoBehaviour
                 sphereMaterial.color = inactiveColor;
             }
         }
-
+    
         if (waypointLabel != null)
         {
             waypointLabel.text = waypointIndex.ToString();
