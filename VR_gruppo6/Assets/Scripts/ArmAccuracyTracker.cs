@@ -46,7 +46,7 @@ public class ArmAccuracyTracker : MonoBehaviour
     {
         if (armTip == null)
         {
-            Debug.LogError("❌ Punta del braccio non assegnata!");
+            // Debug.LogError("❌ Punta del braccio non assegnata!");
             return;
         }
         
@@ -54,13 +54,13 @@ public class ArmAccuracyTracker : MonoBehaviour
         sessionStartTime = Time.time;
         trackingTimer = 0f;
         
-        Debug.Log("🎬 Tracking iniziato");
+        // Debug.Log("🎬 Tracking iniziato");
     }
 
     public void StopTracking()
     {
         isTracking = false;
-        Debug.Log($"⏹️ Tracking fermato (durata: {SessionDuration:F1}s)");
+        // Debug.Log($"⏹️ Tracking fermato (durata: {SessionDuration:F1}s)");
     }
 
     private void RecordSnapshot()

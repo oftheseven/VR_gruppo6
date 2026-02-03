@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
   waypointIndex: 0
-  triggerRadius: 0.5
+  triggerRadius: 0.15
   sphereRenderer: {fileID: 7557430229382843861}
   waypointLabel: {fileID: 4587068859700081762}
   inactiveColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.3}

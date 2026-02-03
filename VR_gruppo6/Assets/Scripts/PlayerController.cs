@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
     private float verticalRotation = 0f;
     private float gravity = 9.81f;
     private static bool moveEnabled = true; // bool per abilitare/disabilitare il movimento
-    public static void EnableMovement(bool enable) { moveEnabled = enable; } // funzione che modifica il valore di moveEnabled in modo che la variabile non sia pubblica
 
     [Header("Computer interaction")]
     private InteractableComputer currentComputer = null;
@@ -118,6 +117,12 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+    }
+
+    // funzione che modifica il valore di moveEnabled in modo che la variabile non sia pubblica
+    public static void EnableMovement(bool enable) 
+    { 
+        moveEnabled = enable;
     }
 
     private void Move()
@@ -230,7 +235,8 @@ public class PlayerController : MonoBehaviour
 
     private void CheckForInteractable()
     {
-        if (isDialogueActive || isInteracting)
+        // se il dialogo è attivo o l'utente sta interagendo con un pannello, non fare il raycast
+        if (isDialogueActive || isInteracting || !moveEnabled)
         {
             return;
         }
@@ -501,6 +507,11 @@ public class PlayerController : MonoBehaviour
 
     private void HandleArmInteraction()
     {
+        if (UI_AccuracyFeedback.instance != null && UI_AccuracyFeedback.instance.IsOpen)
+        {
+            return;
+        }
+
         if (Keyboard.current.eKey.wasPressedThisFrame && currentArm != null)
         {
             UI_ArmPanel panel = currentArm.GetArmPanel();

@@ -52,14 +52,14 @@ public class Waypoint : MonoBehaviour
             waypointLabel.text = index.ToString();
         }
         
-        Debug.Log($"🔧 Waypoint inizializzato con indice {index}");
+        // Debug.Log($"🔧 Waypoint inizializzato con indice {index}");
     }
 
     public void SetActive()
     {
         isActive = true;
         UpdateVisuals();
-        Debug.Log($"✅ Waypoint {waypointIndex} attivato");
+        // Debug.Log($"✅ Waypoint {waypointIndex} attivato");
     }
 
     public void SetInactive()
@@ -77,7 +77,7 @@ public class Waypoint : MonoBehaviour
 
         isReached = true;
         UpdateVisuals();
-        Debug.Log($"🏁 Waypoint {waypointIndex} raggiunto");
+        // Debug.Log($"🏁 Waypoint {waypointIndex} raggiunto");
     }
 
     private void UpdateVisuals()

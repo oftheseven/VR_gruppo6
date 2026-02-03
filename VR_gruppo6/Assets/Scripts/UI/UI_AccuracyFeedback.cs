@@ -43,10 +43,10 @@ public class UI_AccuracyFeedback : MonoBehaviour
     {
         if (feedbackPanel == null)
         {
-            Debug.LogError("❌ Feedback Panel non assegnato!");
             return;
         }
         
+        PlayerController.EnableMovement(false);
         feedbackPanel.SetActive(true);
         isOpen = true;
         
@@ -64,16 +64,12 @@ public class UI_AccuracyFeedback : MonoBehaviour
         {
             timeText.text = $"Tempo: {timeTaken:F1}s";
         }
-        
-        Debug.Log($"📊 Feedback mostrato: {results.finalScore:F0}%");
     }
 
     public void OnRetryClicked()
     {
-        Debug.Log("🔄 Retry clicked");
         Close();
         
-        // Riapri il pannello braccio
         if (InteractableArm.instance != null)
         {
             InteractableArm.instance.GetArmPanel().OpenArm();
@@ -82,8 +78,8 @@ public class UI_AccuracyFeedback : MonoBehaviour
 
     public void OnContinueClicked()
     {
-        Debug.Log("➡️ Continue clicked");
         Close();
+        PlayerController.EnableMovement(true);
     }
 
     public void Close()

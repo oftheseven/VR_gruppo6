@@ -78,52 +78,6 @@ public class UI_ArmPanel :  MonoBehaviour
         }
     }
 
-    // public void OpenArm()
-    // {
-    //     this.gameObject.SetActive(true);
-    //     selectedPivotText.gameObject.SetActive(true);
-    //     isOpen = true;
-    //     PlayerController.EnableMovement(false);
-
-    //     PlayerController.instance.playerCamera.gameObject.SetActive(false);
-    //     armCamera.gameObject.SetActive(true); // attivo la camera del braccio
-
-    //     currentSelection = PivotSelection.Base;
-    //     UpdateSelectionUI();
-    //     UpdateSelectionHighlight();
-
-    //     if (infoPanel != null)
-    //     {
-    //         infoPanel.OnDeviceOpened();
-    //     }
-    // }
-
-    // public void CloseArm()
-    // {
-    //     isOpen = false;
-    //     holdTimer = 0f;
-
-    //     DisableAllOutlines();
-
-    //     if (holdIndicator != null)
-    //     {
-    //         holdIndicator.SetActive(false);
-    //     }
-
-    //     if (infoPanel != null)
-    //     {
-    //         infoPanel.OnDeviceClosed();
-    //     }
-        
-    //     StartCoroutine(CooldownAndHide());
-    //     this.gameObject.SetActive(false);
-    //     selectedPivotText.gameObject.SetActive(false);
-    //     canInteract = true;
-    //     PlayerController.EnableMovement(true);
-    //     PlayerController.instance.playerCamera.gameObject.SetActive(true);
-    //     armCamera.gameObject.SetActive(false); // disattivo la camera del braccio
-    // }
-
     public void OpenArm()
     {
         this.gameObject.SetActive(true);
@@ -143,13 +97,11 @@ public class UI_ArmPanel :  MonoBehaviour
             infoPanel.OnDeviceOpened();
         }
     
-        // ⭐ NUOVO: Avvia waypoint challenge
         if (enableWaypointChallenge && WaypointManager.instance != null)
         {
             WaypointManager.instance.StartWaypointChallenge();
         }
     
-        // ⭐ NUOVO: Avvia tracking
         if (ArmAccuracyTracker.instance != null)
         {
             ArmAccuracyTracker.instance.StartTracking();
@@ -173,7 +125,6 @@ public class UI_ArmPanel :  MonoBehaviour
             infoPanel.OnDeviceClosed();
         }
     
-        // ⭐ NUOVO: Ferma tracking
         float timeTaken = 0f;
         if (ArmAccuracyTracker.instance != null)
         {
@@ -181,7 +132,6 @@ public class UI_ArmPanel :  MonoBehaviour
             ArmAccuracyTracker.instance.StopTracking();
         }
     
-        // ⭐ NUOVO: Ferma challenge e calcola risultati
         if (enableWaypointChallenge && WaypointManager.instance != null)
         {
             WaypointManager.instance.StopWaypointChallenge();
@@ -199,7 +149,6 @@ public class UI_ArmPanel :  MonoBehaviour
         this.gameObject.SetActive(false);
         selectedPivotText.gameObject.SetActive(false);
         canInteract = true;
-        PlayerController.EnableMovement(true);
         PlayerController.instance.playerCamera.gameObject.SetActive(true);
         armCamera.gameObject.SetActive(false);
     }

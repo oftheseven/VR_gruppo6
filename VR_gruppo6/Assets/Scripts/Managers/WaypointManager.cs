@@ -21,8 +21,7 @@ public class WaypointManager : MonoBehaviour
     [SerializeField] private GameObject waypointPrefab; // prefab del waypoint da instanziare
 
     [Header("Scoring")]
-    [SerializeField] private float perfectDistanceThreshold = 0.2f; // distanza perfetta per punteggio massimo
-    [SerializeField] private float goodDistanceThreshold = 0.5f; // distanza buona per punteggio medio
+    [SerializeField] private float perfectDistanceThreshold = 0.2f;
 
     private List<Waypoint> waypoints = new List<Waypoint>();
     private int currentWaypointIndex = 0;
@@ -75,6 +74,7 @@ public class WaypointManager : MonoBehaviour
     public void StopWaypointChallenge()
     {
         isActive = false;
+        ClearWaypoints();
         Debug.Log("Waypoint Challenge terminato.");
     }
 
@@ -126,16 +126,16 @@ public class WaypointManager : MonoBehaviour
         waypoint.MarkAsReached();
         currentWaypointIndex++;
 
-        Debug.Log($"✅ Waypoint {waypoint.WaypointIndex} raggiunto! ({waypointsReached}/{waypoints.Count})");
+        // Debug.Log($"✅ Waypoint {waypoint.WaypointIndex} raggiunto! ({waypointsReached}/{waypoints.Count})");
 
         if (currentWaypointIndex < waypoints.Count)
         {
             waypoints[currentWaypointIndex].SetActive();
         }
-        else
-        {
-            Debug.Log("🎉 Tutti i waypoint raggiunti!");
-        }
+        // else
+        // {
+        //     Debug.Log("🎉 Tutti i waypoint raggiunti!");
+        // }
     }
 
     public AccuracyResults CalculateFinalScore()
