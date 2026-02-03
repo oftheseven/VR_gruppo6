@@ -16,8 +16,13 @@ public class UI_AccuracyFeedback : MonoBehaviour
     [SerializeField] private Button retryButton;
     [SerializeField] private Button continueButton;
 
+    [Header("Replay UI")]
+    [SerializeField] private Button replayButton;
+
     private bool isOpen = false;
     public bool IsOpen => isOpen;
+
+    private bool isReplaying = false;
 
     void Awake()
     {
@@ -64,6 +69,54 @@ public class UI_AccuracyFeedback : MonoBehaviour
         {
             timeText.text = $"Tempo: {timeTaken:F1}s";
         }
+
+        if (replayButton != null)
+        {
+            bool hasRecording = ArmMovementRecorder.instance != null 
+                && ArmMovementRecorder.instance.SnapshotCount > 0;
+            replayButton.interactable = hasRecording;
+        }
+    }
+
+    public void OnReplayClicked()
+    {
+        if (ArmMovementRecorder.instance == null || ArmMovementPlayback.instance == null)
+        {
+            Debug.LogError("❌ Recorder o Playback non disponibili!");
+            return;
+        }
+        
+        if (ArmMovementRecorder.instance.SnapshotCount == 0)
+        {
+            Debug.LogWarning("⚠️ Nessun movimento registrato!");
+            return;
+        }
+        
+        Debug.Log("▶️ Avvio replay movimento...");
+        
+        if (retryButton != null) retryButton.interactable = false;
+        if (continueButton != null) continueButton.interactable = false;
+        if (replayButton != null) replayButton.interactable = false;
+
+        isReplaying = true;
+        
+        ArmMovementPlayback.instance.StartPlayback(ArmMovementRecorder.instance.RecordedSnapshots);
+    }
+
+    public void OnPlaybackStarted()
+    {
+        Debug.Log("🎬 Playback avviato da UI");
+    }
+
+    public void OnPlaybackFinished()
+    {
+        Debug.Log("✅ Playback completato");
+        
+        isReplaying = false;
+        
+        if (retryButton != null) retryButton.interactable = true;
+        if (continueButton != null) continueButton.interactable = true;
+        if (replayButton != null) replayButton.interactable = true;
     }
 
     public void OnRetryClicked()
@@ -84,10 +137,16 @@ public class UI_AccuracyFeedback : MonoBehaviour
 
     public void Close()
     {
+        if (isReplaying && ArmMovementPlayback.instance != null)
+        {
+            ArmMovementPlayback.instance.StopPlayback();
+        }
+
         if (feedbackPanel != null)
         {
             feedbackPanel.SetActive(false);
         }
         isOpen = false;
+        isReplaying = false;
     }
 }

@@ -4,8 +4,12 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using TMPro;
 
-public class UI_ArmPanel :  MonoBehaviour
+public class UI_ArmPanel : MonoBehaviour
 {
+    // singleton
+    private static UI_ArmPanel _instance;
+    public static UI_ArmPanel instance => _instance;
+
     [Header("Camera timer settings")]
     [SerializeField] private float holdTimeToClose = 2f;
     [SerializeField] private float cooldownTime = 1f;
@@ -36,6 +40,7 @@ public class UI_ArmPanel :  MonoBehaviour
     private bool canInteract = true;
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
+    public Camera ArmCamera => armCamera;
 
     private enum PivotSelection
     {
@@ -49,6 +54,17 @@ public class UI_ArmPanel :  MonoBehaviour
     private float targetPivot1X = 0f;
     private float targetPivot2X = 0f;
 
+    void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
     void Start()
     {
         this.gameObject.SetActive(false);
@@ -340,11 +356,11 @@ public class UI_ArmPanel :  MonoBehaviour
         {
             if (Keyboard.current.upArrowKey.isPressed)
             {
-                targetPivot1X += InteractableArm.instance.RotationSpeed * Time.deltaTime;
+                targetPivot1X -= InteractableArm.instance.RotationSpeed * Time.deltaTime;
             }
             else if (Keyboard.current.downArrowKey.isPressed)
             {
-                targetPivot1X -= InteractableArm.instance.RotationSpeed * Time.deltaTime;
+                targetPivot1X += InteractableArm.instance.RotationSpeed * Time.deltaTime;
             }
 
             targetPivot1X = Mathf.Clamp(targetPivot1X, InteractableArm.instance.MinPivot1X, InteractableArm.instance.MaxPivot1X);

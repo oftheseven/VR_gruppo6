@@ -36,7 +36,6 @@ public class ArmAccuracyTracker : MonoBehaviour
             trackingTimer += Time.deltaTime;
             if (trackingTimer >= trackingInterval)
             {
-                RecordSnapshot();
                 trackingTimer = 0f;
             }
         }
@@ -53,6 +52,11 @@ public class ArmAccuracyTracker : MonoBehaviour
         isTracking = true;
         sessionStartTime = Time.time;
         trackingTimer = 0f;
+
+        if (ArmMovementRecorder.instance != null)
+        {
+            ArmMovementRecorder.instance.StartRecording();
+        }
         
         // Debug.Log("🎬 Tracking iniziato");
     }
@@ -61,16 +65,11 @@ public class ArmAccuracyTracker : MonoBehaviour
     {
         isTracking = false;
         // Debug.Log($"⏹️ Tracking fermato (durata: {SessionDuration:F1}s)");
-    }
 
-    private void RecordSnapshot()
-    {
-        // Per Phase 2 (replay), qui salveremo:
-        // - Posizione end effector
-        // - Rotazioni pivot
-        // - Timestamp
-        
-        // Per ora solo placeholder
+        if (ArmMovementRecorder.instance != null)
+        {
+            ArmMovementRecorder.instance.StopRecording();
+        }
     }
 
     public float GetDistanceToWaypoint(Vector3 waypointPosition)

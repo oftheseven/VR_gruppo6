@@ -104,9 +104,9 @@ public class ArmMovementRecorder : MonoBehaviour
         ArmSnapshot snapshot = new ArmSnapshot
         (
             currentTime,
-            basePivot.rotation,
-            pivot1.rotation,
-            pivot2.rotation,
+            basePivot.localRotation,
+            pivot1.localRotation,
+            pivot2.localRotation,
             armTip.position
         );
 
