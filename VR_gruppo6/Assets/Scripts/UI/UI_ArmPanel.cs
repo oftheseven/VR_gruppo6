@@ -21,6 +21,9 @@ public class UI_ArmPanel :  MonoBehaviour
     [SerializeField] private InteractableArm interactableArm; // reference all'InteractableArm da far muovere
     [SerializeField] private Camera armCamera; // reference alla camera del braccio meccanico usata per muoverlo
 
+    [Header("Waypoint System")]
+    [SerializeField] private bool enableWaypointChallenge = true;
+
     [Header("Pivot selection UI")]
     [SerializeField] private TextMeshProUGUI selectedPivotText; // testo che mostra il pivot selezionato
 
@@ -75,6 +78,52 @@ public class UI_ArmPanel :  MonoBehaviour
         }
     }
 
+    // public void OpenArm()
+    // {
+    //     this.gameObject.SetActive(true);
+    //     selectedPivotText.gameObject.SetActive(true);
+    //     isOpen = true;
+    //     PlayerController.EnableMovement(false);
+
+    //     PlayerController.instance.playerCamera.gameObject.SetActive(false);
+    //     armCamera.gameObject.SetActive(true); // attivo la camera del braccio
+
+    //     currentSelection = PivotSelection.Base;
+    //     UpdateSelectionUI();
+    //     UpdateSelectionHighlight();
+
+    //     if (infoPanel != null)
+    //     {
+    //         infoPanel.OnDeviceOpened();
+    //     }
+    // }
+
+    // public void CloseArm()
+    // {
+    //     isOpen = false;
+    //     holdTimer = 0f;
+
+    //     DisableAllOutlines();
+
+    //     if (holdIndicator != null)
+    //     {
+    //         holdIndicator.SetActive(false);
+    //     }
+
+    //     if (infoPanel != null)
+    //     {
+    //         infoPanel.OnDeviceClosed();
+    //     }
+        
+    //     StartCoroutine(CooldownAndHide());
+    //     this.gameObject.SetActive(false);
+    //     selectedPivotText.gameObject.SetActive(false);
+    //     canInteract = true;
+    //     PlayerController.EnableMovement(true);
+    //     PlayerController.instance.playerCamera.gameObject.SetActive(true);
+    //     armCamera.gameObject.SetActive(false); // disattivo la camera del braccio
+    // }
+
     public void OpenArm()
     {
         this.gameObject.SetActive(true);
@@ -83,7 +132,7 @@ public class UI_ArmPanel :  MonoBehaviour
         PlayerController.EnableMovement(false);
 
         PlayerController.instance.playerCamera.gameObject.SetActive(false);
-        armCamera.gameObject.SetActive(true); // attivo la camera del braccio
+        armCamera.gameObject.SetActive(true);
 
         currentSelection = PivotSelection.Base;
         UpdateSelectionUI();
@@ -93,13 +142,25 @@ public class UI_ArmPanel :  MonoBehaviour
         {
             infoPanel.OnDeviceOpened();
         }
+    
+        // ⭐ NUOVO: Avvia waypoint challenge
+        if (enableWaypointChallenge && WaypointManager.instance != null)
+        {
+            WaypointManager.instance.StartWaypointChallenge();
+        }
+    
+        // ⭐ NUOVO: Avvia tracking
+        if (ArmAccuracyTracker.instance != null)
+        {
+            ArmAccuracyTracker.instance.StartTracking();
+        }
     }
 
     public void CloseArm()
     {
         isOpen = false;
         holdTimer = 0f;
-
+    
         DisableAllOutlines();
 
         if (holdIndicator != null)
@@ -111,14 +172,36 @@ public class UI_ArmPanel :  MonoBehaviour
         {
             infoPanel.OnDeviceClosed();
         }
-        
+    
+        // ⭐ NUOVO: Ferma tracking
+        float timeTaken = 0f;
+        if (ArmAccuracyTracker.instance != null)
+        {
+            timeTaken = ArmAccuracyTracker.instance.SessionDuration;
+            ArmAccuracyTracker.instance.StopTracking();
+        }
+    
+        // ⭐ NUOVO: Ferma challenge e calcola risultati
+        if (enableWaypointChallenge && WaypointManager.instance != null)
+        {
+            WaypointManager.instance.StopWaypointChallenge();
+
+            AccuracyResults results = WaypointManager.instance.CalculateFinalScore();
+
+            // Mostra feedback
+            if (UI_AccuracyFeedback.instance != null)
+            {
+                UI_AccuracyFeedback.instance.ShowResults(results, timeTaken);
+            }
+        }
+    
         StartCoroutine(CooldownAndHide());
         this.gameObject.SetActive(false);
         selectedPivotText.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
         PlayerController.instance.playerCamera.gameObject.SetActive(true);
-        armCamera.gameObject.SetActive(false); // disattivo la camera del braccio
+        armCamera.gameObject.SetActive(false);
     }
 
     public void HandleArmClose()
