@@ -19,6 +19,7 @@ public class UI_ArmPanel :  MonoBehaviour
 
     [Header("Arm reference")]
     [SerializeField] private InteractableArm interactableArm; // reference all'InteractableArm da far muovere
+    [SerializeField] private Camera armCamera; // reference alla camera del braccio meccanico usata per muoverlo
 
     [Header("Pivot selection UI")]
     [SerializeField] private TextMeshProUGUI selectedPivotText; // testo che mostra il pivot selezionato
@@ -49,6 +50,7 @@ public class UI_ArmPanel :  MonoBehaviour
     {
         this.gameObject.SetActive(false);
         selectedPivotText.gameObject.SetActive(false);
+        armCamera.gameObject.SetActive(false);
         canInteract = true;
 
         if (holdIndicator != null)
@@ -79,6 +81,9 @@ public class UI_ArmPanel :  MonoBehaviour
         selectedPivotText.gameObject.SetActive(true);
         isOpen = true;
         PlayerController.EnableMovement(false);
+
+        PlayerController.instance.playerCamera.gameObject.SetActive(false);
+        armCamera.gameObject.SetActive(true); // attivo la camera del braccio
 
         currentSelection = PivotSelection.Base;
         UpdateSelectionUI();
@@ -112,6 +117,8 @@ public class UI_ArmPanel :  MonoBehaviour
         selectedPivotText.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
+        PlayerController.instance.playerCamera.gameObject.SetActive(true);
+        armCamera.gameObject.SetActive(false); // disattivo la camera del braccio
     }
 
     public void HandleArmClose()
