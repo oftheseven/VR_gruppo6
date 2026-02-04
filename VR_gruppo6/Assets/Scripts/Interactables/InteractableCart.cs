@@ -5,8 +5,8 @@ public class InteractableCart : MonoBehaviour
     [Header("Interaction text")]
     [SerializeField] private string interactionText = "Premi E per muovere il carrello";
 
-    [Header("Player reference")]
-    [SerializeField] private PlayerController playerController;
+    // [Header("Player reference")]
+    // [SerializeField] private PlayerController playerController;
     
     [Header("Cart movement settings")]
     [SerializeField] private float followDistance = 2f;
@@ -52,9 +52,9 @@ public class InteractableCart : MonoBehaviour
 
     private void StartHolding()
     {
-        if (playerController != null)
+        if (PlayerController.instance != null)
         {
-            playerTransform = playerController.transform;
+            playerTransform = PlayerController.instance.transform;
             isBeingHeld = true;
 
             rb.isKinematic = false;
@@ -62,7 +62,7 @@ public class InteractableCart : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
 
-            playerController.SetPushingCart(this);
+            PlayerController.instance.SetPushingCart(this);
 
             // Debug.Log("Carrello preso in mano");
         }
@@ -72,9 +72,9 @@ public class InteractableCart : MonoBehaviour
     {
         isBeingHeld = false;
         
-        if (playerController != null)
+        if (PlayerController.instance != null)
         {
-            playerController.SetPushingCart(null);
+            PlayerController.instance.SetPushingCart(null);
         }
 
         playerTransform = null;
