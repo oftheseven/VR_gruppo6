@@ -62,53 +62,20 @@ public class InteractableDoor : MonoBehaviour
         }
     }
 
-    // private void CloseDoor()
-    // {
-    //     isOpen = false;
-    //     doorAnimator.SetTrigger("Close");
-        
-    //     string currentPlayerScene = SceneZone.GetCurrentPlayerScene();
-    //     Debug.Log($"🚪 Chiudo porta, player in: {currentPlayerScene}");
-
-    //     // se il player è dall'altra parte, faccio l'unload dell'altra scena
-    //     string sceneToUnload = "";
-
-    //     if (currentPlayerScene == sceneA)
-    //     {
-    //         sceneToUnload = sceneB; // Player in A → scarica B
-    //         Debug.Log($"🗑️ Player in {sceneA}, scarico {sceneB}");
-    //     }
-    //     else if (currentPlayerScene == sceneB)
-    //     {
-    //         sceneToUnload = sceneA; // Player in B → scarica A
-    //         Debug.Log($"🗑️ Player in {sceneB}, scarico {sceneA}");
-    //     }
-    //     else
-    //     {
-    //         Debug.LogWarning($"⚠️ Player in scena sconosciuta: {currentPlayerScene}");
-    //         return;
-    //     }
-        
-    //     if (IsSceneLoaded(sceneToUnload))
-    //     {
-    //         StartCoroutine(UnloadOldScene(sceneToUnload));
-    //     }
-    // }
-
     private void CloseDoor()
     {
         isOpen = false;
         doorAnimator.SetTrigger("Close");
         
         string currentPlayerScene = SceneZone.GetCurrentPlayerScene();
-        Debug.Log($"🚪 Chiudo porta, player in: {currentPlayerScene}");
+        // Debug.Log($"🚪 Chiudo porta, player in: {currentPlayerScene}");
 
         if (lockAfterFirstTraversal && 
             !string.IsNullOrEmpty(sceneWhereOpenedFrom) && 
             currentPlayerScene != sceneWhereOpenedFrom)
         {
             Lock();
-            Debug.Log("🔒 Porta bloccata permanentemente dopo attraversamento!");
+            // Debug.Log("🔒 Porta bloccata permanentemente dopo attraversamento!");
         }
 
         sceneWhereOpenedFrom = "";
@@ -118,16 +85,16 @@ public class InteractableDoor : MonoBehaviour
         if (currentPlayerScene == sceneA)
         {
             sceneToUnload = sceneB;
-            Debug.Log($"🗑️ Player in {sceneA}, scarico {sceneB}");
+            // Debug.Log($"🗑️ Player in {sceneA}, scarico {sceneB}");
         }
         else if (currentPlayerScene == sceneB)
         {
             sceneToUnload = sceneA;
-            Debug.Log($"🗑️ Player in {sceneB}, scarico {sceneA}");
+            // Debug.Log($"🗑️ Player in {sceneB}, scarico {sceneA}");
         }
         else
         {
-            Debug.LogWarning($"⚠️ Player in scena sconosciuta: {currentPlayerScene}");
+            // Debug.LogWarning($"⚠️ Player in scena sconosciuta: {currentPlayerScene}");
             return;
         }
         
@@ -181,7 +148,7 @@ public class InteractableDoor : MonoBehaviour
         if (loadedScene.IsValid())
         {
             SceneManager.SetActiveScene(loadedScene);
-            Debug.Log($"✅ Active scene: {loadedScene.name}");
+            // Debug.Log($"✅ Active scene: {loadedScene.name}");
         }
 
         RemoveDuplicateEventSystems(currentLoadedScene);
@@ -207,7 +174,7 @@ public class InteractableDoor : MonoBehaviour
             foreach (EventSystem es in eventSystems)
             {
                 es.enabled = false;
-                Debug.Log($"🗑️ Rimosso EventSystem duplicato da scena {loadedSceneName}");
+                // Debug.Log($"🗑️ Rimosso EventSystem duplicato da scena {loadedSceneName}");
                 DestroyImmediate(es.gameObject);
             }
         }
@@ -244,7 +211,7 @@ public class InteractableDoor : MonoBehaviour
         if ((sceneToUnload == sceneA && keepSceneALoaded) || 
             (sceneToUnload == sceneB && keepSceneBLoaded))
         {
-            Debug.Log($"Scena {sceneToUnload} non viene scaricata (keep loaded)");
+            // Debug.Log($"Scena {sceneToUnload} non viene scaricata (keep loaded)");
             yield break;
         }
 
