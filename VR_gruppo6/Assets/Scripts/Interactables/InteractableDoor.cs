@@ -127,6 +127,13 @@ public class InteractableDoor : MonoBehaviour
         currentLoadedScene = sceneToLoad;
         // Debug.Log($"Scena {sceneToLoad} caricata!");
 
+        Scene loadedScene = SceneManager.GetSceneByName(sceneToLoad);
+        if (loadedScene.IsValid())
+        {
+            SceneManager.SetActiveScene(loadedScene);
+            Debug.Log($"✅ Active scene: {loadedScene.name}");
+        }
+
         RemoveDuplicateEventSystems(currentLoadedScene);
     
         PositionScene(sceneToLoad, fromScene);

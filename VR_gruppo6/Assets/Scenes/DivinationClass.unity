@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 128937832}
   - component: {fileID: 128937831}
   - component: {fileID: 128937830}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SceneZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
