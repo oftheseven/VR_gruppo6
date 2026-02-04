@@ -13,7 +13,7 @@ public class TutorialManager : MonoBehaviour
 
     private bool isFinished = false;
 
-    private void Awake()
+    void Awake()
     {
         if (_instance != null && _instance != this)
         {
@@ -26,22 +26,42 @@ public class TutorialManager : MonoBehaviour
         tutorialDoor.Lock();
     }
 
-    void Update()
+    void Start()
     {
-        StartCoroutine(Tutorial());
-        if (isFinished)
+        if (tutorialDoor != null)
         {
-            // sblocca la porta del tutorial
-            Debug.Log("🔓 Tutorial completato! Porta sbloccata.");
-            tutorialDoor.Unlock();
+            tutorialDoor.Lock();
         }
+
+        StartCoroutine(Tutorial());
     }
 
     // coroutine per gestire il tutorial (ad esempio durata fissa di 10 secondi) 
     // TODO: fare la meccanica reale
     private IEnumerator Tutorial()
     {
+        Debug.Log("Inizio tutorial...");
         yield return new WaitForSeconds(10f);
+        CompleteTutorial();
+    }
+
+    private void CompleteTutorial()
+    {
         isFinished = true;
+        
+        if (tutorialDoor != null)
+        {
+            tutorialDoor.Unlock();
+            Debug.Log("🔓 Tutorial completato! Porta sbloccata.");
+        }
+    }
+
+    public void MarkAsComplete()
+    {
+        if (!isFinished)
+        {
+            StopAllCoroutines();
+            CompleteTutorial();
+        }
     }
 }

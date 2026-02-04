@@ -7,9 +7,14 @@ public class InteractableDoor : MonoBehaviour
 {
     [Header("Door settings")]
     [SerializeField] private Animator doorAnimator;
-    [SerializeField] private bool isLocked = true;
+    [SerializeField] private bool isLocked = false;
 
-    [Header("Connected Scenes")]
+    [Header("Lock after traversal")]
+    [SerializeField] private bool lockAfterFirstTraversal = false;
+    [SerializeField] private bool keepSceneALoaded = false;
+    [SerializeField] private bool keepSceneBLoaded = false;
+
+    [Header("Connected scenes")]
     [SerializeField] private string sceneA = ""; // prima scena
     [SerializeField] private string sceneB = ""; // seconda scena
     [SerializeField] private Vector3 offsetFromAToB = new Vector3(0, 0, 0);
@@ -21,20 +26,23 @@ public class InteractableDoor : MonoBehaviour
     public bool IsLocked => isLocked;
 
     private string currentLoadedScene = "";
+    private string sceneWhereOpenedFrom = "";
 
     public void Interact()
     {
-        if (!isOpen && !isLocked)
+        if (isLocked)
+        {
+            Debug.Log("🔒 La porta è chiusa a chiave.");
+            return;
+        }
+
+        if (!isOpen)
         {
             OpenDoor();
         }
-        else if (isOpen)
+        else
         {
             CloseDoor();
-        }
-        else if (isLocked)
-        {
-            Debug.Log("🚪 La porta è chiusa a chiave.");
         }
     }
 
@@ -43,20 +51,49 @@ public class InteractableDoor : MonoBehaviour
         isOpen = true;
         doorAnimator.SetTrigger("Open");
         
-        string playerScene = SceneZone.GetCurrentPlayerScene();
+        sceneWhereOpenedFrom = SceneZone.GetCurrentPlayerScene();
         // Debug.Log($"Apro porta da: {playerScene}");
 
-        string sceneToLoad = GetSceneToLoad(playerScene);
+        string sceneToLoad = GetSceneToLoad(sceneWhereOpenedFrom);
 
         if (!string.IsNullOrEmpty(sceneToLoad) && !IsSceneLoaded(sceneToLoad))
         {
-            StartCoroutine(LoadOtherScene(sceneToLoad, playerScene));
-        }
-        else
-        {
-            // Debug.Log($"Scena {sceneToLoad} già caricata");
+            StartCoroutine(LoadOtherScene(sceneToLoad, sceneWhereOpenedFrom));
         }
     }
+
+    // private void CloseDoor()
+    // {
+    //     isOpen = false;
+    //     doorAnimator.SetTrigger("Close");
+        
+    //     string currentPlayerScene = SceneZone.GetCurrentPlayerScene();
+    //     Debug.Log($"🚪 Chiudo porta, player in: {currentPlayerScene}");
+
+    //     // se il player è dall'altra parte, faccio l'unload dell'altra scena
+    //     string sceneToUnload = "";
+
+    //     if (currentPlayerScene == sceneA)
+    //     {
+    //         sceneToUnload = sceneB; // Player in A → scarica B
+    //         Debug.Log($"🗑️ Player in {sceneA}, scarico {sceneB}");
+    //     }
+    //     else if (currentPlayerScene == sceneB)
+    //     {
+    //         sceneToUnload = sceneA; // Player in B → scarica A
+    //         Debug.Log($"🗑️ Player in {sceneB}, scarico {sceneA}");
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning($"⚠️ Player in scena sconosciuta: {currentPlayerScene}");
+    //         return;
+    //     }
+        
+    //     if (IsSceneLoaded(sceneToUnload))
+    //     {
+    //         StartCoroutine(UnloadOldScene(sceneToUnload));
+    //     }
+    // }
 
     private void CloseDoor()
     {
@@ -66,17 +103,26 @@ public class InteractableDoor : MonoBehaviour
         string currentPlayerScene = SceneZone.GetCurrentPlayerScene();
         Debug.Log($"🚪 Chiudo porta, player in: {currentPlayerScene}");
 
-        // se il player è dall'altra parte, faccio l'unload dell'altra scena
+        if (lockAfterFirstTraversal && 
+            !string.IsNullOrEmpty(sceneWhereOpenedFrom) && 
+            currentPlayerScene != sceneWhereOpenedFrom)
+        {
+            Lock();
+            Debug.Log("🔒 Porta bloccata permanentemente dopo attraversamento!");
+        }
+
+        sceneWhereOpenedFrom = "";
+
         string sceneToUnload = "";
 
         if (currentPlayerScene == sceneA)
         {
-            sceneToUnload = sceneB; // Player in A → scarica B
+            sceneToUnload = sceneB;
             Debug.Log($"🗑️ Player in {sceneA}, scarico {sceneB}");
         }
         else if (currentPlayerScene == sceneB)
         {
-            sceneToUnload = sceneA; // Player in B → scarica A
+            sceneToUnload = sceneA;
             Debug.Log($"🗑️ Player in {sceneB}, scarico {sceneA}");
         }
         else
@@ -122,8 +168,6 @@ public class InteractableDoor : MonoBehaviour
     {
         yield return new WaitForSeconds(loadDelay);
 
-        // Debug.Log($"Carico {sceneToLoad} (aperto da {fromScene})");
-
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
 
         while (!asyncLoad.isDone)
@@ -132,7 +176,6 @@ public class InteractableDoor : MonoBehaviour
         }
 
         currentLoadedScene = sceneToLoad;
-        // Debug.Log($"Scena {sceneToLoad} caricata!");
 
         Scene loadedScene = SceneManager.GetSceneByName(sceneToLoad);
         if (loadedScene.IsValid())
@@ -198,6 +241,13 @@ public class InteractableDoor : MonoBehaviour
 
     private IEnumerator UnloadOldScene(string sceneToUnload)
     {
+        if ((sceneToUnload == sceneA && keepSceneALoaded) || 
+            (sceneToUnload == sceneB && keepSceneBLoaded))
+        {
+            Debug.Log($"Scena {sceneToUnload} non viene scaricata (keep loaded)");
+            yield break;
+        }
+
         yield return new WaitForSeconds(2f);
 
         string playerScene = SceneZone.GetCurrentPlayerScene();
@@ -221,15 +271,21 @@ public class InteractableDoor : MonoBehaviour
     public void Lock()
     {
         isLocked = true;
+        Debug.Log($"Porta {gameObject.name} bloccata");
     }
 
     public void Unlock()
     {
         isLocked = false;
+        Debug.Log($"Porta {gameObject.name} sbloccata");
     }
 
     public string GetInteractionText()
     {
+        if (isLocked)
+        {
+            return "Porta chiusa a chiave";
+        }
         return isOpen ? "Premi E per chiudere la porta" : "Premi E per aprire la porta";
     }
 }

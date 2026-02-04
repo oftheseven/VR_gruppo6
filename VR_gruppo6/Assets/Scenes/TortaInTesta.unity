@@ -16209,6 +16209,14 @@ PrefabInstance:
       value: -0.026
       objectReference: {fileID: 0}
     - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
+      propertyPath: keepSceneALoaded
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
+      propertyPath: keepSceneBLoaded
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: offsetFromAToB.x
       value: -18.27
       objectReference: {fileID: 0}
@@ -16511,7 +16519,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableCart
   interactionText: Premi E per muovere il carrello
-  playerController: {fileID: 0}
   followDistance: 1
   followSpeed: 10
   rotationSpeed: 4
