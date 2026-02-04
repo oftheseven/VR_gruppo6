@@ -247,11 +247,11 @@ public class PlayerController : MonoBehaviour
 
         RaycastHit hit;
 
-        Debug.DrawRay(rayOrigin, rayDirection * interactionDistance, Color.red, 0.1f);
+        // Debug.DrawRay(rayOrigin, rayDirection * interactionDistance, Color.red, 0.1f);
 
         if (Physics.Raycast(rayOrigin, rayDirection, out hit, interactionDistance, interactionLayerMask))
         {
-            Debug.Log("Raycast hit: " + hit.collider.name + " (tag: " + hit.collider.tag + ")");
+            // Debug.Log("Raycast hit: " + hit.collider.name + " (tag: " + hit.collider.tag + ")");
 
             // switch sul tag che viene rilevato dal raycast
             switch(hit.collider.tag)

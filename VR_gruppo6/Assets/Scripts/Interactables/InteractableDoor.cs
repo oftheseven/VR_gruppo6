@@ -7,27 +7,34 @@ public class InteractableDoor : MonoBehaviour
 {
     [Header("Door settings")]
     [SerializeField] private Animator doorAnimator;
+    [SerializeField] private bool isLocked = true;
 
     [Header("Connected Scenes")]
-    [SerializeField] private string sceneA = "TortaInTesta"; // prima scena
-    [SerializeField] private string sceneB = "DivinationClass"; // seconda scena
+    [SerializeField] private string sceneA = ""; // prima scena
+    [SerializeField] private string sceneB = ""; // seconda scena
     [SerializeField] private Vector3 offsetFromAToB = new Vector3(0, 0, 0);
     [SerializeField] private float loadDelay = 1f;
 
     private bool isOpen = false;
     public bool IsOpen => isOpen;
 
+    public bool IsLocked => isLocked;
+
     private string currentLoadedScene = "";
 
     public void Interact()
     {
-        if (!isOpen)
+        if (!isOpen && !isLocked)
         {
             OpenDoor();
         }
-        else
+        else if (isOpen)
         {
             CloseDoor();
+        }
+        else if (isLocked)
+        {
+            Debug.Log("🚪 La porta è chiusa a chiave.");
         }
     }
 
@@ -209,6 +216,16 @@ public class InteractableDoor : MonoBehaviour
             SceneManager.UnloadSceneAsync(sceneToUnload);
             currentLoadedScene = "";
         }
+    }
+
+    public void Lock()
+    {
+        isLocked = true;
+    }
+
+    public void Unlock()
+    {
+        isLocked = false;
     }
 
     public string GetInteractionText()
