@@ -37,7 +37,7 @@ public class InteractableCamera : MonoBehaviour
         }
         else
         {
-            Debug.Log("Camera trovata in " + this.name);
+            // Debug.Log("Camera trovata in " + this.name);
             viewCamera.gameObject.SetActive(false); // disattivo la camera all'inizio
         }
     }

@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(transform.root.gameObject);
             DontDestroyOnLoad(player);
             DontDestroyOnLoad(EventSystem.current.gameObject);
             DontDestroyOnLoad(allCanvas);

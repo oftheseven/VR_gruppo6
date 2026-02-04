@@ -196,7 +196,7 @@ public class UI_InventoryPanel : MonoBehaviour
             }
         }
 
-        Debug.Log($"Caricate {descriptions.Count} descrizioni di oggetti.");
+        // Debug.Log($"Caricate {descriptions.Count} descrizioni di oggetti.");
     }
 
     private void HandleItemNavigation()

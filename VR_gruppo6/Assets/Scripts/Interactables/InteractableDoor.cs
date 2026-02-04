@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class InteractableDoor : MonoBehaviour
 {
@@ -55,13 +56,29 @@ public class InteractableDoor : MonoBehaviour
         isOpen = false;
         doorAnimator.SetTrigger("Close");
         
-        string playerScene = SceneZone.GetCurrentPlayerScene();
-        // Debug.Log($"Chiudo porta, player in: {playerScene}");
+        string currentPlayerScene = SceneZone.GetCurrentPlayerScene();
+        Debug.Log($"🚪 Chiudo porta, player in: {currentPlayerScene}");
 
         // se il player è dall'altra parte, faccio l'unload dell'altra scena
-        string sceneToUnload = GetSceneToUnload(playerScene);
+        string sceneToUnload = "";
+
+        if (currentPlayerScene == sceneA)
+        {
+            sceneToUnload = sceneB; // Player in A → scarica B
+            Debug.Log($"🗑️ Player in {sceneA}, scarico {sceneB}");
+        }
+        else if (currentPlayerScene == sceneB)
+        {
+            sceneToUnload = sceneA; // Player in B → scarica A
+            Debug.Log($"🗑️ Player in {sceneB}, scarico {sceneA}");
+        }
+        else
+        {
+            Debug.LogWarning($"⚠️ Player in scena sconosciuta: {currentPlayerScene}");
+            return;
+        }
         
-        if (!string.IsNullOrEmpty(sceneToUnload) && IsSceneLoaded(sceneToUnload))
+        if (IsSceneLoaded(sceneToUnload))
         {
             StartCoroutine(UnloadOldScene(sceneToUnload));
         }
@@ -78,22 +95,7 @@ public class InteractableDoor : MonoBehaviour
             return sceneA;
         }
         
-        // Debug.LogWarning($"Player in scena sconosciuta: {playerScene}, carico {sceneB}");
         return sceneB;
-    }
-
-    private string GetSceneToUnload(string playerScene)
-    {
-        if (playerScene == sceneA)
-        {
-            return sceneB;
-        }
-        else if (playerScene == sceneB)
-        {
-            return sceneA;
-        }
-        
-        return "";
     }
 
     private bool IsSceneLoaded(string sceneName)
@@ -124,8 +126,34 @@ public class InteractableDoor : MonoBehaviour
 
         currentLoadedScene = sceneToLoad;
         // Debug.Log($"Scena {sceneToLoad} caricata!");
+
+        RemoveDuplicateEventSystems(currentLoadedScene);
     
         PositionScene(sceneToLoad, fromScene);
+    }
+
+    private void RemoveDuplicateEventSystems(string loadedSceneName)
+    {
+        Scene loadedScene = SceneManager.GetSceneByName(loadedSceneName);
+        
+        if (!loadedScene.IsValid())
+        {
+            return;
+        }
+
+        GameObject[] rootObjects = loadedScene.GetRootGameObjects();
+        
+        foreach (GameObject rootObj in rootObjects)
+        {
+            EventSystem[] eventSystems = rootObj.GetComponentsInChildren<EventSystem>(true);
+            
+            foreach (EventSystem es in eventSystems)
+            {
+                es.enabled = false;
+                Debug.Log($"🗑️ Rimosso EventSystem duplicato da scena {loadedSceneName}");
+                DestroyImmediate(es.gameObject);
+            }
+        }
     }
 
     private void PositionScene(string loadedScene, string fromScene)
