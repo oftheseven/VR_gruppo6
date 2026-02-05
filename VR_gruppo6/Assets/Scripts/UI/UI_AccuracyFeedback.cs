@@ -50,13 +50,13 @@ public class UI_AccuracyFeedback : MonoBehaviour
 
     public void ShowResults(AccuracyResults results, float timeTaken, InteractableArm arm, UI_ArmPanel panel)
     {
-        if (feedbackPanel == null || !armPanel.EnableWaypointChallenge)
+        currentArm = arm;
+        currentPanel = panel;
+
+        if (feedbackPanel == null || !currentPanel.EnableWaypointChallenge)
         {
             return;
         }
-
-        currentArm = arm;
-        currentPanel = panel;
         
         PlayerController.EnableMovement(false);
         feedbackPanel.SetActive(true);

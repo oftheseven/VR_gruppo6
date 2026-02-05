@@ -183,9 +183,19 @@ public class UI_ArmPanel : MonoBehaviour
 
             AccuracyResults results = WaypointManager.instance.CalculateFinalScore();
 
+            if (accuracyFeedback == null)
+            {
+                accuracyFeedback = UI_AccuracyFeedback.instance;
+                Debug.Log($"🔍 Cercato via singleton - trovato: {(accuracyFeedback != null ? "OK" : "NULL")}");
+            }
+
             if (accuracyFeedback != null)
             {
                 accuracyFeedback.ShowResults(results, timeTaken, interactableArm, this);
+            }
+            else
+            {
+                Debug.LogError("❌ accuracyFeedback è NULL! Non posso mostrare risultati.");
             }
         }
     
