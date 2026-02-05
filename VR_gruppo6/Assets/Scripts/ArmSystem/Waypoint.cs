@@ -1,122 +1,84 @@
 using UnityEngine;
-using TMPro;
 
 public class Waypoint : MonoBehaviour
 {
     [Header("Waypoint settings")]
-    [SerializeField] private int waypointIndex; // indice del waypoint (ordine)
-    [SerializeField] private float triggerRadius = 0.5f;
-
+    [SerializeField] private float reachDistance = 0.15f;
     [Header("Visual feedback")]
-    [SerializeField] private MeshRenderer sphereRenderer;
-    [SerializeField] private TextMeshPro waypointLabel; // etichetta del waypoint
+    [SerializeField] private Color activeColor = Color.green;
+    [SerializeField] private Color reachedColor = Color.blue;
+    [SerializeField] private Color hiddenColor = new Color(0, 0, 0, 0);
 
-    [Header("Colors")]
-    [SerializeField] private Color inactiveColor = new Color(0.5f, 0.5f, 0.5f, 0.3f);
-    [SerializeField] private Color activeColor = new Color(1f, 0.8f, 0f, 0.6f);
-    [SerializeField] private Color reachedColor = new Color(0f, 1f, 0f, 0.8f);
-
-    private bool isActive = false;
+    private int waypointIndex;
     private bool isReached = false;
-    private SphereCollider sphereCollider;
-    private Material sphereMaterial;
+    private Renderer waypointRenderer;
+    private bool isActiveWaypoint = false;
 
+    public float ReachDistance => reachDistance;
     public int WaypointIndex => waypointIndex;
-    public bool IsActive => isActive;
     public bool IsReached => isReached;
 
     void Awake()
     {
-        sphereCollider = GetComponent<SphereCollider>();
-        if (sphereCollider == null)
-        {
-            sphereCollider = gameObject.AddComponent<SphereCollider>();
-        }
-        sphereCollider.isTrigger = true;
-        sphereCollider.radius = triggerRadius;
-
-        if (sphereRenderer != null)
-        {
-            sphereMaterial = sphereRenderer.material;
-        }
-
-        SetInactive();
+        waypointRenderer = GetComponent<Renderer>();
+        Hide();
     }
 
     public void Initialize(int index)
     {
         waypointIndex = index;
-        
-        if (waypointLabel != null)
-        {
-            waypointLabel.text = index.ToString();
-        }
-        
-        // Debug.Log($"🔧 Waypoint inizializzato con indice {index}");
+        isReached = false;
+        isActiveWaypoint = false;
+
+        Hide();
     }
 
     public void SetActive()
     {
-        isActive = true;
-        // gameObject.SetActive(true);
-        UpdateVisuals();
-        // Debug.Log($"✅ Waypoint {waypointIndex} attivato");
-    }
+        isActiveWaypoint = true;
 
-    public void SetInactive()
-    {
-        isActive = false;
-        // gameObject.SetActive(false);
-        UpdateVisuals();
+        if (waypointRenderer != null)
+        {
+            waypointRenderer.enabled = true;
+            waypointRenderer.material.color = activeColor;
+        }
+
+        // Debug.Log($"🎯 Waypoint {waypointIndex} attivato");
     }
 
     public void MarkAsReached()
     {
-        if (isReached)
+        isReached = true;
+        isActiveWaypoint = false;
+
+        if (waypointRenderer != null)
         {
-            return;
+            waypointRenderer.material.color = reachedColor;
         }
 
-        isReached = true;
-        UpdateVisuals();
-        // Debug.Log($"🏁 Waypoint {waypointIndex} raggiunto");
+        // Debug.Log($"✅ Waypoint {waypointIndex} completato");
     }
 
-    private void UpdateVisuals()
+    public void Hide()
     {
-        if (sphereMaterial != null)
+        isActiveWaypoint = false;
+
+        if (waypointRenderer != null)
         {
-            if (isReached)
-            {
-                sphereMaterial.color = reachedColor;
-            }
-            else if (isActive)
-            {
-                sphereMaterial.color = activeColor;
-            }
-            else
-            {
-                sphereMaterial.color = inactiveColor;
-            }
-        }
-    
-        if (waypointLabel != null)
-        {
-            waypointLabel.text = waypointIndex.ToString();
-            waypointLabel.color = isReached ? Color.white : (isActive ? Color.yellow : Color.gray);
+            waypointRenderer.enabled = false;
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (!isActive || isReached)
+        if (other.CompareTag("ArmTip") && isActiveWaypoint && !isReached)
         {
-            return;
-        }
-
-        if (other.CompareTag("ArmTip"))
-        {
-            WaypointManager.instance?.OnWayPointReached(this);
+            // Debug.Log($"🎯 ArmTip ha toccato Waypoint {waypointIndex}");
+            
+            if (WaypointManager.instance != null)
+            {
+                WaypointManager.instance.OnWayPointReached(this);
+            }
         }
     }
 }

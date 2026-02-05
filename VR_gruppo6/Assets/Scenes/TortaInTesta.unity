@@ -2814,10 +2814,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1875569693}
     m_Modifications:
-    - target: {fileID: 2550985743389536238, guid: 83f7343580075ee4e9012f2aa8941a01, type: 3}
-      propertyPath: waypointIndex
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 2980829997959694016, guid: 83f7343580075ee4e9012f2aa8941a01, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.4628296
@@ -4516,10 +4512,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1875569693}
     m_Modifications:
-    - target: {fileID: 2550985743389536238, guid: 83f7343580075ee4e9012f2aa8941a01, type: 3}
-      propertyPath: waypointIndex
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2980829997959694016, guid: 83f7343580075ee4e9012f2aa8941a01, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.5158296
@@ -6428,6 +6420,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1875569693}
     m_Modifications:
+    - target: {fileID: 2550985743389536238, guid: 83f7343580075ee4e9012f2aa8941a01, type: 3}
+      propertyPath: reachDistance
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 2550985743389536238, guid: 83f7343580075ee4e9012f2aa8941a01, type: 3}
       propertyPath: waypointIndex
       value: 1
@@ -9626,10 +9622,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1875569693}
     m_Modifications:
-    - target: {fileID: 2550985743389536238, guid: 83f7343580075ee4e9012f2aa8941a01, type: 3}
-      propertyPath: waypointIndex
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 2980829997959694016, guid: 83f7343580075ee4e9012f2aa8941a01, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.3708296
@@ -10064,10 +10056,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1875569693}
     m_Modifications:
-    - target: {fileID: 2550985743389536238, guid: 83f7343580075ee4e9012f2aa8941a01, type: 3}
-      propertyPath: waypointIndex
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 2980829997959694016, guid: 83f7343580075ee4e9012f2aa8941a01, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.3518298

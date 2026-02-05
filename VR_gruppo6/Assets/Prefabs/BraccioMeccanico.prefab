@@ -2510,8 +2510,9 @@ GameObject:
   - component: {fileID: 5218191068016596964}
   - component: {fileID: 1765152986642046412}
   - component: {fileID: 2143255368294814101}
+  - component: {fileID: 743618594080900504}
   m_Layer: 0
-  m_Name: Cilindro 5 (G)
+  m_Name: ArmTip
   m_TagString: ArmTip
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2615,6 +2616,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.20084238, y: 0.54227304, z: 0.39888722}
   m_Center: {x: -0.0017476082, y: -0.22553205, z: 0.00266245}
+--- !u!54 &743618594080900504
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9027694721261001780}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 2
 --- !u!1 &9204227351710755574
 GameObject:
   m_ObjectHideFlags: 0

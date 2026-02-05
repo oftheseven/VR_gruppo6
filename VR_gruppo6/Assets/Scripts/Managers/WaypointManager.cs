@@ -17,10 +17,6 @@ public class WaypointManager : MonoBehaviour
     private static WaypointManager _instance;
     public static WaypointManager instance => _instance;
 
-    // [Header("Waypoint setup")]
-    // [SerializeField] private Transform waypointsParent; // parent con 5 empty gameobject come waypoints (solo posizioni nello spazio)
-    // [SerializeField] private GameObject waypointPrefab; // prefab del waypoint da instanziare
-
     [Header("Scoring")]
     [SerializeField] private float perfectDistanceThreshold = 0.2f;
 
@@ -75,6 +71,7 @@ public class WaypointManager : MonoBehaviour
         for (int i = 0; i < waypoints.Count; i++)
         {
             waypoints[i].Initialize(i + 1);
+            waypoints[i].Hide();
         }
     }
 
@@ -90,7 +87,7 @@ public class WaypointManager : MonoBehaviour
 
         if (waypoints.Count == 0)
         {
-            Debug.LogError("❌ Impossibile avviare challenge: nessun waypoint disponibile!");
+            Debug.LogError("Impossibile avviare challenge: nessun waypoint disponibile!");
             return;
         }
 
@@ -111,33 +108,15 @@ public class WaypointManager : MonoBehaviour
     public void StopWaypointChallenge()
     {
         isActive = false;
-        ClearWaypoints();
+        foreach (Waypoint wp in waypoints)
+        {
+            if (wp != null)
+            {
+                wp.Hide();
+            }
+        }
         Debug.Log("Waypoint Challenge terminato.");
     }
-
-    // private void SpawnWaypoints()
-    // {
-    //     ClearWaypoints();
-
-    //     if (waypointsParent == null || waypointPrefab == null)
-    //     {
-    //         return;
-    //     }
-
-    //     for (int i = 0; i < waypointsParent.childCount; i++)
-    //     {
-    //         Transform spawnPoint = waypointsParent.GetChild(i);
-    //         GameObject waypointObj = Instantiate(waypointPrefab, spawnPoint.position, Quaternion.identity);
-    //         waypointObj.name = $"Waypoint_{i + 1}";
-    //         Waypoint waypoint = waypointObj.GetComponent<Waypoint>();
-    //         if (waypoint != null)
-    //         {
-    //             waypoint.Initialize(i + 1);
-    //             waypoint.gameObject.SetActive(true);
-    //             waypoints.Add(waypoint);
-    //         }
-    //     }
-    // }
 
     public void OnWayPointReached(Waypoint waypoint)
     {
