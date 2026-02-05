@@ -64,6 +64,9 @@ public class PlayerController : MonoBehaviour
     [Header("Door interaction")]
     private InteractableDoor currentDoor = null;
 
+    [Header("Light interaction")]
+    private InteractableLight currentLight = null;
+
     private bool isInteracting = false;
     public Camera playerCamera => _cameraTransform.GetComponent<Camera>();
 
@@ -103,6 +106,7 @@ public class PlayerController : MonoBehaviour
         HandleDollyInteraction();
         HandleArmInteraction();
         HandleDoorInteraction();
+        HandleLightInteraction();
     }
 
     void FixedUpdate()
@@ -384,6 +388,22 @@ public class PlayerController : MonoBehaviour
                         ClearInteractable();
                     }
                     break;
+                
+                case "Light":
+                    InteractableLight light = hit.collider.GetComponent<InteractableLight>();
+                    if (light != null)
+                    {
+                        if (currentLight != light)
+                        {
+                            currentLight = light;
+                            ShowInteractionText(currentLight.GetInteractionText());
+                        }
+                    }
+                    else
+                    {
+                        ClearInteractable();
+                    }
+                    break;
             }
         }
         else
@@ -402,6 +422,7 @@ public class PlayerController : MonoBehaviour
         currentDolly = null;
         currentArm = null;
         currentDoor = null;
+        currentLight = null;
         interactiontext.gameObject.SetActive(false);
     }
 
@@ -569,6 +590,15 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current.eKey.wasPressedThisFrame && currentDoor != null)
         {
             currentDoor.Interact();
+            interactiontext.gameObject.SetActive(false);
+        }
+    }
+
+    private void HandleLightInteraction()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentLight != null)
+        {
+            currentLight.Interact();
             interactiontext.gameObject.SetActive(false);
         }
     }

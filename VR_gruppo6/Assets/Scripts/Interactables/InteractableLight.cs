@@ -18,11 +18,22 @@ public class InteractableLight : MonoBehaviour
         UpdateLight();
     }
 
+    public void Interact()
+    {
+        isOn = !isOn;
+        UpdateLight();
+    }
+
     private void UpdateLight()
     {
         if (controlledLight != null)
         {
             controlledLight.enabled = isOn;
         }
+    }
+
+    public string GetInteractionText()
+    {
+        return isOn ? "Spegni la luce (E)" : "Accendi la luce (E)";
     }
 }
