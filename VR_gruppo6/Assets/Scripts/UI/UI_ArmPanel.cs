@@ -131,10 +131,6 @@ public class UI_ArmPanel : MonoBehaviour
         {
             ArmMovementRecorder.instance.StartRecording(interactableArm, armTip);
         }
-        else
-        {
-            // Debug.LogError($"Recording non avviato - armTip: {(armTip != null ? "OK" : "NULL")}");
-        }
     }
 
     public void CloseArm()
@@ -188,7 +184,7 @@ public class UI_ArmPanel : MonoBehaviour
         selectedPivotText.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.instance.playerCamera.gameObject.SetActive(true);
-        PlayerController.EnableMovement(true);
+        // PlayerController.EnableMovement(true);
         armCamera.gameObject.SetActive(false);
     }
 

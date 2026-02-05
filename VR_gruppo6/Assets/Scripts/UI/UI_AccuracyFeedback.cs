@@ -80,7 +80,8 @@ public class UI_AccuracyFeedback : MonoBehaviour
         if (replayButton != null)
         {
             bool hasRecording = ArmMovementRecorder.instance != null 
-                && ArmMovementRecorder.instance.SnapshotCount > 0;
+                                && 
+                                ArmMovementRecorder.instance.SnapshotCount > 0;
             replayButton.interactable = hasRecording;
         }
     }
@@ -105,6 +106,7 @@ public class UI_AccuracyFeedback : MonoBehaviour
         if (continueButton != null) continueButton.interactable = false;
         if (replayButton != null) replayButton.interactable = false;
 
+        PlayerController.EnableMovement(false);
         isReplaying = true;
         
         ArmMovementPlayback.instance.StartPlayback(
@@ -160,7 +162,6 @@ public class UI_AccuracyFeedback : MonoBehaviour
         }
         isOpen = false;
         isReplaying = false;
-
         currentArm = null;
     }
 }
