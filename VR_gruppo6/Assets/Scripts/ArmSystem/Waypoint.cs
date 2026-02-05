@@ -58,6 +58,7 @@ public class Waypoint : MonoBehaviour
     public void SetActive()
     {
         isActive = true;
+        // gameObject.SetActive(true);
         UpdateVisuals();
         // Debug.Log($"✅ Waypoint {waypointIndex} attivato");
     }
@@ -65,6 +66,7 @@ public class Waypoint : MonoBehaviour
     public void SetInactive()
     {
         isActive = false;
+        // gameObject.SetActive(false);
         UpdateVisuals();
     }
 

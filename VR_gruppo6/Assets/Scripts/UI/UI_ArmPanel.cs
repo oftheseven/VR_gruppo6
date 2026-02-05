@@ -430,18 +430,15 @@ public class UI_ArmPanel : MonoBehaviour
             return null;
         }
     
-        // Cerca nei children del braccio
         Transform armTip = interactableArm.transform.Find("ArmTip");
         
         if (armTip == null)
         {
-            // Cerca ricorsivamente
             armTip = interactableArm.GetComponentInChildren<Transform>().Find("ArmTip");
         }
     
         if (armTip == null)
         {
-            // Fallback: cerca per nome in tutti i children
             foreach (Transform child in interactableArm.GetComponentsInChildren<Transform>())
             {
                 if (child.name == "ArmTip")

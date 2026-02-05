@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 // struct per i risultati di accuratezza
 public struct AccuracyResults
@@ -16,9 +17,9 @@ public class WaypointManager : MonoBehaviour
     private static WaypointManager _instance;
     public static WaypointManager instance => _instance;
 
-    [Header("Waypoint setup")]
-    [SerializeField] private Transform waypointsParent; // parent con 5 empty gameobject come waypoints (solo posizioni nello spazio)
-    [SerializeField] private GameObject waypointPrefab; // prefab del waypoint da instanziare
+    // [Header("Waypoint setup")]
+    // [SerializeField] private Transform waypointsParent; // parent con 5 empty gameobject come waypoints (solo posizioni nello spazio)
+    // [SerializeField] private GameObject waypointPrefab; // prefab del waypoint da instanziare
 
     [Header("Scoring")]
     [SerializeField] private float perfectDistanceThreshold = 0.2f;
@@ -41,11 +42,39 @@ public class WaypointManager : MonoBehaviour
         if (instance == null)
         {
             _instance = this;
-            DontDestroyOnLoad(transform.root.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(this.gameObject);
+        }
+    }
+
+    public void RefreshWaypoints()
+    {
+        Waypoint[] foundWaypoints = FindObjectsByType<Waypoint>(FindObjectsSortMode.None);
+        
+        if (foundWaypoints.Length == 0)
+        {
+            Debug.LogWarning("⚠️ Nessun waypoint trovato nella scena corrente!");
+            waypoints.Clear();
+            return;
+        }
+
+        var sortedWaypoints = foundWaypoints.OrderBy(w => w.name).ToArray();
+        
+        waypoints.Clear();
+        waypoints.AddRange(sortedWaypoints);
+        
+        // Debug.Log($"✅ Trovati {waypoints.Count} waypoint nella scena corrente:");
+        // foreach (var wp in waypoints)
+        // {
+        //     Debug.Log($"   - {wp.name} at {wp.transform.position}");
+        // }
+
+        for (int i = 0; i < waypoints.Count; i++)
+        {
+            waypoints[i].Initialize(i + 1);
         }
     }
 
@@ -57,7 +86,14 @@ public class WaypointManager : MonoBehaviour
             return;
         }
 
-        SpawnWaypoints();
+        RefreshWaypoints();
+
+        if (waypoints.Count == 0)
+        {
+            Debug.LogError("❌ Impossibile avviare challenge: nessun waypoint disponibile!");
+            return;
+        }
+
         isActive = true;
         currentWaypointIndex = 0;
         waypointsReached = 0;
@@ -79,29 +115,29 @@ public class WaypointManager : MonoBehaviour
         Debug.Log("Waypoint Challenge terminato.");
     }
 
-    private void SpawnWaypoints()
-    {
-        ClearWaypoints();
+    // private void SpawnWaypoints()
+    // {
+    //     ClearWaypoints();
 
-        if (waypointsParent == null || waypointPrefab == null)
-        {
-            return;
-        }
+    //     if (waypointsParent == null || waypointPrefab == null)
+    //     {
+    //         return;
+    //     }
 
-        for (int i = 0; i < waypointsParent.childCount; i++)
-        {
-            Transform spawnPoint = waypointsParent.GetChild(i);
-            GameObject waypointObj = Instantiate(waypointPrefab, spawnPoint.position, Quaternion.identity);
-            waypointObj.name = $"Waypoint_{i + 1}";
-            Waypoint waypoint = waypointObj.GetComponent<Waypoint>();
-            if (waypoint != null)
-            {
-                waypoint.Initialize(i + 1);
-                waypoint.gameObject.SetActive(true);
-                waypoints.Add(waypoint);
-            }
-        }
-    }
+    //     for (int i = 0; i < waypointsParent.childCount; i++)
+    //     {
+    //         Transform spawnPoint = waypointsParent.GetChild(i);
+    //         GameObject waypointObj = Instantiate(waypointPrefab, spawnPoint.position, Quaternion.identity);
+    //         waypointObj.name = $"Waypoint_{i + 1}";
+    //         Waypoint waypoint = waypointObj.GetComponent<Waypoint>();
+    //         if (waypoint != null)
+    //         {
+    //             waypoint.Initialize(i + 1);
+    //             waypoint.gameObject.SetActive(true);
+    //             waypoints.Add(waypoint);
+    //         }
+    //     }
+    // }
 
     public void OnWayPointReached(Waypoint waypoint)
     {
@@ -114,6 +150,11 @@ public class WaypointManager : MonoBehaviour
         }
 
         float distance = 0f;
+
+        if (ArmAccuracyTracker.instance != null && ArmAccuracyTracker.instance.ArmTip != null)
+        {
+            distance = ArmAccuracyTracker.instance.GetDistanceToWaypoint(waypoint.transform.position);
+        }
 
         if (distance <= perfectDistanceThreshold)
         {
