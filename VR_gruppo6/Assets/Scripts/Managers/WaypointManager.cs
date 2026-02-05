@@ -41,6 +41,7 @@ public class WaypointManager : MonoBehaviour
         if (instance == null)
         {
             _instance = this;
+            DontDestroyOnLoad(transform.root.gameObject);
         }
         else
         {

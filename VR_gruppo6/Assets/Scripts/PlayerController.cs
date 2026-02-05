@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             _instance = this;
+            DontDestroyOnLoad(transform.root.gameObject);
         }
     }
 

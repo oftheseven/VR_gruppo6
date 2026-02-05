@@ -54,6 +54,7 @@ public class ArmMovementRecorder : MonoBehaviour
     {
         if (arm == null)
         {
+            Debug.LogError("❌ arm è NULL!");
             return;
         }
 

@@ -87,6 +87,19 @@ public class UI_ArmPanel : MonoBehaviour
             holdFillImage.fillAmount = 0;
         }
 
+        if (accuracyFeedback == null)
+        {
+            accuracyFeedback = UI_AccuracyFeedback.instance;
+            if (accuracyFeedback != null)
+            {
+                Debug.Log("✅ AccuracyFeedback trovato via singleton");
+            }
+            else
+            {
+                Debug.LogWarning("⚠️ AccuracyFeedback non trovato!");
+            }
+        }
+
         SetupOutlines();
     }
 
@@ -128,12 +141,15 @@ public class UI_ArmPanel : MonoBehaviour
             ArmAccuracyTracker.instance.StartTracking();
         }
 
-        if (ArmMovementRecorder.instance != null && ArmAccuracyTracker.instance != null)
+        Transform armTip = FindArmTip();
+
+        if (ArmMovementRecorder.instance != null && armTip != null)
         {
-            ArmMovementRecorder.instance.StartRecording(
-                interactableArm, 
-                ArmAccuracyTracker.instance.ArmTip
-            );
+            ArmMovementRecorder.instance.StartRecording(interactableArm, armTip);
+        }
+        else
+        {
+            Debug.LogError($"❌ Recording non avviato - armTip: {(armTip != null ? "OK" : "NULL")}");
         }
     }
 
@@ -404,5 +420,47 @@ public class UI_ArmPanel : MonoBehaviour
                 Time.deltaTime * 5f
             );
         }
+    }
+
+    private Transform FindArmTip()
+    {
+        if (interactableArm == null)
+        {
+            Debug.LogError("❌ interactableArm è null!");
+            return null;
+        }
+    
+        // Cerca nei children del braccio
+        Transform armTip = interactableArm.transform.Find("ArmTip");
+        
+        if (armTip == null)
+        {
+            // Cerca ricorsivamente
+            armTip = interactableArm.GetComponentInChildren<Transform>().Find("ArmTip");
+        }
+    
+        if (armTip == null)
+        {
+            // Fallback: cerca per nome in tutti i children
+            foreach (Transform child in interactableArm.GetComponentsInChildren<Transform>())
+            {
+                if (child.name == "ArmTip")
+                {
+                    armTip = child;
+                    break;
+                }
+            }
+        }
+    
+        if (armTip != null)
+        {
+            Debug.Log($"✅ ArmTip trovato: {armTip.name}");
+        }
+        else
+        {
+            Debug.LogError($"❌ ArmTip NON trovato nei children di {interactableArm.name}");
+        }
+    
+        return armTip;
     }
 }
