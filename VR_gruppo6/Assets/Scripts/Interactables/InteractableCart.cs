@@ -4,9 +4,6 @@ public class InteractableCart : MonoBehaviour
 {
     [Header("Interaction text")]
     [SerializeField] private string interactionText = "Premi E per muovere il carrello";
-
-    // [Header("Player reference")]
-    // [SerializeField] private PlayerController playerController;
     
     [Header("Cart movement settings")]
     [SerializeField] private float followDistance = 2f;
