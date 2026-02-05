@@ -52,11 +52,6 @@ public class ArmAccuracyTracker : MonoBehaviour
         isTracking = true;
         sessionStartTime = Time.time;
         trackingTimer = 0f;
-
-        if (ArmMovementRecorder.instance != null)
-        {
-            ArmMovementRecorder.instance.StartRecording();
-        }
         
         // Debug.Log("🎬 Tracking iniziato");
     }

@@ -19,6 +19,9 @@ public class ArmMovementPlayback : MonoBehaviour
     private Transform pivot1;
     private Transform pivot2;
 
+    private Camera armCamera;
+    private UI_AccuracyFeedback feedbackPanel;
+
     public bool IsPlayingBack => isPlayingBack;
     public float PlaybackProgress => snapshots != null && snapshots.Count > 0 
         ? (float)currentSnapshotIndex / snapshots.Count 
@@ -36,7 +39,7 @@ public class ArmMovementPlayback : MonoBehaviour
         }
     }
 
-    public void StartPlayback(List<ArmSnapshot> recordedSnapshots)
+    public void StartPlayback(List<ArmSnapshot> recordedSnapshots, InteractableArm arm, Camera camera, UI_AccuracyFeedback feedback)
     {
         if (recordedSnapshots == null || recordedSnapshots.Count == 0)
         {
@@ -44,11 +47,11 @@ public class ArmMovementPlayback : MonoBehaviour
             return;
         }
 
-        if (InteractableArm.instance != null)
+        if (arm != null)
         {
-            basePivot = InteractableArm.instance.MechanicalArmPivot?.transform;
-            pivot1 = InteractableArm.instance.Pivot1?.transform;
-            pivot2 = InteractableArm.instance.Pivot2?.transform;
+            basePivot = arm.MechanicalArmPivot?.transform;
+            pivot1 = arm.Pivot1?.transform;
+            pivot2 = arm.Pivot2?.transform;
         }
 
         if (basePivot == null || pivot1 == null || pivot2 == null)
@@ -57,12 +60,27 @@ public class ArmMovementPlayback : MonoBehaviour
             return;
         }
 
+        armCamera = camera;
+        feedbackPanel = feedback;
+
         snapshots = new List<ArmSnapshot>(recordedSnapshots);
         currentSnapshotIndex = 0;
 
-        PlayerController.instance.playerCamera.gameObject.SetActive(false);
-        UI_ArmPanel.instance.ArmCamera.gameObject.SetActive(true);
-        UI_AccuracyFeedback.instance.gameObject.SetActive(false);
+        if (PlayerController.instance != null)
+        {
+            PlayerController.instance.playerCamera.gameObject.SetActive(false);
+        }
+
+        if (armCamera != null)
+        {
+            armCamera.gameObject.SetActive(true);
+        }
+
+        if (feedbackPanel != null)
+        {
+            feedbackPanel.gameObject.SetActive(false);
+        }
+
         StartCoroutine(PlaybackCoroutine());
     }
 
@@ -103,12 +121,20 @@ public class ArmMovementPlayback : MonoBehaviour
 
         isPlayingBack = false;
 
-        if (UI_AccuracyFeedback.instance != null)
+        if (PlayerController.instance != null)
         {
-            UI_AccuracyFeedback.instance.OnPlaybackFinished();
             PlayerController.instance.playerCamera.gameObject.SetActive(true);
-            UI_ArmPanel.instance.ArmCamera.gameObject.SetActive(false);
-            UI_AccuracyFeedback.instance.gameObject.SetActive(true);
+        }
+
+        if (armCamera != null)
+        {
+            armCamera.gameObject.SetActive(false);
+        }
+
+        if (feedbackPanel != null)
+        {
+            feedbackPanel.gameObject.SetActive(true);
+            feedbackPanel.OnPlaybackFinished();
         }
     }
 
@@ -150,9 +176,21 @@ public class ArmMovementPlayback : MonoBehaviour
             isPlayingBack = false;
             Debug.Log("⏸️ Playback fermato");
         }
-        PlayerController.instance.playerCamera.gameObject.SetActive(true);
-        UI_ArmPanel.instance.ArmCamera.gameObject.SetActive(false);
-        UI_AccuracyFeedback.instance.gameObject.SetActive(true);
+        
+        if (PlayerController.instance != null)
+        {
+            PlayerController.instance.playerCamera.gameObject.SetActive(true);
+        }
+
+        if (armCamera != null)
+        {
+            armCamera.gameObject.SetActive(false);
+        }
+
+        if (feedbackPanel != null)
+        {
+            feedbackPanel.gameObject.SetActive(true);
+        }
     }
 
     public void SetPlaybackSpeed(float speed)

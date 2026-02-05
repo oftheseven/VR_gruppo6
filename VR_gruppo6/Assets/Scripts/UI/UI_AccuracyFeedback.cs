@@ -9,6 +9,7 @@ public class UI_AccuracyFeedback : MonoBehaviour
     public static UI_AccuracyFeedback instance => _instance;
 
     [Header("UI References")]
+    [SerializeField] private UI_ArmPanel armPanel;
     [SerializeField] private GameObject feedbackPanel;
     [SerializeField] private TextMeshProUGUI waypointsText;
     [SerializeField] private TextMeshProUGUI accuracyText;
@@ -24,6 +25,9 @@ public class UI_AccuracyFeedback : MonoBehaviour
 
     private bool isReplaying = false;
 
+    private InteractableArm currentArm;
+    private UI_ArmPanel currentPanel;
+
     void Awake()
     {
         if (_instance == null)
@@ -32,7 +36,7 @@ public class UI_AccuracyFeedback : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 
@@ -44,12 +48,15 @@ public class UI_AccuracyFeedback : MonoBehaviour
         }
     }
 
-    public void ShowResults(AccuracyResults results, float timeTaken)
+    public void ShowResults(AccuracyResults results, float timeTaken, InteractableArm arm, UI_ArmPanel panel)
     {
-        if (feedbackPanel == null)
+        if (feedbackPanel == null || !armPanel.EnableWaypointChallenge)
         {
             return;
         }
+
+        currentArm = arm;
+        currentPanel = panel;
         
         PlayerController.EnableMovement(false);
         feedbackPanel.SetActive(true);
@@ -100,7 +107,12 @@ public class UI_AccuracyFeedback : MonoBehaviour
 
         isReplaying = true;
         
-        ArmMovementPlayback.instance.StartPlayback(ArmMovementRecorder.instance.RecordedSnapshots);
+        ArmMovementPlayback.instance.StartPlayback(
+                                                    ArmMovementRecorder.instance.RecordedSnapshots,
+                                                    currentArm,
+                                                    currentPanel.ArmCamera,
+                                                    this
+                                                  );
     }
 
     public void OnPlaybackStarted()
@@ -123,9 +135,9 @@ public class UI_AccuracyFeedback : MonoBehaviour
     {
         Close();
         
-        if (InteractableArm.instance != null)
+        if (currentArm != null)
         {
-            InteractableArm.instance.GetArmPanel().OpenArm();
+            currentArm.GetArmPanel().OpenArm();
         }
     }
 
@@ -148,5 +160,7 @@ public class UI_AccuracyFeedback : MonoBehaviour
         }
         isOpen = false;
         isReplaying = false;
+
+        currentArm = null;
     }
 }

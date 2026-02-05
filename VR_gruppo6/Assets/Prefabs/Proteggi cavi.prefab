@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6375017459790333792}
+  - component: {fileID: 5065352862994279370}
   m_Layer: 0
   m_Name: Proteggi cavi
   m_TagString: Untagged
@@ -33,6 +34,27 @@ Transform:
   - {fileID: 6499939078234448901}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5065352862994279370
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2480548756288016849}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2317529, y: 0.118059695, z: 0.5367389}
+  m_Center: {x: 0.0036466122, y: 0.00015756488, z: -0.046622276}
 --- !u!1 &3491274120238099350
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +121,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6414247558759735905, guid: 939bf06589c48a9429cf0bd29d78b191, type: 3}
+  - {fileID: 2100000, guid: d892010e0e2d84040b65faf91ceddbfe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

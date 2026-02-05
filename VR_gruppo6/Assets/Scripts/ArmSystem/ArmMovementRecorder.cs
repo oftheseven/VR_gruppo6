@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.Burst.Intrinsics;
 
 public class ArmMovementRecorder : MonoBehaviour
 {
@@ -51,19 +50,17 @@ public class ArmMovementRecorder : MonoBehaviour
         }
     }
 
-    public void StartRecording()
+    public void StartRecording(InteractableArm arm, Transform tipTransform)
     {
-        if (InteractableArm.instance != null)
+        if (arm == null)
         {
-            basePivot = InteractableArm.instance.MechanicalArmPivot?.transform;
-            pivot1 = InteractableArm.instance.Pivot1?.transform;
-            pivot2 = InteractableArm.instance.Pivot2?.transform;
+            return;
         }
 
-        if (ArmAccuracyTracker.instance != null)
-        {
-            armTip = ArmAccuracyTracker.instance.ArmTip;
-        }
+        basePivot = arm.MechanicalArmPivot?.transform;
+        pivot1 = arm.Pivot1?.transform;
+        pivot2 = arm.Pivot2?.transform;
+        armTip = tipTransform;
 
         if (basePivot == null || pivot1 == null || pivot2 == null || armTip == null)
         {

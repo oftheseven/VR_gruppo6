@@ -6,9 +6,9 @@ using TMPro;
 
 public class UI_ArmPanel : MonoBehaviour
 {
-    // singleton
-    private static UI_ArmPanel _instance;
-    public static UI_ArmPanel instance => _instance;
+    // // singleton
+    // private static UI_ArmPanel _instance;
+    // public static UI_ArmPanel instance => _instance;
 
     [Header("Camera timer settings")]
     [SerializeField] private float holdTimeToClose = 2f;
@@ -35,12 +35,16 @@ public class UI_ArmPanel : MonoBehaviour
     [SerializeField] private Color selectedColor = Color.green;
     [SerializeField] private float outlineWidth = 5f;
 
+    [Header("Accuracy feedback reference")]
+    [SerializeField] private UI_AccuracyFeedback accuracyFeedback;
+
     private bool isOpen = false;
     public bool IsOpen => isOpen;
     private bool canInteract = true;
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
     public Camera ArmCamera => armCamera;
+    public bool EnableWaypointChallenge => enableWaypointChallenge;
 
     private enum PivotSelection
     {
@@ -54,17 +58,18 @@ public class UI_ArmPanel : MonoBehaviour
     private float targetPivot1X = 0f;
     private float targetPivot2X = 0f;
 
-    void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
+    // void Awake()
+    // {
+    //     if (_instance == null)
+    //     {
+    //         _instance = this;
+    //     }
+    //     else
+    //     {
+    //         Destroy(this.gameObject);
+    //     }
+    // }
+
     void Start()
     {
         this.gameObject.SetActive(false);
@@ -122,6 +127,14 @@ public class UI_ArmPanel : MonoBehaviour
         {
             ArmAccuracyTracker.instance.StartTracking();
         }
+
+        if (ArmMovementRecorder.instance != null && ArmAccuracyTracker.instance != null)
+        {
+            ArmMovementRecorder.instance.StartRecording(
+                interactableArm, 
+                ArmAccuracyTracker.instance.ArmTip
+            );
+        }
     }
 
     public void CloseArm()
@@ -154,10 +167,9 @@ public class UI_ArmPanel : MonoBehaviour
 
             AccuracyResults results = WaypointManager.instance.CalculateFinalScore();
 
-            // Mostra feedback
-            if (UI_AccuracyFeedback.instance != null)
+            if (accuracyFeedback != null)
             {
-                UI_AccuracyFeedback.instance.ShowResults(results, timeTaken);
+                accuracyFeedback.ShowResults(results, timeTaken, interactableArm, this);
             }
         }
     
@@ -166,6 +178,7 @@ public class UI_ArmPanel : MonoBehaviour
         selectedPivotText.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.instance.playerCamera.gameObject.SetActive(true);
+        PlayerController.EnableMovement(true);
         armCamera.gameObject.SetActive(false);
     }
 
@@ -264,16 +277,16 @@ public class UI_ArmPanel : MonoBehaviour
         switch (currentSelection)
         {
             case PivotSelection.Base:
-                if (InteractableArm.instance.MechanicalArmPivot != null)
-                    SetOutlinesEnabled(InteractableArm.instance.MechanicalArmPivot, true);
+                if (interactableArm.MechanicalArmPivot != null)
+                    SetOutlinesEnabled(interactableArm.MechanicalArmPivot, true);
                 break;
             case PivotSelection.Pivot1:
-                if (InteractableArm.instance.Pivot1 != null)
-                    SetOutlinesEnabled(InteractableArm.instance.Pivot1, true);
+                if (interactableArm.Pivot1 != null)
+                    SetOutlinesEnabled(interactableArm.Pivot1, true);
                 break;
             case PivotSelection.Pivot2:
-                if (InteractableArm.instance.Pivot2 != null)
-                    SetOutlinesEnabled(InteractableArm.instance.Pivot2, true);
+                if (interactableArm.Pivot2 != null)
+                    SetOutlinesEnabled(interactableArm.Pivot2, true);
                 break;
         }
     }
@@ -289,31 +302,31 @@ public class UI_ArmPanel : MonoBehaviour
 
     private void DisableAllOutlines()
     {
-        if (InteractableArm.instance.MechanicalArmPivot != null)
-            SetOutlinesEnabled(InteractableArm.instance.MechanicalArmPivot, false);
+        if (interactableArm.MechanicalArmPivot != null)
+            SetOutlinesEnabled(interactableArm.MechanicalArmPivot, false);
 
-        if (InteractableArm.instance.Pivot1 != null)
-            SetOutlinesEnabled(InteractableArm.instance.Pivot1, false);
+        if (interactableArm.Pivot1 != null)
+            SetOutlinesEnabled(interactableArm.Pivot1, false);
 
-        if (InteractableArm.instance.Pivot2 != null)
-            SetOutlinesEnabled(InteractableArm.instance.Pivot2, false);
+        if (interactableArm.Pivot2 != null)
+            SetOutlinesEnabled(interactableArm.Pivot2, false);
     }
     
     private void SetupOutlines()
     {
-        if (InteractableArm.instance.MechanicalArmPivot != null)
+        if (interactableArm.MechanicalArmPivot != null)
         {
-            GetOrAddOutline(InteractableArm.instance.MechanicalArmPivot);
+            GetOrAddOutline(interactableArm.MechanicalArmPivot);
         }
 
-        if (InteractableArm.instance.Pivot1 != null)
+        if (interactableArm.Pivot1 != null)
         {
-            GetOrAddOutline(InteractableArm.instance.Pivot1);
+            GetOrAddOutline(interactableArm.Pivot1);
         }
 
-        if (InteractableArm.instance.Pivot2 != null)
+        if (interactableArm.Pivot2 != null)
         {
-            GetOrAddOutline(InteractableArm.instance.Pivot2);
+            GetOrAddOutline(interactableArm.Pivot2);
         }
 
         DisableAllOutlines();
@@ -340,53 +353,53 @@ public class UI_ArmPanel : MonoBehaviour
     // funzione che gestisce le varie rotazioni del braccio meccanico
     private void HandleArmMovement()
     {
-        if (currentSelection == PivotSelection.Base && InteractableArm.instance.MechanicalArmPivot != null)
+        if (currentSelection == PivotSelection.Base && interactableArm.MechanicalArmPivot != null)
         {
             if (Keyboard.current.rightArrowKey.isPressed)
             {
-                InteractableArm.instance.MechanicalArmPivot.transform.Rotate(Vector3.up * 20f * Time.deltaTime);
+                interactableArm.MechanicalArmPivot.transform.Rotate(Vector3.up * 20f * Time.deltaTime);
             }
             else if (Keyboard.current.leftArrowKey.isPressed)
             {
-                InteractableArm.instance.MechanicalArmPivot.transform.Rotate(Vector3.up * -20f * Time.deltaTime);
+                interactableArm.MechanicalArmPivot.transform.Rotate(Vector3.up * -20f * Time.deltaTime);
             }
         }
  
-        if (currentSelection == PivotSelection.Pivot1 && InteractableArm.instance.Pivot1 != null)
+        if (currentSelection == PivotSelection.Pivot1 && interactableArm.Pivot1 != null)
         {
             if (Keyboard.current.upArrowKey.isPressed)
             {
-                targetPivot1X -= InteractableArm.instance.RotationSpeed * Time.deltaTime;
+                targetPivot1X -= interactableArm.RotationSpeed * Time.deltaTime;
             }
             else if (Keyboard.current.downArrowKey.isPressed)
             {
-                targetPivot1X += InteractableArm.instance.RotationSpeed * Time.deltaTime;
+                targetPivot1X += interactableArm.RotationSpeed * Time.deltaTime;
             }
 
-            targetPivot1X = Mathf.Clamp(targetPivot1X, InteractableArm.instance.MinPivot1X, InteractableArm.instance.MaxPivot1X);
+            targetPivot1X = Mathf.Clamp(targetPivot1X, interactableArm.MinPivot1X, interactableArm.MaxPivot1X);
             Quaternion targetRotation = Quaternion.Euler(targetPivot1X, 0, 0);
-            InteractableArm.instance.Pivot1.transform.localRotation = Quaternion.Lerp(
-                InteractableArm.instance.Pivot1.transform.localRotation,
+            interactableArm.Pivot1.transform.localRotation = Quaternion.Lerp(
+                interactableArm.Pivot1.transform.localRotation,
                 targetRotation,
                 Time.deltaTime * 5f
             );
         }
 
-        if (currentSelection == PivotSelection.Pivot2 && InteractableArm.instance.Pivot2 != null)
+        if (currentSelection == PivotSelection.Pivot2 && interactableArm.Pivot2 != null)
         {
             if (Keyboard.current.upArrowKey.isPressed)
             {
-                targetPivot2X -= InteractableArm.instance.RotationSpeed * Time.deltaTime;
+                targetPivot2X -= interactableArm.RotationSpeed * Time.deltaTime;
             }
             else if (Keyboard.current.downArrowKey.isPressed)
             {
-                targetPivot2X += InteractableArm.instance.RotationSpeed * Time.deltaTime;
+                targetPivot2X += interactableArm.RotationSpeed * Time.deltaTime;
             }
 
-            targetPivot2X = Mathf.Clamp(targetPivot2X, InteractableArm.instance.MinPivot2X, InteractableArm.instance.MaxPivot2X);
+            targetPivot2X = Mathf.Clamp(targetPivot2X, interactableArm.MinPivot2X, interactableArm.MaxPivot2X);
             Quaternion targetRotation = Quaternion.Euler(targetPivot2X, 0, 0);
-            InteractableArm.instance.Pivot2.transform.localRotation = Quaternion.Lerp(
-                InteractableArm.instance.Pivot2.transform.localRotation,
+            interactableArm.Pivot2.transform.localRotation = Quaternion.Lerp(
+                interactableArm.Pivot2.transform.localRotation,
                 targetRotation,
                 Time.deltaTime * 5f
             );

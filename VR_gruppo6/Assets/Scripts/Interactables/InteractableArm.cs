@@ -3,8 +3,8 @@ using UnityEngine;
 public class InteractableArm : MonoBehaviour
 {
     // singleton
-    private static InteractableArm _instance;
-    public static InteractableArm instance => _instance;
+    // private static InteractableArm _instance;
+    // public static InteractableArm instance => _instance;
 
     [Header("Interaction text")]
     [SerializeField] private string interactionText = "Premi E per gestire il braccio";
@@ -32,17 +32,17 @@ public class InteractableArm : MonoBehaviour
     public GameObject Pivot2 => pivot2;
     public float MinPivot2X => minPivot2X;
     public float MaxPivot2X => maxPivot2X;
-    void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
+    // void Awake()
+    // {
+    //     if (_instance == null)
+    //     {
+    //         _instance = this;
+    //     }
+    //     else
+    //     {
+    //         Destroy(this.gameObject);
+    //     }
+    // }
 
     public void Interact()
     {
