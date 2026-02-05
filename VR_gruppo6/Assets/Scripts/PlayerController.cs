@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Light interaction")]
     private InteractableLight currentLight = null;
+    private UI_LightPanel currentLightPanel = null;
 
     private bool isInteracting = false;
     public Camera playerCamera => _cameraTransform.GetComponent<Camera>();
@@ -598,8 +599,24 @@ public class PlayerController : MonoBehaviour
     {
         if (Keyboard.current.eKey.wasPressedThisFrame && currentLight != null)
         {
-            currentLight.Interact();
-            interactiontext.gameObject.SetActive(false);
+            UI_LightPanel panel = currentLight.GetLightPanel();
+            if (panel != null && !panel.IsOpen && panel.CanInteract)
+            {
+                currentLight.Interact();
+                isInteracting = true;
+                interactiontext.gameObject.SetActive(false);
+                currentLightPanel = panel;
+            }
+        }
+
+        if (currentLightPanel != null && currentLightPanel.IsOpen)
+        {
+            currentLightPanel.HandlePanelClose();
+        }
+        else if (currentLightPanel != null && !currentLightPanel.IsOpen)
+        {
+            currentLightPanel = null;
+            isInteracting = false;
         }
     }
 

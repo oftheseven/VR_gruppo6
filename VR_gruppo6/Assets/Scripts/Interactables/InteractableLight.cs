@@ -2,10 +2,23 @@ using UnityEngine;
 
 public class InteractableLight : MonoBehaviour
 {
+    [Header("Interaction text")]
+    [SerializeField] private string interactionText = "Premi E per gestire la luce";
+    
+    [Header("Panel reference")]
+    [SerializeField] private UI_LightPanel lightPanel;
+
     [Header("Light settings")]
     [SerializeField] private Light[] controlledLights;
     
     private bool isOn = true;
+    private float currentIntensity = 1f;
+    private Color currentColor = Color.white;
+
+    public bool IsOn => isOn;
+    public float CurrentIntensity => currentIntensity;
+    public Color CurrentColor => currentColor;
+    public Light[] ControlledLights => controlledLights;
 
     void Start()
     {
@@ -14,17 +27,47 @@ public class InteractableLight : MonoBehaviour
             controlledLights = new Light[] { GetComponent<Light>() };
         }
 
-        isOn = false;
-        UpdateLight();
+        if (controlledLights != null && controlledLights.Length > 0 && controlledLights[0] != null)
+        {
+            isOn = controlledLights[0].enabled;
+            currentIntensity = controlledLights[0].intensity;
+            currentColor = controlledLights[0].color;
+        }
+
+        UpdateLights();
     }
 
     public void Interact()
     {
-        isOn = !isOn;
-        UpdateLight();
+        if (lightPanel != null)
+        {
+            lightPanel.OpenPanel(this);
+        }
+        else
+        {
+            Debug.LogError("LightPanel non assegnato su " + this.name);
+        }
     }
 
-    private void UpdateLight()
+    public void SetLightState(bool state)
+    {
+        isOn = state;
+        UpdateLights();
+    }
+
+    public void SetIntensity(float intensity)
+    {
+        currentIntensity = Mathf.Clamp(intensity, 0f, 8f);
+        UpdateLights();
+    }
+
+    public void SetColor(Color color)
+    {
+        currentColor = color;
+        UpdateLights();
+    }
+
+    private void UpdateLights()
     {
         if (controlledLights != null)
         {
@@ -33,6 +76,8 @@ public class InteractableLight : MonoBehaviour
                 if (light != null)
                 {
                     light.enabled = isOn;
+                    light.intensity = currentIntensity;
+                    light.color = currentColor;
                 }
             }
         }
@@ -40,6 +85,11 @@ public class InteractableLight : MonoBehaviour
 
     public string GetInteractionText()
     {
-        return isOn ? "Spegni la luce (E)" : "Accendi la luce (E)";
+        return interactionText;
+    }
+
+    public UI_LightPanel GetLightPanel()
+    {
+        return lightPanel;
     }
 }

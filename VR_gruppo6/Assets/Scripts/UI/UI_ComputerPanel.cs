@@ -117,12 +117,6 @@ public class UI_ComputerPanel :  MonoBehaviour
             {
                 holdFillImage.fillAmount = Mathf.Clamp01(holdTimer / holdTimeToClose);
             }
-
-            if (holdText != null)
-            {
-                float percentage = (holdTimer / holdTimeToClose) * 100f;
-                holdText.text = "E";
-            }
             
             if (holdTimer >= holdTimeToClose)
             {
