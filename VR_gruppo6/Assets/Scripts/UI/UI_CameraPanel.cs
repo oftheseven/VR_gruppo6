@@ -5,6 +5,9 @@ using System.Collections;
 
 public class UI_CameraPanel :  MonoBehaviour
 {   
+    [Header("Camera reference")]
+    [SerializeField] private InteractableCamera interactableCamera;
+
     [Header("Camera timer settings")]
     [SerializeField] private float holdTimeToClose = 2f;
     [SerializeField] private float cooldownTime = 1f;
@@ -21,6 +24,7 @@ public class UI_CameraPanel :  MonoBehaviour
     private bool canInteract = true;
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
+    public InteractableCamera InteractableCamera => interactableCamera;
 
     void Start()
     {
@@ -40,11 +44,25 @@ public class UI_CameraPanel :  MonoBehaviour
 
     public void OpenCamera()
     {
+        if (interactableCamera == null)
+        {
+            Debug.LogError("InteractableCamera non assegnata in UI_CameraPanel!");
+            return;
+        }
+
         this.gameObject.SetActive(true);
         isOpen = true;
         PlayerController.EnableMovement(false);
-        PlayerController.instance.playerCamera.gameObject.SetActive(false); // disattivo la camera dell'utente
-        InteractableCamera.instance.ViewCamera.gameObject.SetActive(true); // attivo la camera dell'InteractableCamera
+
+        if (PlayerController.instance != null)
+        {
+            PlayerController.instance.playerCamera.gameObject.SetActive(false);
+        }
+        
+        if (interactableCamera.ViewCamera != null)
+        {
+            interactableCamera.ViewCamera.gameObject.SetActive(true);
+        }
 
         if (infoPanel != null)
         {
@@ -68,8 +86,17 @@ public class UI_CameraPanel :  MonoBehaviour
         }
         
         StartCoroutine(CooldownAndHide());
-        PlayerController.instance.playerCamera.gameObject.SetActive(true); // attivo la camera dell'utente
-        InteractableCamera.instance.ViewCamera.gameObject.SetActive(false); // disattivo la camera dell'InteractableCamera
+
+        if (PlayerController.instance != null)
+        {
+            PlayerController.instance.playerCamera.gameObject.SetActive(true);
+        }
+        
+        if (interactableCamera != null && interactableCamera.ViewCamera != null)
+        {
+            interactableCamera.ViewCamera.gameObject.SetActive(false);
+        }
+
         this.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);

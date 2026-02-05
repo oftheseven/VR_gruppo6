@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class InteractableCamera : MonoBehaviour
 {
-    // singleton
-    private static InteractableCamera _instance;
-    public static InteractableCamera instance => _instance;
-
     [Header("Interaction text")]
     [SerializeField] private string interactionText = "Premi E per gestire la camera";
 
@@ -21,15 +17,6 @@ public class InteractableCamera : MonoBehaviour
     void Awake()
     {
         viewCamera = GetComponentInChildren<Camera>();
-
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
 
         if (viewCamera == null)
         {

@@ -13,7 +13,6 @@ public class LensesSelector : MonoBehaviour
     [SerializeField] private float inputCooldown = 0.2f;
 
     private int currentImageIndex = 0;
-    
     private float lastInputTime = 0f;
     private UI_CameraPanel cameraPanel;
 
@@ -64,18 +63,31 @@ public class LensesSelector : MonoBehaviour
         if (Keyboard.current.enterKey.wasPressedThisFrame)
         {
             ApplyCurrentLens();
-            //cameraPanel.CloseCameraImmediate();
         }
     }
 
     private void ApplyCurrentLens()
     {
+        if (cameraPanel == null || cameraPanel.InteractableCamera == null)
+        {
+            Debug.LogError("Camera reference mancante!");
+            return;
+        }
+
+        Camera viewCamera = cameraPanel.InteractableCamera.ViewCamera;
+        
+        if (viewCamera == null)
+        {
+            Debug.LogError("ViewCamera è null!");
+            return;
+        }
+
         for (int i = 0; i < cameraLenses.Length; i++)
         {
             if (i == currentImageIndex)
             {
                 cameraLenses[i].gameObject.SetActive(true);
-                cameraLenses[i].ApplyToCamera(InteractableCamera.instance.ViewCamera);
+                cameraLenses[i].ApplyToCamera(viewCamera);
             }
             else
             {
