@@ -219,7 +219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be303487dbf600040bb6088b71fe3ac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableLight
-  controlledLight: {fileID: 2814947335967145924}
+  controlledLights:
+  - {fileID: 2814947335967145924}
 --- !u!65 &5861791986117551806
 BoxCollider:
   m_ObjectHideFlags: 0

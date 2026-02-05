@@ -3,15 +3,15 @@ using UnityEngine;
 public class InteractableLight : MonoBehaviour
 {
     [Header("Light settings")]
-    [SerializeField] private Light controlledLight;
+    [SerializeField] private Light[] controlledLights;
     
     private bool isOn = true;
 
     void Start()
     {
-        if (controlledLight == null)
+        if (controlledLights == null || controlledLights.Length == 0)
         {
-            controlledLight = GetComponent<Light>();
+            controlledLights = new Light[] { GetComponent<Light>() };
         }
 
         isOn = false;
@@ -26,9 +26,15 @@ public class InteractableLight : MonoBehaviour
 
     private void UpdateLight()
     {
-        if (controlledLight != null)
+        if (controlledLights != null)
         {
-            controlledLight.enabled = isOn;
+            foreach (Light light in controlledLights)
+            {
+                if (light != null)
+                {
+                    light.enabled = isOn;
+                }
+            }
         }
     }
 
