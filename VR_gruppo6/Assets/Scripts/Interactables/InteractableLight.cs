@@ -13,13 +13,17 @@ public class InteractableLight : MonoBehaviour
     
     private bool isOn = true;
     private float currentIntensity = 1f;
+    private float maxIntensity = 8f;
     private Color currentColor = Color.white;
     private float currentTemperature = 6500f;
+    private bool isTemperatureMode = false;
 
     public bool IsOn => isOn;
     public float CurrentIntensity => currentIntensity;
+    public float MaxIntensity => maxIntensity;
     public Color CurrentColor => currentColor;
     public float CurrentTemperature => currentTemperature;
+    public bool IsTemperatureMode => isTemperatureMode;
     public Light[] ControlledLights => controlledLights;
 
     void Start()
@@ -31,13 +35,16 @@ public class InteractableLight : MonoBehaviour
 
         if (controlledLights != null && controlledLights.Length > 0 && controlledLights[0] != null)
         {
-            isOn = controlledLights[0].enabled;
-            currentIntensity = controlledLights[0].intensity;
-            currentColor = controlledLights[0].color;
-
-            currentTemperature = EstimateTemperatureFromColor(currentColor);
+            Light mainLight = controlledLights[0];
+            
+            isOn = mainLight.enabled;
+            currentIntensity = mainLight.intensity;
+            maxIntensity = mainLight.intensity;
+            currentColor = mainLight.color;
+            
+            Debug.Log($"💡 {name}: Intensità corrente={currentIntensity}, Max={maxIntensity}");
         }
-
+        
         UpdateLights();
     }
 
@@ -61,21 +68,42 @@ public class InteractableLight : MonoBehaviour
 
     public void SetIntensity(float intensity)
     {
-        currentIntensity = Mathf.Clamp(intensity, 0f, 8f);
+        currentIntensity = Mathf.Clamp(intensity, 0f, maxIntensity);
         UpdateLights();
     }
 
     public void SetTemperature(float temperature)
     {
-        currentTemperature = Mathf.Clamp(temperature, 1000f, 20000f);
+        if (!isTemperatureMode) return;
+        
+        currentTemperature = Mathf.Clamp(temperature, 1000f, 12000f);
         currentColor = KelvinToColor(currentTemperature);
         UpdateLights();
     }
 
     public void SetColor(Color color)
     {
+        if (isTemperatureMode) return;
+        
         currentColor = color;
-        currentTemperature = EstimateTemperatureFromColor(color);
+        UpdateLights();
+    }
+
+    public void SetColorMode(bool useTemperature)
+    {
+        isTemperatureMode = useTemperature;
+        
+        if (isTemperatureMode)
+        {
+            currentColor = Color.white;
+            currentTemperature = 6500f;
+            Debug.Log("Modalità Temperatura attivata - Reset a 6500K");
+        }
+        else
+        {
+            Debug.Log("Modalità RGB attivata");
+        }
+        
         UpdateLights();
     }
 
@@ -100,7 +128,7 @@ public class InteractableLight : MonoBehaviour
         float temp = kelvin / 100f;
         float r, g, b;
 
-        // Calcolo RED
+        // RED
         if (temp <= 66f)
         {
             r = 255f;
@@ -112,7 +140,7 @@ public class InteractableLight : MonoBehaviour
             r = Mathf.Clamp(r, 0f, 255f);
         }
 
-        // Calcolo GREEN
+        // GREEN
         if (temp <= 66f)
         {
             g = temp;
@@ -126,7 +154,7 @@ public class InteractableLight : MonoBehaviour
             g = Mathf.Clamp(g, 0f, 255f);
         }
 
-        // Calcolo BLUE
+        // BLUE
         if (temp >= 66f)
         {
             b = 255f;
@@ -143,28 +171,6 @@ public class InteractableLight : MonoBehaviour
         }
 
         return new Color(r / 255f, g / 255f, b / 255f);
-    }
-
-    private float EstimateTemperatureFromColor(Color color)
-    {
-        // Approssimazione semplice basata sul rapporto R/B
-        float ratio = color.b > 0.01f ? color.r / color.b : 1f;
-        
-        if (ratio > 1.5f)
-        {
-            // Toni caldi (arancione/giallo)
-            return Mathf.Lerp(1000f, 4000f, 1f - (ratio - 1.5f) / 2f);
-        }
-        else if (ratio < 0.7f)
-        {
-            // Toni freddi (blu)
-            return Mathf.Lerp(6500f, 10000f, (0.7f - ratio) / 0.7f);
-        }
-        else
-        {
-            // Toni neutri
-            return 6500f;
-        }
     }
 
     public string GetInteractionText()

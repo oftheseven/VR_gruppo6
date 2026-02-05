@@ -43,7 +43,6 @@ public class UI_LightPanel : MonoBehaviour
     private bool canInteract = true;
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
-    private bool isRGBMode = true;
 
     void Start()
     {
@@ -64,7 +63,6 @@ public class UI_LightPanel : MonoBehaviour
         {
             intensitySlider.onValueChanged.AddListener(OnIntensityChanged);
         }
-
         // slider RGB
         if (redSlider != null)
         {
@@ -90,8 +88,6 @@ public class UI_LightPanel : MonoBehaviour
         {
             toggleModeButton.onClick.AddListener(ToggleColorMode);
         }
-
-        UpdateColorModeUI();
     }
 
     void Update()
@@ -118,6 +114,17 @@ public class UI_LightPanel : MonoBehaviour
         if (infoPanel != null)
         {
             infoPanel.OnDeviceOpened();
+        }
+
+        if (intensitySlider != null)
+        {
+            intensitySlider.maxValue = currentLight.MaxIntensity;
+        }
+
+        if (temperatureSlider != null)
+        {
+            temperatureSlider.minValue = 1000f;
+            temperatureSlider.maxValue = 8000f;
         }
 
         UpdateUI();
@@ -164,27 +171,33 @@ public class UI_LightPanel : MonoBehaviour
             intensitySlider.SetValueWithoutNotify(currentLight.CurrentIntensity);
         }
 
-        if (redSlider != null)
+        if (currentLight.IsTemperatureMode)
         {
-            redSlider.SetValueWithoutNotify(currentLight.CurrentColor.r);
+            // temperature mode
+            if (temperatureSlider != null)
+            {
+                temperatureSlider.SetValueWithoutNotify(currentLight.CurrentTemperature);
+            }
+            if (temperatureText != null)
+            {
+                temperatureText.text = $"{currentLight.CurrentTemperature:F0}K";
+            }
         }
-        if (greenSlider != null)
+        else
         {
-            greenSlider.SetValueWithoutNotify(currentLight.CurrentColor.g);
-        }
-        if (blueSlider != null)
-        {
-            blueSlider.SetValueWithoutNotify(currentLight.CurrentColor.b);
-        }
-
-        if (temperatureSlider != null)
-        {
-            temperatureSlider.SetValueWithoutNotify(currentLight.CurrentTemperature);
-        }
-
-        if (temperatureText != null)
-        {
-            temperatureText.text = $"{currentLight.CurrentTemperature:F0}K";
+            // RGB mode
+            if (redSlider != null)
+            {
+                redSlider.SetValueWithoutNotify(currentLight.CurrentColor.r);
+            }
+            if (greenSlider != null)
+            {
+                greenSlider.SetValueWithoutNotify(currentLight.CurrentColor.g);
+            }
+            if (blueSlider != null)
+            {
+                blueSlider.SetValueWithoutNotify(currentLight.CurrentColor.b);
+            }
         }
     }
 
@@ -198,25 +211,34 @@ public class UI_LightPanel : MonoBehaviour
 
     private void ToggleColorMode()
     {
-        isRGBMode = !isRGBMode;
+        if (currentLight == null) return;
+
+        bool newMode = !currentLight.IsTemperatureMode;
+        currentLight.SetColorMode(newMode);
+        
+        UpdateUI();
         UpdateColorModeUI();
     }
 
     private void UpdateColorModeUI()
     {
+        if (currentLight == null) return;
+
+        bool isTempMode = currentLight.IsTemperatureMode;
+
         if (rgbPanel != null)
         {
-            rgbPanel.SetActive(isRGBMode);
+            rgbPanel.SetActive(!isTempMode);
         }
 
         if (temperaturePanel != null)
         {
-            temperaturePanel.SetActive(!isRGBMode);
+            temperaturePanel.SetActive(isTempMode);
         }
 
         if (modeButtonText != null)
         {
-            modeButtonText.text = isRGBMode ? "Usa Temperatura" : "Usa RGB";
+            modeButtonText.text = isTempMode ? "Usa RGB" : "Usa Temperatura";
         }
     }
 
@@ -230,7 +252,7 @@ public class UI_LightPanel : MonoBehaviour
 
     private void OnTemperatureChanged(float value)
     {
-        if (currentLight == null) return;
+        if (currentLight == null || !currentLight.IsTemperatureMode) return;
 
         currentLight.SetTemperature(value);
         
@@ -238,16 +260,11 @@ public class UI_LightPanel : MonoBehaviour
         {
             temperatureText.text = $"{value:F0}K";
         }
-
-        if (!isRGBMode)
-        {
-            UpdateUI();
-        }
     }
 
     private void OnColorChanged()
     {
-        if (currentLight == null) return;
+        if (currentLight == null || currentLight.IsTemperatureMode) return;
 
         if (redSlider != null && greenSlider != null && blueSlider != null)
         {
@@ -257,15 +274,6 @@ public class UI_LightPanel : MonoBehaviour
                 blueSlider.value
             );
             currentLight.SetColor(newColor);
-
-            if (isRGBMode && temperatureSlider != null)
-            {
-                temperatureSlider.SetValueWithoutNotify(currentLight.CurrentTemperature);
-                if (temperatureText != null)
-                {
-                    temperatureText.text = $"{currentLight.CurrentTemperature:F0}K";
-                }
-            }
         }
     }
 
