@@ -52,7 +52,7 @@ public class WaypointManager : MonoBehaviour
         
         if (foundWaypoints.Length == 0)
         {
-            Debug.LogWarning("⚠️ Nessun waypoint trovato nella scena corrente!");
+            // Debug.LogWarning("Nessun waypoint trovato nella scena corrente!");
             waypoints.Clear();
             return;
         }
@@ -61,12 +61,6 @@ public class WaypointManager : MonoBehaviour
         
         waypoints.Clear();
         waypoints.AddRange(sortedWaypoints);
-        
-        // Debug.Log($"✅ Trovati {waypoints.Count} waypoint nella scena corrente:");
-        // foreach (var wp in waypoints)
-        // {
-        //     Debug.Log($"   - {wp.name} at {wp.transform.position}");
-        // }
 
         for (int i = 0; i < waypoints.Count; i++)
         {
@@ -153,10 +147,6 @@ public class WaypointManager : MonoBehaviour
         {
             waypoints[currentWaypointIndex].SetActive();
         }
-        // else
-        // {
-        //     Debug.Log("🎉 Tutti i waypoint raggiunti!");
-        // }
     }
 
     public AccuracyResults CalculateFinalScore()

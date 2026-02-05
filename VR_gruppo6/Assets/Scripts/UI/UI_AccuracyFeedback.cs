@@ -89,17 +89,17 @@ public class UI_AccuracyFeedback : MonoBehaviour
     {
         if (ArmMovementRecorder.instance == null || ArmMovementPlayback.instance == null)
         {
-            Debug.LogError("❌ Recorder o Playback non disponibili!");
+            Debug.LogError("Recorder o Playback non disponibili!");
             return;
         }
         
         if (ArmMovementRecorder.instance.SnapshotCount == 0)
         {
-            Debug.LogWarning("⚠️ Nessun movimento registrato!");
+            // Debug.LogWarning("Nessun movimento registrato!");
             return;
         }
         
-        Debug.Log("▶️ Avvio replay movimento...");
+        Debug.Log("Avvio replay movimento...");
         
         if (retryButton != null) retryButton.interactable = false;
         if (continueButton != null) continueButton.interactable = false;
@@ -117,12 +117,12 @@ public class UI_AccuracyFeedback : MonoBehaviour
 
     public void OnPlaybackStarted()
     {
-        Debug.Log("🎬 Playback avviato da UI");
+        Debug.Log("Playback avviato da UI");
     }
 
     public void OnPlaybackFinished()
     {
-        Debug.Log("✅ Playback completato");
+        Debug.Log("Playback completato");
         
         isReplaying = false;
         

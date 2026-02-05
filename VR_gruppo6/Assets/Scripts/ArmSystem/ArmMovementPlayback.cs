@@ -56,7 +56,7 @@ public class ArmMovementPlayback : MonoBehaviour
 
         if (basePivot == null || pivot1 == null || pivot2 == null)
         {
-            Debug.LogError("❌ Reference mancanti per playback!");
+            Debug.LogError("Reference mancanti per playback!");
             return;
         }
 
@@ -174,7 +174,7 @@ public class ArmMovementPlayback : MonoBehaviour
         {
             StopAllCoroutines();
             isPlayingBack = false;
-            Debug.Log("⏸️ Playback fermato");
+            // Debug.Log("Playback fermato");
         }
         
         if (PlayerController.instance != null)

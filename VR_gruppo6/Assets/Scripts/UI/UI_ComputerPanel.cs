@@ -40,6 +40,14 @@ public class UI_ComputerPanel :  MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (isOpen)
+        {
+            HandleComputerClose();
+        }
+    }
+
     public void OpenComputer()
     {
         // se la missione è completa non si può più aprire il computer

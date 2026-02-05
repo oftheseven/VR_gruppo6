@@ -54,7 +54,7 @@ public class ArmMovementRecorder : MonoBehaviour
     {
         if (arm == null)
         {
-            Debug.LogError("❌ arm è NULL!");
+            Debug.LogError("arm è NULL!");
             return;
         }
 
@@ -65,7 +65,7 @@ public class ArmMovementRecorder : MonoBehaviour
 
         if (basePivot == null || pivot1 == null || pivot2 == null || armTip == null)
         {
-            Debug.LogError("❌ Impossibile avviare recording: reference mancanti!");
+            Debug.LogError("Impossibile avviare recording: reference mancanti!");
             return;
         }
 
@@ -76,7 +76,7 @@ public class ArmMovementRecorder : MonoBehaviour
 
         RecordSnapshot();
         
-        Debug.Log("🎬 Recording movimento iniziato");
+        // Debug.Log("Recording movimento iniziato");
     }
 
     public void StopRecording()
@@ -87,7 +87,7 @@ public class ArmMovementRecorder : MonoBehaviour
         
         RecordSnapshot();
         
-        Debug.Log($"⏹️ Recording fermato - {snapshots.Count} snapshot salvati");
+        // Debug.Log($"Recording fermato - {snapshots.Count} snapshot salvati");
     }
 
     private void RecordSnapshot()

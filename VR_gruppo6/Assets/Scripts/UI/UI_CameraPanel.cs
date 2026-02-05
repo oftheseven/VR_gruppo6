@@ -42,6 +42,14 @@ public class UI_CameraPanel :  MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (isOpen)
+        {
+            HandleCameraClose();
+        }
+    }
+
     public void OpenCamera()
     {
         if (interactableCamera == null)

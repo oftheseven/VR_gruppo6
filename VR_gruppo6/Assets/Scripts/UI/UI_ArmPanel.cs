@@ -6,10 +6,6 @@ using TMPro;
 
 public class UI_ArmPanel : MonoBehaviour
 {
-    // // singleton
-    // private static UI_ArmPanel _instance;
-    // public static UI_ArmPanel instance => _instance;
-
     [Header("Camera timer settings")]
     [SerializeField] private float holdTimeToClose = 2f;
     [SerializeField] private float cooldownTime = 1f;
@@ -58,18 +54,6 @@ public class UI_ArmPanel : MonoBehaviour
     private float targetPivot1X = 0f;
     private float targetPivot2X = 0f;
 
-    // void Awake()
-    // {
-    //     if (_instance == null)
-    //     {
-    //         _instance = this;
-    //     }
-    //     else
-    //     {
-    //         Destroy(this.gameObject);
-    //     }
-    // }
-
     void Start()
     {
         this.gameObject.SetActive(false);
@@ -92,11 +76,11 @@ public class UI_ArmPanel : MonoBehaviour
             accuracyFeedback = UI_AccuracyFeedback.instance;
             if (accuracyFeedback != null)
             {
-                Debug.Log("✅ AccuracyFeedback trovato via singleton");
+                // Debug.Log("AccuracyFeedback trovato via singleton");
             }
             else
             {
-                Debug.LogWarning("⚠️ AccuracyFeedback non trovato!");
+                // Debug.LogWarning("AccuracyFeedback non trovato!");
             }
         }
 
@@ -149,7 +133,7 @@ public class UI_ArmPanel : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"❌ Recording non avviato - armTip: {(armTip != null ? "OK" : "NULL")}");
+            // Debug.LogError($"Recording non avviato - armTip: {(armTip != null ? "OK" : "NULL")}");
         }
     }
 
@@ -186,7 +170,7 @@ public class UI_ArmPanel : MonoBehaviour
             if (accuracyFeedback == null)
             {
                 accuracyFeedback = UI_AccuracyFeedback.instance;
-                Debug.Log($"🔍 Cercato via singleton - trovato: {(accuracyFeedback != null ? "OK" : "NULL")}");
+                // Debug.Log($"Cercato via singleton - trovato: {(accuracyFeedback != null ? "OK" : "NULL")}");
             }
 
             if (accuracyFeedback != null)
@@ -195,7 +179,7 @@ public class UI_ArmPanel : MonoBehaviour
             }
             else
             {
-                Debug.LogError("❌ accuracyFeedback è NULL! Non posso mostrare risultati.");
+                // Debug.LogError("accuracyFeedback è NULL! Non posso mostrare risultati.");
             }
         }
     
@@ -436,7 +420,7 @@ public class UI_ArmPanel : MonoBehaviour
     {
         if (interactableArm == null)
         {
-            Debug.LogError("❌ interactableArm è null!");
+            Debug.LogError("interactableArm è null!");
             return null;
         }
     
@@ -461,11 +445,11 @@ public class UI_ArmPanel : MonoBehaviour
     
         if (armTip != null)
         {
-            Debug.Log($"✅ ArmTip trovato: {armTip.name}");
+            Debug.Log($"ArmTip trovato: {armTip.name}");
         }
         else
         {
-            Debug.LogError($"❌ ArmTip NON trovato nei children di {interactableArm.name}");
+            Debug.LogError($"ArmTip NON trovato nei children di {interactableArm.name}");
         }
     
         return armTip;
