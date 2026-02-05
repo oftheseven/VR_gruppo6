@@ -75,25 +75,6 @@ public class UI_CameraPanel :  MonoBehaviour
         PlayerController.EnableMovement(true);
     }
 
-    // public void CloseCameraImmediate()
-    // {
-    //     isOpen = false;
-    //     holdTimer = 0f;
-    //     if (holdIndicator != null)
-    //     {
-    //         holdIndicator.SetActive(false);
-    //     }
-    //     if (infoPanel != null)
-    //     {
-    //         infoPanel.OnDeviceClosed();
-    //     }
-    //     PlayerController.instance.playerCamera.gameObject.SetActive(true); // attivo la camera dell'utente
-    //     InteractableCamera.instance.ViewCamera.gameObject.SetActive(false); // disattivo la camera dell'InteractableCamera
-    //     this.gameObject.SetActive(false);
-    //     canInteract = true;
-    //     PlayerController.EnableMovement(true);
-    // }
-
     public void HandleCameraClose()
     {
         if (Keyboard.current.eKey.isPressed && !infoPanel.IsOpen)

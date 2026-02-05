@@ -29,6 +29,12 @@ public class SceneZone : MonoBehaviour
         return activeZoneName == sceneName;
     }
 
+    // verifica se un oggetto si trova nella scena specificata (serve per sapere se mostrare il pannello del tutorial dell'oggetto)
+    public static bool IsObjectInScene(string sceneName)
+    {
+        return activeZoneName == sceneName;
+    }
+
     public static string GetCurrentPlayerScene()
     {
         return activeZoneName;

@@ -28,12 +28,13 @@ public class UI_InfoPanel : MonoBehaviour
 
     public void OpenInfoPanel()
     {
-        if (this.gameObject != null)
+        // controllo che il pannello di info sia associato e sia nella scena del tutorial
+        if (this.gameObject != null && SceneZone.IsObjectInScene("TutorialScene"))
         {
             this.gameObject.SetActive(true);
             isOpen = true;
         }
-        else
+        else if (this.gameObject == null)
         {
             Debug.LogWarning("Info panel GameObject is null.");
         }
