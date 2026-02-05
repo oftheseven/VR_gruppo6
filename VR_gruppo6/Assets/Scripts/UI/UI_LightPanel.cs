@@ -6,23 +6,36 @@ using System.Collections;
 
 public class UI_LightPanel : MonoBehaviour
 {
-    [Header("Close timer settings")]
-    [SerializeField] private float holdTimeToClose = 2f;
-    [SerializeField] private float cooldownTime = 0.1f;
+    [Header("Info panel reference")]
+    [SerializeField] private UI_InfoPanel infoPanel;
 
     [Header("UI references")]
     [SerializeField] private Slider intensitySlider;
     [SerializeField] private Button onOffButton;
     [SerializeField] private TextMeshProUGUI buttonText;
 
-    [Header("Optional color control")]
+    [Header("RGB light color slider")]
+    [SerializeField] private GameObject rgbPanel;
     [SerializeField] private Slider redSlider;
     [SerializeField] private Slider greenSlider;
     [SerializeField] private Slider blueSlider;
 
+    [Header("Light temperature slider")]
+    [SerializeField] private GameObject temperaturePanel;
+    [SerializeField] private Slider temperatureSlider;
+    [SerializeField] private TextMeshProUGUI temperatureText;
+
+    [Header("Mode switch")]
+    [SerializeField] private Button toggleModeButton;
+    [SerializeField] private TextMeshProUGUI modeButtonText;
+
     [Header("Hold to close UI")]
     [SerializeField] private GameObject holdIndicator;
     [SerializeField] private Image holdFillImage;
+
+    [Header("Close timer settings")]
+    [SerializeField] private float holdTimeToClose = 2f;
+    [SerializeField] private float cooldownTime = 0.1f;
 
     private InteractableLight currentLight;
     private bool isOpen = false;
@@ -30,6 +43,7 @@ public class UI_LightPanel : MonoBehaviour
     private bool canInteract = true;
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
+    private bool isRGBMode = true;
 
     void Start()
     {
@@ -51,6 +65,7 @@ public class UI_LightPanel : MonoBehaviour
             intensitySlider.onValueChanged.AddListener(OnIntensityChanged);
         }
 
+        // slider RGB
         if (redSlider != null)
         {
             redSlider.onValueChanged.AddListener(_ => OnColorChanged());
@@ -63,6 +78,20 @@ public class UI_LightPanel : MonoBehaviour
         {
             blueSlider.onValueChanged.AddListener(_ => OnColorChanged());
         }
+
+        // slider temperatura
+        if (temperatureSlider != null)
+        {
+            temperatureSlider.onValueChanged.AddListener(OnTemperatureChanged);
+        }
+
+        // bottone per la modalità
+        if (toggleModeButton != null)
+        {
+            toggleModeButton.onClick.AddListener(ToggleColorMode);
+        }
+
+        UpdateColorModeUI();
     }
 
     void Update()
@@ -86,7 +115,13 @@ public class UI_LightPanel : MonoBehaviour
         isOpen = true;
         PlayerController.EnableMovement(false);
 
+        if (infoPanel != null)
+        {
+            infoPanel.OnDeviceOpened();
+        }
+
         UpdateUI();
+        UpdateColorModeUI();
 
         // Debug.Log($"Pannello luce aperto per: {currentLight.name}");
     }
@@ -100,6 +135,11 @@ public class UI_LightPanel : MonoBehaviour
         if (holdIndicator != null)
         {
             holdIndicator.SetActive(false);
+        }
+
+        if (infoPanel != null)
+        {
+            infoPanel.OnDeviceClosed();
         }
 
         StartCoroutine(CooldownAndHide());
@@ -136,6 +176,16 @@ public class UI_LightPanel : MonoBehaviour
         {
             blueSlider.SetValueWithoutNotify(currentLight.CurrentColor.b);
         }
+
+        if (temperatureSlider != null)
+        {
+            temperatureSlider.SetValueWithoutNotify(currentLight.CurrentTemperature);
+        }
+
+        if (temperatureText != null)
+        {
+            temperatureText.text = $"{currentLight.CurrentTemperature:F0}K";
+        }
     }
 
     public void ToggleLight()
@@ -146,12 +196,53 @@ public class UI_LightPanel : MonoBehaviour
         UpdateUI();
     }
 
+    private void ToggleColorMode()
+    {
+        isRGBMode = !isRGBMode;
+        UpdateColorModeUI();
+    }
+
+    private void UpdateColorModeUI()
+    {
+        if (rgbPanel != null)
+        {
+            rgbPanel.SetActive(isRGBMode);
+        }
+
+        if (temperaturePanel != null)
+        {
+            temperaturePanel.SetActive(!isRGBMode);
+        }
+
+        if (modeButtonText != null)
+        {
+            modeButtonText.text = isRGBMode ? "Usa Temperatura" : "Usa RGB";
+        }
+    }
+
     private void OnIntensityChanged(float value)
     {
         if (currentLight == null) return;
 
         currentLight.SetIntensity(value);
         UpdateUI();
+    }
+
+    private void OnTemperatureChanged(float value)
+    {
+        if (currentLight == null) return;
+
+        currentLight.SetTemperature(value);
+        
+        if (temperatureText != null)
+        {
+            temperatureText.text = $"{value:F0}K";
+        }
+
+        if (!isRGBMode)
+        {
+            UpdateUI();
+        }
     }
 
     private void OnColorChanged()
@@ -166,12 +257,21 @@ public class UI_LightPanel : MonoBehaviour
                 blueSlider.value
             );
             currentLight.SetColor(newColor);
+
+            if (isRGBMode && temperatureSlider != null)
+            {
+                temperatureSlider.SetValueWithoutNotify(currentLight.CurrentTemperature);
+                if (temperatureText != null)
+                {
+                    temperatureText.text = $"{currentLight.CurrentTemperature:F0}K";
+                }
+            }
         }
     }
 
     public void HandlePanelClose()
     {
-        if (Keyboard.current.eKey.isPressed)
+        if (Keyboard.current.eKey.isPressed && !infoPanel.IsOpen)
         {
             holdTimer += Time.deltaTime;
 
