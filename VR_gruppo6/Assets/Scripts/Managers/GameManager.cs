@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,8 +21,8 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(transform.root.gameObject);
-            DontDestroyOnLoad(player);
-            DontDestroyOnLoad(EventSystem.current.gameObject);
+            // DontDestroyOnLoad(player);
+            // DontDestroyOnLoad(EventSystem.current.gameObject);
             DontDestroyOnLoad(allCanvas);
             foreach (GameObject door in doors)
             {

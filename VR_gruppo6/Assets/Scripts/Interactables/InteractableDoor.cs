@@ -48,9 +48,6 @@ public class InteractableDoor : MonoBehaviour
 
     private void OpenDoor()
     {
-        isOpen = true;
-        doorAnimator.SetTrigger("Open");
-        
         sceneWhereOpenedFrom = SceneZone.GetCurrentPlayerScene();
         // Debug.Log($"Apro porta da: {playerScene}");
 
@@ -189,6 +186,9 @@ public class InteractableDoor : MonoBehaviour
         {
             UI_LoadingIcon.instance.Hide();
         }
+
+        isOpen = true;
+        doorAnimator.SetTrigger("Open");
     }
 
     private void RemoveDuplicateEventSystems(string loadedSceneName)
