@@ -44,6 +44,9 @@ public class UI_InfoPanel : MonoBehaviour
         {
             infoButton.gameObject.SetActive(false);
         }
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void CloseInfoPanel()

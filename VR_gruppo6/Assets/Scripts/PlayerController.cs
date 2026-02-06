@@ -90,8 +90,8 @@ public class PlayerController : MonoBehaviour
         rb.useGravity = true;
         rb.freezeRotation = true;
 
-        // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -108,6 +108,21 @@ public class PlayerController : MonoBehaviour
         HandleArmInteraction();
         HandleDoorInteraction();
         HandleLightInteraction();
+
+        // per debug, se premo DELETE sblocco/blocco il mouse
+        if (Keyboard.current.deleteKey.wasPressedThisFrame)
+        {
+            if (Cursor.lockState == CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+        }
     }
 
     void FixedUpdate()

@@ -111,6 +111,8 @@ public class UI_LightPanel : MonoBehaviour
         this.gameObject.SetActive(true);
         isOpen = true;
         PlayerController.EnableMovement(false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
         if (infoPanel != null)
         {
@@ -154,6 +156,9 @@ public class UI_LightPanel : MonoBehaviour
         this.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
+    
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         // Debug.Log("Pannello luce chiuso");
     }

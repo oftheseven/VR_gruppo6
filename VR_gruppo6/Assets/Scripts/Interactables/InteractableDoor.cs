@@ -128,31 +128,6 @@ public class InteractableDoor : MonoBehaviour
         return false;
     }
 
-    // private IEnumerator LoadOtherScene(string sceneToLoad, string fromScene)
-    // {
-    //     yield return new WaitForSeconds(loadDelay);
-
-    //     AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
-
-    //     while (!asyncLoad.isDone)
-    //     {
-    //         yield return null;
-    //     }
-
-    //     currentLoadedScene = sceneToLoad;
-
-    //     Scene loadedScene = SceneManager.GetSceneByName(sceneToLoad);
-    //     if (loadedScene.IsValid())
-    //     {
-    //         SceneManager.SetActiveScene(loadedScene);
-    //         // Debug.Log($"Active scene: {loadedScene.name}");
-    //     }
-
-    //     RemoveDuplicateEventSystems(currentLoadedScene);
-    
-    //     PositionScene(sceneToLoad, fromScene);
-    // }
-
     private IEnumerator LoadOtherScene(string sceneToLoad, string fromScene)
     {
         if (UI_LoadingIcon.instance != null)
