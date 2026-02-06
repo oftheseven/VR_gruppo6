@@ -63,6 +63,7 @@ public class UI_LightPanel : MonoBehaviour
         {
             intensitySlider.onValueChanged.AddListener(OnIntensityChanged);
         }
+        
         // slider RGB
         if (redSlider != null)
         {

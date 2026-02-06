@@ -42,7 +42,7 @@ public class InteractableLight : MonoBehaviour
             maxIntensity = mainLight.intensity;
             currentColor = mainLight.color;
             
-            Debug.Log($"💡 {name}: Intensità corrente={currentIntensity}, Max={maxIntensity}");
+            // Debug.Log($"💡 {name}: Intensità corrente={currentIntensity}, Max={maxIntensity}");
         }
         
         UpdateLights();
@@ -97,12 +97,12 @@ public class InteractableLight : MonoBehaviour
         {
             currentColor = Color.white;
             currentTemperature = 6500f;
-            Debug.Log("Modalità Temperatura attivata - Reset a 6500K");
+            // Debug.Log("Modalità Temperatura attivata - Reset a 6500K");
         }
-        else
-        {
-            Debug.Log("Modalità RGB attivata");
-        }
+        // else
+        // {
+        //     Debug.Log("Modalità RGB attivata");
+        // }
         
         UpdateLights();
     }
