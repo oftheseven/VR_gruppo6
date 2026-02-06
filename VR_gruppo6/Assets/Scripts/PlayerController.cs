@@ -264,13 +264,10 @@ public class PlayerController : MonoBehaviour
             {
                 case "Computer":
                     InteractableComputer computer = hit.collider.GetComponent<InteractableComputer>();
-                    if (computer != null)
+                    if (computer != null && !UI_Screenplay.instance.IsGreenScreenComplete())
                     {
-                        if (currentComputer != computer && !UI_Screenplay.instance.IsGreenScreenComplete())
-                        {
-                            currentComputer = computer;
-                            ShowInteractionText(currentComputer.getInteractionText());
-                        }
+                        currentComputer = computer;
+                        ShowInteractionText(currentComputer.getInteractionText());
                     }
                     else
                     {
@@ -282,11 +279,8 @@ public class PlayerController : MonoBehaviour
                     InteractableCamera camera = hit.collider.GetComponent<InteractableCamera>();
                     if (camera != null)
                     {
-                        if (currentCamera != camera)
-                        {
-                            currentCamera = camera;
-                            ShowInteractionText(currentCamera.GetInteractionText());
-                        }
+                        currentCamera = camera;
+                        ShowInteractionText(currentCamera.GetInteractionText());
                     }
                     else
                     {
@@ -298,11 +292,8 @@ public class PlayerController : MonoBehaviour
                     InteractableOperator operatore = hit.collider.GetComponent<InteractableOperator>();
                     if (operatore != null)
                     {
-                        if (currentOperator != operatore)
-                        {
-                            currentOperator = operatore;
-                            ShowInteractionText(currentOperator.GetInteractionText());
-                        }
+                        currentOperator = operatore;
+                        ShowInteractionText(currentOperator.GetInteractionText());
                     }
                     else
                     {
@@ -314,11 +305,8 @@ public class PlayerController : MonoBehaviour
                     InteractableCart carrello = hit.collider.GetComponent<InteractableCart>();
                     if (carrello != null)
                     {
-                        if (currentCart != carrello)
-                        {
-                            currentCart = carrello;
-                            ShowInteractionText(currentCart.GetInteractionText());
-                        }
+                        currentCart = carrello;
+                        ShowInteractionText(currentCart.GetInteractionText());
                     }
                     else
                     {
@@ -330,11 +318,8 @@ public class PlayerController : MonoBehaviour
                     PickableItem item = hit.collider.GetComponent<PickableItem>();
                     if (item != null)
                     {
-                        if (currentItem != item)
-                        {
-                            currentItem = item;
-                            ShowInteractionText(item.GetInteractionText());
-                        }
+                        currentItem = item;
+                        ShowInteractionText(item.GetInteractionText());
                     }
                     else
                     {
@@ -346,11 +331,8 @@ public class PlayerController : MonoBehaviour
                     InteractableDolly dolly = hit.collider.GetComponent<InteractableDolly>();
                     if (dolly != null)
                     {
-                        if (currentDolly != dolly)
-                        {
-                            currentDolly = dolly;
-                            ShowInteractionText(currentDolly.GetInteractionText());
-                        }
+                        currentDolly = dolly;
+                        ShowInteractionText(currentDolly.GetInteractionText());
                     }
                     else
                     {
@@ -362,11 +344,8 @@ public class PlayerController : MonoBehaviour
                     InteractableArm arm = hit.collider.GetComponent<InteractableArm>();
                     if (arm != null)
                     {
-                        if (currentArm != arm)
-                        {
-                            currentArm = arm;
-                            ShowInteractionText(currentArm.GetInteractionText());
-                        }
+                        currentArm = arm;
+                        ShowInteractionText(currentArm.GetInteractionText());
                     }
                     else
                     {
@@ -378,11 +357,8 @@ public class PlayerController : MonoBehaviour
                     InteractableDoor door = hit.collider.GetComponent<InteractableDoor>();
                     if (door != null)
                     {
-                        if (currentDoor != door)
-                        {
-                            currentDoor = door;
-                            ShowInteractionText(currentDoor.GetInteractionText());
-                        }
+                        currentDoor = door;
+                        ShowInteractionText(currentDoor.GetInteractionText());
                     }
                     else
                     {
@@ -394,11 +370,8 @@ public class PlayerController : MonoBehaviour
                     InteractableLight light = hit.collider.GetComponent<InteractableLight>();
                     if (light != null)
                     {
-                        if (currentLight != light)
-                        {
-                            currentLight = light;
-                            ShowInteractionText(currentLight.GetInteractionText());
-                        }
+                        currentLight = light;
+                        ShowInteractionText(currentLight.GetInteractionText());
                     }
                     else
                     {
