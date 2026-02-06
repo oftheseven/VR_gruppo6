@@ -21,6 +21,11 @@ public class InteractableComputer : MonoBehaviour
         {
             TutorialManager.instance.OnComputerCompleted();
         }
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.OnComputerCompleted();
+        }
     }
 
     public string getInteractionText()

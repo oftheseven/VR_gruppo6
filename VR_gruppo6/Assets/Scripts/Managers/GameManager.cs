@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool requireArm = true;
     [SerializeField] private bool requireCart = true;
     [SerializeField] private bool requireLight = true;
+    [SerializeField] private bool requireOperator = true;
 
     private HashSet<string> completedTasks = new HashSet<string>();
     private bool isFinished = false;
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
     private const string TASK_ARM = "arm";
     private const string TASK_CART = "cart";
     private const string TASK_LIGHT = "light";
+    private const string TASK_OPERATOR = "operator";
 
     void Awake()
     {
@@ -45,6 +48,7 @@ public class GameManager : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(transform.root.gameObject);
             DontDestroyOnLoad(allCanvas);
+            DontDestroyOnLoad(EventSystem.current.gameObject);
             foreach (GameObject door in doors)
             {
                 DontDestroyOnLoad(door);
@@ -123,6 +127,9 @@ public class GameManager : MonoBehaviour
         if (requireLight && !completedTasks.Contains(TASK_LIGHT))
             allCompleted = false;
 
+        if (requireOperator && !completedTasks.Contains(TASK_OPERATOR))
+            allCompleted = false;
+
         if (allCompleted)
         {
             CompleteScene();
@@ -137,6 +144,7 @@ public class GameManager : MonoBehaviour
         if (requireArm) count++;
         if (requireCart) count++;
         if (requireLight) count++;
+        if (requireOperator) count++;
         return count;
     }
 
@@ -166,6 +174,7 @@ public class GameManager : MonoBehaviour
     public void OnArmCompleted() => CompleteTask(TASK_ARM);
     public void OnCartCompleted() => CompleteTask(TASK_CART);
     public void OnLightCompleted() => CompleteTask(TASK_LIGHT);
+    public void OnOperatorCompleted() => CompleteTask(TASK_OPERATOR);
 
     public string GetProgress()
     {

@@ -46,6 +46,11 @@ public class InteractableArm : MonoBehaviour
         {
             TutorialManager.instance.OnArmCompleted();
         }
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.OnArmCompleted();
+        }
     }
 
     public string GetInteractionText()

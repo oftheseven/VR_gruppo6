@@ -52,6 +52,11 @@ public class InteractableOperator : MonoBehaviour
         {
             StartDialogue();
         }
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.OnOperatorCompleted();
+        }
     }
 
     public string GetInteractionText()

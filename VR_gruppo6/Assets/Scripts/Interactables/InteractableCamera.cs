@@ -52,6 +52,11 @@ public class InteractableCamera : MonoBehaviour
         {
             TutorialManager.instance.OnCameraCompleted();
         }
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.OnCameraCompleted();
+        }
     }
 
     public string GetInteractionText()

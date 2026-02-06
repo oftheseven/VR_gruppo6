@@ -45,6 +45,11 @@ public class InteractableCart : MonoBehaviour
         {
             TutorialManager.instance.OnCartCompleted();
         }
+
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.OnCartCompleted();
+        }
     }
 
     public string GetInteractionText()
