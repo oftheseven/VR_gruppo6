@@ -16,6 +16,11 @@ public class InteractableComputer : MonoBehaviour
         {
             computerPanel.OpenComputer();
         }
+
+        if (TutorialManager.instance != null)
+        {
+            TutorialManager.instance.OnComputerCompleted();
+        }
     }
 
     public string getInteractionText()

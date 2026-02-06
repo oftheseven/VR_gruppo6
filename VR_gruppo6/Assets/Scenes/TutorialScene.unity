@@ -3774,7 +3774,7 @@ MonoBehaviour:
   - {fileID: 928330004}
   objectRenderer: {fileID: 997404691}
   inputCooldown: 0.1
-  correctImageIndex: 0
+  correctImageIndex: 1
 --- !u!114 &630263817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13192,6 +13192,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialManager
   tutorialDoor: {fileID: 895667617}
+  requireComputer: 1
+  requireCamera: 1
+  requireArm: 1
+  requireCart: 1
+  requireLight: 1
 --- !u!114 &1941169574
 MonoBehaviour:
   m_ObjectHideFlags: 0

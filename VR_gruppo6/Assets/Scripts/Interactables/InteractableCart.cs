@@ -40,6 +40,11 @@ public class InteractableCart : MonoBehaviour
         {
             StopHolding();
         }
+
+        if (TutorialManager.instance != null)
+        {
+            TutorialManager.instance.OnCartCompleted();
+        }
     }
 
     public string GetInteractionText()

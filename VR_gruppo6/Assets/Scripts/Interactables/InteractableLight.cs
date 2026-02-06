@@ -58,6 +58,11 @@ public class InteractableLight : MonoBehaviour
         {
             Debug.LogError("LightPanel non assegnato su " + this.name);
         }
+
+        if (TutorialManager.instance != null)
+        {
+            TutorialManager.instance.OnLightCompleted();
+        }
     }
 
     public void SetLightState(bool state)
