@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private LayerMask _groundLayer; // layer del terreno
 
+    [Header("Cursor settings")]
+    private static int openPanelsCount = 0;
+
     private bool _isGrounded = false;
     private int _groundContactCount = 0;
 
@@ -145,6 +148,40 @@ public class PlayerController : MonoBehaviour
     public static void EnableMovement(bool enable) 
     { 
         moveEnabled = enable;
+    }
+
+    public static void ShowCursor()
+    {
+        openPanelsCount++;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    
+    public static void HideCursor()
+    {
+        openPanelsCount--;
+    
+        if (openPanelsCount <= 0)
+        {
+            openPanelsCount = 0;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    public static void ForceCursorVisible(bool visible)
+    {
+        if (visible)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            openPanelsCount = 0;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     private void Move()

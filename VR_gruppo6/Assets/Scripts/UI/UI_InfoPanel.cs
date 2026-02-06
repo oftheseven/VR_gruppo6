@@ -45,8 +45,7 @@ public class UI_InfoPanel : MonoBehaviour
             infoButton.gameObject.SetActive(false);
         }
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        PlayerController.ShowCursor();
     }
 
     public void CloseInfoPanel()
@@ -62,6 +61,8 @@ public class UI_InfoPanel : MonoBehaviour
         {
             infoButton.gameObject.SetActive(true);
         }
+
+        PlayerController.HideCursor();
     }
 
     public void OnDeviceOpened()

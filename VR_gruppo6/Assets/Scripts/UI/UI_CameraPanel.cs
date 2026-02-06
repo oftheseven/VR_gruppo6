@@ -62,6 +62,8 @@ public class UI_CameraPanel :  MonoBehaviour
         isOpen = true;
         PlayerController.EnableMovement(false);
 
+        PlayerController.ShowCursor();
+
         if (PlayerController.instance != null)
         {
             PlayerController.instance.playerCamera.gameObject.SetActive(false);
@@ -92,6 +94,8 @@ public class UI_CameraPanel :  MonoBehaviour
         {
             infoPanel.OnDeviceClosed();
         }
+
+        PlayerController.HideCursor();
         
         StartCoroutine(CooldownAndHide());
 

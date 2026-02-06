@@ -68,6 +68,8 @@ public class UI_ComputerPanel :  MonoBehaviour
         {
             Debug.LogWarning("Info panel reference is null in UI_ComputerPanel.");
         }
+
+        PlayerController.ShowCursor();
     }
 
     public void CloseComputer()
@@ -89,6 +91,8 @@ public class UI_ComputerPanel :  MonoBehaviour
         this.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
+
+        PlayerController.HideCursor();
     }
 
     public void CloseComputerImmediate()
@@ -108,6 +112,8 @@ public class UI_ComputerPanel :  MonoBehaviour
         this.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
+
+        PlayerController.HideCursor();
     }
 
     public void HandleComputerClose()

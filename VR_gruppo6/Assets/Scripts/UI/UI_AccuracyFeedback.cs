@@ -61,6 +61,8 @@ public class UI_AccuracyFeedback : MonoBehaviour
         PlayerController.EnableMovement(false);
         feedbackPanel.SetActive(true);
         isOpen = true;
+
+        PlayerController.ShowCursor();
         
         if (waypointsText != null)
         {
@@ -163,5 +165,7 @@ public class UI_AccuracyFeedback : MonoBehaviour
         isOpen = false;
         isReplaying = false;
         currentArm = null;
+
+        PlayerController.HideCursor();
     }
 }

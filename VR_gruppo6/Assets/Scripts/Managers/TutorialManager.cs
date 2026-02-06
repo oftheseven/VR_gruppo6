@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 // script per gestire la fase di tutorial (TODO: fare una funzione che notifica la fine del tutorial e quindi sblocca la porta del tutorial per passare alla scena successiva)
@@ -12,7 +11,7 @@ public class TutorialManager : MonoBehaviour
     [Header("Scene door reference")]
     [SerializeField] private InteractableDoor tutorialDoor; // porta della scena tutorial
 
-    [Header("Tutorial Objects")]
+    [Header("Tutorial objects")]
     [SerializeField] private bool requireComputer = true;
     [SerializeField] private bool requireCamera = true;
     [SerializeField] private bool requireArm = true;
@@ -38,7 +37,6 @@ public class TutorialManager : MonoBehaviour
         {
             _instance = this;
         }
-        // tutorialDoor.Lock();
     }
 
     void Start()
@@ -47,18 +45,7 @@ public class TutorialManager : MonoBehaviour
         {
             tutorialDoor.Lock();
         }
-
-        // StartCoroutine(Tutorial());
     }
-
-    // coroutine per gestire il tutorial (ad esempio durata fissa di 10 secondi) 
-    // TODO: fare la meccanica reale
-    // private IEnumerator Tutorial()
-    // {
-    //     Debug.Log("Inizio tutorial...");
-    //     yield return new WaitForSeconds(10f);
-    //     CompleteTutorial();
-    // }
 
     public void CompleteTask(string taskId)
     {
@@ -127,7 +114,6 @@ public class TutorialManager : MonoBehaviour
     {
         if (!isFinished)
         {
-            // StopAllCoroutines();
             CompleteTutorial();
         }
     }

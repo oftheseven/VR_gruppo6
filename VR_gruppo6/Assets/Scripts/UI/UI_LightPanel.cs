@@ -130,6 +130,8 @@ public class UI_LightPanel : MonoBehaviour
             temperatureSlider.maxValue = 8000f;
         }
 
+        PlayerController.ShowCursor();
+
         UpdateUI();
         UpdateColorModeUI();
 
@@ -152,13 +154,12 @@ public class UI_LightPanel : MonoBehaviour
             infoPanel.OnDeviceClosed();
         }
 
+        PlayerController.HideCursor();
+
         StartCoroutine(CooldownAndHide());
         this.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
-    
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
 
         // Debug.Log("Pannello luce chiuso");
     }

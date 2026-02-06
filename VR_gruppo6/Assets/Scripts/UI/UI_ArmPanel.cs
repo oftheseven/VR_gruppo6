@@ -106,6 +106,8 @@ public class UI_ArmPanel : MonoBehaviour
         PlayerController.instance.playerCamera.gameObject.SetActive(false);
         armCamera.gameObject.SetActive(true);
 
+        PlayerController.ShowCursor();
+
         currentSelection = PivotSelection.Base;
         UpdateSelectionUI();
         UpdateSelectionHighlight();
@@ -186,6 +188,7 @@ public class UI_ArmPanel : MonoBehaviour
         PlayerController.instance.playerCamera.gameObject.SetActive(true);
         // PlayerController.EnableMovement(true);
         armCamera.gameObject.SetActive(false);
+        PlayerController.HideCursor();
     }
 
     public void HandleArmClose()
