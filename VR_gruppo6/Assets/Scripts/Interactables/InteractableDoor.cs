@@ -57,6 +57,12 @@ public class InteractableDoor : MonoBehaviour
         {
             StartCoroutine(LoadOtherScene(sceneToLoad, sceneWhereOpenedFrom));
         }
+        else
+        {
+            // se invece la scena è già caricata, apro subito la porta senza ricaricare
+            isOpen = true;
+            doorAnimator.SetTrigger("Open");
+        }
     }
 
     private void CloseDoor()
@@ -92,6 +98,12 @@ public class InteractableDoor : MonoBehaviour
         else
         {
             // Debug.LogWarning($"Player in scena sconosciuta: {currentPlayerScene}");
+            return;
+        }
+
+        if (sceneToUnload == currentPlayerScene)
+        {
+            Debug.LogWarning($"ATTENZIONE: non scarico la scena corrente del player ({currentPlayerScene})");
             return;
         }
         

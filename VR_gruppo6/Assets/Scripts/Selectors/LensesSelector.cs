@@ -40,12 +40,12 @@ public class LensesSelector : MonoBehaviour
         
         bool inputDetected = false;
 
-        if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
+        if (Keyboard.current.downArrowKey.wasPressedThisFrame)
         {
             currentImageIndex = (currentImageIndex + 1) % images.Length;
             inputDetected = true;
         }
-        else if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
+        else if (Keyboard.current.upArrowKey.wasPressedThisFrame)
         {
             currentImageIndex = (currentImageIndex - 1 + images.Length) % images.Length;
             inputDetected = true;
