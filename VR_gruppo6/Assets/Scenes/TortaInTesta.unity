@@ -11754,6 +11754,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7918335002988649766, guid: 1afb71c41bfb1e2468925b74cc3a0fa7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8cadc4a619c2fb54e894a8834fdbc3ed, type: 2}
+    - target: {fileID: -4683669308469848369, guid: 1afb71c41bfb1e2468925b74cc3a0fa7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7bc8b0b1395704f46a932388e142a60b, type: 2}
+    - target: {fileID: -1461304994638716399, guid: 1afb71c41bfb1e2468925b74cc3a0fa7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7bc8b0b1395704f46a932388e142a60b, type: 2}
+    - target: {fileID: -804731622281664130, guid: 1afb71c41bfb1e2468925b74cc3a0fa7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7bc8b0b1395704f46a932388e142a60b, type: 2}
+    - target: {fileID: -678588488315902003, guid: 1afb71c41bfb1e2468925b74cc3a0fa7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7bc8b0b1395704f46a932388e142a60b, type: 2}
     - target: {fileID: 919132149155446097, guid: 1afb71c41bfb1e2468925b74cc3a0fa7, type: 3}
       propertyPath: m_Name
       value: poltrona
