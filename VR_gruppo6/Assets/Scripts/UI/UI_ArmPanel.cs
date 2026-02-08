@@ -24,9 +24,6 @@ public class UI_ArmPanel : MonoBehaviour
     [Header("Waypoint System")]
     [SerializeField] private bool enableWaypointChallenge = true;
 
-    [Header("Pivot selection UI")]
-    [SerializeField] private TextMeshProUGUI selectedPivotText; // testo che mostra il pivot selezionato
-
     [Header("Visual effect pivot selection")]
     [SerializeField] private Color selectedColor = Color.green;
     [SerializeField] private float outlineWidth = 5f;
@@ -57,7 +54,6 @@ public class UI_ArmPanel : MonoBehaviour
     void Start()
     {
         this.gameObject.SetActive(false);
-        selectedPivotText.gameObject.SetActive(false);
         armCamera.gameObject.SetActive(false);
         canInteract = true;
 
@@ -99,7 +95,6 @@ public class UI_ArmPanel : MonoBehaviour
     public void OpenArm()
     {
         this.gameObject.SetActive(true);
-        selectedPivotText.gameObject.SetActive(true);
         isOpen = true;
         PlayerController.EnableMovement(false);
 
@@ -109,7 +104,6 @@ public class UI_ArmPanel : MonoBehaviour
         PlayerController.ShowCursor();
 
         currentSelection = PivotSelection.Base;
-        UpdateSelectionUI();
         UpdateSelectionHighlight();
 
         if (infoPanel != null)
@@ -183,7 +177,6 @@ public class UI_ArmPanel : MonoBehaviour
     
         StartCoroutine(CooldownAndHide());
         this.gameObject.SetActive(false);
-        selectedPivotText.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.instance.playerCamera.gameObject.SetActive(true);
         // PlayerController.EnableMovement(true);
@@ -243,39 +236,17 @@ public class UI_ArmPanel : MonoBehaviour
         if (Keyboard.current.digit1Key.wasPressedThisFrame)
         {
             currentSelection = PivotSelection.Base;
-            UpdateSelectionUI();
             UpdateSelectionHighlight();
         }
         else if (Keyboard.current.digit2Key.wasPressedThisFrame)
         {
             currentSelection = PivotSelection.Pivot1;
-            UpdateSelectionUI();
             UpdateSelectionHighlight();
         }
         else if (Keyboard.current.digit3Key.wasPressedThisFrame)
         {
             currentSelection = PivotSelection.Pivot2;
-            UpdateSelectionUI();
             UpdateSelectionHighlight();
-        }
-    }
-
-    private void UpdateSelectionUI()
-    {
-        if (selectedPivotText != null)
-        {
-            switch (currentSelection)
-            {
-                case PivotSelection.Base:
-                    selectedPivotText.text = "Selezionato: Base";
-                    break;
-                case PivotSelection.Pivot1:
-                    selectedPivotText.text = "Selezionato: Pivot 1";
-                    break;
-                case PivotSelection.Pivot2:
-                    selectedPivotText.text = "Selezionato: Pivot 2";
-                    break;
-            }
         }
     }
 
