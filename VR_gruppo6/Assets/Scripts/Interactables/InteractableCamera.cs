@@ -41,7 +41,7 @@ public class InteractableCamera : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("Interazione con " + this.name);
+        // Debug.Log("Interazione con " + this.name);
 
         if (cameraPanel != null)
         {

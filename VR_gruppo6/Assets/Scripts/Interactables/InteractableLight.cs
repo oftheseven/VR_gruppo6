@@ -64,10 +64,10 @@ public class InteractableLight : MonoBehaviour
             TutorialManager.instance.OnLightCompleted();
         }
 
-        if (GameManager.instance != null)
-        {
-            GameManager.instance.OnLightCompleted();
-        }
+        // if (GameManager.instance != null)
+        // {
+        //     GameManager.instance.OnLightCompleted();
+        // }
     }
 
     public void SetLightState(bool state)

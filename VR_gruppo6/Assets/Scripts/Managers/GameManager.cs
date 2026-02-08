@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool requireLight = true;
     [SerializeField] private bool requireOperator = true;
 
-    private HashSet<string> completedTasks = new HashSet<string>();
+    private HashSet<string> completedGameTasks = new HashSet<string>();
     private bool isFinished = false;
     private InteractableDoor exitDoor = null;
 
@@ -96,14 +96,14 @@ public class GameManager : MonoBehaviour
 
     public void CompleteTask(string taskId)
     {
-        if (isFinished || completedTasks.Contains(taskId))
+        if (isFinished || completedGameTasks.Contains(taskId))
         {
             return;
         }
 
-        completedTasks.Add(taskId);
+        completedGameTasks.Add(taskId);
         
-        Debug.Log($"Task '{taskId}' completato! ({completedTasks.Count}/{GetRequiredTasksCount()})");
+        Debug.Log($"Task '{taskId}' completato! ({completedGameTasks.Count}/{GetRequiredTasksCount()})");
 
         CheckSceneCompletion();
     }
@@ -112,22 +112,22 @@ public class GameManager : MonoBehaviour
     {
         bool allCompleted = true;
 
-        if (requireComputer && !completedTasks.Contains(TASK_COMPUTER))
+        if (requireComputer && !completedGameTasks.Contains(TASK_COMPUTER))
             allCompleted = false;
 
-        if (requireCamera && !completedTasks.Contains(TASK_CAMERA))
+        if (requireCamera && !completedGameTasks.Contains(TASK_CAMERA))
             allCompleted = false;
 
-        if (requireArm && !completedTasks.Contains(TASK_ARM))
+        if (requireArm && !completedGameTasks.Contains(TASK_ARM))
             allCompleted = false;
 
-        if (requireCart && !completedTasks.Contains(TASK_CART))
+        if (requireCart && !completedGameTasks.Contains(TASK_CART))
             allCompleted = false;
 
-        if (requireLight && !completedTasks.Contains(TASK_LIGHT))
+        if (requireLight && !completedGameTasks.Contains(TASK_LIGHT))
             allCompleted = false;
 
-        if (requireOperator && !completedTasks.Contains(TASK_OPERATOR))
+        if (requireOperator && !completedGameTasks.Contains(TASK_OPERATOR))
             allCompleted = false;
 
         if (allCompleted)
@@ -178,12 +178,12 @@ public class GameManager : MonoBehaviour
 
     public string GetProgress()
     {
-        return $"{completedTasks.Count}/{GetRequiredTasksCount()}";
+        return $"{completedGameTasks.Count}/{GetRequiredTasksCount()}";
     }
 
     public bool IsTaskCompleted(string taskId)
     {
-        return completedTasks.Contains(taskId);
+        return completedGameTasks.Contains(taskId);
     }
 
     public bool IsFinished => isFinished;

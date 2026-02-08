@@ -10,7 +10,7 @@ public class InteractableComputer : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("Interazione con " + this.gameObject.name);
+        // Debug.Log("Interazione con " + this.gameObject.name);
 
         if (computerPanel != null)
         {
@@ -20,11 +20,6 @@ public class InteractableComputer : MonoBehaviour
         if (TutorialManager.instance != null)
         {
             TutorialManager.instance.OnComputerCompleted();
-        }
-
-        if (GameManager.instance != null)
-        {
-            GameManager.instance.OnComputerCompleted();
         }
     }
 

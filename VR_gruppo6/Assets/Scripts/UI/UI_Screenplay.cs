@@ -88,6 +88,14 @@ public class UI_Screenplay : MonoBehaviour
 
     public bool IsGreenScreenComplete()
     {
-        return greenScreenProgress == 2;
+        if (greenScreenProgress == 2)
+        {
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.OnComputerCompleted();
+            }
+            return true;
+        }
+        return false;
     }
 }

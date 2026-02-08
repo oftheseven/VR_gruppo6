@@ -32,7 +32,7 @@ public class InteractableDoor : MonoBehaviour
     {
         if (isLocked)
         {
-            Debug.Log("🔒 La porta è chiusa a chiave.");
+            // Debug.Log("🔒 La porta è chiusa a chiave.");
             return;
         }
 

@@ -30,7 +30,7 @@ public class InteractableCart : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("Interazione con " + this.gameObject.name);
+        // Debug.Log("Interazione con " + this.gameObject.name);
 
         if (!isBeingHeld)
         {
@@ -46,10 +46,10 @@ public class InteractableCart : MonoBehaviour
             TutorialManager.instance.OnCartCompleted();
         }
 
-        if (GameManager.instance != null)
-        {
-            GameManager.instance.OnCartCompleted();
-        }
+        // if (GameManager.instance != null)
+        // {
+        //     GameManager.instance.OnCartCompleted();
+        // }
     }
 
     public string GetInteractionText()

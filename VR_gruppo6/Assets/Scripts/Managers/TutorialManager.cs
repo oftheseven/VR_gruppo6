@@ -18,7 +18,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private bool requireCart = true;
     [SerializeField] private bool requireLight = true;
 
-    private HashSet<string> completedTasks = new HashSet<string>();
+    private HashSet<string> completedTutorialTasks = new HashSet<string>();
     private bool isFinished = false;
 
     private const string TASK_COMPUTER = "computer";
@@ -49,14 +49,14 @@ public class TutorialManager : MonoBehaviour
 
     public void CompleteTask(string taskId)
     {
-        if (isFinished || completedTasks.Contains(taskId))
+        if (isFinished || completedTutorialTasks.Contains(taskId))
         {
             return;
         }
 
-        completedTasks.Add(taskId);
+        completedTutorialTasks.Add(taskId);
         
-        Debug.Log($"✅ Task '{taskId}' completato! ({completedTasks.Count}/{GetRequiredTasksCount()})");
+        Debug.Log($"✅ Task '{taskId}' completato! ({completedTutorialTasks.Count}/{GetRequiredTasksCount()})");
 
         CheckTutorialCompletion();
     }
@@ -65,19 +65,19 @@ public class TutorialManager : MonoBehaviour
     {
         bool allCompleted = true;
 
-        if (requireComputer && !completedTasks.Contains(TASK_COMPUTER))
+        if (requireComputer && !completedTutorialTasks.Contains(TASK_COMPUTER))
             allCompleted = false;
 
-        if (requireCamera && !completedTasks.Contains(TASK_CAMERA))
+        if (requireCamera && !completedTutorialTasks.Contains(TASK_CAMERA))
             allCompleted = false;
 
-        if (requireArm && !completedTasks.Contains(TASK_ARM))
+        if (requireArm && !completedTutorialTasks.Contains(TASK_ARM))
             allCompleted = false;
 
-        if (requireCart && !completedTasks.Contains(TASK_CART))
+        if (requireCart && !completedTutorialTasks.Contains(TASK_CART))
             allCompleted = false;
 
-        if (requireLight && !completedTasks.Contains(TASK_LIGHT))
+        if (requireLight && !completedTutorialTasks.Contains(TASK_LIGHT))
             allCompleted = false;
 
         if (allCompleted)
@@ -126,12 +126,12 @@ public class TutorialManager : MonoBehaviour
 
     public string GetProgress()
     {
-        return $"{completedTasks.Count}/{GetRequiredTasksCount()}";
+        return $"{completedTutorialTasks.Count}/{GetRequiredTasksCount()}";
     }
 
     public bool IsTaskCompleted(string taskId)
     {
-        return completedTasks.Contains(taskId);
+        return completedTutorialTasks.Contains(taskId);
     }
 
     public bool IsFinished => isFinished;

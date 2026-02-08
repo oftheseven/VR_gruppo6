@@ -563,6 +563,7 @@ MonoBehaviour:
   - {fileID: 1375770407}
   - {fileID: 1375770406}
   - {fileID: 1375770404}
+  correctLensIndex: 2
   inputCooldown: 0.1
 --- !u!114 &75320802
 MonoBehaviour:
@@ -1802,7 +1803,7 @@ MonoBehaviour:
   doors:
   - {fileID: 1063760232}
   tortaInTestaSceneName: TortaInTesta
-  exitDoorName: Porta2
+  exitDoorName: PortaDivination
   requireComputer: 1
   requireCamera: 1
   requireArm: 1

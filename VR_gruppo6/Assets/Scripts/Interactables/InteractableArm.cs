@@ -35,7 +35,7 @@ public class InteractableArm : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("Interazione con " + this.name);
+        // Debug.Log("Interazione con " + this.name);
 
         if (armPanel != null)
         {
@@ -47,10 +47,10 @@ public class InteractableArm : MonoBehaviour
             TutorialManager.instance.OnArmCompleted();
         }
 
-        if (GameManager.instance != null)
-        {
-            GameManager.instance.OnArmCompleted();
-        }
+        // if (GameManager.instance != null)
+        // {
+        //     GameManager.instance.OnArmCompleted();
+        // }
     }
 
     public string GetInteractionText()

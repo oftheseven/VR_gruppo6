@@ -7,7 +7,7 @@ public class InteractableCiak : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("Interazione con " + this.gameObject.name);
+        // Debug.Log("Interazione con " + this.gameObject.name);
     }
 
     public string getInteractionText()
