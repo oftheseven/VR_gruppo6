@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 public class UI_InfoPanel : MonoBehaviour
 {
-    [SerializeField] private Sprite tutorialImage;
-
     [Header("UI elements")]
     [SerializeField] private Button infoButton; // bottone per riaprire le info
     [SerializeField] private Button closeInfoButton; // bottone per chiudere le info
@@ -22,14 +20,12 @@ public class UI_InfoPanel : MonoBehaviour
         {
             infoButton.gameObject.SetActive(false);
         }
-
-        this.GetComponent<Image>().sprite = tutorialImage;
     }
 
     public void OpenInfoPanel()
     {
-        // controllo che il pannello di info sia associato e sia nella scena del tutorial
-        if (this.gameObject != null && SceneZone.IsObjectInScene("TutorialScene"))
+        // controllo che il pannello di info sia associato
+        if (this.gameObject != null)
         {
             this.gameObject.SetActive(true);
             isOpen = true;
