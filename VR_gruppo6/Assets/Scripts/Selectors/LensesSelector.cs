@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 // codice per la selezione delle lenti tramite frecce direzionali
@@ -8,6 +9,9 @@ public class LensesSelector : MonoBehaviour
     [Header("Lenses images and references")]
     [SerializeField] private RawImage[] images; // immagini delle lenti nell'UI
     [SerializeField] private CameraLens[] cameraLenses; // reference agli script delle lenti
+
+    [Header("Correct lens index for task completion")]
+    [SerializeField] private int correctLensIndex = 2; // indice della lente corretta per completare la missione
 
     [Header("Input settings")]
     [SerializeField] private float inputCooldown = 0.2f;
@@ -88,6 +92,10 @@ public class LensesSelector : MonoBehaviour
             {
                 cameraLenses[i].gameObject.SetActive(true);
                 cameraLenses[i].ApplyToCamera(viewCamera);
+                if (GameManager.instance != null && currentImageIndex == correctLensIndex && SceneManager.GetActiveScene().name == "TortaInTesta")
+                {
+                    GameManager.instance.OnCameraCompleted();
+                }
             }
             else
             {

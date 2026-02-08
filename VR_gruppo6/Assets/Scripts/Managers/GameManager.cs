@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     [Header("TortaInTesta door settings")]
     [SerializeField] private string tortaInTestaSceneName = "TortaInTesta";
-    [SerializeField] private string exitDoorName = "Porta2";
+    [SerializeField] private string exitDoorName = "PortaDivination";
 
     [Header("TortaInTesta objects")]
     [SerializeField] private bool requireComputer = true;
