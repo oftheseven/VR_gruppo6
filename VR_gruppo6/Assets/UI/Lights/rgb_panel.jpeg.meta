@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 77676768159bf5b40a7d8093a0ebcb14
+guid: e9f1d31c3086479479a046614b9e13ae
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cinema_camera_panel_0
+      name: rgb_panel_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1600
-        height: 1131
+        width: 1063
+        height: 1299
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,8 +125,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 72b52761f367d5e44a4f4471d61d9841
-      internalID: -36077059
+      spriteID: 40b4b964280d5444da4cf11bda4c9cae
+      internalID: -116870566
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 4be853ff4bb162142ae50c26d9d94e6d
+    spriteID: 8906a2008c541d141bad450b64e8e3d6
     internalID: 0
     vertices: []
     indices: 
@@ -147,7 +147,7 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      cinema_camera_panel_0: -36077059
+      rgb_panel_0: -116870566
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
