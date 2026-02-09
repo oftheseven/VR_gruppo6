@@ -9,8 +9,8 @@ public class Marker : MonoBehaviour
 
     [Header("Visual feedback")]
     [SerializeField] private GameObject markerVisual; // reference al marker
-    [SerializeField] private Material normalMaterial;
-    [SerializeField] private Material activeMaterial;
+    [SerializeField] private Color normalColor = Color.white;
+    [SerializeField] private Color activeColor = Color.green;
 
     [Header("Drop area")]
     [SerializeField] private bool useRandomPosition = true;
@@ -95,17 +95,17 @@ public class Marker : MonoBehaviour
 
     private void SetNormalState()
     {
-        if (markerRenderer != null && normalMaterial != null)
+        if (markerRenderer != null)
         {
-            markerRenderer.material = normalMaterial;
+            markerRenderer.material.color = normalColor;
         }
     }
 
     private void SetActiveState()
     {
-        if (markerRenderer != null && activeMaterial != null)
+        if (markerRenderer != null)
         {
-            markerRenderer.material = activeMaterial;
+            markerRenderer.material.color = activeColor;
         }
     }
 
