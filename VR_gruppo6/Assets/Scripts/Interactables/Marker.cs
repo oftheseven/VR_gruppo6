@@ -1,8 +1,6 @@
-using System.Numerics;
-using System.Threading.Tasks.Dataflow;
 using UnityEngine;
 
-public class Marker : Monobehaviour
+public class Marker : MonoBehaviour
 {
     [Header("Drop zone settings")]
     [SerializeField] private string dropZoneName = "Drop zone";
@@ -19,7 +17,7 @@ public class Marker : Monobehaviour
     [SerializeField] private float randomRadius = 0.5f;
 
     private Renderer markerRenderer;
-    private TransformBlock playerTransform;
+    private Transform playerTransform;
     private bool playerNearby = false;
 
     void Start()
@@ -60,11 +58,11 @@ public class Marker : Monobehaviour
         }
     }
 
-    private Vector3 DropItem (PickableItem item)
+    public Vector3 DropItem (PickableItem item)
     {
         Vector3 dropPosition = GetDropPosition();
 
-        GameObject spawnedItem = item.SpawnInWorld(dropPosition, Quaternion.Identity);
+        GameObject spawnedItem = item.SpawnInWorld(dropPosition, Quaternion.identity);
 
         if (spawnedItem != null)
         {
@@ -74,7 +72,7 @@ public class Marker : Monobehaviour
                 rb.AddForce(Vector3.down * 2f, ForceMode.Impulse);
             }
 
-            Debug.Log($"📦 '{item.GetItemName()}' droppato in {dropZoneName}");
+            Debug.Log($"📦 '{item.GetItemID()}' droppato in {dropZoneName}");
         }
 
         return dropPosition;

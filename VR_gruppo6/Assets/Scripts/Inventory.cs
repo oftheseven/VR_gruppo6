@@ -95,7 +95,7 @@ public class Inventory : MonoBehaviour
 
     private Marker FindNearestDropZone()
     {
-        Marker[] allZones = FindObjectsOfType<DropZone>();
+        Marker[] allZones = FindObjectsByType<Marker>(FindObjectsSortMode.None);
         
         if (allZones.Length == 0)
         {
