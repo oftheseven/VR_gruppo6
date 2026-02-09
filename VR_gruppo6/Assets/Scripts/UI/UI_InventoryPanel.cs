@@ -32,6 +32,9 @@ public class UI_InventoryPanel : MonoBehaviour
     [Header("Item descriptions files")]
     [SerializeField] private TextAsset[] itemDescriptionFiles; // lista di file di testo che contengono le descrizioni degli oggetti
 
+    [Header("Drop info")]
+    [SerializeField] private TextMeshProUGUI dropInfoText;
+
     private Dictionary<string, string> descriptions = new Dictionary<string, string>();
     private List<PickableItem> currentItems = new List<PickableItem>();
     private int selectedIndex = 0;
@@ -75,6 +78,11 @@ public class UI_InventoryPanel : MonoBehaviour
         if (isOpen)
         {
             HandleItemNavigation();
+        }
+
+        if (isOpen && dropInfoText != null && Inventory.instance != null)
+        {
+            dropInfoText.text = Inventory.instance.GetNearbyDropZoneInfo();
         }
     }
 

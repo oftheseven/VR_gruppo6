@@ -63,7 +63,17 @@ public class Inventory : MonoBehaviour
 
         PickableItem item = itemTemplates[itemID];
 
-        SpawnItemInWorld(item);
+        Marker nearbyZone = FindNearestDropZone();
+
+        if (nearbyZone != null && nearbyZone.IsPlayerNearby())
+        {
+            nearbyZone.DropItem(item);
+        }
+        else
+        {
+            SpawnItemInWorld(item);
+        }
+        
         item.RemoveQuantity();
 
         if (item.GetQuantity() <= 0)
@@ -71,6 +81,7 @@ public class Inventory : MonoBehaviour
             itemTemplates.Remove(itemID);
             Destroy(item.gameObject);
         }
+        
         NotifyInventoryChanged();
     }
 
@@ -80,6 +91,37 @@ public class Inventory : MonoBehaviour
         {
             RemoveItem(item.GetItemID());
         }
+    }
+
+    private Marker FindNearestDropZone()
+    {
+        Marker[] allZones = FindObjectsOfType<DropZone>();
+        
+        if (allZones.Length == 0)
+        {
+            return null;
+        }
+        
+        Marker nearest = null;
+        float minDistance = float.MaxValue;
+        
+        foreach (Marker zone in allZones)
+        {
+            if (!zone.IsPlayerNearby())
+            {
+                continue;
+            }
+            
+            float distance = Vector3.Distance(transform.position, zone.transform.position);
+            
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                nearest = zone;
+            }
+        }
+        
+        return nearest;
     }
 
     private void SpawnItemInWorld(PickableItem item)
@@ -139,5 +181,17 @@ public class Inventory : MonoBehaviour
     public PickableItem GetItem(string itemID)
     {
         return itemTemplates.ContainsKey(itemID) ? itemTemplates[itemID] :  null;
+    }
+
+    public string GetNearbyDropZoneInfo()
+    {
+        Marker zone = FindNearestDropZone();
+        
+        if (zone != null && zone.IsPlayerNearby())
+        {
+            return $"📍 Drop in: {zone.GetDropZoneName()}";
+        }
+        
+        return "📍 Drop davanti a te";
     }
 }
