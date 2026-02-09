@@ -6,12 +6,12 @@ public class Marker : MonoBehaviour
     [Header("Drop zone settings")]
     [SerializeField] private string dropZoneName = "Drop zone";
     [SerializeField] private float dropHeight = 0.1f;
-    [SerializeField] private float detectionRadius = 3f;
+    [SerializeField] private float detectionRadius = 1.5f;
 
     [Header("Visual feedback")]
-    [SerializeField] private GameObject markerVisual; // reference al marker
     [SerializeField] private Color normalColor = Color.white;
     [SerializeField] private Color activeColor = Color.green;
+    [SerializeField] private float outlineWidth = 5f;
 
     [Header("Drop area")]
     [SerializeField] private bool useRandomPosition = true;
@@ -24,9 +24,9 @@ public class Marker : MonoBehaviour
 
     void Start()
     {
-        if (markerVisual != null)
+        if (this.gameObject != null)
         {
-            markerRenderer = markerVisual.GetComponent<Renderer>();
+            markerRenderer = this.gameObject.GetComponent<Renderer>();
             
             if (markerRenderer != null)
             {
@@ -39,7 +39,8 @@ public class Marker : MonoBehaviour
             playerTransform = PlayerController.instance.transform;
         }
 
-        SetNormalState();
+        // SetNormalState();
+        SetupOutlines();
     }
 
     void Update()
@@ -57,11 +58,13 @@ public class Marker : MonoBehaviour
 
         if (playerNearby && !wasNearby)
         {
-            SetActiveState();
+            // SetActiveState();
+            SetOutlinesEnabled(this.gameObject, true);
         }
         else if (!playerNearby && wasNearby)
         {
-            SetNormalState();
+            // SetNormalState();
+            DisableAllOutlines();
         }
     }
 
@@ -98,6 +101,45 @@ public class Marker : MonoBehaviour
         rb.isKinematic = wasKinematic;
     }
 
+    private void SetupOutlines()
+    {
+        GetOrAddOutline(this.gameObject);
+
+        DisableAllOutlines();
+    }
+
+    private void GetOrAddOutline(GameObject obj)
+    {
+        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+    
+        foreach (Renderer renderer in renderers)
+        {
+            Outline outline = renderer.gameObject.GetComponent<Outline>();
+            if (outline == null)
+            {
+                outline = renderer.gameObject.AddComponent<Outline>();
+            }
+
+            outline.OutlineColor = activeColor;
+            outline.OutlineWidth = outlineWidth;
+            outline.enabled = false;
+        }
+    }
+
+    private void SetOutlinesEnabled(GameObject parent, bool enabled)
+    {
+        Outline[] outlines = parent.GetComponentsInChildren<Outline>();
+        foreach (Outline outline in outlines)
+        {
+            outline.enabled = enabled;
+        }
+    }
+
+    private void DisableAllOutlines()
+    {
+        SetOutlinesEnabled(this.gameObject, false);
+    }
+
     private Vector3 GetDropPosition()
     {
         Vector3 basePosition = transform.position;
@@ -113,21 +155,21 @@ public class Marker : MonoBehaviour
         return basePosition;
     }
 
-    private void SetNormalState()
-    {
-        if (markerRenderer != null)
-        {
-            markerRenderer.material.color = normalColor;
-        }
-    }
+    // private void SetNormalState()
+    // {
+    //     if (markerRenderer != null)
+    //     {
+    //         markerMaterial.color = normalColor;
+    //     }
+    // }
 
-    private void SetActiveState()
-    {
-        if (markerRenderer != null)
-        {
-            markerRenderer.material.color = activeColor;
-        }
-    }
+    // private void SetActiveState()
+    // {
+    //     if (markerRenderer != null)
+    //     {
+    //         markerMaterial.color = activeColor;
+    //     }
+    // }
 
     public bool IsPlayerNearby() => playerNearby;
     public string GetDropZoneName() => dropZoneName;

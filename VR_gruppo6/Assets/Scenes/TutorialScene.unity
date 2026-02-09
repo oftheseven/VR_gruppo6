@@ -4649,36 +4649,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 539681711414021439, guid: 048f83c8c5f18374b94d60b144b57559, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 708885802}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 048f83c8c5f18374b94d60b144b57559, type: 3}
---- !u!1 &708885801 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 539681711414021439, guid: 048f83c8c5f18374b94d60b144b57559, type: 3}
-  m_PrefabInstance: {fileID: 708885800}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &708885802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708885801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22586c3a75c3a46cbb1354a7b92f1b0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Marker
-  dropZoneName: Marker 1
-  dropHeight: 0.5
-  detectionRadius: 3
-  markerVisual: {fileID: 708885801}
-  normalColor: {r: 1, g: 0, b: 0, a: 1}
-  activeColor: {r: 0, g: 1, b: 0, a: 1}
-  useRandomPosition: 1
-  randomRadius: 0.5
 --- !u!1 &720808704
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections;
-using TMPro;
 
 public class UI_ArmPanel : MonoBehaviour
 {

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4461164458261738680}
   - component: {fileID: 3383392359552564216}
   - component: {fileID: 4183876941313524263}
+  - component: {fileID: 8491944724165111221}
   m_Layer: 0
   m_Name: marker
   m_TagString: Untagged
@@ -89,3 +90,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8491944724165111221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539681711414021439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22586c3a75c3a46cbb1354a7b92f1b0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Marker
+  dropZoneName: Marker 1
+  dropHeight: 0.5
+  detectionRadius: 1
+  markerVisual: {fileID: 539681711414021439}
+  normalColor: {r: 1, g: 0, b: 0, a: 1}
+  activeColor: {r: 0, g: 1, b: 0, a: 1}
+  useRandomPosition: 1
+  randomRadius: 0.5
