@@ -1,7 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
-// script per gestire la fase di tutorial (TODO: fare una funzione che notifica la fine del tutorial e quindi sblocca la porta del tutorial per passare alla scena successiva)
+// script per gestire la fase di tutorial
 public class TutorialManager : MonoBehaviour
 {
     // singleton
@@ -44,6 +46,15 @@ public class TutorialManager : MonoBehaviour
         if (tutorialDoor != null)
         {
             tutorialDoor.Lock();
+        }
+    }
+
+    void Update()
+    {
+        if (Keyboard.current.tKey.isPressed && SceneManager.GetActiveScene().name=="Tutorial")
+        {
+            Debug.Log("Porta Silente sbloccata");
+            tutorialDoor.Unlock();
         }
     }
 
