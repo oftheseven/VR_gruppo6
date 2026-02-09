@@ -13,7 +13,6 @@ public class InteractableSlider : MonoBehaviour
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float currentPosition = 0.5f;
 
-
     [Header("Interaction settings")]
     [SerializeField] private string interactionText = "Premi E per interagire con lo slider";
     [SerializeField] private UI_SliderPanel sliderPanel;
@@ -94,7 +93,7 @@ public class InteractableSlider : MonoBehaviour
         Vector3 newPosition = Vector3.Lerp(railStart.position, railEnd.position, t);
         sliderCart.position = newPosition;
         
-        // Debug.Log($"🎬 Slider posizione: {t:F2} ({newPosition})");
+        // Debug.Log($"Slider posizione: {t:F2} ({newPosition})");
     }
 
     public float GetDistanceInMeters()

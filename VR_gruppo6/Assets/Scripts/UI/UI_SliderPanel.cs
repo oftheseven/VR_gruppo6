@@ -72,7 +72,6 @@ public class UI_SliderPanel : MonoBehaviour
         PlayerController.EnableMovement(false);
         PlayerController.ShowCursor();
 
-        // Attiva camera slider
         if (PlayerController.instance != null)
         {
             PlayerController.instance.playerCamera.gameObject.SetActive(false);
