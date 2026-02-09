@@ -1886,6 +1886,7 @@ MonoBehaviour:
   requireCart: 1
   requireLight: 1
   requireOperator: 1
+  requireSlider: 1
 --- !u!1 &181562443
 GameObject:
   m_ObjectHideFlags: 0
@@ -14737,6 +14738,7 @@ MonoBehaviour:
   requireArm: 1
   requireCart: 1
   requireLight: 1
+  requireSlider: 1
 --- !u!114 &1941169574
 MonoBehaviour:
   m_ObjectHideFlags: 0
