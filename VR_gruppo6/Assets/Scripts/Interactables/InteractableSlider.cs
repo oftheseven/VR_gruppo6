@@ -10,7 +10,6 @@ public class InteractableSlider : MonoBehaviour
 
     [Header("Slider settings")]
     [SerializeField] private string sliderName = "Slider tutorial";
-    [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float currentPosition = 0.5f;
 
     [Header("Interaction settings")]
@@ -67,6 +66,11 @@ public class InteractableSlider : MonoBehaviour
         else
         {
             Debug.LogError("UI_SliderPanel non assegnato!");
+        }
+
+        if (TutorialManager.instance != null)
+        {
+            TutorialManager.instance.OnSliderCompleted();
         }
     }
 

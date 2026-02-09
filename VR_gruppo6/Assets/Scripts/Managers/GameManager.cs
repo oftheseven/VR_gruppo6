@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool requireCart = true;
     [SerializeField] private bool requireLight = true;
     [SerializeField] private bool requireOperator = true;
+    [SerializeField] private bool requireSlider = true;
 
     private HashSet<string> completedGameTasks = new HashSet<string>();
     private bool isFinished = false;
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
     private const string TASK_CART = "cart";
     private const string TASK_LIGHT = "light";
     private const string TASK_OPERATOR = "operator";
+    private const string TASK_SLIDER = "slider";
 
     void Awake()
     {
@@ -131,6 +133,9 @@ public class GameManager : MonoBehaviour
         if (requireArm && !completedGameTasks.Contains(TASK_ARM))
             allCompleted = false;
 
+        if (requireSlider && !completedGameTasks.Contains(TASK_SLIDER))
+            allCompleted = false;
+
         if (requireCart && !completedGameTasks.Contains(TASK_CART))
             allCompleted = false;
 
@@ -155,6 +160,7 @@ public class GameManager : MonoBehaviour
         if (requireCart) count++;
         if (requireLight) count++;
         if (requireOperator) count++;
+        if (requireSlider) count++;
         return count;
     }
 

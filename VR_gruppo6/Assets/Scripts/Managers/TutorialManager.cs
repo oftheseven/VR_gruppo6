@@ -19,6 +19,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private bool requireArm = true;
     [SerializeField] private bool requireCart = true;
     [SerializeField] private bool requireLight = true;
+    [SerializeField] private bool requireSlider = true;
 
     private HashSet<string> completedTutorialTasks = new HashSet<string>();
     private bool isFinished = false;
@@ -28,6 +29,7 @@ public class TutorialManager : MonoBehaviour
     private const string TASK_ARM = "arm";
     private const string TASK_CART = "cart";
     private const string TASK_LIGHT = "light";
+    private const string TASK_SLIDER = "slider";
 
     void Awake()
     {
@@ -91,6 +93,9 @@ public class TutorialManager : MonoBehaviour
         if (requireLight && !completedTutorialTasks.Contains(TASK_LIGHT))
             allCompleted = false;
 
+        if (requireSlider && !completedTutorialTasks.Contains(TASK_SLIDER))
+            allCompleted = false;
+
         if (allCompleted)
         {
             CompleteTutorial();
@@ -118,6 +123,7 @@ public class TutorialManager : MonoBehaviour
         if (requireArm) count++;
         if (requireCart) count++;
         if (requireLight) count++;
+        if (requireSlider) count++;
         return count;
     }
 
@@ -134,6 +140,7 @@ public class TutorialManager : MonoBehaviour
     public void OnArmCompleted() => CompleteTask(TASK_ARM);
     public void OnCartCompleted() => CompleteTask(TASK_CART);
     public void OnLightCompleted() => CompleteTask(TASK_LIGHT);
+    public void OnSliderCompleted() => CompleteTask(TASK_SLIDER);
 
     public string GetProgress()
     {
