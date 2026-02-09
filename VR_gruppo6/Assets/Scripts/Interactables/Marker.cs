@@ -1,10 +1,11 @@
 using UnityEngine;
+using System.Collections;
 
 public class Marker : MonoBehaviour
 {
     [Header("Drop zone settings")]
     [SerializeField] private string dropZoneName = "Drop zone";
-    [SerializeField] private float dropHeight = 0.5f;
+    [SerializeField] private float dropHeight = 0.1f;
     [SerializeField] private float detectionRadius = 3f;
 
     [Header("Visual feedback")]
@@ -19,12 +20,18 @@ public class Marker : MonoBehaviour
     private Renderer markerRenderer;
     private Transform playerTransform;
     private bool playerNearby = false;
+    private Material markerMaterial;
 
     void Start()
     {
         if (markerVisual != null)
         {
             markerRenderer = markerVisual.GetComponent<Renderer>();
+            
+            if (markerRenderer != null)
+            {
+                markerMaterial = markerRenderer.material;
+            }
         }
 
         if (PlayerController.instance != null)
@@ -69,13 +76,26 @@ public class Marker : MonoBehaviour
             Rigidbody rb = spawnedItem.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddForce(Vector3.down * 2f, ForceMode.Impulse);
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+
+                StartCoroutine(StabilizeObject(rb));
             }
 
             Debug.Log($"📦 '{item.GetItemID()}' droppato in {dropZoneName}");
         }
 
         return dropPosition;
+    }
+
+    private IEnumerator StabilizeObject(Rigidbody rb)
+    {
+        bool wasKinematic = rb.isKinematic;
+        rb.isKinematic = true;
+        
+        yield return new WaitForFixedUpdate();
+        
+        rb.isKinematic = wasKinematic;
     }
 
     private Vector3 GetDropPosition()
