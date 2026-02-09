@@ -15,6 +15,7 @@ TagManager:
   - Door
   - ArmTip
   - Light
+  - Slider
   layers:
   - Default
   - TransparentFX

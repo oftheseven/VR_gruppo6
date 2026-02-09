@@ -71,6 +71,10 @@ public class PlayerController : MonoBehaviour
     private InteractableLight currentLight = null;
     private UI_LightPanel currentLightPanel = null;
 
+    [Header("Slider interaction")]
+    private InteractableSlider currentSlider = null;
+    private UI_SliderPanel currentSliderPanel = null;
+
     private bool isInteracting = false;
     public Camera playerCamera => _cameraTransform.GetComponent<Camera>();
 
@@ -111,6 +115,7 @@ public class PlayerController : MonoBehaviour
         HandleArmInteraction();
         HandleDoorInteraction();
         HandleLightInteraction();
+        HandleSliderInteraction();
 
         // per debug, se premo DELETE sblocco/blocco il mouse
         if (Keyboard.current.deleteKey.wasPressedThisFrame)
@@ -430,6 +435,19 @@ public class PlayerController : MonoBehaviour
                         ClearInteractable();
                     }
                     break;
+                
+                case "Slider":
+                    InteractableSlider slider = hit.collider.GetComponent<InteractableSlider>();
+                    if (slider != null)
+                    {
+                        currentSlider = slider;
+                        ShowInteractionText(slider.GetInteractionText());
+                    }
+                    else
+                    {
+                        ClearInteractable();
+                    }
+                    break;
             }
         }
         else
@@ -444,6 +462,7 @@ public class PlayerController : MonoBehaviour
         currentCamera = null;
         currentOperator = null;
         currentCart = null;
+        currentSlider = null;
         currentItem = null;
         currentDolly = null;
         currentArm = null;
@@ -641,6 +660,31 @@ public class PlayerController : MonoBehaviour
         else if (currentLightPanel != null && !currentLightPanel.IsOpen)
         {
             currentLightPanel = null;
+            isInteracting = false;
+        }
+    }
+
+    private void HandleSliderInteraction()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentSlider != null)
+        {
+            UI_SliderPanel panel = currentSlider.GetSliderPanel();
+            if (panel != null && !panel.IsOpen && panel.CanInteract)
+            {
+                currentSlider.Interact();
+                isInteracting = true;
+                interactiontext.gameObject.SetActive(false);
+                currentSliderPanel = panel;
+            }
+        }
+
+        if (currentSliderPanel != null && currentSliderPanel.IsOpen)
+        {
+            currentSliderPanel.HandlePanelClose();
+        }
+        else if (currentSliderPanel != null && !currentSliderPanel.IsOpen)
+        {
+            currentSliderPanel = null;
             isInteracting = false;
         }
     }
