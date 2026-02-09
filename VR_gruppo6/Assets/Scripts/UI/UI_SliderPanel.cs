@@ -11,8 +11,6 @@ public class UI_SliderPanel : MonoBehaviour
 
     [Header("UI references")]
     [SerializeField] private TextMeshProUGUI positionText;
-    [SerializeField] private TextMeshProUGUI percentageText;
-    [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private Button resetButton;
 
     [Header("Movement controls")]
@@ -121,27 +119,18 @@ public class UI_SliderPanel : MonoBehaviour
         PlayerController.EnableMovement(true);
 
         StartCoroutine(CooldownAndHide());
+        canInteract = true;
     }
 
     private void UpdateUI()
     {
         if (currentSlider == null) return;
 
-        if (nameText != null)
-        {
-            nameText.text = currentSlider.SliderName;
-        }
-
         if (positionText != null)
         {
             float distance = currentSlider.GetDistanceInMeters();
             float total = currentSlider.GetTotalLength();
             positionText.text = $"{distance:F1}m / {total:F1}m";
-        }
-
-        if (percentageText != null)
-        {
-            percentageText.text = $"{(currentSlider.CurrentPosition * 100):F0}%";
         }
     }
 
@@ -215,6 +204,5 @@ public class UI_SliderPanel : MonoBehaviour
         canInteract = false;
         this.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.1f);
-        canInteract = true;
     }
 }
