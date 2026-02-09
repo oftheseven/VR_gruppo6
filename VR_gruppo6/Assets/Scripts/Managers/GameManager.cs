@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -53,6 +54,15 @@ public class GameManager : MonoBehaviour
             {
                 DontDestroyOnLoad(door);
             }
+        }
+    }
+
+    void Update()
+    {
+        if (Keyboard.current.tKey.isPressed && SceneManager.GetActiveScene().name=="TortaInTesta")
+        {
+            Debug.Log("Porta Silente sbloccata");
+            exitDoor.Unlock();
         }
     }
 

@@ -14479,6 +14479,10 @@ PrefabInstance:
       value: -0.026
       objectReference: {fileID: 0}
     - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
+      propertyPath: sceneB
+      value: DumbledoresOffice
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: keepSceneALoaded
       value: 1
       objectReference: {fileID: 0}
@@ -14496,7 +14500,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6704219984737766551, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: m_Name
-      value: PortaDivination
+      value: PortaDumbledores
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

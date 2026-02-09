@@ -1879,7 +1879,7 @@ MonoBehaviour:
   doors:
   - {fileID: 1063760232}
   tortaInTestaSceneName: TortaInTesta
-  exitDoorName: PortaDivination
+  exitDoorName: PortaDumbledores
   requireComputer: 1
   requireCamera: 1
   requireArm: 1
