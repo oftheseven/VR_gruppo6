@@ -3,7 +3,67 @@ guid: e886d578d65a8c64c903aae568eeb08a
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: at_Gen_eyelashes
+    second: {fileID: 2100000, guid: f33bfe383cbb5384d8b40aaf4aab69bf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: at_Gen_mouth
+    second: {fileID: 2100000, guid: baed931f08ee62843992591f6a0b372d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: at_Gen_wand
+    second: {fileID: 2100000, guid: 3abf280854461d54081f4de0dca0637c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: at_Hry_withcloak_cornea
+    second: {fileID: 2100000, guid: 0883605139ead924cb902e901e4cd813, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: at_Hry_withcloak_lens
+    second: {fileID: 2100000, guid: 2056bca5bae50c546838d4c4bf45895c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: at_hry_nocloak_jumper
+    second: {fileID: 2100000, guid: 2358d934a596a824490a932267858440, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: at_hry_withcloak_eye
+    second: {fileID: 2100000, guid: 1a7b9a9b98c3ccc44a4dccd12cc2d95e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: at_hry_withcloak_face
+    second: {fileID: 2100000, guid: be78ac86d091a324fb84443f6d5f10b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: at_hry_withcloak_glasses
+    second: {fileID: 2100000, guid: 57e386bad5b32054e9736afb87894a99, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: at_hry_withcloak_hair
+    second: {fileID: 2100000, guid: 245e1c19aa1944242bd5652067b8d3f6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: at_hry_withcloak_hands
+    second: {fileID: 2100000, guid: b302783ede1a5c641b564cf7732d45bd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: at_hry_withcloak_trousers_shoes
+    second: {fileID: 2100000, guid: 959fa1c4fc66cb446966214334e115d5, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
