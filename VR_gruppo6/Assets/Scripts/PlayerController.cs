@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
         HandleSliderInteraction();
 
         // per debug, se premo DELETE sblocco/blocco il mouse
-        if (Keyboard.current.deleteKey.wasPressedThisFrame)
+        if (Keyboard.current.deleteKey.wasPressedThisFrame || Keyboard.current.zKey.isPressed)
         {
             if (Cursor.lockState == CursorLockMode.Locked)
             {

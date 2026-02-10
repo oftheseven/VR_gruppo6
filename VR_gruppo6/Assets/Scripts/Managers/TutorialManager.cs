@@ -53,9 +53,9 @@ public class TutorialManager : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.tKey.isPressed && SceneManager.GetActiveScene().name=="Tutorial")
+        if (Keyboard.current.tKey.isPressed && SceneManager.GetActiveScene().name == "TutorialScene")
         {
-            Debug.Log("Porta Silente sbloccata");
+            Debug.Log("Porta tutorial sbloccata");
             tutorialDoor.Unlock();
         }
     }
