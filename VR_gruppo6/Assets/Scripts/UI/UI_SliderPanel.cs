@@ -11,10 +11,12 @@ public class UI_SliderPanel : MonoBehaviour
 
     [Header("UI references")]
     [SerializeField] private TextMeshProUGUI positionText;
+    [SerializeField] private TextMeshProUGUI controlHintText; // hint per l'utente per capire quali controlli usare
     [SerializeField] private Button resetButton;
 
     [Header("Movement controls")]
     [SerializeField] private float keyboardMoveSpeed = 0.5f;
+    [SerializeField] private float angleThreshold = 45f;
 
     [Header("Hold to close")]
     [SerializeField] private GameObject holdIndicator;
@@ -49,6 +51,7 @@ public class UI_SliderPanel : MonoBehaviour
     {
         if (isOpen)
         {
+            HandleCameraRotation();
             HandleKeyboardMovement();
             HandlePanelClose();
             UpdateUI();
@@ -132,6 +135,44 @@ public class UI_SliderPanel : MonoBehaviour
             float total = currentSlider.GetTotalLength();
             positionText.text = $"{distance:F1}m / {total:F1}m";
         }
+
+        if (controlHintText != null && currentSlider.SliderCamera != null)
+        {
+            bool useWSControls = ShouldUseWSControls();
+            controlHintText.text = useWSControls ? "W/S: Muovi slider | ←→: Ruota camera" : "A/D: Muovi slider | ←→: Ruota camera";
+        }
+    }
+
+    private void HandleCameraRotation()
+    {
+        if (currentSlider == null || currentSlider.SliderCamera == null) return;
+        if (infoPanel != null && infoPanel.IsOpen) return;
+
+        float horizontal = 0f;
+        float vertical = 0f;
+
+        if (Keyboard.current.leftArrowKey.isPressed)
+        {
+            horizontal = -1f;
+        }
+        else if (Keyboard.current.rightArrowKey.isPressed)
+        {
+            horizontal = 1f;
+        }
+
+        if (Keyboard.current.upArrowKey.isPressed)
+        {
+            vertical = -1f;
+        }
+        else if (Keyboard.current.downArrowKey.isPressed)
+        {
+            vertical = 1f;
+        }
+
+        if (horizontal != 0f || vertical != 0f)
+        {
+            currentSlider.RotateCamera(horizontal, vertical);
+        }
     }
 
     private void HandleKeyboardMovement()
@@ -140,14 +181,32 @@ public class UI_SliderPanel : MonoBehaviour
         if (infoPanel != null && infoPanel.IsOpen) return;
 
         float movement = 0f;
+        
+        bool useWSControls = ShouldUseWSControls();
 
-        if (Keyboard.current.aKey.isPressed)
+        if (useWSControls)
         {
-            movement = -keyboardMoveSpeed * Time.deltaTime;
+            // camera parallela ai binari => W/S
+            if (Keyboard.current.wKey.isPressed)
+            {
+                movement = keyboardMoveSpeed * Time.deltaTime;
+            }
+            else if (Keyboard.current.sKey.isPressed)
+            {
+                movement = -keyboardMoveSpeed * Time.deltaTime;
+            }
         }
-        else if (Keyboard.current.dKey.isPressed)
+        else
         {
-            movement = keyboardMoveSpeed * Time.deltaTime;
+            // camera ortogonale ai binari => A/D
+            if (Keyboard.current.dKey.isPressed)
+            {
+                movement = keyboardMoveSpeed * Time.deltaTime;
+            }
+            else if (Keyboard.current.aKey.isPressed)
+            {
+                movement = -keyboardMoveSpeed * Time.deltaTime;
+            }
         }
 
         if (movement != 0f)
@@ -156,10 +215,35 @@ public class UI_SliderPanel : MonoBehaviour
         }
     }
 
+    private bool ShouldUseWSControls()
+    {
+        if (currentSlider == null || currentSlider.SliderCamera == null)
+        {
+            return true;
+        }
+
+        Vector3 cameraForward = currentSlider.SliderCamera.transform.forward;
+        cameraForward.y = 0f;
+        cameraForward.Normalize();
+
+        Vector3 railDirection = currentSlider.RailDirection();
+        railDirection.y = 0f;
+        railDirection.Normalize();
+
+        float angle = Vector3.Angle(cameraForward, railDirection);
+
+
+        return angle < angleThreshold || angle > (180f - angleThreshold);
+    }
+
     private void ResetToCenter()
     {
         if (currentSlider == null) return;
         currentSlider.SetPosition(0.5f);
+        if (currentSlider.SliderCamera != null)
+        {
+            currentSlider.SliderCamera.transform.localRotation = currentSlider.CameraStartingRotation();
+        }
     }
 
     public void HandlePanelClose()

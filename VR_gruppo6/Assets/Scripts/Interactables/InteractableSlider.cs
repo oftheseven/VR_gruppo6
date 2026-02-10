@@ -17,8 +17,8 @@ public class InteractableSlider : MonoBehaviour
     [SerializeField] private UI_SliderPanel sliderPanel;
 
     [Header("Camera settings")]
-    [SerializeField] private bool lockCameraRotation = false;
     [SerializeField] private Transform cameraTarget;
+    [SerializeField] private float cameraRotationSpeed = 5f;
 
     private bool canInteract = true;
     public bool CanInteract => canInteract;
@@ -26,9 +26,18 @@ public class InteractableSlider : MonoBehaviour
     public Camera SliderCamera => sliderCamera;
     public float CurrentPosition => currentPosition;
     public string SliderName => sliderName;
+    public float CameraRotationSpeed => cameraRotationSpeed;
+    private Quaternion startingCameraRotation;
+
+    public Quaternion CameraStartingRotation() => startingCameraRotation;
 
     void Start()
     {
+        if (sliderCamera != null)
+        {
+            startingCameraRotation = sliderCamera.transform.localRotation;
+        }
+        
         UpdateSliderPosition(currentPosition);
 
         if (sliderCamera != null)
@@ -42,12 +51,13 @@ public class InteractableSlider : MonoBehaviour
         if (sliderPanel != null && sliderPanel.IsOpen)
         {
             UpdateSliderPosition(currentPosition);
-            
-            if (cameraTarget != null && sliderCamera != null && !lockCameraRotation)
-            {
-                sliderCamera.transform.LookAt(cameraTarget);
-            }
         }
+    }
+
+    public Vector3 RailDirection()
+    {
+        if (railStart == null || railEnd == null) return Vector3.forward;
+        return (railEnd.position - railStart.position).normalized;
     }
 
     public void Interact()
@@ -84,6 +94,19 @@ public class InteractableSlider : MonoBehaviour
     {
         currentPosition = Mathf.Clamp01(currentPosition + delta);
         UpdateSliderPosition(currentPosition);
+    }
+
+    public void RotateCamera(float horizontal, float vertical)
+    {
+        if (sliderCamera == null) return;
+
+        Transform camTransform = sliderCamera.transform;
+
+        camTransform.Rotate(Vector3.up, horizontal * cameraRotationSpeed * Time.deltaTime, Space.World);
+
+        Vector3 euler = camTransform.localEulerAngles;
+        euler.x += vertical * cameraRotationSpeed * Time.deltaTime;
+        camTransform.localEulerAngles = euler;
     }
 
     private void UpdateSliderPosition(float t)
