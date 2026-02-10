@@ -26,7 +26,7 @@ public class DirectorModeManager : MonoBehaviour
         isDirectorModeAvailable = available;
         Debug.Log($"Director Mode availability set to: {available}");
     }
-    private int currentCameraIndex = 1; // 1 = Slider, 2 = Tripod
+    private int currentCameraIndex = 1; // 1 = slider, 2 = tripod
     private float sceneStartTime;
     private float sceneDuration;
 

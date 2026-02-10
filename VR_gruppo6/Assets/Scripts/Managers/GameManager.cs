@@ -173,7 +173,8 @@ public class GameManager : MonoBehaviour
         if (exitDoor != null)
         {
             exitDoor.Unlock();
-            Debug.Log("🎉 TortaInTesta completato! Porta di uscita sbloccata.");
+            DirectorModeManager.instance.SetDirectorModeAvailable(true);
+            Debug.Log("TortaInTesta completato! Porta di uscita sbloccata.");
         }
     }
 
