@@ -179,18 +179,15 @@ public class UI_SliderPanel : MonoBehaviour
             positionText.text = $"{distance:F1}m / {total:F1}m";
         }
 
-        if (controlHintText != null && currentSlider.SliderCamera != null)
+        if (controlHintText != null)
         {
-            bool useWSControls = ShouldUseWSControls();
-            controlHintText.text = useWSControls ? "W/S: Muovi slider | ←→: Ruota camera" : "A/D: Muovi slider | ←→: Ruota camera";
-
             if (currentSlider.IsPlaying)
             {
-                controlHintText.text = "▶️ Riproduzione in corso...";
+                controlHintText.text = "Riproduzione in corso...";
             }
             else
             {
-                controlHintText.text = useWSControls ? "W/S: Muovi slider | ←→: Ruota camera" : "A/D: Muovi slider | ←→: Ruota camera";
+                controlHintText.text = "W/S: Muovi slider | ←→↑↓: Ruota camera";
             }
         }
     }
@@ -199,22 +196,21 @@ public class UI_SliderPanel : MonoBehaviour
     {
         if (currentSlider == null) return;
 
-        // Status text
         if (recordingStatusText != null)
         {
             if (currentSlider.IsRecording)
             {
-                recordingStatusText.text = "🔴 REGISTRAZIONE IN CORSO";
+                recordingStatusText.text = "REGISTRAZIONE IN CORSO";
             }
             else if (currentSlider.IsPlaying)
             {
-                recordingStatusText.text = "▶️ RIPRODUZIONE IN CORSO";
+                recordingStatusText.text = "RIPRODUZIONE IN CORSO";
             }
             else if (currentSlider.CurrentRecording != null)
             {
                 int keyframes = currentSlider.CurrentRecording.GetKeyframeCount();
                 float duration = currentSlider.CurrentRecording.duration;
-                recordingStatusText.text = $"📹 Recording salvata: {duration:F1}s ({keyframes} frames)";
+                recordingStatusText.text = $"Recording salvata: {duration:F1}s ({keyframes} frames)";
             }
             else
             {
@@ -222,13 +218,13 @@ public class UI_SliderPanel : MonoBehaviour
             }
         }
 
-        // Recording indicator (lampeggia)
         if (recordingIndicator != null)
         {
             if (currentSlider.IsRecording)
             {
                 recordingIndicator.gameObject.SetActive(true);
-                // Lampeggia
+
+                // lampeggio dell'icona di registrazione
                 float alpha = Mathf.PingPong(Time.time * 2f, 1f);
                 Color col = recordingColor;
                 col.a = alpha;
@@ -258,7 +254,6 @@ public class UI_SliderPanel : MonoBehaviour
 
         if (recordButton != null)
         {
-            // Bottone record sempre cliccabile (toggle on/off)
             var buttonText = recordButton.GetComponentInChildren<TextMeshProUGUI>();
             if (buttonText != null)
             {
@@ -268,7 +263,6 @@ public class UI_SliderPanel : MonoBehaviour
 
         if (playButton != null)
         {
-            // Play cliccabile solo se c'è recording e non sta registrando
             playButton.interactable = hasRecording && !isRecording;
             
             var buttonText = playButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -280,7 +274,6 @@ public class UI_SliderPanel : MonoBehaviour
 
         if (clearButton != null)
         {
-            // Clear cliccabile solo se c'è recording e non sta registrando/playing
             clearButton.interactable = hasRecording && !isRecording && !isPlaying;
         }
     }
@@ -361,31 +354,14 @@ public class UI_SliderPanel : MonoBehaviour
 
         float movement = 0f;
         
-        bool useWSControls = ShouldUseWSControls();
-
-        if (useWSControls)
+        // Sempre W/S per movimento avanti/indietro
+        if (Keyboard.current.wKey.isPressed)
         {
-            // camera parallela ai binari => W/S
-            if (Keyboard.current.wKey.isPressed)
-            {
-                movement = keyboardMoveSpeed * Time.deltaTime;
-            }
-            else if (Keyboard.current.sKey.isPressed)
-            {
-                movement = -keyboardMoveSpeed * Time.deltaTime;
-            }
+            movement = keyboardMoveSpeed * Time.deltaTime;
         }
-        else
+        else if (Keyboard.current.sKey.isPressed)
         {
-            // camera ortogonale ai binari => A/D
-            if (Keyboard.current.dKey.isPressed)
-            {
-                movement = keyboardMoveSpeed * Time.deltaTime;
-            }
-            else if (Keyboard.current.aKey.isPressed)
-            {
-                movement = -keyboardMoveSpeed * Time.deltaTime;
-            }
+            movement = -keyboardMoveSpeed * Time.deltaTime;
         }
 
         if (movement != 0f)
@@ -394,26 +370,26 @@ public class UI_SliderPanel : MonoBehaviour
         }
     }
 
-    private bool ShouldUseWSControls()
-    {
-        if (currentSlider == null || currentSlider.SliderCamera == null)
-        {
-            return true;
-        }
+    // private bool ShouldUseWSControls()
+    // {
+    //     if (currentSlider == null || currentSlider.SliderCamera == null)
+    //     {
+    //         return true;
+    //     }
 
-        Vector3 cameraForward = currentSlider.SliderCamera.transform.forward;
-        cameraForward.y = 0f;
-        cameraForward.Normalize();
+    //     Vector3 cameraForward = currentSlider.SliderCamera.transform.forward;
+    //     cameraForward.y = 0f;
+    //     cameraForward.Normalize();
 
-        Vector3 railDirection = currentSlider.RailDirection();
-        railDirection.y = 0f;
-        railDirection.Normalize();
+    //     Vector3 railDirection = currentSlider.RailDirection();
+    //     railDirection.y = 0f;
+    //     railDirection.Normalize();
 
-        float angle = Vector3.Angle(cameraForward, railDirection);
+    //     float angle = Vector3.Angle(cameraForward, railDirection);
 
 
-        return angle < angleThreshold || angle > (180f - angleThreshold);
-    }
+    //     return angle < angleThreshold || angle > (180f - angleThreshold);
+    // }
 
     private void ResetToCenter()
     {

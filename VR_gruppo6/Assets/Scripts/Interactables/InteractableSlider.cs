@@ -18,6 +18,7 @@ public class InteractableSlider : MonoBehaviour
 
     [Header("Camera settings")]
     [SerializeField] private Transform cameraTarget;
+    [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float cameraRotationSpeed = 5f;
 
     private bool canInteract = true;
@@ -27,6 +28,7 @@ public class InteractableSlider : MonoBehaviour
     public float CurrentPosition => currentPosition;
     public string SliderName => sliderName;
     public float CameraRotationSpeed => cameraRotationSpeed;
+    public float MoveSpeed => moveSpeed;
 
     [Header("Recording variables & settings")]
     [SerializeField] private float recordingSampleRate = 0.05f;
@@ -115,13 +117,15 @@ public class InteractableSlider : MonoBehaviour
 
     public void MoveSlider(float delta)
     {
-        currentPosition = Mathf.Clamp01(currentPosition + delta);
+        if (isPlaying) return;
+
+        currentPosition = Mathf.Clamp01(currentPosition + (delta * moveSpeed));
         UpdateSliderPosition(currentPosition);
     }
 
     public void RotateCamera(float horizontal, float vertical)
     {
-        if (sliderCamera == null) return;
+        if (sliderCamera == null || isPlaying) return;
 
         Transform camTransform = sliderCamera.transform;
 
@@ -154,7 +158,7 @@ public class InteractableSlider : MonoBehaviour
         isRecording = true;
         recordingStartTime = Time.time;
 
-        Debug.Log($"🔴 Recording STARTED: {currentRecording.recordingName}");
+        Debug.Log($"Recording STARTED: {currentRecording.recordingName}");
     }
 
     public void StopRecording()
@@ -162,11 +166,6 @@ public class InteractableSlider : MonoBehaviour
         if (!isRecording) return;
 
         isRecording = false;
-
-        Debug.Log($"⏹️ Recording STOPPED: {currentRecording.recordingName}");
-        Debug.Log($"   Durata: {currentRecording.duration:F2}s");
-        Debug.Log($"   Keyframes: {currentRecording.GetKeyframeCount()}");
-        Debug.Log($"   Sample rate: {currentRecording.GetSampleRate():F3}s");
     }
 
     private void UpdateRecording()
@@ -185,7 +184,7 @@ public class InteractableSlider : MonoBehaviour
     {
         if (currentRecording == null || currentRecording.keyframes.Count == 0)
         {
-            Debug.LogWarning("⚠️ Nessuna registrazione da riprodurre!");
+            Debug.LogWarning("Nessuna registrazione da riprodurre!");
             return;
         }
 
@@ -195,7 +194,7 @@ public class InteractableSlider : MonoBehaviour
         playbackStartTime = Time.time;
         currentPlaybackIndex = 0;
 
-        Debug.Log($"▶️ Playback STARTED: {currentRecording.recordingName}");
+        Debug.Log($"Playback STARTED: {currentRecording.recordingName}");
     }
 
     public void StopPlayback()
@@ -205,28 +204,28 @@ public class InteractableSlider : MonoBehaviour
         isPlaying = false;
         currentPlaybackIndex = 0;
 
-        Debug.Log("⏹️ Playback STOPPED");
+        Debug.Log("Playback STOPPED");
     }
 
     private void UpdatePlayback()
     {
         float elapsedTime = Time.time - playbackStartTime;
 
-        // Fine playback
+        // fine playback
         if (elapsedTime >= currentRecording.duration)
         {
             StopPlayback();
             return;
         }
 
-        // Trova keyframes da interpolare
+        // trova keyframes da interpolare
         while (currentPlaybackIndex < currentRecording.keyframes.Count - 1 &&
                currentRecording.keyframes[currentPlaybackIndex + 1].time <= elapsedTime)
         {
             currentPlaybackIndex++;
         }
 
-        // Interpola tra keyframes
+        // interpola tra keyframes
         if (currentPlaybackIndex < currentRecording.keyframes.Count - 1)
         {
             SliderKeyframe current = currentRecording.keyframes[currentPlaybackIndex];
@@ -234,11 +233,11 @@ public class InteractableSlider : MonoBehaviour
 
             float t = Mathf.InverseLerp(current.time, next.time, elapsedTime);
 
-            // Interpola posizione
+            // interpola posizione
             currentPosition = Mathf.Lerp(current.position, next.position, t);
             UpdateSliderPosition(currentPosition);
 
-            // Interpola rotazione camera (opzionale)
+            // interpola rotazione camera
             if (sliderCamera != null)
             {
                 sliderCamera.transform.localRotation = Quaternion.Slerp(current.cameraRotation, next.cameraRotation, t);
@@ -263,7 +262,7 @@ public class InteractableSlider : MonoBehaviour
         if (isPlaying) StopPlayback();
 
         currentRecording = null;
-        Debug.Log("🗑️ Recording cancellata");
+        Debug.Log("Recording cancellata");
     }
 
     public float GetDistanceInMeters()
