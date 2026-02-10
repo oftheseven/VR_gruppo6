@@ -111,6 +111,7 @@ public class TutorialManager : MonoBehaviour
         if (tutorialDoor != null)
         {
             tutorialDoor.Unlock();
+            DirectorModeManager.instance.SetDirectorModeAvailable(true);
             Debug.Log("🔓 Tutorial completato! Porta sbloccata.");
         }
     }

@@ -71,11 +71,11 @@ public class InteractableSlider : MonoBehaviour
             {
                 UpdateRecording();
             }
-            
-            if (isPlaying)
-            {
-                UpdatePlayback();
-            }
+        }
+
+        if (isPlaying)
+        {
+            UpdatePlayback();
         }
     }
 

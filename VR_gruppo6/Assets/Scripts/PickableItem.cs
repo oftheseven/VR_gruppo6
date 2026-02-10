@@ -8,6 +8,7 @@ public class PickableItem : MonoBehaviour
     [SerializeField] private string interactionText = "Premi E per prendere l'oggetto";
     [SerializeField] private Sprite itemIcon;
     [SerializeField] private bool isAccumulable = true;
+    [SerializeField] private bool isUsable = false;
 
     [Header("Prefab Reference")]
     [SerializeField] private GameObject itemPrefab;
@@ -30,6 +31,7 @@ public class PickableItem : MonoBehaviour
     public string GetInteractionText() => interactionText;
     public Sprite GetItemIcon() => itemIcon;
     public bool IsAccumulable() => isAccumulable;
+    public bool IsUsable() => isUsable;
     public int GetQuantity() => quantity;
 
     public void AddQuantity()
@@ -63,6 +65,46 @@ public class PickableItem : MonoBehaviour
         GameObject spawned = Instantiate(itemPrefab, position, rotation);
         spawned.SetActive(true);
         return spawned;
+    }
+
+    public void Use()
+    {
+        if (!isUsable)
+        {
+            Debug.LogWarning($"⚠️ {itemDisplayName} non è usabile!");
+            return;
+        }
+
+        Debug.Log($"🎬 Usando {itemDisplayName}...");
+
+        switch (itemID)
+        {
+            case "Ciak":
+                UseCiak();
+                break;
+
+            default:
+                Debug.LogWarning($"⚠️ Nessuna azione USE definita per {itemID}");
+                break;
+        }
+    }
+
+    private void UseCiak()
+    {
+        Debug.Log("🎬 CIAK! Avvio Director Mode!");
+
+        if (DirectorModeManager.instance != null && DirectorModeManager.instance.IsDirectorModeAvailable())
+        {
+            DirectorModeManager.instance.StartDirectorMode();
+        }
+        else if (DirectorModeManager.instance != null && !DirectorModeManager.instance.IsDirectorModeAvailable())
+        {
+            Debug.LogWarning("⚠️ Director Mode non è ancora disponibile!");
+        }
+        else
+        {
+            Debug.LogError("❌ DirectorModeManager non trovato nella scena");
+        }
     }
 
     public GameObject GetPrefab()

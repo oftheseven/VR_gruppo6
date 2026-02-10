@@ -713,31 +713,31 @@ public class PlayerController : MonoBehaviour
     private void CheckPanelsInteraction()
     {
         // APERTURA/CHIUSURA MENU
-        if (Keyboard.current.escapeKey.wasPressedThisFrame && !isInteracting)
+        if (Keyboard.current.escapeKey.wasPressedThisFrame && !isInteracting && !UI_MenuPanel.instance.IsOpen)
         {
             UI_MenuPanel.instance.OpenMenu();
         }
-        if (Keyboard.current.escapeKey.wasPressedThisFrame && UI_MenuPanel.instance.IsOpen)
+        else if (Keyboard.current.escapeKey.wasPressedThisFrame && UI_MenuPanel.instance.IsOpen)
         {
             UI_MenuPanel.instance.CloseMenu();
         }
 
         // APERTURA/CHIUSURA SCREENPLAY
-        if (Keyboard.current.tabKey.wasPressedThisFrame && !isInteracting)
+        if (Keyboard.current.tabKey.wasPressedThisFrame && !isInteracting && !UI_Screenplay.instance.IsOpen)
         {
             UI_Screenplay.instance.OpenScreenplay();
         }
-        if (Keyboard.current.tabKey.wasPressedThisFrame && UI_Screenplay.instance.IsOpen)
+        else if (Keyboard.current.tabKey.wasPressedThisFrame && UI_Screenplay.instance.IsOpen)
         {
             UI_Screenplay.instance.CloseScreenplay();
         }
 
         // APERTURA/CHIUSURA INVENTARIO
-        if (Keyboard.current.iKey.wasPressedThisFrame && !isInteracting)
+        if (Keyboard.current.iKey.wasPressedThisFrame && !isInteracting && !UI_InventoryPanel.instance.IsOpen)
         {
             UI_InventoryPanel.instance.OpenInventory();
         }
-        if (Keyboard.current.iKey.wasPressedThisFrame && UI_InventoryPanel.instance.IsOpen)
+        else if (Keyboard.current.iKey.wasPressedThisFrame && UI_InventoryPanel.instance.IsOpen)
         {
             UI_InventoryPanel.instance.CloseInventory();
         }
