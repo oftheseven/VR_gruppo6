@@ -10,7 +10,6 @@ public class AudioManager : MonoBehaviour
     [Header("Audio references")]
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioSource _audioSourceLoop;
-    public Button audioButton;
 
     public void Awake()
     {
@@ -39,4 +38,20 @@ public class AudioManager : MonoBehaviour
         _audioSource.Stop();
         _audioSourceLoop.Stop();
     }
+
+    // public void ToggleAudio()
+    // {
+    //     if (_audioSource.mute)
+    //     {
+    //         // _audioSource.mute = false;
+    //         // _audioSourceLoop.mute = false;
+    //         Debug.LogWarning("Audio unmuted");
+    //     }
+    //     else
+    //     {
+    //         // _audioSource.mute = true;
+    //         // _audioSourceLoop.mute = true;
+    //         Debug.LogWarning("Audio muted");
+    //     }
+    // }
 }
