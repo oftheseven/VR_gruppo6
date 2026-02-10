@@ -27,8 +27,21 @@ public class InteractableSlider : MonoBehaviour
     public float CurrentPosition => currentPosition;
     public string SliderName => sliderName;
     public float CameraRotationSpeed => cameraRotationSpeed;
-    private Quaternion startingCameraRotation;
 
+    [Header("Recording variables & settings")]
+    [SerializeField] private float recordingSampleRate = 0.05f;
+    private SliderRecording currentRecording;
+    private bool isRecording = false;
+    private bool isPlaying = false;
+    private float recordingStartTime;
+    private float playbackStartTime;
+    private int currentPlaybackIndex = 0;
+
+    public bool IsRecording => isRecording;
+    public bool IsPlaying => isPlaying;
+    public SliderRecording CurrentRecording => currentRecording;
+
+    private Quaternion startingCameraRotation;
     public Quaternion CameraStartingRotation() => startingCameraRotation;
 
     void Start()
@@ -37,7 +50,7 @@ public class InteractableSlider : MonoBehaviour
         {
             startingCameraRotation = sliderCamera.transform.localRotation;
         }
-        
+
         UpdateSliderPosition(currentPosition);
 
         if (sliderCamera != null)
@@ -51,6 +64,16 @@ public class InteractableSlider : MonoBehaviour
         if (sliderPanel != null && sliderPanel.IsOpen)
         {
             UpdateSliderPosition(currentPosition);
+
+            if (isRecording)
+            {
+                UpdateRecording();
+            }
+            
+            if (isPlaying)
+            {
+                UpdatePlayback();
+            }
         }
     }
 
@@ -121,6 +144,126 @@ public class InteractableSlider : MonoBehaviour
         sliderCart.position = newPosition;
         
         // Debug.Log($"Slider posizione: {t:F2} ({newPosition})");
+    }
+
+    public void StartRecording()
+    {
+        if (isRecording || isPlaying) return;
+
+        currentRecording = new SliderRecording($"Recording_{System.DateTime.Now:HHmmss}");
+        isRecording = true;
+        recordingStartTime = Time.time;
+
+        Debug.Log($"🔴 Recording STARTED: {currentRecording.recordingName}");
+    }
+
+    public void StopRecording()
+    {
+        if (!isRecording) return;
+
+        isRecording = false;
+
+        Debug.Log($"⏹️ Recording STOPPED: {currentRecording.recordingName}");
+        Debug.Log($"   Durata: {currentRecording.duration:F2}s");
+        Debug.Log($"   Keyframes: {currentRecording.GetKeyframeCount()}");
+        Debug.Log($"   Sample rate: {currentRecording.GetSampleRate():F3}s");
+    }
+
+    private void UpdateRecording()
+    {
+        float elapsedTime = Time.time - recordingStartTime;
+
+        if (currentRecording.keyframes.Count == 0 || 
+            elapsedTime - currentRecording.duration >= recordingSampleRate)
+        {
+            Quaternion cameraRot = sliderCamera != null ? sliderCamera.transform.localRotation : Quaternion.identity;
+            currentRecording.AddKeyframe(elapsedTime, currentPosition, cameraRot);
+        }
+    }
+
+    public void StartPlayback()
+    {
+        if (currentRecording == null || currentRecording.keyframes.Count == 0)
+        {
+            Debug.LogWarning("⚠️ Nessuna registrazione da riprodurre!");
+            return;
+        }
+
+        if (isRecording || isPlaying) return;
+
+        isPlaying = true;
+        playbackStartTime = Time.time;
+        currentPlaybackIndex = 0;
+
+        Debug.Log($"▶️ Playback STARTED: {currentRecording.recordingName}");
+    }
+
+    public void StopPlayback()
+    {
+        if (!isPlaying) return;
+
+        isPlaying = false;
+        currentPlaybackIndex = 0;
+
+        Debug.Log("⏹️ Playback STOPPED");
+    }
+
+    private void UpdatePlayback()
+    {
+        float elapsedTime = Time.time - playbackStartTime;
+
+        // Fine playback
+        if (elapsedTime >= currentRecording.duration)
+        {
+            StopPlayback();
+            return;
+        }
+
+        // Trova keyframes da interpolare
+        while (currentPlaybackIndex < currentRecording.keyframes.Count - 1 &&
+               currentRecording.keyframes[currentPlaybackIndex + 1].time <= elapsedTime)
+        {
+            currentPlaybackIndex++;
+        }
+
+        // Interpola tra keyframes
+        if (currentPlaybackIndex < currentRecording.keyframes.Count - 1)
+        {
+            SliderKeyframe current = currentRecording.keyframes[currentPlaybackIndex];
+            SliderKeyframe next = currentRecording.keyframes[currentPlaybackIndex + 1];
+
+            float t = Mathf.InverseLerp(current.time, next.time, elapsedTime);
+
+            // Interpola posizione
+            currentPosition = Mathf.Lerp(current.position, next.position, t);
+            UpdateSliderPosition(currentPosition);
+
+            // Interpola rotazione camera (opzionale)
+            if (sliderCamera != null)
+            {
+                sliderCamera.transform.localRotation = Quaternion.Slerp(current.cameraRotation, next.cameraRotation, t);
+            }
+        }
+        else
+        {
+            SliderKeyframe last = currentRecording.keyframes[currentPlaybackIndex];
+            currentPosition = last.position;
+            UpdateSliderPosition(currentPosition);
+
+            if (sliderCamera != null)
+            {
+                sliderCamera.transform.localRotation = last.cameraRotation;
+            }
+        }
+    }
+
+    public void ClearRecording()
+    {
+        if (isRecording) StopRecording();
+        if (isPlaying) StopPlayback();
+
+        currentRecording = null;
+        Debug.Log("🗑️ Recording cancellata");
     }
 
     public float GetDistanceInMeters()

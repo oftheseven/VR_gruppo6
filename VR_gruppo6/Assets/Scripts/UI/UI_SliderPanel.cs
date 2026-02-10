@@ -14,6 +14,15 @@ public class UI_SliderPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI controlHintText; // hint per l'utente per capire quali controlli usare
     [SerializeField] private Button resetButton;
 
+    [Header("Recording UI")]
+    [SerializeField] private Button recordButton;
+    [SerializeField] private Button playButton;
+    [SerializeField] private Button clearButton;
+    [SerializeField] private TextMeshProUGUI recordingStatusText;
+    [SerializeField] private Image recordingIndicator;
+    [SerializeField] private Color recordingColor = Color.red;
+    [SerializeField] private Color playingColor = Color.green;
+
     [Header("Movement controls")]
     [SerializeField] private float keyboardMoveSpeed = 0.5f;
     [SerializeField] private float angleThreshold = 45f;
@@ -45,6 +54,26 @@ public class UI_SliderPanel : MonoBehaviour
         {
             resetButton.onClick.AddListener(ResetToCenter);
         }
+
+        if (recordButton != null)
+        {
+            recordButton.onClick.AddListener(ToggleRecording);
+        }
+
+        if (playButton != null)
+        {
+            playButton.onClick.AddListener(TogglePlayback);
+        }
+
+        if (clearButton != null)
+        {
+            clearButton.onClick.AddListener(ClearRecording);
+        }
+
+        if (recordingIndicator != null)
+        {
+            recordingIndicator.gameObject.SetActive(false);
+        }
     }
 
     void Update()
@@ -55,6 +84,7 @@ public class UI_SliderPanel : MonoBehaviour
             HandleKeyboardMovement();
             HandlePanelClose();
             UpdateUI();
+            UpdateRecordingUI();
         }
     }
 
@@ -89,10 +119,23 @@ public class UI_SliderPanel : MonoBehaviour
         }
 
         UpdateUI();
+        UpdateRecordingButtonStates();
     }
 
     public void ClosePanel()
     {
+        if (currentSlider != null)
+        {
+            if (currentSlider.IsRecording)
+            {
+                currentSlider.StopRecording();
+            }
+            if (currentSlider.IsPlaying)
+            {
+                currentSlider.StopPlayback();
+            }
+        }
+
         isOpen = false;
         holdTimer = 0f;
 
@@ -140,13 +183,148 @@ public class UI_SliderPanel : MonoBehaviour
         {
             bool useWSControls = ShouldUseWSControls();
             controlHintText.text = useWSControls ? "W/S: Muovi slider | ←→: Ruota camera" : "A/D: Muovi slider | ←→: Ruota camera";
+
+            if (currentSlider.IsPlaying)
+            {
+                controlHintText.text = "▶️ Riproduzione in corso...";
+            }
+            else
+            {
+                controlHintText.text = useWSControls ? "W/S: Muovi slider | ←→: Ruota camera" : "A/D: Muovi slider | ←→: Ruota camera";
+            }
         }
+    }
+
+    private void UpdateRecordingUI()
+    {
+        if (currentSlider == null) return;
+
+        // Status text
+        if (recordingStatusText != null)
+        {
+            if (currentSlider.IsRecording)
+            {
+                recordingStatusText.text = "🔴 REGISTRAZIONE IN CORSO";
+            }
+            else if (currentSlider.IsPlaying)
+            {
+                recordingStatusText.text = "▶️ RIPRODUZIONE IN CORSO";
+            }
+            else if (currentSlider.CurrentRecording != null)
+            {
+                int keyframes = currentSlider.CurrentRecording.GetKeyframeCount();
+                float duration = currentSlider.CurrentRecording.duration;
+                recordingStatusText.text = $"📹 Recording salvata: {duration:F1}s ({keyframes} frames)";
+            }
+            else
+            {
+                recordingStatusText.text = "Nessuna registrazione";
+            }
+        }
+
+        // Recording indicator (lampeggia)
+        if (recordingIndicator != null)
+        {
+            if (currentSlider.IsRecording)
+            {
+                recordingIndicator.gameObject.SetActive(true);
+                // Lampeggia
+                float alpha = Mathf.PingPong(Time.time * 2f, 1f);
+                Color col = recordingColor;
+                col.a = alpha;
+                recordingIndicator.color = col;
+            }
+            else if (currentSlider.IsPlaying)
+            {
+                recordingIndicator.gameObject.SetActive(true);
+                recordingIndicator.color = playingColor;
+            }
+            else
+            {
+                recordingIndicator.gameObject.SetActive(false);
+            }
+        }
+
+        UpdateRecordingButtonStates();
+    }
+
+    private void UpdateRecordingButtonStates()
+    {
+        if (currentSlider == null) return;
+
+        bool isRecording = currentSlider.IsRecording;
+        bool isPlaying = currentSlider.IsPlaying;
+        bool hasRecording = currentSlider.CurrentRecording != null && currentSlider.CurrentRecording.GetKeyframeCount() > 0;
+
+        if (recordButton != null)
+        {
+            // Bottone record sempre cliccabile (toggle on/off)
+            var buttonText = recordButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                buttonText.text = isRecording ? "Stop" : "Rec";
+            }
+        }
+
+        if (playButton != null)
+        {
+            // Play cliccabile solo se c'è recording e non sta registrando
+            playButton.interactable = hasRecording && !isRecording;
+            
+            var buttonText = playButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null)
+            {
+                buttonText.text = isPlaying ? "Stop" : "Play";
+            }
+        }
+
+        if (clearButton != null)
+        {
+            // Clear cliccabile solo se c'è recording e non sta registrando/playing
+            clearButton.interactable = hasRecording && !isRecording && !isPlaying;
+        }
+    }
+
+    private void ToggleRecording()
+    {
+        if (currentSlider == null) return;
+
+        if (currentSlider.IsRecording)
+        {
+            currentSlider.StopRecording();
+        }
+        else
+        {
+            currentSlider.StartRecording();
+        }
+    }
+
+    private void TogglePlayback()
+    {
+        if (currentSlider == null) return;
+
+        if (currentSlider.IsPlaying)
+        {
+            currentSlider.StopPlayback();
+        }
+        else
+        {
+            currentSlider.StartPlayback();
+        }
+    }
+
+    private void ClearRecording()
+    {
+        if (currentSlider == null) return;
+
+        currentSlider.ClearRecording();
     }
 
     private void HandleCameraRotation()
     {
         if (currentSlider == null || currentSlider.SliderCamera == null) return;
         if (infoPanel != null && infoPanel.IsOpen) return;
+        if (currentSlider.IsPlaying) return;
 
         float horizontal = 0f;
         float vertical = 0f;
@@ -179,6 +357,7 @@ public class UI_SliderPanel : MonoBehaviour
     {
         if (currentSlider == null) return;
         if (infoPanel != null && infoPanel.IsOpen) return;
+        if (currentSlider.IsPlaying) return;
 
         float movement = 0f;
         
