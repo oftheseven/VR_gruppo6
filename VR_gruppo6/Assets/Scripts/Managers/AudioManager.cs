@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
         _audioManager = this;
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void PlayAudio(AudioClip clip)
