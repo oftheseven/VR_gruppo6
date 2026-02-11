@@ -71,11 +71,11 @@ public class PickableItem : MonoBehaviour
     {
         if (!isUsable)
         {
-            Debug.LogWarning($"⚠️ {itemDisplayName} non è usabile!");
+            Debug.LogWarning($"{itemDisplayName} non è usabile!");
             return;
         }
 
-        Debug.Log($"🎬 Usando {itemDisplayName}...");
+        Debug.Log($"Usando {itemDisplayName}...");
 
         switch (itemID)
         {
@@ -84,27 +84,27 @@ public class PickableItem : MonoBehaviour
                 break;
 
             default:
-                Debug.LogWarning($"⚠️ Nessuna azione USE definita per {itemID}");
+                Debug.LogWarning($"Nessuna azione USE definita per {itemID}");
                 break;
         }
     }
 
     private void UseCiak()
     {
-        Debug.Log("🎬 CIAK! Avvio Director Mode!");
+        Debug.Log("CIAK! Avvio Director Mode!");
 
         if (DirectorModeManager.instance != null && DirectorModeManager.instance.IsDirectorModeAvailable())
         {
             DirectorModeManager.instance.StartDirectorMode();
         }
-        else if (DirectorModeManager.instance != null && !DirectorModeManager.instance.IsDirectorModeAvailable())
-        {
-            Debug.LogWarning("⚠️ Director Mode non è ancora disponibile!");
-        }
-        else
-        {
-            Debug.LogError("❌ DirectorModeManager non trovato nella scena");
-        }
+        // else if (DirectorModeManager.instance != null && !DirectorModeManager.instance.IsDirectorModeAvailable())
+        // {
+        //     Debug.LogWarning("Director Mode non è ancora disponibile!");
+        // }
+        // else
+        // {
+        //     Debug.LogError("DirectorModeManager non trovato nella scena");
+        // }
     }
 
     public GameObject GetPrefab()

@@ -55,7 +55,7 @@ public class UI_DirectorPanel : MonoBehaviour
             sceneStatusText.text = "REGISTRAZIONE IN CORSO";
         }
 
-        UpdateCameraDisplay(1); // Default Camera 1
+        UpdateCameraDisplay(1);
     }
 
     public void HidePanel()
@@ -91,15 +91,4 @@ public class UI_DirectorPanel : MonoBehaviour
             timerText.text = $"{minutes:00}:{seconds:00}";
         }
     }
-
-    // private void UpdateRecordingIndicator()
-    // {
-    //     if (recordingIndicator == null) return;
-
-    //     // Lampeggio pallino rosso
-    //     float alpha = Mathf.PingPong(Time.time * 2f, 1f);
-    //     Color col = Color.red;
-    //     col.a = alpha;
-    //     recordingIndicator.color = col;
-    // }
 }

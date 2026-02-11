@@ -24,7 +24,7 @@ public class DirectorModeManager : MonoBehaviour
     public void SetDirectorModeAvailable(bool available)
     {
         isDirectorModeAvailable = available;
-        Debug.Log($"Director Mode availability set to: {available}");
+        // Debug.Log($"Director Mode availability set to: {available}");
     }
     private int currentCameraIndex = 1; // 1 = slider, 2 = tripod
     private float sceneStartTime;
@@ -157,14 +157,14 @@ public class DirectorModeManager : MonoBehaviour
 
         PlayerController.EnableMovement(true);
 
-        Debug.Log("✅ Scena completata! Ciak consumato.");
+        Debug.Log("Scena completata! Ciak consumato.");
     }
 
     private void PrepareActors()
     {
         // if (sceneActors == null || sceneActors.Length == 0)
         // {
-        //     Debug.LogWarning("⚠️ Nessun attore assegnato!");
+        //     Debug.LogWarning("Nessun attore assegnato!");
         //     return;
         // }
 
@@ -181,7 +181,7 @@ public class DirectorModeManager : MonoBehaviour
         //         animator.Update(0f);
         //     }
 
-        //     Debug.Log($"🎭 Attore {i} ({sceneActors[i].name}) ready");
+        //     Debug.Log($"Attore {i} ({sceneActors[i].name}) ready");
         // }
 
         Debug.Log("Attori preparati per la scena");
@@ -198,7 +198,7 @@ public class DirectorModeManager : MonoBehaviour
         //     Animator animator = sceneActors[i].GetComponent<Animator>();
         //     if (animator == null)
         //     {
-        //         Debug.LogWarning($"⚠️ Attore {sceneActors[i].name} non ha Animator!");
+        //         Debug.LogWarning($"Attore {sceneActors[i].name} non ha Animator!");
         //         continue;
         //     }
 
@@ -209,7 +209,7 @@ public class DirectorModeManager : MonoBehaviour
         //         if (!string.IsNullOrEmpty(trigger))
         //         {
         //             animator.SetTrigger(trigger);
-        //             Debug.Log($"🎭 Attore {sceneActors[i].name} → Trigger: {trigger}");
+        //             Debug.Log($"Attore {sceneActors[i].name} → Trigger: {trigger}");
         //         }
         //     }
         // }
@@ -228,11 +228,11 @@ public class DirectorModeManager : MonoBehaviour
         //     Animator animator = sceneActors[i].GetComponent<Animator>();
         //     if (animator != null)
         //     {
-        //         animator.SetTrigger("Idle"); // ⚠️ Modifica con il trigger giusto del tuo animator
+        //         animator.SetTrigger("Idle");
         //     }
 
 
-        //     Debug.Log($"🎭 Attore {sceneActors[i].name} reset");
+        //     Debug.Log($"Attore {sceneActors[i].name} reset");
         // }
 
         Debug.Log("Attori resettati alla posizione iniziale");
@@ -244,18 +244,18 @@ public class DirectorModeManager : MonoBehaviour
         {
             if (sliderCamera.CurrentRecording != null && sliderCamera.CurrentRecording.GetKeyframeCount() > 0)
             {
-                Debug.Log("📹 Camera Slider: Recording trovata, pronta per playback");
+                Debug.Log("Camera Slider: Recording trovata, pronta per playback");
             }
             else
             {
-                Debug.LogWarning("⚠️ Camera Slider: Nessuna recording! Usa posizione fissa.");
+                Debug.LogWarning("Camera Slider: Nessuna recording! Usa posizione fissa.");
             }
         }
 
-        if (tripodCamera != null)
-        {
-            Debug.Log("📹 Camera Treppiede: Ready");
-        }
+        // if (tripodCamera != null)
+        // {
+        //     Debug.Log("Camera Treppiede: Ready");
+        // }
     }
 
     private void HandleCameraSwitch()
@@ -273,17 +273,12 @@ public class DirectorModeManager : MonoBehaviour
 
     private void SwitchToCamera(int cameraIndex)
     {
-        // if (cameraIndex == currentCameraIndex) return;
 
         currentCameraIndex = cameraIndex;
 
         if (sliderCamera != null && sliderCamera.SliderCamera != null)
         {
             sliderCamera.SliderCamera.gameObject.SetActive(false);
-            // if (sliderCamera.IsPlaying)
-            // {
-            //     sliderCamera.StopPlayback();
-            // }
         }
 
         if (tripodCamera != null)
@@ -302,21 +297,17 @@ public class DirectorModeManager : MonoBehaviour
                 {
                     sliderCamera.SliderCamera.gameObject.SetActive(true);
                     
-                    // if (sliderCamera.CurrentRecording != null && !sliderCamera.IsPlaying)
-                    // {
-                    //     sliderCamera.StartPlayback();
-                    // }
                     if (sliderCamera.CurrentRecording != null && !sliderCamera.IsPlaying)
                     {
                         sliderCamera.StartPlayback();
-                        Debug.Log($"📹 Playback AVVIATO! Keyframes: {sliderCamera.CurrentRecording.GetKeyframeCount()}");
+                        // Debug.Log($"Playback AVVIATO! Keyframes: {sliderCamera.CurrentRecording.GetKeyframeCount()}");
                     }
-                    else if (sliderCamera.IsPlaying)
-                    {
-                        Debug.Log("📹 Playback già in corso, continua...");
-                    }
+                    // else if (sliderCamera.IsPlaying)
+                    // {
+                    //     Debug.Log("Playback già in corso, continua...");
+                    // }
 
-                    Debug.Log("📹 Switched to Camera 1: Slider");
+                    // Debug.Log("Switched to Camera 1: Slider");
                 }
                 break;
 
@@ -324,7 +315,7 @@ public class DirectorModeManager : MonoBehaviour
                 if (tripodCamera != null)
                 {
                     tripodCamera.gameObject.SetActive(true);
-                    Debug.Log("📹 Switched to Camera 2: Treppiede");
+                    // Debug.Log("Switched to Camera 2: Treppiede");
                 }
                 break;
         }

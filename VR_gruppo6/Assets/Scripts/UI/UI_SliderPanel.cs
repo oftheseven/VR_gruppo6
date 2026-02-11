@@ -324,7 +324,6 @@ public class UI_SliderPanel : MonoBehaviour
 
         float movement = 0f;
         
-        // Sempre W/S per movimento avanti/indietro
         if (Keyboard.current.wKey.isPressed)
         {
             movement = keyboardMoveSpeed * Time.deltaTime;
