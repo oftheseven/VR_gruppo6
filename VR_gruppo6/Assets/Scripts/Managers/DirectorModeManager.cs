@@ -14,6 +14,7 @@ public class DirectorModeManager : MonoBehaviour
 
     [Header("Camera setup")]
     [SerializeField] private InteractableSlider sliderCamera;
+    [SerializeField] private InteractableArm armCamera;
     [SerializeField] private Camera tripodCamera;
 
     [Header("UI")]

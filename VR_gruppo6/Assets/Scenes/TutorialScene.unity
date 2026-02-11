@@ -10911,6 +10911,10 @@ PrefabInstance:
       propertyPath: isUsable
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5643387969509945712, guid: 166cb75d98bdf0f49ac8042bc40654bb, type: 3}
+      propertyPath: isAccumulable
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
