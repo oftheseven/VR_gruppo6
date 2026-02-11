@@ -721,17 +721,7 @@ public class PlayerController : MonoBehaviour
         {
             UI_MenuPanel.instance.CloseMenu();
         }
-
-        // // APERTURA/CHIUSURA SCREENPLAY
-        // if (Keyboard.current.tabKey.wasPressedThisFrame && !isInteracting && !UI_Screenplay.instance.IsOpen)
-        // {
-        //     UI_Screenplay.instance.OpenScreenplay();
-        // }
-        // else if (Keyboard.current.tabKey.wasPressedThisFrame && UI_Screenplay.instance.IsOpen)
-        // {
-        //     UI_Screenplay.instance.CloseScreenplay();
-        // }
-
+        
         // APERTURA/CHIUSURA SCREENPLAY IN BASE ALLA SCENA
         if (Keyboard.current.tabKey.wasPressedThisFrame && !isInteracting)
         {

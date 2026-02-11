@@ -11,8 +11,15 @@ public class TortaInTestaManager : MonoBehaviour
     [SerializeField] private string exitDoorName = "PortaDivination";
     [SerializeField] private int totalQuests = 7;
 
+    [Header("Computer Quest Configuration")]
+    [SerializeField] private int computersRequired = 2;
+
     private InteractableDoor exitDoor;
     private HashSet<string> completedTasks = new HashSet<string>();
+
+    private HashSet<string> completedComputers = new HashSet<string>();
+    private bool computerQuestCompleted = false;
+
     private bool isFinished = false;
 
     private const string TASK_COMPUTER = "computer";
@@ -69,6 +76,30 @@ public class TortaInTestaManager : MonoBehaviour
         }
     }
 
+    public void OnComputerImageCorrect(string computerID)
+    {
+        if (computerQuestCompleted)
+        {
+            Debug.Log("Quest Computer già completata");
+            return;
+        }
+
+        if (completedComputers.Contains(computerID))
+        {
+            Debug.Log($"Computer '{computerID}' già completato");
+            return;
+        }
+
+        completedComputers.Add(computerID);
+        Debug.Log($"Computer '{computerID}' completato! ({completedComputers.Count}/{computersRequired})");
+
+        if (completedComputers.Count >= computersRequired)
+        {
+            computerQuestCompleted = true;
+            CompleteTask(TASK_COMPUTER);
+        }
+    }
+
     public void CompleteTask(string taskId)
     {
         if (isFinished || completedTasks.Contains(taskId))
@@ -110,7 +141,7 @@ public class TortaInTestaManager : MonoBehaviour
         }
     }
 
-    public void OnComputerCompleted() => CompleteTask(TASK_COMPUTER);
+    // public void OnComputerCompleted() => CompleteTask(TASK_COMPUTER);
     public void OnArmCompleted() => CompleteTask(TASK_ARM);
     public void OnCameraCompleted() => CompleteTask(TASK_CAMERA);
     public void OnLightCompleted() => CompleteTask(TASK_LIGHT);
@@ -119,6 +150,7 @@ public class TortaInTestaManager : MonoBehaviour
     public void OnOperatorCompleted() => CompleteTask(TASK_OPERATOR);
 
     public string GetProgress() => $"{completedTasks.Count}/{totalQuests}";
+    public string GetComputerProgress() => $"{completedComputers.Count}/{computersRequired}";
     public bool IsTaskCompleted(string taskId) => completedTasks.Contains(taskId);
     public bool IsFinished => isFinished;
 }

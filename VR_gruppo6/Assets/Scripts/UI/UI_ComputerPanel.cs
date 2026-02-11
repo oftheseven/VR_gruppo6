@@ -6,6 +6,8 @@ using TMPro;
 
 public class UI_ComputerPanel :  MonoBehaviour
 {   
+    [Header("Computer configuration")]
+    [SerializeField] private string computerID = "computer1";
     [Header("Computer timer settings")]
     [SerializeField] private float holdTimeToClose = 2f;
     [SerializeField] private float cooldownTime = 1f;
@@ -23,6 +25,7 @@ public class UI_ComputerPanel :  MonoBehaviour
     private bool canInteract = true;
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
+    private GreenScreenSelector selector;
 
     void Start()
     {
@@ -38,6 +41,8 @@ public class UI_ComputerPanel :  MonoBehaviour
         {
             holdFillImage.fillAmount = 0;
         }
+
+        selector = GetComponent<GreenScreenSelector>();
     }
 
     void Update()
@@ -48,13 +53,18 @@ public class UI_ComputerPanel :  MonoBehaviour
         }
     }
 
+    public void SetComputerID(string id)
+    {
+        computerID = id;
+    }
+
     public void OpenComputer()
     {
-        // se la missione è completa non si può più aprire il computer
-        // if (UI_Screenplay.instance.IsGreenScreenComplete())
-        // {
-        //     return;
-        // }
+        if (selector != null && selector.IsCompleted)
+        {
+            Debug.Log($"{computerID} già completato!");
+            return;
+        }
 
         this.gameObject.SetActive(true);
         isOpen = true;

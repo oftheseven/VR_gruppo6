@@ -14,10 +14,12 @@ public class GreenScreenSelector : MonoBehaviour
 
     [Header("Correct image index")]
     [SerializeField] private int correctImageIndex = 0; // indice dell'immagine corretta da scegliere
+    [SerializeField] private string computerID = "computer1";
 
     private int currentImageIndex = 0;
     private float lastInputTime = 0f;
     private UI_ComputerPanel computerPanel;
+    private bool imageConfirmed = false;
 
     void Start()
     {
@@ -28,6 +30,12 @@ public class GreenScreenSelector : MonoBehaviour
         }
 
         computerPanel = GetComponent<UI_ComputerPanel>();
+
+        if (computerPanel != null)
+        {
+            computerPanel.SetComputerID(computerID);
+        }
+
         UpdateImageColors();
     }
 
@@ -72,6 +80,7 @@ public class GreenScreenSelector : MonoBehaviour
         if (Keyboard.current.enterKey.wasPressedThisFrame)
         {
             ApplyCurrentImage();
+            CheckImageCorrectness();
             computerPanel.CloseComputerImmediate();
         }
     }
@@ -104,4 +113,25 @@ public class GreenScreenSelector : MonoBehaviour
             }
         }
     }
+
+    private void CheckImageCorrectness()
+    {
+        if (currentImageIndex == correctImageIndex)
+        {
+            imageConfirmed = true;
+
+            Debug.Log($"Immagine corretta selezionata su {computerID}");
+
+            if (TortaInTestaManager.instance != null)
+            {
+                TortaInTestaManager.instance.OnComputerImageCorrect(computerID);
+            }
+        }
+        else
+        {
+            Debug.Log($"Immagine sbagliata selezionata su {computerID}");
+        }
+    }
+
+    public bool IsCompleted => imageConfirmed;
 }

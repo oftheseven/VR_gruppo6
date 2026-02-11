@@ -5169,6 +5169,7 @@ MonoBehaviour:
   objectRenderer: {fileID: 997404691}
   inputCooldown: 0.1
   correctImageIndex: 1
+  computerID: computer1
 --- !u!114 &630263817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5181,6 +5182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 769648382b8414b76a8bda7b75742b8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_ComputerPanel
+  computerID: computer1
   holdTimeToClose: 2
   cooldownTime: 1
   infoPanel: {fileID: 105432150}
@@ -9319,6 +9321,10 @@ PrefabInstance:
     - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: sceneB
       value: TortaInTesta
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
+      propertyPath: isLocked
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: loadDelay
@@ -17685,8 +17691,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1941169572}
   - component: {fileID: 1941169573}
-  - component: {fileID: 1941169575}
-  - component: {fileID: 1941169574}
   m_Layer: 0
   m_Name: TutorialManager
   m_TagString: Untagged
@@ -17723,33 +17727,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialManager
   exitDoor: {fileID: 565776912}
   totalQuests: 6
---- !u!114 &1941169574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1941169571}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98c813db284927b44a7337d20eb47553, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ArmAccuracyTracker
-  armTip: {fileID: 1775824668}
-  trackingInterval: 0.1
---- !u!114 &1941169575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1941169571}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b26b5bbfd8108b74ca0c46f5e27d498a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WaypointManager
-  perfectDistanceThreshold: 0.5
 --- !u!1 &1941848617
 GameObject:
   m_ObjectHideFlags: 0

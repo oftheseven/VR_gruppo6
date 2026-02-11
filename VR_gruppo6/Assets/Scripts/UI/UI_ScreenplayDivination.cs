@@ -2,23 +2,24 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-public class UI_Screenplay_TortaInTesta : MonoBehaviour
+public class UI_Screenplay_DivinationClass : MonoBehaviour
 {
-    private static UI_Screenplay_TortaInTesta _instance;
-    public static UI_Screenplay_TortaInTesta instance => _instance;
+    private static UI_Screenplay_DivinationClass _instance;
+    public static UI_Screenplay_DivinationClass instance => _instance;
 
     [Header("Quest List")]
-    [SerializeField] private string[] questTexts = new string[5]
+    [SerializeField] private string[] questTexts = new string[6]
     {
-        "Posiziona immagini sui computer",
-        "Registra movimento braccio meccanico",
-        "Configura la camera",
-        "Sistema l'illuminazione",
-        "Completa la registrazione"
+        "Registra movimento slider",
+        "Imposta luci",
+        "Quest Divination 3",
+        "Quest Divination 4",
+        "Quest Divination 5",
+        "Quest Divination 6"
     };
 
     [Header("UI References")]
-    [SerializeField] private TextMeshProUGUI[] questLabels = new TextMeshProUGUI[5];
+    [SerializeField] private TextMeshProUGUI[] questLabels = new TextMeshProUGUI[6];
 
     private bool isOpen = false;
     public bool IsOpen => isOpen;

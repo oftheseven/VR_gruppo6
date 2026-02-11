@@ -31,13 +31,11 @@ public class TutorialManager : MonoBehaviour
         {
             _instance = this;
         }
-    }
 
-    void Start()
-    {
         if (exitDoor != null)
         {
             exitDoor.Lock();
+            Debug.Log("Porta bloccata all'inizio del tutorial");
         }
         else
         {
@@ -50,15 +48,23 @@ public class TutorialManager : MonoBehaviour
         if (Keyboard.current.tKey.wasPressedThisFrame)
         {
             Debug.Log("Debug: Porta sbloccata");
-            exitDoor?.Unlock();
+            exitDoor.Unlock();
         }
     }
 
     public void CompleteTask(string taskId)
     {
-        if (isFinished || completedTasks.Contains(taskId))
+        Debug.Log($"CompleteTask chiamato con: '{taskId}'");
+
+        if (isFinished)
         {
             // Debug.Log($"Task '{taskId}' già completata o tutorial finito");
+            return;
+        }
+
+        if (completedTasks.Contains(taskId))
+        {
+            // Debug.Log($"Task '{taskId}' già completata, ignoro");
             return;
         }
 

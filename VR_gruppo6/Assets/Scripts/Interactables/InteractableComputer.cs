@@ -2,15 +2,31 @@ using UnityEngine;
 
 public class InteractableComputer : MonoBehaviour
 {
-    [Header("Interaction text")]
+    [Header("Computer configuration")]
+    [SerializeField] private string computerID = "computer1";
     [SerializeField] private string interactionText = "Premi E per usare il computer";
-
-    [Header("Computer panel reference")]
     [SerializeField] private UI_ComputerPanel computerPanel;
+
+    private GreenScreenSelector selector;
+
+    void Start()
+    {
+        if (computerPanel != null)
+        {
+            computerPanel.SetComputerID(computerID);
+            selector = computerPanel.GetComponent<GreenScreenSelector>();
+        }
+    }
 
     public void Interact()
     {
         // Debug.Log("Interazione con " + this.gameObject.name);
+
+        if (selector != null && selector.IsCompleted)
+        {
+            Debug.Log($"{computerID} già completato!");
+            return;
+        }
 
         if (computerPanel != null)
         {
@@ -19,12 +35,17 @@ public class InteractableComputer : MonoBehaviour
 
         if (TutorialManager.instance != null)
         {
+            Debug.Log($"Computer trovato TutorialManager, chiamo OnComputerCompleted()");
             TutorialManager.instance.OnComputerCompleted();
         }
     }
 
     public string getInteractionText()
     {
+        if (selector != null && selector.IsCompleted)
+        {
+            return "Computer completato";
+        }
         return interactionText;
     }
 
