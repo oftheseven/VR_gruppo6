@@ -83,12 +83,6 @@ public class GreenScreenSelector : MonoBehaviour
         {
             objectRenderer.material.color = Color.white;
             objectRenderer.material.mainTexture = selectedImage.texture;
-
-            // controllo se l'immagine selezionata è quella corretta
-            if (currentImageIndex == correctImageIndex)
-            {
-                UI_Screenplay.instance.AdvanceGreenScreenProgress();
-            }
         }
         else
         {

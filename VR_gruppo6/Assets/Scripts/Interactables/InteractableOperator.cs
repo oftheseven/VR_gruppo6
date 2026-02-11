@@ -53,9 +53,9 @@ public class InteractableOperator : MonoBehaviour
             StartDialogue();
         }
 
-        if (GameManager.instance != null)
+        if (TortaInTestaManager.instance != null)
         {
-            GameManager.instance.OnOperatorCompleted();
+            TortaInTestaManager.instance.OnOperatorCompleted();
         }
     }
 

@@ -2,10 +2,10 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
-public class TutorialManager : MonoBehaviour
+public class DivinationClassManager : MonoBehaviour
 {
-    private static TutorialManager _instance;
-    public static TutorialManager instance => _instance;
+    private static DivinationClassManager _instance;
+    public static DivinationClassManager instance => _instance;
 
     [Header("Scene Setup")]
     [SerializeField] private InteractableDoor exitDoor;
@@ -17,9 +17,9 @@ public class TutorialManager : MonoBehaviour
     private const string TASK_COMPUTER = "computer";
     private const string TASK_CAMERA = "camera";
     private const string TASK_ARM = "arm";
-    private const string TASK_CART = "cart";
     private const string TASK_LIGHT = "light";
-    private const string TASK_SLIDER = "slider";
+    private const string TASK_PROP1 = "prop1";
+    private const string TASK_PROP2 = "prop2";
 
     void Awake()
     {
@@ -54,7 +54,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (isFinished || completedTasks.Contains(taskId))
         {
-            // Debug.Log($"Task '{taskId}' già completata o tutorial finito");
+            Debug.Log($"Task '{taskId}' già completata o scena finita");
             return;
         }
 
@@ -72,13 +72,15 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    // AGGIUNGERE LA FINE DELL'APPLICAZIONE
+
     private void CompleteScene()
     {
         if (isFinished) return;
 
         isFinished = true;
 
-        Debug.Log("Tutorial completato!");
+        Debug.Log("DivinationClass completata!");
 
         if (exitDoor != null)
         {
@@ -94,9 +96,9 @@ public class TutorialManager : MonoBehaviour
     public void OnComputerCompleted() => CompleteTask(TASK_COMPUTER);
     public void OnCameraCompleted() => CompleteTask(TASK_CAMERA);
     public void OnArmCompleted() => CompleteTask(TASK_ARM);
-    public void OnCartCompleted() => CompleteTask(TASK_CART);
     public void OnLightCompleted() => CompleteTask(TASK_LIGHT);
-    public void OnSliderCompleted() => CompleteTask(TASK_SLIDER);
+    public void OnProp1Completed() => CompleteTask(TASK_PROP1);
+    public void OnProp2Completed() => CompleteTask(TASK_PROP2);
 
     public string GetProgress() => $"{completedTasks.Count}/{totalQuests}";
     public bool IsTaskCompleted(string taskId) => completedTasks.Contains(taskId);

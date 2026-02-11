@@ -51,10 +51,10 @@ public class UI_ComputerPanel :  MonoBehaviour
     public void OpenComputer()
     {
         // se la missione è completa non si può più aprire il computer
-        if (UI_Screenplay.instance.IsGreenScreenComplete())
-        {
-            return;
-        }
+        // if (UI_Screenplay.instance.IsGreenScreenComplete())
+        // {
+        //     return;
+        // }
 
         this.gameObject.SetActive(true);
         isOpen = true;

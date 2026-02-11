@@ -42,7 +42,7 @@ public class InteractableLight : MonoBehaviour
             maxIntensity = mainLight.intensity;
             currentColor = mainLight.color;
             
-            // Debug.Log($"💡 {name}: Intensità corrente={currentIntensity}, Max={maxIntensity}");
+            // Debug.Log($"{name}: Intensità corrente={currentIntensity}, Max={maxIntensity}");
         }
         
         UpdateLights();
