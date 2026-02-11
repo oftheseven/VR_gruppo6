@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class UI_DirectorPanel : MonoBehaviour
@@ -9,8 +8,7 @@ public class UI_DirectorPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cameraNameText;
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI controlsText;
-    // [SerializeField] private Image recordingIndicator;
-    [SerializeField] private TextMeshProUGUI sceneStatusText; // "REGISTRAZIONE IN CORSO"
+    [SerializeField] private TextMeshProUGUI sceneStatusText;
 
     [Header("Visual Settings")]
     [SerializeField] private Color camera1Color = Color.cyan;
@@ -33,7 +31,6 @@ public class UI_DirectorPanel : MonoBehaviour
         if (isActive)
         {
             UpdateTimer();
-            // UpdateRecordingIndicator();
         }
     }
 
@@ -55,7 +52,7 @@ public class UI_DirectorPanel : MonoBehaviour
 
         if (sceneStatusText != null)
         {
-            sceneStatusText.text = "🎬 REGISTRAZIONE IN CORSO";
+            sceneStatusText.text = "REGISTRAZIONE IN CORSO";
         }
 
         UpdateCameraDisplay(1); // Default Camera 1
@@ -75,10 +72,9 @@ public class UI_DirectorPanel : MonoBehaviour
     {
         if (cameraNameText != null)
         {
-            string cameraName = cameraIndex == 1 ? "📹 CAMERA 1: SLIDER" : "📹 CAMERA 2: TREPPIEDE";
+            string cameraName = cameraIndex == 1 ? "CAMERA 1: SLIDER" : "CAMERA 2: TREPPIEDE";
             cameraNameText.text = cameraName;
             
-            // Cambia colore testo in base a camera
             cameraNameText.color = cameraIndex == 1 ? camera1Color : camera2Color;
         }
     }
@@ -92,7 +88,7 @@ public class UI_DirectorPanel : MonoBehaviour
         {
             int minutes = Mathf.FloorToInt(remaining / 60f);
             int seconds = Mathf.FloorToInt(remaining % 60f);
-            timerText.text = $"⏱️ {minutes:00}:{seconds:00}";
+            timerText.text = $"{minutes:00}:{seconds:00}";
         }
     }
 

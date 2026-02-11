@@ -566,9 +566,9 @@ MonoBehaviour:
   - {fileID: 1231755344}
   - {fileID: 1822948139}
   cameraLenses:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1375770407}
+  - {fileID: 1375770406}
+  - {fileID: 1375770404}
   correctLensIndex: 2
   inputCooldown: 0.1
 --- !u!114 &75320802
@@ -4747,7 +4747,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1151272081, guid: f8ec557f8b63449948521654028b20dd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11591,6 +11591,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4043434086116498480, guid: 009901fe98044448d997ce5e88759cc9, type: 3}
   m_PrefabInstance: {fileID: 1375770402}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1375770404 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4206824036417086170, guid: 009901fe98044448d997ce5e88759cc9, type: 3}
+  m_PrefabInstance: {fileID: 1375770402}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d340e813fde24c409b326b176d17c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraLens
 --- !u!114 &1375770405 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6381304553078451632, guid: 009901fe98044448d997ce5e88759cc9, type: 3}
@@ -11602,6 +11613,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8a594f0301d24ebfb342b5362faa9f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableCamera
+--- !u!114 &1375770406 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 251481447724880523, guid: 009901fe98044448d997ce5e88759cc9, type: 3}
+  m_PrefabInstance: {fileID: 1375770402}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d340e813fde24c409b326b176d17c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraLens
+--- !u!114 &1375770407 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2953757016402312041, guid: 009901fe98044448d997ce5e88759cc9, type: 3}
+  m_PrefabInstance: {fileID: 1375770402}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d340e813fde24c409b326b176d17c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraLens
 --- !u!1 &1376617855
 GameObject:
   m_ObjectHideFlags: 0
@@ -17341,7 +17374,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RotatingCamera
   rotationSpeed: 10
-  pivot: {fileID: 0}
 --- !u!1001 &2090225758
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17649,8 +17681,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 660, y: 515}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2144267317
 MonoBehaviour:
@@ -17672,7 +17704,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: REGISTRAZIONE IN CORSO
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

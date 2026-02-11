@@ -19,7 +19,6 @@ public class UI_SliderPanel : MonoBehaviour
     [SerializeField] private Button playButton;
     [SerializeField] private Button clearButton;
     [SerializeField] private TextMeshProUGUI recordingStatusText;
-    // [SerializeField] private Image recordingIndicator;
     [SerializeField] private Color recordingColor = Color.red;
     [SerializeField] private Color playingColor = Color.green;
 
@@ -68,11 +67,6 @@ public class UI_SliderPanel : MonoBehaviour
         {
             clearButton.onClick.AddListener(ClearRecording);
         }
-
-        // if (recordingIndicator != null)
-        // {
-        //     recordingIndicator.gameObject.SetActive(false);
-        // }
     }
 
     void Update()
@@ -217,29 +211,6 @@ public class UI_SliderPanel : MonoBehaviour
             }
         }
 
-        // if (recordingIndicator != null)
-        // {
-        //     if (currentSlider.IsRecording)
-        //     {
-        //         recordingIndicator.gameObject.SetActive(true);
-
-        //         // lampeggio dell'icona di registrazione
-        //         float alpha = Mathf.PingPong(Time.time * 2f, 1f);
-        //         Color col = recordingColor;
-        //         col.a = alpha;
-        //         recordingIndicator.color = col;
-        //     }
-        //     else if (currentSlider.IsPlaying)
-        //     {
-        //         recordingIndicator.gameObject.SetActive(true);
-        //         recordingIndicator.color = playingColor;
-        //     }
-        //     else
-        //     {
-        //         recordingIndicator.gameObject.SetActive(false);
-        //     }
-        // }
-
         UpdateRecordingButtonStates();
     }
 
@@ -368,27 +339,6 @@ public class UI_SliderPanel : MonoBehaviour
             currentSlider.MoveSlider(movement);
         }
     }
-
-    // private bool ShouldUseWSControls()
-    // {
-    //     if (currentSlider == null || currentSlider.SliderCamera == null)
-    //     {
-    //         return true;
-    //     }
-
-    //     Vector3 cameraForward = currentSlider.SliderCamera.transform.forward;
-    //     cameraForward.y = 0f;
-    //     cameraForward.Normalize();
-
-    //     Vector3 railDirection = currentSlider.RailDirection();
-    //     railDirection.y = 0f;
-    //     railDirection.Normalize();
-
-    //     float angle = Vector3.Angle(cameraForward, railDirection);
-
-
-    //     return angle < angleThreshold || angle > (180f - angleThreshold);
-    // }
 
     private void ResetToCenter()
     {
