@@ -4648,6 +4648,17 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &565776912 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
+  m_PrefabInstance: {fileID: 1063760231}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db4a28ff62a5a74cb2fb27de01aae54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableDoor
 --- !u!1 &572552690
 GameObject:
   m_ObjectHideFlags: 0
@@ -7324,6 +7335,66 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 134239272392673140, guid: d78557df7221543e0b2929855cb2fccb, type: 3}
   m_PrefabInstance: {fileID: 809829926}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &822834346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 822834348}
+  - component: {fileID: 822834347}
+  - component: {fileID: 822834349}
+  m_Layer: 0
+  m_Name: ArmAccuracySystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &822834347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822834346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b26b5bbfd8108b74ca0c46f5e27d498a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaypointManager
+  perfectDistanceThreshold: 0.5
+--- !u!4 &822834348
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822834346}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.9632, y: 0, z: 6.68735}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &822834349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822834346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98c813db284927b44a7337d20eb47553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArmAccuracyTracker
+  armTip: {fileID: 1775824668}
+  trackingInterval: 0.1
 --- !u!1 &863143327
 GameObject:
   m_ObjectHideFlags: 0
@@ -17650,7 +17721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346b8a004dad07243bf114d9924cb751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialManager
-  exitDoor: {fileID: 0}
+  exitDoor: {fileID: 565776912}
   totalQuests: 6
 --- !u!114 &1941169574
 MonoBehaviour:
@@ -17659,7 +17730,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941169571}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98c813db284927b44a7337d20eb47553, type: 3}
   m_Name: 
@@ -17673,7 +17744,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941169571}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b26b5bbfd8108b74ca0c46f5e27d498a, type: 3}
   m_Name: 
@@ -19573,9 +19644,11 @@ SceneRoots:
   - {fileID: 397651403}
   - {fileID: 1732574087}
   - {fileID: 1984063477}
+  - {fileID: 1654173498}
   - {fileID: 1941169572}
   - {fileID: 1292827405}
   - {fileID: 123379374}
+  - {fileID: 822834348}
   - {fileID: 574149408}
   - {fileID: 773366520}
   - {fileID: 1063760231}
@@ -19583,4 +19656,3 @@ SceneRoots:
   - {fileID: 6541089106848013665}
   - {fileID: 257724048}
   - {fileID: 589421100}
-  - {fileID: 1654173498}

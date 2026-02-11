@@ -39,6 +39,10 @@ public class TutorialManager : MonoBehaviour
         {
             exitDoor.Lock();
         }
+        else
+        {
+            Debug.LogWarning("Exit door not assigned in TutorialManager.");
+        }
     }
 
     void Update()

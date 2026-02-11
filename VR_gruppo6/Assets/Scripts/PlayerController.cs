@@ -384,18 +384,18 @@ public class PlayerController : MonoBehaviour
                     }
                     break;
                 
-                case "Dolly":
-                    InteractableDolly dolly = hit.collider.GetComponent<InteractableDolly>();
-                    if (dolly != null)
-                    {
-                        currentDolly = dolly;
-                        ShowInteractionText(currentDolly.GetInteractionText());
-                    }
-                    else
-                    {
-                        ClearInteractable();
-                    }
-                    break;
+                // case "Dolly":
+                //     InteractableDolly dolly = hit.collider.GetComponent<InteractableDolly>();
+                //     if (dolly != null)
+                //     {
+                //         currentDolly = dolly;
+                //         ShowInteractionText(currentDolly.GetInteractionText());
+                //     }
+                //     else
+                //     {
+                //         ClearInteractable();
+                //     }
+                //     break;
                 
                 case "Arm":
                     InteractableArm arm = hit.collider.GetComponent<InteractableArm>();
