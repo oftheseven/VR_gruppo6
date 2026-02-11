@@ -19,13 +19,12 @@ public class UI_SliderPanel : MonoBehaviour
     [SerializeField] private Button playButton;
     [SerializeField] private Button clearButton;
     [SerializeField] private TextMeshProUGUI recordingStatusText;
-    [SerializeField] private Image recordingIndicator;
+    // [SerializeField] private Image recordingIndicator;
     [SerializeField] private Color recordingColor = Color.red;
     [SerializeField] private Color playingColor = Color.green;
 
     [Header("Movement controls")]
     [SerializeField] private float keyboardMoveSpeed = 0.5f;
-    [SerializeField] private float angleThreshold = 45f;
 
     [Header("Hold to close")]
     [SerializeField] private GameObject holdIndicator;
@@ -70,10 +69,10 @@ public class UI_SliderPanel : MonoBehaviour
             clearButton.onClick.AddListener(ClearRecording);
         }
 
-        if (recordingIndicator != null)
-        {
-            recordingIndicator.gameObject.SetActive(false);
-        }
+        // if (recordingIndicator != null)
+        // {
+        //     recordingIndicator.gameObject.SetActive(false);
+        // }
     }
 
     void Update()
@@ -218,28 +217,28 @@ public class UI_SliderPanel : MonoBehaviour
             }
         }
 
-        if (recordingIndicator != null)
-        {
-            if (currentSlider.IsRecording)
-            {
-                recordingIndicator.gameObject.SetActive(true);
+        // if (recordingIndicator != null)
+        // {
+        //     if (currentSlider.IsRecording)
+        //     {
+        //         recordingIndicator.gameObject.SetActive(true);
 
-                // lampeggio dell'icona di registrazione
-                float alpha = Mathf.PingPong(Time.time * 2f, 1f);
-                Color col = recordingColor;
-                col.a = alpha;
-                recordingIndicator.color = col;
-            }
-            else if (currentSlider.IsPlaying)
-            {
-                recordingIndicator.gameObject.SetActive(true);
-                recordingIndicator.color = playingColor;
-            }
-            else
-            {
-                recordingIndicator.gameObject.SetActive(false);
-            }
-        }
+        //         // lampeggio dell'icona di registrazione
+        //         float alpha = Mathf.PingPong(Time.time * 2f, 1f);
+        //         Color col = recordingColor;
+        //         col.a = alpha;
+        //         recordingIndicator.color = col;
+        //     }
+        //     else if (currentSlider.IsPlaying)
+        //     {
+        //         recordingIndicator.gameObject.SetActive(true);
+        //         recordingIndicator.color = playingColor;
+        //     }
+        //     else
+        //     {
+        //         recordingIndicator.gameObject.SetActive(false);
+        //     }
+        // }
 
         UpdateRecordingButtonStates();
     }
