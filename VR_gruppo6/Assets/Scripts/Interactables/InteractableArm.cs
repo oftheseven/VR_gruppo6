@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class InteractableArm : MonoBehaviour
 {
-    // singleton
-    // private static InteractableArm _instance;
-    // public static InteractableArm instance => _instance;
-
     [Header("Interaction text")]
     [SerializeField] private string interactionText = "Premi E per gestire il braccio";
 

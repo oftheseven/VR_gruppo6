@@ -7,12 +7,12 @@ public class ArmMovementRecorder : MonoBehaviour
     private static ArmMovementRecorder _instance;
     public static ArmMovementRecorder instance => _instance;
 
-    [Header("Recording settings")]
-    [SerializeField] private float recordInterval = 0.1f;
+    // [Header("Recording settings")]
+    // [SerializeField] private float recordInterval = 0.1f;
 
     private List<ArmSnapshot> snapshots = new List<ArmSnapshot>();
     private bool isRecording = false;
-    private float recordTimer = 0f;
+    // private float recordTimer = 0f;
     private float sessionStartTime = 0f;
 
     // reference ai transform dei pivot e della punta del braccio
@@ -37,18 +37,18 @@ public class ArmMovementRecorder : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (isRecording)
-        {
-            recordTimer += Time.deltaTime;
-            if (recordTimer >= recordInterval)
-            {
-                RecordSnapshot();
-                recordTimer = 0f;
-            }
-        }
-    }
+    // void Update()
+    // {
+    //     if (isRecording)
+    //     {
+    //         recordTimer += Time.deltaTime;
+    //         if (recordTimer >= recordInterval)
+    //         {
+    //             RecordSnapshot();
+    //             recordTimer = 0f;
+    //         }
+    //     }
+    // }
 
     public void StartRecording(InteractableArm arm, Transform tipTransform)
     {
@@ -72,9 +72,10 @@ public class ArmMovementRecorder : MonoBehaviour
         snapshots.Clear();
         isRecording = true;
         sessionStartTime = Time.time;
-        recordTimer = 0f;
+        // recordTimer = 0f;
 
-        RecordSnapshot();
+        // RecordSnapshot();
+        RecordWaypointSnapshot();
         
         // Debug.Log("Recording movimento iniziato");
     }
@@ -85,15 +86,44 @@ public class ArmMovementRecorder : MonoBehaviour
         
         isRecording = false;
         
-        RecordSnapshot();
+        // RecordSnapshot();
+        RecordWaypointSnapshot();
         
         // Debug.Log($"Recording fermato - {snapshots.Count} snapshot salvati");
     }
 
-    private void RecordSnapshot()
+    // private void RecordSnapshot()
+    // {
+    //     if (basePivot == null || pivot1 == null || pivot2 == null || armTip == null)
+    //     {
+    //         return;
+    //     }
+
+    //     float currentTime = Time.time - sessionStartTime;
+
+    //     ArmSnapshot snapshot = new ArmSnapshot
+    //     (
+    //         currentTime,
+    //         basePivot.localRotation,
+    //         pivot1.localRotation,
+    //         pivot2.localRotation,
+    //         armTip.position
+    //     );
+
+    //     snapshots.Add(snapshot);
+    // }
+
+    public void RecordWaypointSnapshot()
     {
+        if (!isRecording)
+        {
+            Debug.LogWarning("Recording non attivo!");
+            return;
+        }
+
         if (basePivot == null || pivot1 == null || pivot2 == null || armTip == null)
         {
+            Debug.LogWarning("Reference mancanti, impossibile registrare!");
             return;
         }
 
@@ -109,6 +139,14 @@ public class ArmMovementRecorder : MonoBehaviour
         );
 
         snapshots.Add(snapshot);
+    }
+
+    public void ForceRecordSnapshot()
+    {
+        if (isRecording)
+        {
+            RecordWaypointSnapshot();
+        }
     }
 
     public void ClearRecording()

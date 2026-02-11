@@ -56,10 +56,10 @@ public class DirectorModeManager : MonoBehaviour
             armCameraView.gameObject.SetActive(false);
         }
 
-        if (armCamera != null)
-        {
-            armCamera.gameObject.SetActive(false);
-        }
+        // if (armCamera != null)
+        // {
+        //     armCamera.gameObject.SetActive(false);
+        // }
 
         DetectAvailableCameras();
     }
@@ -189,7 +189,7 @@ public class DirectorModeManager : MonoBehaviour
         // disattivo tutte le camere
         if (sliderCamera != null && sliderCamera.SliderCamera != null)
         {
-            sliderCamera.SliderCamera.gameObject.SetActive(false);
+            sliderCamera.SliderCamera.gameObject.GetComponentInChildren<Camera>().enabled = false;
         }
 
         if (tripodCamera != null)

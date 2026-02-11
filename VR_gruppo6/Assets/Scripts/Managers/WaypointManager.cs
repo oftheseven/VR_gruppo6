@@ -139,13 +139,28 @@ public class WaypointManager : MonoBehaviour
         // marco il waypoint come raggiunto
         waypointsReached++;
         waypoint.MarkAsReached();
+        
+
+        if (ArmMovementRecorder.instance != null && ArmMovementRecorder.instance.IsRecording)
+        {
+            ArmMovementRecorder.instance.RecordWaypointSnapshot();
+            Debug.Log($"Waypoint {waypoint.WaypointIndex}/{waypoints.Count} → Snapshot registrato! (distance: {distance:F3}m)");
+        }
+        else
+        {
+            Debug.Log($"Waypoint {waypoint.WaypointIndex}/{waypoints.Count} raggiunto (distance: {distance:F3}m)");
+        }
+
         currentWaypointIndex++;
 
-        // Debug.Log($"✅ Waypoint {waypoint.WaypointIndex} raggiunto! ({waypointsReached}/{waypoints.Count})");
-
+        // attivo prossimo waypoint
         if (currentWaypointIndex < waypoints.Count)
         {
             waypoints[currentWaypointIndex].SetActive();
+        }
+        else
+        {
+            Debug.Log("Tutti i waypoints completati!");
         }
     }
 
