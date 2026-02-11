@@ -5,6 +5,7 @@ public class RotatingCamera : MonoBehaviour
 {
     [Header("Rotation settings")]
     [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private Transform pivot;
 
     void Update()
     {
