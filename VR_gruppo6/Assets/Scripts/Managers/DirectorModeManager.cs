@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using UnityEngine.AI;
 
 public class DirectorModeManager : MonoBehaviour
 {
@@ -257,78 +258,158 @@ public class DirectorModeManager : MonoBehaviour
 
     private void PrepareActors()
     {
-        // if (sceneActors == null || sceneActors.Length == 0)
-        // {
-        //     Debug.LogWarning("Nessun attore assegnato!");
-        //     return;
-        // }
+        if (sceneActors == null || sceneActors.Length == 0)
+        {
+            Debug.LogWarning("Nessun attore assegnato!");
+            return;
+        }
 
-        // for (int i = 0; i < sceneActors.Length; i++)
-        // {
-        //     if (sceneActors[i] == null) continue;
+        for (int i = 0; i < sceneActors.Length; i++)
+        {
+            if (sceneActors[i] == null) continue;
 
-        //     sceneActors[i].SetActive(true);
+            sceneActors[i].SetActive(true);
 
-        //     Animator animator = sceneActors[i].GetComponent<Animator>();
-        //     if (animator != null)
-        //     {
-        //         animator.Rebind();
-        //         animator.Update(0f);
-        //     }
+            Animator animator = sceneActors[i].GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.Rebind();
+                animator.Update(0f);
+            }
 
-        //     Debug.Log($"Attore {i} ({sceneActors[i].name}) ready");
-        // }
+            Debug.Log($"Attore {i} ({sceneActors[i].name}) ready");
+        }
 
         Debug.Log("Attori preparati per la scena");
     }
 
+    // private void StartActorAnimations()
+    // {
+    //     if (sceneActors == null || sceneActors.Length == 0)
+    //     {
+    //         Debug.LogWarning("Nessun attore assegnato!");
+    //         return;
+    //     }
+
+    //     for (int i = 0; i < sceneActors.Length; i++)
+    //     {
+    //         if (sceneActors[i] == null) continue;
+
+    //         Animator animator = sceneActors[i].GetComponent<Animator>();
+    //         if (animator == null)
+    //         {
+    //             Debug.LogWarning($"Attore {sceneActors[i].name} non ha Animator!");
+    //             continue;
+    //         }
+
+    //         string trigger = "DoAction";
+    //         if (actorAnimationTriggers != null && i < actorAnimationTriggers.Length)
+    //         {
+    //             trigger = actorAnimationTriggers[i];
+    //         }
+
+    //         if (!string.IsNullOrEmpty(trigger))
+    //         {
+    //             animator.SetTrigger(trigger);
+    //             Debug.Log($"Attore {sceneActors[i].name} → Trigger: {trigger}");
+    //         }
+    //     }
+
+    //     Debug.Log("Animazioni attori avviate");
+    // }
+
     private void StartActorAnimations()
     {
-        // if (sceneActors == null || sceneActors.Length == 0) return;
+        if (sceneActors == null || sceneActors.Length == 0)
+        {
+            Debug.LogWarning("⚠️ Nessun attore assegnato!");
+            return;
+        }
 
-        // for (int i = 0; i < sceneActors.Length; i++)
-        // {
-        //     if (sceneActors[i] == null) continue;
+        for (int i = 0; i < sceneActors.Length; i++)
+        {
+            if (sceneActors[i] == null) continue;
 
-        //     Animator animator = sceneActors[i].GetComponent<Animator>();
-        //     if (animator == null)
-        //     {
-        //         Debug.LogWarning($"Attore {sceneActors[i].name} non ha Animator!");
-        //         continue;
-        //     }
+            ActorController navController = sceneActors[i].GetComponent<ActorController>();
+            if (navController != null)
+            {
+                // Determina azione dal trigger name
+                string trigger = "DoAction"; // Default
+                if (actorAnimationTriggers != null && i < actorAnimationTriggers.Length)
+                {
+                    trigger = actorAnimationTriggers[i];
+                }
 
-        //     if (actorAnimationTriggers != null && i < actorAnimationTriggers.Length)
-        //     {
-        //         string trigger = actorAnimationTriggers[i];
-                
-        //         if (!string.IsNullOrEmpty(trigger))
-        //         {
-        //             animator.SetTrigger(trigger);
-        //             Debug.Log($"Attore {sceneActors[i].name} → Trigger: {trigger}");
-        //         }
-        //     }
-        // }
+                switch (trigger)
+                {
+                    case "WalkToTarget":
+                        navController.WalkToTarget();
+                        Debug.Log($"🚶 Attore {sceneActors[i].name} → Cammina verso target");
+                        break;
 
-        Debug.Log("Animazioni attori avviate");
+                    case "DoAction":
+                        navController.TriggerAction();
+                        Debug.Log($"⚡ Attore {sceneActors[i].name} → Action");
+                        break;
+
+                    case "WalkAndAction":
+                        // Prima cammina, poi fa action (vedi sotto)
+                        StartCoroutine(WalkThenAction(navController));
+                        Debug.Log($"🚶⚡ Attore {sceneActors[i].name} → Walk + Action");
+                        break;
+
+                    default:
+                        // Fallback: usa trigger come animator trigger
+                        navController.TriggerAction();
+                        break;
+                }
+
+                continue;
+            }
+        }
+
+        Debug.Log("🎭 Animazioni attori avviate");
+    }
+    
+    private System.Collections.IEnumerator WalkThenAction(ActorController controller)
+    {
+        controller.WalkToTarget();
+
+        NavMeshAgent agent = controller.GetComponent<NavMeshAgent>();
+        while (agent != null && agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        controller.TriggerAction();
     }
 
     private void ResetActors()
     {
-        // if (sceneActors == null || sceneActors.Length == 0) return;
+        if (sceneActors == null || sceneActors.Length == 0) return;
 
-        // for (int i = 0; i < sceneActors.Length; i++)
-        // {
-        //     if (sceneActors[i] == null) continue;
+        for (int i = 0; i < sceneActors.Length; i++)
+        {
+            if (sceneActors[i] == null) continue;
 
-        //     Animator animator = sceneActors[i].GetComponent<Animator>();
-        //     if (animator != null)
-        //     {
-        //         animator.SetTrigger("Idle");
-        //     }
+            ActorController navController = sceneActors[i].GetComponent<ActorController>();
+            if (navController != null)
+            {
+                navController.ResetToIdle();
+                Debug.Log($"🎭 Attore {sceneActors[i].name} reset");
+                continue;
+            }
 
-
-        //     Debug.Log($"Attore {sceneActors[i].name} reset");
-        // }
+            // Fallback
+            Animator animator = sceneActors[i].GetComponent<Animator>();
+            if (animator != null)
+            {
+                animator.Play("Idle");
+                Debug.Log($"🎭 Attore {sceneActors[i].name} reset a Idle");
+            }
+            }
 
         Debug.Log("Attori resettati alla posizione iniziale");
     }
