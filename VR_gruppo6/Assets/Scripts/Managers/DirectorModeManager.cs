@@ -322,7 +322,7 @@ public class DirectorModeManager : MonoBehaviour
     {
         if (sceneActors == null || sceneActors.Length == 0)
         {
-            Debug.LogWarning("⚠️ Nessun attore assegnato!");
+            Debug.LogWarning("Nessun attore assegnato!");
             return;
         }
 
@@ -333,8 +333,7 @@ public class DirectorModeManager : MonoBehaviour
             ActorController navController = sceneActors[i].GetComponent<ActorController>();
             if (navController != null)
             {
-                // Determina azione dal trigger name
-                string trigger = "DoAction"; // Default
+                string trigger = "DoAction";
                 if (actorAnimationTriggers != null && i < actorAnimationTriggers.Length)
                 {
                     trigger = actorAnimationTriggers[i];
@@ -344,22 +343,20 @@ public class DirectorModeManager : MonoBehaviour
                 {
                     case "WalkToTarget":
                         navController.WalkToTarget();
-                        Debug.Log($"🚶 Attore {sceneActors[i].name} → Cammina verso target");
+                        Debug.Log($"Attore {sceneActors[i].name} → Cammina verso target");
                         break;
 
                     case "DoAction":
                         navController.TriggerAction();
-                        Debug.Log($"⚡ Attore {sceneActors[i].name} → Action");
+                        Debug.Log($"Attore {sceneActors[i].name} → Action");
                         break;
 
                     case "WalkAndAction":
-                        // Prima cammina, poi fa action (vedi sotto)
                         StartCoroutine(WalkThenAction(navController));
-                        Debug.Log($"🚶⚡ Attore {sceneActors[i].name} → Walk + Action");
+                        Debug.Log($"Attore {sceneActors[i].name} → Walk + Action");
                         break;
 
                     default:
-                        // Fallback: usa trigger come animator trigger
                         navController.TriggerAction();
                         break;
                 }
@@ -368,7 +365,7 @@ public class DirectorModeManager : MonoBehaviour
             }
         }
 
-        Debug.Log("🎭 Animazioni attori avviate");
+        Debug.Log("Animazioni attori avviate");
     }
     
     private System.Collections.IEnumerator WalkThenAction(ActorController controller)
@@ -398,16 +395,15 @@ public class DirectorModeManager : MonoBehaviour
             if (navController != null)
             {
                 navController.ResetToIdle();
-                Debug.Log($"🎭 Attore {sceneActors[i].name} reset");
+                Debug.Log($" Attore {sceneActors[i].name} reset");
                 continue;
             }
 
-            // Fallback
             Animator animator = sceneActors[i].GetComponent<Animator>();
             if (animator != null)
             {
                 animator.Play("Idle");
-                Debug.Log($"🎭 Attore {sceneActors[i].name} reset a Idle");
+                Debug.Log($"Attore {sceneActors[i].name} reset a Idle");
             }
             }
 

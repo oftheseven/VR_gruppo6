@@ -14,6 +14,8 @@ public class UI_Screenplay : MonoBehaviour
     [SerializeField] private GameObject emptyTick2;
     [SerializeField] private GameObject emptyTick3;
     [SerializeField] private GameObject emptyTick4;
+    [SerializeField] private GameObject emptyTick5;
+    [SerializeField] private GameObject emptyTick6;
 
     [Header("Full tick references")]
     // [SerializeField] private GameObject fullticks;
@@ -21,6 +23,8 @@ public class UI_Screenplay : MonoBehaviour
     [SerializeField] private GameObject fullTick2;
     [SerializeField] private GameObject fullTick3;
     [SerializeField] private GameObject fullTick4;
+    [SerializeField] private GameObject fullTick5;
+    [SerializeField] private GameObject fullTick6;
 
     private bool isOpen = false;
     public bool IsOpen => isOpen;
@@ -40,8 +44,6 @@ public class UI_Screenplay : MonoBehaviour
         {
             emptyTick1.SetActive(false);
             fullTick1.SetActive(true);
-
-            // FARE IN MODO CHE NEL CASO IN CUI LA MISSIONE E' COMPLETATA, NON SI POSSANO RIAPRIRE I COMPUTER
         }
         this.gameObject.SetActive(true); // attivo l'oggetto UI se clicco il bottone di apertura
         PlayerController.EnableMovement(false);
@@ -68,6 +70,8 @@ public class UI_Screenplay : MonoBehaviour
         emptyTick2.SetActive(true);
         emptyTick3.SetActive(true);
         emptyTick4.SetActive(true);
+        emptyTick5.SetActive(true);
+        emptyTick6.SetActive(true);
     }
 
     private void DisableAllFullTicks()
@@ -76,6 +80,8 @@ public class UI_Screenplay : MonoBehaviour
         fullTick2.SetActive(false);
         fullTick3.SetActive(false);
         fullTick4.SetActive(false);
+        fullTick5.SetActive(false);
+        fullTick6.SetActive(false);
     }
 
     public void AdvanceGreenScreenProgress()
