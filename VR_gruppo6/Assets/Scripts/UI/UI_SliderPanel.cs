@@ -103,7 +103,7 @@ public class UI_SliderPanel : MonoBehaviour
 
         if (currentSlider.SliderCamera != null)
         {
-            currentSlider.SliderCamera.gameObject.SetActive(true);
+            currentSlider.SliderCamera.gameObject.GetComponentInChildren<Camera>().enabled = true;
         }
 
         if (infoPanel != null)
@@ -144,7 +144,7 @@ public class UI_SliderPanel : MonoBehaviour
 
         if (currentSlider != null && currentSlider.SliderCamera != null)
         {
-            currentSlider.SliderCamera.gameObject.SetActive(false);
+            currentSlider.SliderCamera.gameObject.GetComponentInChildren<Camera>().enabled = false;
         }
 
         if (PlayerController.instance != null)

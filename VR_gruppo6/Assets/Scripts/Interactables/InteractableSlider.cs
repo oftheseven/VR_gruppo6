@@ -4,7 +4,7 @@ public class InteractableSlider : MonoBehaviour
 {
     [Header("Slider references")]
     [SerializeField] private Transform sliderCart;
-    [SerializeField] private Camera sliderCamera;
+    [SerializeField] private GameObject sliderCamera;
     [SerializeField] private Transform railStart;
     [SerializeField] private Transform railEnd;
 
@@ -24,7 +24,7 @@ public class InteractableSlider : MonoBehaviour
     private bool canInteract = true;
     public bool CanInteract => canInteract;
     
-    public Camera SliderCamera => sliderCamera;
+    public GameObject SliderCamera => sliderCamera;
     public float CurrentPosition => currentPosition;
     public string SliderName => sliderName;
     public float CameraRotationSpeed => cameraRotationSpeed;
@@ -57,7 +57,9 @@ public class InteractableSlider : MonoBehaviour
 
         if (sliderCamera != null)
         {
-            sliderCamera.gameObject.SetActive(false);
+            // sliderCamera.gameObject.SetActive(false);
+
+            sliderCamera.gameObject.GetComponentInChildren<Camera>().enabled = false;
         }
     }
 
@@ -131,9 +133,9 @@ public class InteractableSlider : MonoBehaviour
 
         camTransform.Rotate(Vector3.up, horizontal * cameraRotationSpeed * Time.deltaTime, Space.World);
 
-        Vector3 euler = camTransform.localEulerAngles;
-        euler.x += vertical * cameraRotationSpeed * Time.deltaTime;
-        camTransform.localEulerAngles = euler;
+        // Vector3 euler = camTransform.localEulerAngles;
+        // euler.x += vertical * cameraRotationSpeed * Time.deltaTime;
+        // camTransform.localEulerAngles = euler;
     }
 
     private void UpdateSliderPosition(float t)

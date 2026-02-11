@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class DirectorModeManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class DirectorModeManager : MonoBehaviour
     [Header("Camera setup")]
     [SerializeField] private InteractableSlider sliderCamera;
     [SerializeField] private InteractableArm armCamera;
+    [SerializeField] private Camera armCameraView;
     [SerializeField] private Camera tripodCamera;
 
     [Header("UI")]
@@ -22,17 +24,13 @@ public class DirectorModeManager : MonoBehaviour
 
     private bool isDirectorModeActive = false;
     private bool isDirectorModeAvailable = false;
-    public void SetDirectorModeAvailable(bool available)
-    {
-        isDirectorModeAvailable = available;
-        // Debug.Log($"Director Mode availability set to: {available}");
-    }
     private int currentCameraIndex = 1; // 1 = slider, 2 = tripod
     private float sceneStartTime;
     private float sceneDuration;
 
     public bool IsDirectorModeActive => isDirectorModeActive;
     public int CurrentCameraIndex => currentCameraIndex;
+    private List<int> availableCameras = new List<int>();
 
     void Awake()
     {
@@ -52,6 +50,18 @@ public class DirectorModeManager : MonoBehaviour
         {
             tripodCamera.gameObject.SetActive(false);
         }
+
+        if (armCameraView != null)
+        {
+            armCameraView.gameObject.SetActive(false);
+        }
+
+        if (armCamera != null)
+        {
+            armCamera.gameObject.SetActive(false);
+        }
+
+        DetectAvailableCameras();
     }
 
     void Update()
@@ -73,14 +83,61 @@ public class DirectorModeManager : MonoBehaviour
         }
     }
 
+    private void DetectAvailableCameras()
+    {
+        availableCameras.Clear();
+
+        // camera 1: slider
+        if (sliderCamera != null && sliderCamera.SliderCamera != null)
+        {
+            availableCameras.Add(1);
+            Debug.Log("Camera 1 disponibile: SLIDER");
+        }
+
+        // camera 2: tripod
+        if (tripodCamera != null)
+        {
+            availableCameras.Add(2);
+            Debug.Log("Camera 2 disponibile: TREPPIEDE");
+        }
+
+        // camera 3: arm
+        if (armCamera != null && armCameraView != null)
+        {
+            availableCameras.Add(3);
+            Debug.Log("Camera 3 disponibile: BRACCIO MECCANICO");
+        }
+
+        if (availableCameras.Count == 0)
+        {
+            Debug.LogError("NESSUNA CAMERA DISPONIBILE!");
+        }
+        else
+        {
+            Debug.Log($"{availableCameras.Count} camere disponibili: {string.Join(", ", availableCameras)}");
+        }
+    }
+
     public bool IsDirectorModeAvailable()
     {
         return isDirectorModeAvailable;
     }
 
+    public void SetDirectorModeAvailable(bool available)
+    {
+        isDirectorModeAvailable = available;
+        // Debug.Log($"Director Mode availability: {available}");
+    }
+
     public void StartDirectorMode()
     {
         if (isDirectorModeActive) return;
+
+        if (availableCameras.Count == 0)
+        {
+            Debug.LogError("Impossibile avviare Director Mode: nessuna camera disponibile!");
+            return;
+        }
 
         Debug.Log("DIRECTOR MODE STARTED");
 
@@ -94,16 +151,7 @@ public class DirectorModeManager : MonoBehaviour
 
         SetupCameras();
 
-        if (sliderCamera != null && sliderCamera.CurrentRecording != null)
-        {
-            sceneDuration = sliderCamera.CurrentRecording.duration;
-            // Debug.Log($"Durata scena impostata da recording: {sceneDuration:F1}s");
-        }
-        else
-        {
-            sceneDuration = defaultSceneDuration;
-            // Debug.LogWarning($"Nessuna recording slider! Uso durata default: {sceneDuration}s");
-        }
+        CalculateSceneDuration();
 
         sceneStartTime = Time.time;
 
@@ -112,12 +160,11 @@ public class DirectorModeManager : MonoBehaviour
             PlayerController.instance.playerCamera.gameObject.SetActive(false);
         }
 
-        currentCameraIndex = -1;
-        SwitchToCamera(1);
+        SwitchToCamera(availableCameras[0]);
 
         if (directorPanel != null)
         {
-            directorPanel.ShowPanel(sceneDuration);
+            directorPanel.ShowPanel(sceneDuration, availableCameras);
         }
     }
 
@@ -134,6 +181,12 @@ public class DirectorModeManager : MonoBehaviour
             sliderCamera.StopPlayback();
         }
 
+        if (ArmMovementPlayback.instance != null && ArmMovementPlayback.instance.IsPlayingBack)
+        {
+            ArmMovementPlayback.instance.StopPlayback();
+        }
+
+        // disattivo tutte le camere
         if (sliderCamera != null && sliderCamera.SliderCamera != null)
         {
             sliderCamera.SliderCamera.gameObject.SetActive(false);
@@ -144,6 +197,12 @@ public class DirectorModeManager : MonoBehaviour
             tripodCamera.gameObject.SetActive(false);
         }
 
+        if (armCameraView != null)
+        {
+            armCameraView.gameObject.SetActive(false);
+        }
+
+        // riattivo camera del player
         if (PlayerController.instance != null)
         {
             PlayerController.instance.playerCamera.gameObject.SetActive(true);
@@ -159,6 +218,41 @@ public class DirectorModeManager : MonoBehaviour
         PlayerController.EnableMovement(true);
 
         Debug.Log("Scena completata! Ciak consumato.");
+    }
+
+    private void CalculateSceneDuration()
+    {
+        float maxDuration = 0f;
+
+        if (sliderCamera != null && sliderCamera.CurrentRecording != null)
+        {
+            float sliderDuration = sliderCamera.CurrentRecording.duration;
+            maxDuration = Mathf.Max(maxDuration, sliderDuration);
+            // Debug.Log($"Slider recording: {sliderDuration:F1}s ({sliderCamera.CurrentRecording.GetKeyframeCount()} keyframes)");
+        }
+
+        if (armCamera != null && ArmMovementRecorder.instance != null && ArmMovementRecorder.instance.RecordedSnapshots != null)
+        {
+            var snapshots = ArmMovementRecorder.instance.RecordedSnapshots;
+            
+            if (snapshots.Count > 0)
+            {
+                float armDuration = snapshots[snapshots.Count - 1].timestamp;
+                maxDuration = Mathf.Max(maxDuration, armDuration);
+                // Debug.Log($"Arm recording: {armDuration:F1}s ({snapshots.Count} snapshots)");
+            }
+        }
+
+        sceneDuration = maxDuration > 0 ? maxDuration : defaultSceneDuration;
+
+        if (maxDuration <= 0)
+        {
+            Debug.LogWarning($"Nessuna recording disponibile! Uso durata default: {sceneDuration}s");
+        }
+        else
+        {
+            Debug.Log($"Durata scena: {sceneDuration:F1}s");
+        }
     }
 
     private void PrepareActors()
@@ -253,39 +347,70 @@ public class DirectorModeManager : MonoBehaviour
             }
         }
 
-        // if (tripodCamera != null)
-        // {
-        //     Debug.Log("Camera Treppiede: Ready");
-        // }
+        if (tripodCamera != null)
+        {
+            Debug.Log("Camera Treppiede: Ready");
+        }
+
+        if (armCamera != null && ArmMovementRecorder.instance != null)
+        {
+            int snapshotCount = ArmMovementRecorder.instance.SnapshotCount;
+            
+            if (snapshotCount > 0)
+            {
+                Debug.Log($"Camera Arm: Recording trovata ({snapshotCount} snapshots)");
+            }
+            else
+            {
+                Debug.LogWarning("Camera Arm: Nessuna recording!");
+            }
+        }
     }
 
     private void HandleCameraSwitch()
     {
-        if (Keyboard.current.digit1Key.wasPressedThisFrame)
+        if (Keyboard.current.digit1Key.wasPressedThisFrame && availableCameras.Contains(1))
         {
             SwitchToCamera(1);
         }
 
-        if (Keyboard.current.digit2Key.wasPressedThisFrame)
+        if (Keyboard.current.digit2Key.wasPressedThisFrame && availableCameras.Contains(2))
         {
             SwitchToCamera(2);
+        }
+
+        if (Keyboard.current.digit3Key.wasPressedThisFrame && availableCameras.Contains(3))
+        {
+            SwitchToCamera(3);
         }
     }
 
     private void SwitchToCamera(int cameraIndex)
     {
+        if (!availableCameras.Contains(cameraIndex))
+        {
+            // Debug.LogWarning($"Camera {cameraIndex} non disponibile in questa scena!");
+            return;
+        }
 
         currentCameraIndex = cameraIndex;
 
+        // disattivo TUTTE le camere
         if (sliderCamera != null && sliderCamera.SliderCamera != null)
         {
-            sliderCamera.SliderCamera.gameObject.SetActive(false);
+            sliderCamera.SliderCamera.gameObject.GetComponentInChildren<Camera>().enabled = false;
         }
 
         if (tripodCamera != null)
         {
             tripodCamera.gameObject.SetActive(false);
         }
+
+        if (armCameraView != null)
+        {
+            armCameraView.gameObject.SetActive(false);
+        }
+
         if (PlayerController.instance != null && PlayerController.instance.playerCamera != null)
         {
             PlayerController.instance.playerCamera.gameObject.SetActive(false);
@@ -293,30 +418,55 @@ public class DirectorModeManager : MonoBehaviour
 
         switch (cameraIndex)
         {
-            case 1:
+            case 1: // slider
                 if (sliderCamera != null && sliderCamera.SliderCamera != null)
                 {
-                    sliderCamera.SliderCamera.gameObject.SetActive(true);
+                    sliderCamera.SliderCamera.gameObject.GetComponentInChildren<Camera>().enabled = true;
                     
                     if (sliderCamera.CurrentRecording != null && !sliderCamera.IsPlaying)
                     {
                         sliderCamera.StartPlayback();
-                        // Debug.Log($"Playback AVVIATO! Keyframes: {sliderCamera.CurrentRecording.GetKeyframeCount()}");
+                        Debug.Log("Camera 1: Slider playback started");
                     }
-                    // else if (sliderCamera.IsPlaying)
-                    // {
-                    //     Debug.Log("Playback già in corso, continua...");
-                    // }
-
-                    // Debug.Log("Switched to Camera 1: Slider");
+                    else if (sliderCamera.IsPlaying)
+                    {
+                        Debug.Log($"Camera 1: Slider (playback @ {sliderCamera.CurrentPosition:F2})");
+                    }
                 }
                 break;
 
-            case 2:
+            case 2: // tripod
                 if (tripodCamera != null)
                 {
                     tripodCamera.gameObject.SetActive(true);
-                    // Debug.Log("Switched to Camera 2: Treppiede");
+                    Debug.Log("Camera 2: Treppiede");
+                }
+                break;
+
+            case 3: // arm
+                if (armCameraView != null)
+                {
+                    armCameraView.gameObject.SetActive(true);
+
+                    if (ArmMovementRecorder.instance != null && 
+                        ArmMovementRecorder.instance.SnapshotCount > 0 &&
+                        ArmMovementPlayback.instance != null &&
+                        !ArmMovementPlayback.instance.IsPlayingBack)
+                    {
+                        ArmMovementPlayback.instance.StartPlayback(
+                            ArmMovementRecorder.instance.RecordedSnapshots,
+                            armCamera,
+                            armCameraView,
+                            null
+                        );
+                        
+                        Debug.Log($"Camera 3: Arm playback started ({ArmMovementRecorder.instance.SnapshotCount} snapshots)");
+                    }
+                    else if (ArmMovementPlayback.instance != null && 
+                             ArmMovementPlayback.instance.IsPlayingBack)
+                    {
+                        Debug.Log($"Camera 3: Arm (playback @ {ArmMovementPlayback.instance.PlaybackProgress * 100:F0}%)");
+                    }
                 }
                 break;
         }
