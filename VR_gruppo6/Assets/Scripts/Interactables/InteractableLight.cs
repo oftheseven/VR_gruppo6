@@ -8,6 +8,9 @@ public class InteractableLight : MonoBehaviour
     [Header("Panel reference")]
     [SerializeField] private UI_LightPanel lightPanel;
 
+    [Header("Light camera reference")]
+    [SerializeField] private Camera lightCamera;
+
     [Header("Light settings")]
     [SerializeField] private Light[] controlledLights;
     
@@ -17,6 +20,13 @@ public class InteractableLight : MonoBehaviour
     private Color currentColor = Color.white;
     private float currentTemperature = 6500f;
     private bool isTemperatureMode = false;
+    public void SetCameraActive(bool active)
+    {
+        if (lightCamera != null)
+        {
+            lightCamera.gameObject.SetActive(active);
+        }
+    }
 
     public bool IsOn => isOn;
     public float CurrentIntensity => currentIntensity;
@@ -44,7 +54,7 @@ public class InteractableLight : MonoBehaviour
             
             // Debug.Log($"{name}: Intensità corrente={currentIntensity}, Max={maxIntensity}");
         }
-        
+        SetCameraActive(false);
         UpdateLights();
     }
 

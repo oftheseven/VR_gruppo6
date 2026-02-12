@@ -218,7 +218,7 @@ public class DirectorModeManager : MonoBehaviour
 
         PlayerController.EnableMovement(true);
 
-        Debug.Log("Scena completata! Ciak consumato.");
+        Debug.Log("Scena completata!");
     }
 
     private void CalculateSceneDuration()

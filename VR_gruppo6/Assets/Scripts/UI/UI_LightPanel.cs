@@ -110,6 +110,7 @@ public class UI_LightPanel : MonoBehaviour
 
         currentLight = light;
         this.gameObject.SetActive(true);
+        currentLight.SetCameraActive(true);
         isOpen = true;
         PlayerController.EnableMovement(false);
         Cursor.lockState = CursorLockMode.None;
@@ -143,6 +144,7 @@ public class UI_LightPanel : MonoBehaviour
     {
         isOpen = false;
         holdTimer = 0f;
+        currentLight.SetCameraActive(false);
         currentLight = null;
 
         if (holdIndicator != null)
