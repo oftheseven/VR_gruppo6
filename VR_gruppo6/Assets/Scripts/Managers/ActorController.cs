@@ -41,7 +41,15 @@ public class ActorController : MonoBehaviour
 
         agent.updateRotation = true;
         agent.updatePosition = true;
-        agent.isStopped = true;
+        agent.speed = 1f;
+        agent.acceleration = 8f;
+        agent.angularSpeed = 120f;
+        agent.stoppingDistance = 0f;
+
+        if (animator != null)
+        {
+            animator.applyRootMotion = false;
+        }
     }
 
     void Update()
@@ -60,7 +68,28 @@ public class ActorController : MonoBehaviour
             return;
         }
 
-        if (agent == null) return;
+        if (agent == null)
+        {
+            Debug.LogError($"{gameObject.name}: NavMeshAgent è null!");
+            return;
+        }
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(transform.position, out hit, 2f, NavMesh.AllAreas))
+        {
+            Debug.Log($"Actor è sulla NavMesh @ Y={hit.position.y}");
+            
+            if (Vector3.Distance(transform.position, hit.position) > 0.1f)
+            {
+                Debug.LogWarning($"Actor lontano da NavMesh! Warp da {transform.position} a {hit.position}");
+                agent.Warp(hit.position);
+            }
+        }
+        else
+        {
+            Debug.LogError($"Actor NON è sulla NavMesh! Position: {transform.position}");
+            return;
+        }
 
         agent.isStopped = false;
         agent.SetDestination(walkTarget.position);

@@ -318,7 +318,7 @@ public class DirectorModeManager : MonoBehaviour
             if (animator != null)
             {
                 animator.Rebind();
-                animator.Update(0f);
+                // animator.Update(0f);
             }
 
             Debug.Log($"Attore {i} ({sceneActors[i].name}) ready");
@@ -404,7 +404,7 @@ public class DirectorModeManager : MonoBehaviour
             if (navController != null)
             {
                 navController.ResetToIdle();
-                Debug.Log($" Attore {sceneActors[i].name} reset");
+                Debug.Log($"Attore {sceneActors[i].name} reset");
                 continue;
             }
 
