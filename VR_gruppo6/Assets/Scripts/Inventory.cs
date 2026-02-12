@@ -22,6 +22,16 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void ClearInventory()
+    {
+        foreach (var item in itemTemplates.Values)
+        {
+            Destroy(item.gameObject);
+        }
+        itemTemplates.Clear();
+        NotifyInventoryChanged();
+    }
+
     public bool AddItem(PickableItem item)
     {
         if (item == null)
@@ -189,9 +199,9 @@ public class Inventory : MonoBehaviour
         
         if (zone != null && zone.IsPlayerNearby())
         {
-            return $"📍 Drop in: {zone.GetDropZoneName()}";
+            return $"Drop in: {zone.GetDropZoneName()}";
         }
         
-        return "📍 Drop davanti a te";
+        return "Drop davanti a te";
     }
 }

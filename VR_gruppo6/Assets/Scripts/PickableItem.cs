@@ -97,14 +97,14 @@ public class PickableItem : MonoBehaviour
         {
             DirectorModeManager.instance.StartDirectorMode();
         }
-        // else if (DirectorModeManager.instance != null && !DirectorModeManager.instance.IsDirectorModeAvailable())
-        // {
-        //     Debug.LogWarning("Director Mode non è ancora disponibile!");
-        // }
-        // else
-        // {
-        //     Debug.LogError("DirectorModeManager non trovato nella scena");
-        // }
+        else if (DirectorModeManager.instance != null && !DirectorModeManager.instance.IsDirectorModeAvailable())
+        {
+            Debug.LogWarning("Director Mode non è ancora disponibile!");
+        }
+        else
+        {
+            Debug.LogError("DirectorModeManager non trovato nella scena");
+        }
     }
 
     public GameObject GetPrefab()

@@ -2450,7 +2450,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 257724049}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 1
@@ -2472,7 +2472,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 257724049}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4b9fac37b97c7b49b65477d828fe026, type: 3}
   m_Name: 
@@ -18272,10 +18272,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c8681ed9a8c45a7a4d6fdc71104f04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DirectorModeManager
-  sceneActors:
-  - {fileID: 257724049}
-  actorAnimationTriggers:
-  - WalkAndAction
+  sceneActors: []
+  actorAnimationTriggers: []
   defaultSceneDuration: 30
   sliderCamera: {fileID: 122037327}
   armCamera: {fileID: 1775824666}

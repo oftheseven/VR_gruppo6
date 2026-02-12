@@ -138,7 +138,6 @@ GameObject:
   m_Component:
   - component: {fileID: 769838063136070857}
   - component: {fileID: 375167193807686655}
-  - component: {fileID: 4938518661334471234}
   - component: {fileID: 4506156244316546919}
   m_Layer: 0
   m_Name: LightCamera
@@ -213,14 +212,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &4938518661334471234
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8208203355877839171}
-  m_Enabled: 1
 --- !u!114 &4506156244316546919
 MonoBehaviour:
   m_ObjectHideFlags: 0

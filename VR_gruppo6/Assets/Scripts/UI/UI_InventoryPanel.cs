@@ -384,14 +384,14 @@ public class UI_InventoryPanel : MonoBehaviour
 
         if (itemToUse != null && itemToUse.IsUsable())
         {
-            Debug.Log($"🎬 Usando {itemToUse.GetDisplayName()}...");
+            Debug.Log($"Usando {itemToUse.GetDisplayName()}...");
             
             itemToUse.Use();
             CloseInventory();
         }
         else
         {
-            Debug.LogWarning("⚠️ Item non usabile o null!");
+            Debug.LogWarning("Item non usabile o null!");
         }
     }
 

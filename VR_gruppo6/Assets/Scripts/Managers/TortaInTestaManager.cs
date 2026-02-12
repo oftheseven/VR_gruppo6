@@ -66,6 +66,7 @@ public class TortaInTestaManager : MonoBehaviour
     void Start()
     {
         FindAndLockDoor();
+        Inventory.instance.ClearInventory();
     }
 
     void Update()

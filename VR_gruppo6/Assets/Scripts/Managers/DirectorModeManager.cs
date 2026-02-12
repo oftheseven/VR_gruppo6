@@ -37,12 +37,13 @@ public class DirectorModeManager : MonoBehaviour
     {
         if (_instance != null && _instance != this)
         {
-            Destroy(this.gameObject);
+            Debug.LogWarning($"DirectorModeManager già esistente! Distruggo il vecchio ({_instance.gameObject.scene.name}) per usare il nuovo ({gameObject.scene.name})");
+            Destroy(_instance.gameObject);
         }
-        else
-        {
-            _instance = this;
-        }
+        
+        _instance = this;
+        Debug.Log($"DirectorModeManager inizializzato per scena: {gameObject.scene.name}");
+
 
         if (tripodCamera != null)
         {
@@ -52,6 +53,15 @@ public class DirectorModeManager : MonoBehaviour
         if (armCameraView != null)
         {
             armCameraView.gameObject.SetActive(false);
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (_instance == this)
+        {
+            Debug.Log($"DirectorModeManager distrutto per scena: {gameObject.scene.name}");
+            _instance = null;
         }
     }
     
