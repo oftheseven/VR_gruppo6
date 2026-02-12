@@ -8,6 +8,7 @@ public class TortaInTestaManager : MonoBehaviour
     public static TortaInTestaManager instance => _instance;
 
     private InteractableDoor exitDoor;
+    public InteractableDoor ExitDoor => exitDoor;
     private HashSet<string> completedTasks = new HashSet<string>();
 
     [Header("Scene Setup")]
@@ -39,7 +40,7 @@ public class TortaInTestaManager : MonoBehaviour
     private bool computerQuestCompleted = false;
     private bool armQuestUnlocked = false;
     private bool armQuestCompleted = false;
-    
+
 
     private bool isFinished = false;
 
@@ -262,10 +263,10 @@ public class TortaInTestaManager : MonoBehaviour
 
         Debug.Log("TortaInTesta completata!");
 
-        if (exitDoor != null)
-        {
-            exitDoor.Unlock();
-        }
+        // if (exitDoor != null)
+        // {
+        //     exitDoor.Unlock();
+        // }
 
         if (DirectorModeManager.instance != null)
         {

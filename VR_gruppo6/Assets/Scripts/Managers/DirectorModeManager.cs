@@ -43,10 +43,7 @@ public class DirectorModeManager : MonoBehaviour
         {
             _instance = this;
         }
-    }
-    
-    void Start()
-    {
+
         if (tripodCamera != null)
         {
             tripodCamera.gameObject.SetActive(false);
@@ -56,12 +53,10 @@ public class DirectorModeManager : MonoBehaviour
         {
             armCameraView.gameObject.SetActive(false);
         }
-
-        // if (armCamera != null)
-        // {
-        //     armCamera.gameObject.SetActive(false);
-        // }
-
+    }
+    
+    void Start()
+    {
         DetectAvailableCameras();
     }
 
@@ -71,7 +66,10 @@ public class DirectorModeManager : MonoBehaviour
         {
             if (Keyboard.current.pKey.wasPressedThisFrame)
             {
-                StartDirectorMode();
+                if (IsDirectorModeAvailable())
+                {
+                    StartDirectorMode();
+                }
             }
             return;
         }
@@ -219,6 +217,42 @@ public class DirectorModeManager : MonoBehaviour
         PlayerController.EnableMovement(true);
 
         Debug.Log("Scena completata!");
+
+        // if (TutorialManager.instance != null)
+        // {
+        //     TutorialManager.instance.ExitDoor.Unlock(); // sblocco la porta solo ALLA FINE DELLA DIRECTOR MODE
+        // }
+
+        // if (TortaInTestaManager.instance != null)
+        // {
+        //     TortaInTestaManager.instance.ExitDoor.Unlock(); // sblocco la porta solo ALLA FINE DELLA DIRECTOR MODE
+        // }
+
+        UnlockExitDoor();
+    }
+
+    private void UnlockExitDoor()
+    {
+        bool doorUnlocked = false;
+
+        if (TutorialManager.instance != null && TutorialManager.instance.ExitDoor != null)
+        {
+            TutorialManager.instance.ExitDoor.Unlock();
+            Debug.Log("Porta Tutorial sbloccata!");
+            doorUnlocked = true;
+        }
+
+        if (TortaInTestaManager.instance != null && TortaInTestaManager.instance.ExitDoor != null)
+        {
+            TortaInTestaManager.instance.ExitDoor.Unlock();
+            Debug.Log("Porta TortaInTesta sbloccata!");
+            doorUnlocked = true;
+        }
+
+        if (!doorUnlocked)
+        {
+            Debug.LogWarning("Nessuna porta da sbloccare trovata!");
+        }
     }
 
     private void CalculateSceneDuration()
@@ -282,41 +316,6 @@ public class DirectorModeManager : MonoBehaviour
 
         Debug.Log("Attori preparati per la scena");
     }
-
-    // private void StartActorAnimations()
-    // {
-    //     if (sceneActors == null || sceneActors.Length == 0)
-    //     {
-    //         Debug.LogWarning("Nessun attore assegnato!");
-    //         return;
-    //     }
-
-    //     for (int i = 0; i < sceneActors.Length; i++)
-    //     {
-    //         if (sceneActors[i] == null) continue;
-
-    //         Animator animator = sceneActors[i].GetComponent<Animator>();
-    //         if (animator == null)
-    //         {
-    //             Debug.LogWarning($"Attore {sceneActors[i].name} non ha Animator!");
-    //             continue;
-    //         }
-
-    //         string trigger = "DoAction";
-    //         if (actorAnimationTriggers != null && i < actorAnimationTriggers.Length)
-    //         {
-    //             trigger = actorAnimationTriggers[i];
-    //         }
-
-    //         if (!string.IsNullOrEmpty(trigger))
-    //         {
-    //             animator.SetTrigger(trigger);
-    //             Debug.Log($"Attore {sceneActors[i].name} → Trigger: {trigger}");
-    //         }
-    //     }
-
-    //     Debug.Log("Animazioni attori avviate");
-    // }
 
     private void StartActorAnimations()
     {

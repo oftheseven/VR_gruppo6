@@ -13,6 +13,7 @@ public class TutorialManager : MonoBehaviour
 
     private HashSet<string> completedTasks = new HashSet<string>();
     private bool isFinished = false;
+    public InteractableDoor ExitDoor => exitDoor;
 
     private const string TASK_COMPUTER = "computer";
     private const string TASK_CAMERA = "camera";
@@ -90,10 +91,10 @@ public class TutorialManager : MonoBehaviour
 
         Debug.Log("Tutorial completato!");
 
-        if (exitDoor != null)
-        {
-            exitDoor.Unlock();
-        }
+        // if (exitDoor != null)
+        // {
+        //     exitDoor.Unlock();
+        // }
 
         if (DirectorModeManager.instance != null)
         {
