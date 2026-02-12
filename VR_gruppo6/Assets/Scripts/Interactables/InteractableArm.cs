@@ -49,6 +49,16 @@ public class InteractableArm : MonoBehaviour
         // }
     }
 
+    public void OnAccuracyAchieved(float accuracy)
+    {
+        Debug.Log($"Accuracy ottenuta: {accuracy:F1}%");
+
+        if (TortaInTestaManager.instance != null)
+        {
+            TortaInTestaManager.instance.OnArmAccuracyAchieved(accuracy);
+        }
+    }
+
     public string GetInteractionText()
     {
         return interactionText;

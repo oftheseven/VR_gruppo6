@@ -2021,7 +2021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableOperator
   operatorID: dop
-  interactionText: Premi E per parlare
+  interactionText: '[E] per parlare'
   operatorName: DOP Tony
   firstDialogueFile: {fileID: 4900000, guid: 4ed8591b9b52052419f2abd1f042dc98, type: 3}
   secondDialogueFile: {fileID: 4900000, guid: 903cc0b73e34bea4b899b6ee6dcf4e8b, type: 3}
@@ -4785,6 +4785,10 @@ PrefabInstance:
       propertyPath: cameraPanel
       value: 
       objectReference: {fileID: 599583441}
+    - target: {fileID: 6381304553078451632, guid: 009901fe98044448d997ce5e88759cc9, type: 3}
+      propertyPath: interactionText
+      value: '[E] per gestire la camera'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10435,13 +10439,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece5d4e6fac9bd94fbabe1239f761bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableOperator
-  operatorID: dop
-  interactionText: Premi E per parlare
+  operatorID: assistente_regia
+  interactionText: '[E] per parlare'
   operatorName: Operatrice Fiona
-  firstDialogueFile: {fileID: 0}
-  secondDialogueFile: {fileID: 0}
-  thirdDialogueFile: {fileID: 0}
-  completedDialogueFile: {fileID: 0}
+  firstDialogueFile: {fileID: 4900000, guid: da7c064d70ae714488e0798ce9908811, type: 3}
+  secondDialogueFile: {fileID: 4900000, guid: 6921ac0bd4faf9f4786c930e8601a77b, type: 3}
+  thirdDialogueFile: {fileID: 4900000, guid: 5920138d319546b44ae5334a0308e013, type: 3}
+  completedDialogueFile: {fileID: 4900000, guid: a2e9c30b05a53d34594e2d15d5559f71, type: 3}
   dialoguePanel: {fileID: 1721158728}
 --- !u!4 &1365757188 stripped
 Transform:
@@ -14845,8 +14849,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece5d4e6fac9bd94fbabe1239f761bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableOperator
-  operatorID: dop
-  interactionText: Premi E per parlare
+  operatorID: stuntman
+  interactionText: '[E] per parlare'
   operatorName: Stuntman
   firstDialogueFile: {fileID: 0}
   secondDialogueFile: {fileID: 0}
@@ -16372,7 +16376,7 @@ MonoBehaviour:
   defaultSceneDuration: 30
   sliderCamera: {fileID: 0}
   armCamera: {fileID: 1423724219592639727}
-  armCameraView: {fileID: 0}
+  armCameraView: {fileID: 224501503}
   tripodCamera: {fileID: 1227151417}
   directorPanel: {fileID: 1197743067}
 --- !u!1 &2088652176
@@ -16405,14 +16409,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TortaInTestaManager
   exitDoorName: PortaDumbledores
-  totalQuests: 7
-  computersRequired: 2
-  requiredOperatorID: dop
+  totalQuests: 6
+  dopOperatorID: dop
   correctLensIndex: 2
   requiredTemperature: 5000
-  requiredIntensity: 3
+  requiredIntensity: 40
   temperatureTolerance: 200
   intensityTolerance: 0.5
+  operator2ID: assistente_regia
+  computersRequired: 2
+  requiredArmAccuracy: 80
 --- !u!4 &2088652178
 Transform:
   m_ObjectHideFlags: 0
@@ -18594,6 +18600,10 @@ PrefabInstance:
       propertyPath: armPanel
       value: 
       objectReference: {fileID: 1846948076}
+    - target: {fileID: 5371885386063354823, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: interactionText
+      value: '[E] per gestire il braccio'
+      objectReference: {fileID: 0}
     - target: {fileID: 7576300193206956649, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.96

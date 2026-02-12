@@ -86,6 +86,11 @@ public class UI_AccuracyFeedback : MonoBehaviour
                                 ArmMovementRecorder.instance.SnapshotCount > 0;
             replayButton.interactable = hasRecording;
         }
+
+        if (TortaInTestaManager.instance != null)
+        {
+            TortaInTestaManager.instance.OnArmAccuracyAchieved(results.finalScore);
+        }
     }
 
     public void OnReplayClicked()

@@ -1,0 +1,4 @@
+Perfetto, i greenscreen sono pronti!
+Ora dobbiamo calibrare il braccio meccanico della camera.
+Vai al braccio e ottieni almeno l'80% di accuracy nella calibrazione.
+È importante per avere movimenti fluidi durante le riprese!
