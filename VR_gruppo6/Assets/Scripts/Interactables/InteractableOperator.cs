@@ -162,12 +162,12 @@ public class InteractableOperator : MonoBehaviour
             if (!TortaInTestaManager.instance.IsComputerQuestUnlocked())
             {
                 TortaInTestaManager.instance.OnOperatorFirstInteraction(operatorID);
-                // Debug.Log("🎬 [OP2] Prima visita: sblocco computer");
+                // Debug.Log("[OP2] Prima visita: sblocco computer");
             }
             else if (TortaInTestaManager.instance.IsComputerQuestCompleted() && !TortaInTestaManager.instance.IsArmQuestUnlocked())
             {
                 TortaInTestaManager.instance.OnOperatorSecondInteraction(operatorID);
-                // Debug.Log("🎬 [OP2] Seconda visita: sblocco arm");
+                // Debug.Log("[OP2] Seconda visita: sblocco arm");
             }
         }
     }

@@ -951,7 +951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f3ad197ed158b409daa889f3f75b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableCart
-  interactionText: Premi E per muovere il carrello
+  interactionText: '[E] per muovere il carrello'
   followDistance: 1
   followSpeed: 10
   rotationSpeed: 4
@@ -3123,6 +3123,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 123379374}
     m_Modifications:
+    - target: {fileID: 5514284817213428466, guid: 47c0487f78462b940a01bf034727f276, type: 3}
+      propertyPath: interactionText
+      value: '[E] per prendere l''oggetto'
+      objectReference: {fileID: 0}
     - target: {fileID: 7078556131535195322, guid: 47c0487f78462b940a01bf034727f276, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.8660302
@@ -3582,6 +3586,10 @@ PrefabInstance:
       propertyPath: computerPanel
       value: 
       objectReference: {fileID: 630263817}
+    - target: {fileID: 4873455610949515897, guid: c22334832b37d52458bc078f749f390e, type: 3}
+      propertyPath: interactionText
+      value: '[E] per usare il computer'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4225,6 +4233,10 @@ PrefabInstance:
       propertyPath: lightPanel
       value: 
       objectReference: {fileID: 31875088}
+    - target: {fileID: 9060874310975999577, guid: 825c779799000974b89afb048783eac2, type: 3}
+      propertyPath: interactionText
+      value: '[E] per gestire la luce'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7456,6 +7468,10 @@ PrefabInstance:
       propertyPath: sliderCamera
       value: 
       objectReference: {fileID: 1183666542}
+    - target: {fileID: 2836189983696887598, guid: d78557df7221543e0b2929855cb2fccb, type: 3}
+      propertyPath: interactionText
+      value: '[E] per interagire con lo slider'
+      objectReference: {fileID: 0}
     - target: {fileID: 2836189983696887598, guid: d78557df7221543e0b2929855cb2fccb, type: 3}
       propertyPath: cameraRotationSpeed
       value: 5
@@ -12212,6 +12228,10 @@ PrefabInstance:
       propertyPath: lightPanel
       value: 
       objectReference: {fileID: 31875088}
+    - target: {fileID: 8334917087905597246, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
+      propertyPath: interactionText
+      value: '[E] per gestire la luce'
+      objectReference: {fileID: 0}
     - target: {fileID: 8417401126302668152, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
       propertyPath: m_Range
       value: 3
@@ -12329,6 +12349,10 @@ PrefabInstance:
     - target: {fileID: 5643387969509945712, guid: 166cb75d98bdf0f49ac8042bc40654bb, type: 3}
       propertyPath: isAccumulable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643387969509945712, guid: 166cb75d98bdf0f49ac8042bc40654bb, type: 3}
+      propertyPath: interactionText
+      value: '[E] per prendere il ciak'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12997,6 +13021,10 @@ PrefabInstance:
       propertyPath: cameraPanel
       value: 
       objectReference: {fileID: 75320802}
+    - target: {fileID: 6381304553078451632, guid: 009901fe98044448d997ce5e88759cc9, type: 3}
+      propertyPath: interactionText
+      value: '[E] per gestire la camera'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16259,6 +16287,10 @@ PrefabInstance:
       propertyPath: armPanel
       value: 
       objectReference: {fileID: 1387036973}
+    - target: {fileID: 5371885386063354823, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      propertyPath: interactionText
+      value: '[E] per gestire il braccio'
+      objectReference: {fileID: 0}
     - target: {fileID: 7576300193206956649, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.767804
@@ -16917,6 +16949,10 @@ PrefabInstance:
       propertyPath: lightPanel
       value: 
       objectReference: {fileID: 31875088}
+    - target: {fileID: 879073281449097825, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: interactionText
+      value: '[E] per gestire la luce'
+      objectReference: {fileID: 0}
     - target: {fileID: 1192690270912758188, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
       propertyPath: m_Name
       value: Light_SingleBulb

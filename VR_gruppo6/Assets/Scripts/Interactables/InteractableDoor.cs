@@ -275,6 +275,6 @@ public class InteractableDoor : MonoBehaviour
         {
             return "Porta chiusa a chiave";
         }
-        return isOpen ? "Premi E per chiudere la porta" : "Premi E per aprire la porta";
+        return isOpen ? "[E] per chiudere la porta" : "[E] per aprire la porta";
     }
 }

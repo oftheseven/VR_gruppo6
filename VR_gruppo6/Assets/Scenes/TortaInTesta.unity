@@ -3694,6 +3694,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 44355299}
     m_Modifications:
+    - target: {fileID: 5514284817213428466, guid: 47c0487f78462b940a01bf034727f276, type: 3}
+      propertyPath: interactionText
+      value: '[E] per prendere l''oggetto'
+      objectReference: {fileID: 0}
     - target: {fileID: 7078556131535195322, guid: 47c0487f78462b940a01bf034727f276, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.01
@@ -4707,6 +4711,10 @@ PrefabInstance:
       propertyPath: computerPanel
       value: 
       objectReference: {fileID: 2085245860}
+    - target: {fileID: 4873455610949515897, guid: c22334832b37d52458bc078f749f390e, type: 3}
+      propertyPath: interactionText
+      value: '[E] per usare il computer'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5194,6 +5202,10 @@ PrefabInstance:
     - target: {fileID: 5643387969509945712, guid: 166cb75d98bdf0f49ac8042bc40654bb, type: 3}
       propertyPath: isAccumulable
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643387969509945712, guid: 166cb75d98bdf0f49ac8042bc40654bb, type: 3}
+      propertyPath: interactionText
+      value: '[E] per prendere il ciak'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10846,6 +10858,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 44355299}
     m_Modifications:
+    - target: {fileID: 5514284817213428466, guid: 47c0487f78462b940a01bf034727f276, type: 3}
+      propertyPath: interactionText
+      value: '[E] per prendere l''oggetto'
+      objectReference: {fileID: 0}
     - target: {fileID: 7078556131535195322, guid: 47c0487f78462b940a01bf034727f276, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.03
@@ -13567,6 +13583,10 @@ PrefabInstance:
       propertyPath: computerPanel
       value: 
       objectReference: {fileID: 1260686330}
+    - target: {fileID: 4873455610949515897, guid: c22334832b37d52458bc078f749f390e, type: 3}
+      propertyPath: interactionText
+      value: '[E] per usare il computer'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15498,6 +15518,10 @@ PrefabInstance:
       propertyPath: lightPanel
       value: 
       objectReference: {fileID: 1085465868}
+    - target: {fileID: 879073281449097825, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: interactionText
+      value: '[E] per gestire la luce'
+      objectReference: {fileID: 0}
     - target: {fileID: 1192690270912758188, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
       propertyPath: m_Name
       value: Light_SingleBulb
@@ -17304,6 +17328,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 44355299}
     m_Modifications:
+    - target: {fileID: 5514284817213428466, guid: 47c0487f78462b940a01bf034727f276, type: 3}
+      propertyPath: interactionText
+      value: '[E] per prendere l''oggetto'
+      objectReference: {fileID: 0}
     - target: {fileID: 7078556131535195322, guid: 47c0487f78462b940a01bf034727f276, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.98
@@ -17518,7 +17546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82f3ad197ed158b409daa889f3f75b0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableCart
-  interactionText: Premi E per muovere il carrello
+  interactionText: '[E] per muovere il carrello'
   followDistance: 1
   followSpeed: 10
   rotationSpeed: 4
@@ -18457,6 +18485,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 44355299}
     m_Modifications:
+    - target: {fileID: 4501633521617633499, guid: fffac364232c3e94ca429e6a8d1c9234, type: 3}
+      propertyPath: interactionText
+      value: '[E] per prendere il microfono'
+      objectReference: {fileID: 0}
     - target: {fileID: 7178435390207615653, guid: fffac364232c3e94ca429e6a8d1c9234, type: 3}
       propertyPath: m_Name
       value: asta_microfono

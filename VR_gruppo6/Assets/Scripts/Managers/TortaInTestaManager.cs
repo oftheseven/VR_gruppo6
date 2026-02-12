@@ -104,14 +104,14 @@ public class TortaInTestaManager : MonoBehaviour
             // DOP logic
             if (cameraLensQuestUnlocked) return;
             cameraLensQuestUnlocked = true;
-            Debug.Log($"[DOP] Quest Camera sbloccata!");
+            // Debug.Log($"[DOP] Quest Camera sbloccata!");
         }
         else if (operatorID == operator2ID)
         {
             // OPERATORE 2 logic: sblocca greenscreen (computer)
             if (computerQuestUnlocked) return;
             computerQuestUnlocked = true;
-            Debug.Log($"[OP2] Quest Computer (Greenscreen) sbloccata! Imposta {computersRequired} greenscreen");
+            // Debug.Log($"[OP2] Quest Computer (Greenscreen) sbloccata! Imposta {computersRequired} greenscreen");
         }
     }
 
@@ -124,7 +124,7 @@ public class TortaInTestaManager : MonoBehaviour
             if (!cameraLensQuestCompleted) return;
             if (lightConfigQuestUnlocked) return;
             lightConfigQuestUnlocked = true;
-            Debug.Log($"[DOP] Quest Luce sbloccata!");
+            // Debug.Log($"[DOP] Quest Luce sbloccata!");
             CompleteTask(TASK_OPERATOR_DOP);
         }
         else if (operatorID == operator2ID)
@@ -132,12 +132,12 @@ public class TortaInTestaManager : MonoBehaviour
             // OPERATORE 2 logic: sblocca quest Arm solo se quest Computer già completata
             if (!computerQuestCompleted)
             {
-                Debug.Log("Completa prima i greenscreen!");
+                // Debug.Log("Completa prima i greenscreen!");
                 return;
             }
             if (armQuestUnlocked) return;
             armQuestUnlocked = true;
-            Debug.Log($"[OP2] Quest Arm sbloccata! Ottieni almeno {requiredArmAccuracy}% accuracy");
+            // Debug.Log($"[OP2] Quest Arm sbloccata! Ottieni almeno {requiredArmAccuracy}% accuracy");
             CompleteTask(TASK_OPERATOR2);
         }
     }
@@ -150,7 +150,7 @@ public class TortaInTestaManager : MonoBehaviour
         if (lensIndex == correctLensIndex)
         {
             cameraLensQuestCompleted = true;
-            Debug.Log($"[DOP] LENTE CORRETTA! Torna dal DOP");
+            // Debug.Log($"[DOP] LENTE CORRETTA! Torna dal DOP");
             CompleteTask(TASK_CAMERA);
         }
     }
@@ -166,7 +166,7 @@ public class TortaInTestaManager : MonoBehaviour
         if (tempOK && intensityOK)
         {
             lightConfigQuestCompleted = true;
-            Debug.Log($"[DOP] CONFIGURAZIONE LUCE CORRETTA!");
+            // Debug.Log($"[DOP] CONFIGURAZIONE LUCE CORRETTA!");
             CompleteTask(TASK_LIGHT);
         }
     }
@@ -176,29 +176,29 @@ public class TortaInTestaManager : MonoBehaviour
     {
         if (computerQuestCompleted)
         {
-            Debug.Log("Quest Computer già completata");
+            // Debug.Log("Quest Computer già completata");
             return;
         }
 
         if (!computerQuestUnlocked)
         {
-            Debug.Log("Quest Computer non ancora sbloccata! Parla con l'Assistente Regia");
+            // Debug.Log("Quest Computer non ancora sbloccata! Parla con l'Assistente Regia");
             return;
         }
 
         if (completedComputers.Contains(computerID))
         {
-            Debug.Log($"Computer '{computerID}' già completato");
+            // Debug.Log($"Computer '{computerID}' già completato");
             return;
         }
 
         completedComputers.Add(computerID);
-        Debug.Log($"[OP2] Computer '{computerID}' completato! ({completedComputers.Count}/{computersRequired})");
+        // Debug.Log($"[OP2] Computer '{computerID}' completato! ({completedComputers.Count}/{computersRequired})");
 
         if (completedComputers.Count >= computersRequired)
         {
             computerQuestCompleted = true;
-            Debug.Log($"[OP2] Tutti i greenscreen completati! Torna dall'Assistente Regia");
+            // Debug.Log($"[OP2] Tutti i greenscreen completati! Torna dall'Assistente Regia");
             CompleteTask(TASK_COMPUTER);
         }
     }
@@ -208,27 +208,27 @@ public class TortaInTestaManager : MonoBehaviour
     {
         if (armQuestCompleted)
         {
-            Debug.Log("Quest Arm già completata");
+            // Debug.Log("Quest Arm già completata");
             return;
         }
 
         if (!armQuestUnlocked)
         {
-            Debug.Log("Quest Arm non ancora sbloccata! Parla con l'Assistente Regia");
+            // Debug.Log("Quest Arm non ancora sbloccata! Parla con l'Assistente Regia");
             return;
         }
 
-        Debug.Log($"[OP2] Accuracy braccio: {accuracy:F1}% (richiesta: {requiredArmAccuracy}%)");
+        // Debug.Log($"[OP2] Accuracy braccio: {accuracy:F1}% (richiesta: {requiredArmAccuracy}%)");
 
         if (accuracy >= requiredArmAccuracy)
         {
             armQuestCompleted = true;
-            Debug.Log($"[OP2] ACCURACY RAGGIUNTA! Quest Arm completata!");
+            // Debug.Log($"[OP2] ACCURACY RAGGIUNTA! Quest Arm completata!");
             CompleteTask(TASK_ARM);
         }
         else
         {
-            Debug.Log($"[OP2] Accuracy troppo bassa! Serve almeno {requiredArmAccuracy}%");
+            // Debug.Log($"[OP2] Accuracy troppo bassa! Serve almeno {requiredArmAccuracy}%");
         }
     }
 
@@ -236,12 +236,12 @@ public class TortaInTestaManager : MonoBehaviour
     {
         if (isFinished || completedTasks.Contains(taskId))
         {
-            Debug.Log($"Task '{taskId}' già completata o scena finita");
+            // Debug.Log($"Task '{taskId}' già completata o scena finita");
             return;
         }
 
         completedTasks.Add(taskId);
-        Debug.Log($"Task '{taskId}' completata! ({completedTasks.Count}/{totalQuests})");
+        // Debug.Log($"Task '{taskId}' completata! ({completedTasks.Count}/{totalQuests})");
 
         CheckCompletion();
     }
