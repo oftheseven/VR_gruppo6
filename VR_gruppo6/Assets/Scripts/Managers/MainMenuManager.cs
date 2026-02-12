@@ -10,7 +10,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void PlayApp()
     {
-        SceneManager.LoadSceneAsync(1); // carico la prima scena
+        SceneManager.LoadSceneAsync("TutorialScene"); // carico la prima scena
     }
 
     public void QuitApp()

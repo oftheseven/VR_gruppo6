@@ -78,6 +78,19 @@ public class PlayerController : MonoBehaviour
     private bool isInteracting = false;
     public Camera playerCamera => _cameraTransform.GetComponent<Camera>();
 
+    private float lastInteractionTime = -999f;
+    private float globalInteractionCooldown = 0.5f;
+
+    private bool CanInteractNow()
+    {
+        return Time.time - lastInteractionTime >= globalInteractionCooldown;
+    }
+
+    private void RegisterInteraction()
+    {
+        lastInteractionTime = Time.time;
+    }
+
     void Awake()
     {
         if (_instance != null && _instance != this)
@@ -502,8 +515,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // private void HandleCameraInteraction()
+    // {
+    //     if (Keyboard.current.eKey.wasPressedThisFrame && currentCamera != null)
+    //     {
+    //         UI_CameraPanel panel = currentCamera.GetCameraPanel();
+    //         if (panel != null && !panel.IsOpen && panel.CanInteract)
+    //         {
+    //             currentCamera.Interact();
+    //             isInteracting = true;
+    //             interactiontext.gameObject.SetActive(false);
+    //             currentCameraPanel = panel;
+    //         }
+    //     }
+
+    //     if (currentCameraPanel != null && currentCameraPanel.IsOpen)
+    //     {
+    //         currentCameraPanel.HandleCameraClose();
+    //     }
+    //     else if (currentCameraPanel != null && !currentCameraPanel.IsOpen)
+    //     {
+    //         currentCameraPanel = null;
+    //         isInteracting = false;
+    //     }
+    // }
+
     private void HandleCameraInteraction()
     {
+        if (!CanInteractNow()) return;
+
         if (Keyboard.current.eKey.wasPressedThisFrame && currentCamera != null)
         {
             UI_CameraPanel panel = currentCamera.GetCameraPanel();
@@ -513,6 +553,7 @@ public class PlayerController : MonoBehaviour
                 isInteracting = true;
                 interactiontext.gameObject.SetActive(false);
                 currentCameraPanel = panel;
+                RegisterInteraction();
             }
         }
 
@@ -524,6 +565,7 @@ public class PlayerController : MonoBehaviour
         {
             currentCameraPanel = null;
             isInteracting = false;
+            RegisterInteraction();
         }
     }
 
