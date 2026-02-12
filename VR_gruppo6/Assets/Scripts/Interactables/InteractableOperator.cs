@@ -4,12 +4,18 @@ using System.Collections;
 
 public class InteractableOperator : MonoBehaviour
 {
+    [Header("Operator configuration")]
+    [SerializeField] private string operatorID = "dop"; // identificatore del ruolo dell'operatore, usato per sbloccare la quest corretta
+
     [Header("Interaction text")]
     [SerializeField] private string interactionText = "Premi E per parlare";
     
     [Header("Dialogue settings")]
     [SerializeField] private string operatorName = "Operatore";
-    [SerializeField] private TextAsset dialogueFile; // qui viene assegnato il file di testo che contiene il dialogo dell'NPC
+    [SerializeField] private TextAsset firstDialogueFile; // prima visita
+    [SerializeField] private TextAsset secondDialogueFile; // seconda visita (dopo camera completata)
+    [SerializeField] private TextAsset thirdDialogueFile; // terza visita (dopo camera completata ma prima di luce)
+    [SerializeField] private TextAsset completedDialogueFile; // dopo tutto completato
 
     [Header("UI reference")]
     [SerializeField] private UI_DialoguePanel dialoguePanel; // riferimento al pannello di dialogo UI
@@ -19,17 +25,72 @@ public class InteractableOperator : MonoBehaviour
     private float rotationSpeed = 2f; // velocità di rotazione dell'NPC
     private Coroutine rotationCoroutine;
 
+    public string GetOperatorID() => operatorID;
+
     void Start()
     {
-        LoadDialogue();
         originalRotation = transform.rotation; // salvo la rotazione originale dell'NPC
     }
 
-    private void LoadDialogue()
+    public void Interact()
     {
-        if (dialogueFile != null)
+        LoadAppropriateDialogue();
+
+        if (dialoguePanel != null)
         {
-            string[] lines = dialogueFile.text.Split(new[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries);
+            StartDialogue();
+        }
+
+        HandleQuestProgress();
+    }
+
+    private void LoadAppropriateDialogue()
+    {
+        dialogueLines.Clear();
+
+        TextAsset dialogueToUse = null;
+
+        if (TortaInTestaManager.instance != null && operatorID == TortaInTestaManager.instance.GetRequiredOperatorID())
+        {
+            if (TortaInTestaManager.instance.IsLightQuestCompleted())
+            {
+                // Caso 5: Tutto completato
+                dialogueToUse = completedDialogueFile;
+                // Debug.Log("Dialogo: Completato");
+            }
+            else if (TortaInTestaManager.instance.IsLightQuestUnlocked())
+            {
+                // Caso 4: Luce sbloccata ma non completata (dopo seconda visita)
+                dialogueToUse = thirdDialogueFile != null ? thirdDialogueFile : secondDialogueFile;
+                // Debug.Log("Dialogo: Luce in corso (reminder)");
+            }
+            else if (TortaInTestaManager.instance.IsCameraQuestCompleted())
+            {
+                // Caso 3: Camera completata, luce non ancora sbloccata (seconda visita)
+                dialogueToUse = secondDialogueFile;
+                // Debug.Log("Dialogo: Secondo (sblocca luce)");
+            }
+            else if (TortaInTestaManager.instance.IsCameraQuestUnlocked())
+            {
+                // Caso 2: Camera sbloccata ma non completata
+                dialogueToUse = firstDialogueFile;
+                // Debug.Log("Dialogo: Primo (reminder camera)");
+            }
+            else
+            {
+                // Caso 1: Prima visita, camera non ancora sbloccata
+                dialogueToUse = firstDialogueFile;
+                // Debug.Log("Dialogo: Primo (sblocca camera)");
+            }
+        }
+        else
+        {
+            dialogueToUse = firstDialogueFile;
+        }
+
+        if (dialogueToUse != null)
+        {
+            string[] lines = dialogueToUse.text.Split(new[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string line in lines)
             {
@@ -46,16 +107,25 @@ public class InteractableOperator : MonoBehaviour
         }
     }
 
-    public void Interact()
+    private void HandleQuestProgress()
     {
-        if (dialoguePanel != null)
+        if (TortaInTestaManager.instance == null)
         {
-            StartDialogue();
+            return;
         }
 
-        if (TortaInTestaManager.instance != null)
+        if (operatorID != TortaInTestaManager.instance.GetRequiredOperatorID())
         {
-            TortaInTestaManager.instance.OnOperatorCompleted();
+            return;
+        }
+
+        if (!TortaInTestaManager.instance.IsCameraQuestUnlocked())
+        {
+            TortaInTestaManager.instance.OnOperatorFirstInteraction(operatorID);
+        }
+        else if (TortaInTestaManager.instance.IsCameraQuestCompleted() && !TortaInTestaManager.instance.IsLightQuestUnlocked())
+        {
+            TortaInTestaManager.instance.OnOperatorSecondInteraction(operatorID);
         }
     }
 

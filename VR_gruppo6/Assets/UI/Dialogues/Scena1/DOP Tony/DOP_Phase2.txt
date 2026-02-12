@@ -1,0 +1,4 @@
+Ottimo, vedo che impari facilmente.
+Ora passiamo alle luci. Configurale a 5000 Kelvin con intensità 40.
+Ricorda di usare la modalità Temperatura, non RGB!
+Quando avrai finito passa da me.

@@ -11,6 +11,7 @@ public class UI_LightPanel : MonoBehaviour
 
     [Header("UI references")]
     [SerializeField] private Slider intensitySlider;
+    [SerializeField] private TextMeshProUGUI intensityText;
     [SerializeField] private Button onOffButton;
     [SerializeField] private TextMeshProUGUI buttonText;
 
@@ -176,6 +177,10 @@ public class UI_LightPanel : MonoBehaviour
         if (intensitySlider != null)
         {
             intensitySlider.SetValueWithoutNotify(currentLight.CurrentIntensity);
+            if (intensityText != null)            
+            {
+                intensityText.text = $"Intensità: {currentLight.CurrentIntensity:F1}";
+            }
         }
 
         if (currentLight.IsTemperatureMode)
@@ -187,7 +192,7 @@ public class UI_LightPanel : MonoBehaviour
             }
             if (temperatureText != null)
             {
-                temperatureText.text = $"{currentLight.CurrentTemperature:F0}K";
+                temperatureText.text = $"Temperatura: {currentLight.CurrentTemperature:F0}K";
             }
         }
         else
@@ -255,6 +260,8 @@ public class UI_LightPanel : MonoBehaviour
 
         currentLight.SetIntensity(value);
         UpdateUI();
+
+        CheckLightQuest();
     }
 
     private void OnTemperatureChanged(float value)
@@ -267,6 +274,8 @@ public class UI_LightPanel : MonoBehaviour
         {
             temperatureText.text = $"{value:F0}K";
         }
+
+        CheckLightQuest();
     }
 
     private void OnColorChanged()
@@ -282,6 +291,20 @@ public class UI_LightPanel : MonoBehaviour
             );
             currentLight.SetColor(newColor);
         }
+    }
+
+    private void CheckLightQuest()
+    {
+        if (currentLight == null || TortaInTestaManager.instance == null)
+        {
+            return;
+        }
+
+        TortaInTestaManager.instance.OnLightValuesChanged(
+            currentLight.CurrentTemperature,
+            currentLight.CurrentIntensity,
+            currentLight.IsTemperatureMode
+        );
     }
 
     public void HandlePanelClose()
