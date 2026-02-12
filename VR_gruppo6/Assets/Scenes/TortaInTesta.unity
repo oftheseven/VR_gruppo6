@@ -17431,11 +17431,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: offsetFromAToB.x
-      value: -18.27
+      value: -26.95268
       objectReference: {fileID: 0}
     - target: {fileID: 5056910304927796045, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: offsetFromAToB.z
-      value: 17.85
+      value: 127.7456
       objectReference: {fileID: 0}
     - target: {fileID: 6704219984737766551, guid: 3f1b81a4f45a2a0479b4aee5aa99471f, type: 3}
       propertyPath: m_Name
