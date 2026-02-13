@@ -3,7 +3,12 @@ guid: cc44c3af58a444167a4ff323605f4645
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ringhiera
+    second: {fileID: 2100000, guid: 696d0d41f6f7d4f14a3164b56fc4a58b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
