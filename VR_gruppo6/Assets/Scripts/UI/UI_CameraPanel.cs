@@ -96,6 +96,11 @@ public class UI_CameraPanel :  MonoBehaviour
         }
 
         PlayerController.HideCursor();
+
+        if (interactableCamera != null)
+        {
+            interactableCamera.ResetInteractionCooldown();
+        }
         
         StartCoroutine(CooldownAndHide());
 
@@ -154,10 +159,21 @@ public class UI_CameraPanel :  MonoBehaviour
         }
     }
 
+    // private IEnumerator CooldownAndHide()
+    // {
+    //     canInteract = false;
+    //     //Debug.Log("Cooldown iniziato - canInteract = " + canInteract);
+    //     yield return new WaitForSeconds(cooldownTime);
+    // }
+
     private IEnumerator CooldownAndHide()
     {
         canInteract = false;
-        //Debug.Log("Cooldown iniziato - canInteract = " + canInteract);
+        Debug.Log($"Camera panel cooldown iniziato: {cooldownTime}s");
+
         yield return new WaitForSeconds(cooldownTime);
+
+        canInteract = true;
+        Debug.Log("Camera panel cooldown finito");
     }
 }

@@ -211,6 +211,8 @@ public class DirectorModeManager : MonoBehaviour
             armCameraView.gameObject.SetActive(false);
         }
 
+        DisableAllInteractableCameras();
+
         // riattivo camera del player
         if (PlayerController.instance != null)
         {
@@ -239,6 +241,20 @@ public class DirectorModeManager : MonoBehaviour
         // }
 
         UnlockExitDoor();
+    }
+
+    private void DisableAllInteractableCameras()
+    {
+        InteractableCamera[] allCameras = FindObjectsByType<InteractableCamera>(FindObjectsSortMode.None);
+
+        foreach (InteractableCamera cam in allCameras)
+        {
+            if (cam != null && cam.ViewCamera != null)
+            {
+                cam.ViewCamera.gameObject.SetActive(false);
+                Debug.Log($"Disattivata ViewCamera di {cam.name}");
+            }
+        }
     }
 
     private void UnlockExitDoor()

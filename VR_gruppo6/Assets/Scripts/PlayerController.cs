@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
     public Camera playerCamera => _cameraTransform.GetComponent<Camera>();
 
     private float lastInteractionTime = -999f;
-    private float globalInteractionCooldown = 0.5f;
+    private float globalInteractionCooldown = 1f;
 
     private bool CanInteractNow()
     {
@@ -89,6 +89,12 @@ public class PlayerController : MonoBehaviour
     private void RegisterInteraction()
     {
         lastInteractionTime = Time.time;
+    }
+
+    public void BlockInteractionsForCooldown()
+    {
+        RegisterInteraction();
+        Debug.Log($"Interazioni bloccate per {globalInteractionCooldown}s");
     }
 
     void Awake()
@@ -112,6 +118,9 @@ public class PlayerController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 1;
     }
 
     void Update()
@@ -549,11 +558,16 @@ public class PlayerController : MonoBehaviour
             UI_CameraPanel panel = currentCamera.GetCameraPanel();
             if (panel != null && !panel.IsOpen && panel.CanInteract)
             {
-                currentCamera.Interact();
-                isInteracting = true;
-                interactiontext.gameObject.SetActive(false);
-                currentCameraPanel = panel;
-                RegisterInteraction();
+                if (currentCamera.CanInteract())
+                {
+                    currentCamera.Interact();
+                    isInteracting = true;
+                    interactiontext.gameObject.SetActive(false);
+                    currentCameraPanel = panel;
+                    RegisterInteraction();
+
+                    Debug.Log("✅ Camera panel aperto");
+                }
             }
         }
 
