@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b46faf2dce6c74af6b550153d022c053
+guid: 395b2a4874b574e15b67cd5e74572a2f
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,8 +7,23 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: drape_small
-    second: {fileID: 2100000, guid: e3c914250366f48d58945c4e0dff213a, type: 2}
+      name: RIZOMUV_RIZOMUV_lambert51SG
+    second: {fileID: 2100000, guid: 445c09bec95c94555bc604ebe758803a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: RIZOMUV_RIZOMUV_lambert52SG
+    second: {fileID: 2100000, guid: a22ed2561857949369b99adec022b57a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert25SG
+    second: {fileID: 2100000, guid: 238060c703613458abd035693b3b68bf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wall
+    second: {fileID: 2100000, guid: 170d3c4c0f8da4bfa99b82b273c3cfa0, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

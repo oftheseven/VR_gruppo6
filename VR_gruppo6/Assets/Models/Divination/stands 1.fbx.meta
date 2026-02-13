@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: b46faf2dce6c74af6b550153d022c053
+guid: 0b9e625dbaf924e588e6c65fd6597965
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: drape_small
-    second: {fileID: 2100000, guid: e3c914250366f48d58945c4e0dff213a, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
