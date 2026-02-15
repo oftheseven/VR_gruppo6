@@ -57,6 +57,10 @@ public class UI_Screenplay_TortaInTesta : MonoBehaviour
     {
         this.gameObject.SetActive(true);
         PlayerController.EnableMovement(false);
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayUIScreenPlay();
+        }
         StartCoroutine(CooldownCoroutine());
     }
 

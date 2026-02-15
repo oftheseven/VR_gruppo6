@@ -6,7 +6,7 @@ public class ArmCameraOrbit : MonoBehaviour
     [Header("Target")]
     [SerializeField] private Transform orbitTarget; // base del braccio
     
-    [Header("Orbit settings")]
+    [Header("Orbit Settings")]
     [SerializeField] private float orbitSpeed = 100f;
     [SerializeField] private float distance = 5f;
     [SerializeField] private float height = 3f;
@@ -36,7 +36,7 @@ public class ArmCameraOrbit : MonoBehaviour
         
         if (orbitTarget == null)
         {
-            Debug.LogWarning("ArmCameraOrbit: nessun orbit target assegnato!");
+            Debug.LogWarning("ArmCameraOrbit: Nessun orbit target assegnato!");
         }
     }
     
@@ -93,14 +93,11 @@ public class ArmCameraOrbit : MonoBehaviour
                 currentYaw = Mathf.Atan2(directionToCamera.x, directionToCamera.z) * Mathf.Rad2Deg;
             }
         }
-        
-        // Debug.Log("Camera orbit abilitata");
     }
     
     public void DisableOrbit()
     {
         isActive = false;
-        // Debug.Log("Camera orbit disabilitata");
     }
     
     public void SetOrbitTarget(Transform target)

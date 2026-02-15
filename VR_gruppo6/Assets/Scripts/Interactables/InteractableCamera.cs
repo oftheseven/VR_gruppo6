@@ -26,8 +26,11 @@ public class InteractableCamera : MonoBehaviour
 
     public void Interact()
     {
-        // Debug.Log("Interazione con " + this.name);
-
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayInteractionSFX();
+        }
+        
         if (cameraPanel != null)
         {
             cameraPanel.OpenCamera();

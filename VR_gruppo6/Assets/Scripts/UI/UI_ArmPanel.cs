@@ -150,6 +150,7 @@ public class UI_ArmPanel : MonoBehaviour
     public void OpenArmPanel()
     {
         this.gameObject.SetActive(true);
+
         isOpen = true;
 
         PlayerController.EnableMovement(false);

@@ -93,8 +93,11 @@ public class InteractableSlider : MonoBehaviour
         {
             return;
         }
-
-        // Debug.Log($"Interazione con {sliderName}");
+        
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayInteractionSFX();
+        }
 
         if (sliderPanel != null)
         {

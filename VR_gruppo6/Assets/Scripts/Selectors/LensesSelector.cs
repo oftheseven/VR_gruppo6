@@ -89,6 +89,10 @@ public class LensesSelector : MonoBehaviour
             {
                 cameraLenses[i].gameObject.SetActive(true);
                 cameraLenses[i].ApplyToCamera(viewCamera);
+                if (AudioManager.instance != null)
+                {
+                    AudioManager.instance.PlayCameraLensChange();
+                }
                 // if (TortaInTestaManager.instance != null && currentImageIndex == correctLensIndex && SceneManager.GetActiveScene().name == "TortaInTesta")
                 // {
                 //     TortaInTestaManager.instance.OnCameraCompleted();

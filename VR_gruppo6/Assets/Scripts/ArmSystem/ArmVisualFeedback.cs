@@ -7,25 +7,25 @@ public class ArmVisualFeedback : MonoBehaviour
     [SerializeField] private InteractableArm arm;
     [SerializeField] private Camera armDirectorCamera;
     
-    [Header("Laser settings")]
+    [Header("Laser Settings")]
     [SerializeField] private bool showLaser = true;
     private LineRenderer laserLine;
     [SerializeField] private Color laserColor = new Color(1f, 0f, 0f, 0.5f);
     [SerializeField] private float laserWidth = 0.05f;
     [SerializeField] private float maxLaserDistance = 50f;
     
-    [Header("Ground circle settings")]
+    [Header("Ground Circle Settings")]
     [SerializeField] private bool showGroundCircle = true;
     private GameObject groundCirclePrefab;
     [SerializeField] private Color circleColor = new Color(1f, 1f, 0f, 0.5f);
     [SerializeField] private float circleSize = 2f;
     
-    [Header("Waypoint marker settings")]
+    [Header("Waypoint Marker Settings")]
     private GameObject waypointMarkerPrefab;
     [SerializeField] private Color waypointColor = new Color(0f, 1f, 0f, 0.8f);
     [SerializeField] private float waypointHeight = 2f;
     
-    [Header("Ground detection")]
+    [Header("Ground Detection")]
     [SerializeField] private LayerMask groundLayer = ~0;
     
     private GameObject groundCircleInstance;

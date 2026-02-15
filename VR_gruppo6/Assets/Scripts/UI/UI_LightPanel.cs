@@ -30,6 +30,9 @@ public class UI_LightPanel : MonoBehaviour
     [SerializeField] private Button toggleModeButton;
     [SerializeField] private TextMeshProUGUI modeButtonText;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip toggleLight;
+
     [Header("Hold to close UI")]
     [SerializeField] private GameObject holdIndicator;
     [SerializeField] private Image holdFillImage;
@@ -110,6 +113,12 @@ public class UI_LightPanel : MonoBehaviour
 
         currentLight = light;
         this.gameObject.SetActive(true);
+
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayUIOpenPanel();
+        }
+
         currentLight.SetCameraActive(true);
         isOpen = true;
         PlayerController.EnableMovement(false);
@@ -227,6 +236,10 @@ public class UI_LightPanel : MonoBehaviour
         if (currentLight == null) return;
 
         currentLight.SetLightState(!currentLight.IsOn);
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayUISound(toggleLight?? null);
+        }
         UpdateUI();
     }
 
@@ -267,14 +280,11 @@ public class UI_LightPanel : MonoBehaviour
     {
         if (currentLight == null) return;
 
-        // currentLight.SetIntensity(value);
-
         float normalizedValue = value / currentLight.MaxIntensity; // 0-1
         float curvedValue = Mathf.Pow(normalizedValue, 2f); // curva quadratica
         float finalIntensity = curvedValue * currentLight.MaxIntensity;
-
         currentLight.SetIntensity(finalIntensity);
-
+        
         UpdateUI();
 
         CheckLightQuest();

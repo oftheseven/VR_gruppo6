@@ -59,6 +59,7 @@ public class UI_CameraPanel :  MonoBehaviour
         }
 
         this.gameObject.SetActive(true);
+
         isOpen = true;
         PlayerController.EnableMovement(false);
 

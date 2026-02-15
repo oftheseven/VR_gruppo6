@@ -37,6 +37,10 @@ public class PickableItem : MonoBehaviour
     public void AddQuantity()
     {
         quantity++;
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayItemGrab();
+        }
         Debug.Log($"Quantità di {itemDisplayName}: {quantity}");
     }
 
@@ -45,6 +49,10 @@ public class PickableItem : MonoBehaviour
         if (quantity > 0)
         {
             quantity--;
+        }
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayItemDrop();
         }
         Debug.Log($"Quantità di {itemDisplayName}: {quantity}");
     }

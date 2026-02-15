@@ -24,7 +24,6 @@ public class ArmWaypointPlayback : MonoBehaviour
         {
             _instance = this;
         }
-        // this.gameObject.SetActive(false);
     }
     
     public void StartPlayback(InteractableArm arm)
@@ -44,7 +43,7 @@ public class ArmWaypointPlayback : MonoBehaviour
         isPlayingBack = false;
         StopAllCoroutines();
         
-        // Debug.Log("Playback fermato");
+        Debug.Log("Playback fermato");
     }
     
     private IEnumerator PlaybackCoroutine()
@@ -55,7 +54,7 @@ public class ArmWaypointPlayback : MonoBehaviour
         List<ArmWaypoint> waypoints = currentArm.RecordedWaypoints;
         float speed = currentArm.PlaybackSpeed;
         
-        // Debug.Log($"Playback iniziato: {waypoints.Count} waypoint, velocità {speed}");
+        Debug.Log($"Playback iniziato: {waypoints.Count} waypoint, velocità {speed}");
         
         float[] cumulativeDistances = new float[waypoints.Count];
         cumulativeDistances[0] = 0f;
@@ -69,7 +68,7 @@ public class ArmWaypointPlayback : MonoBehaviour
         float totalDistance = cumulativeDistances[waypoints.Count - 1];
         float duration = totalDistance / speed;
         
-        // Debug.Log($"Distanza totale: {totalDistance:F2}, Durata: {duration:F2}s");
+        Debug.Log($"Distanza totale: {totalDistance:F2}, Durata: {duration:F2}s");
         
         float elapsedTime = 0f;
         
@@ -123,7 +122,7 @@ public class ArmWaypointPlayback : MonoBehaviour
         isPlayingBack = false;
         playbackProgress = 1f;
         
-        // Debug.Log("Playback completato!");
+        Debug.Log("Playback completato!");
         
         // AGGIUNGERE CHIAMATA AL MANAGER PER NOTIFICARE CHE LA QUEST E' STATA COMPLETATA
     }
@@ -165,8 +164,6 @@ public class ArmWaypointPlayback : MonoBehaviour
             {
                 armEnd.position = position;
                 armEnd.rotation = rotation;
-                
-                // Debug.LogWarning("Playback fallback: muovendo armEnd direttamente");
             }
         }
     }

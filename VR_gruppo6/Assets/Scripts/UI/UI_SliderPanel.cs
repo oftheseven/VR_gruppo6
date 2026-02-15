@@ -91,6 +91,7 @@ public class UI_SliderPanel : MonoBehaviour
 
         currentSlider = slider;
         this.gameObject.SetActive(true);
+
         isOpen = true;
 
         PlayerController.EnableMovement(false);

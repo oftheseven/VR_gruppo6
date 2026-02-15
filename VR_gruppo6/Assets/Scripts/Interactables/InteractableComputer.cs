@@ -20,8 +20,11 @@ public class InteractableComputer : MonoBehaviour
 
     public void Interact()
     {
-        // Debug.Log("Interazione con " + this.gameObject.name);
-
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayInteractionSFX();
+        }
+        
         if (selector != null && selector.IsCompleted)
         {
             Debug.Log($"{computerID} già completato!");

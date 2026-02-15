@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class InteractableLight : MonoBehaviour
 {
@@ -13,6 +14,13 @@ public class InteractableLight : MonoBehaviour
 
     [Header("Light settings")]
     [SerializeField] private Light[] controlledLights;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip buzzSound;
+    [SerializeField] [Range(0f, 1f)] private float buzzVolume = 0.3f;
+
+    private AudioSource audioSource;
+    private bool isBuzzing = false;
     
     private bool isOn = true;
     private float currentIntensity = 1f;
@@ -36,6 +44,11 @@ public class InteractableLight : MonoBehaviour
     public bool IsTemperatureMode => isTemperatureMode;
     public Light[] ControlledLights => controlledLights;
 
+    void Awake()
+    {
+        SetCameraActive(false);
+    }
+
     void Start()
     {
         if (controlledLights == null || controlledLights.Length == 0)
@@ -52,12 +65,23 @@ public class InteractableLight : MonoBehaviour
             maxIntensity = mainLight.intensity; // come massimo prendo l'intensità settata della luce
             currentColor = mainLight.color;
         }
-        SetCameraActive(false);
+
         UpdateLights();
+        SetupAudio();
+
+        if (isOn && buzzSound != null)
+        {
+            StartBuzz();
+        }
     }
 
     public void Interact()
     {
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayInteractionSFX();
+        }
+        
         if (lightPanel != null)
         {
             lightPanel.OpenPanel(this);
@@ -81,6 +105,14 @@ public class InteractableLight : MonoBehaviour
     public void SetLightState(bool state)
     {
         isOn = state;
+        if (isOn)
+        {
+            StartBuzz();
+        }
+        else
+        {
+            StopBuzz();
+        }
         UpdateLights();
     }
 
@@ -184,6 +216,51 @@ public class InteractableLight : MonoBehaviour
         }
 
         return new Color(r / 255f, g / 255f, b / 255f);
+    }
+
+    private void SetupAudio()
+    {
+        if (buzzSound != null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.clip = buzzSound;
+            audioSource.playOnAwake = false;
+            audioSource.loop = false;
+            audioSource.spatialBlend = 1f;
+            audioSource.rolloffMode = AudioRolloffMode.Linear;
+            audioSource.minDistance = 1f;
+            audioSource.maxDistance = 10f;
+            audioSource.dopplerLevel = 0f;
+            audioSource.volume = 0.8f;
+
+            if (AudioManager.instance != null && AudioManager.instance.AudioMixer != null)
+            {
+                audioSource.outputAudioMixerGroup = AudioManager.instance.AudioMixer.FindMatchingGroups("SFX")[0];
+                Debug.Log($"{gameObject.name} audio assegnato a: {audioSource.outputAudioMixerGroup.name}");
+            }
+        }
+    }
+
+    private void StartBuzz()
+    {
+        if (buzzSound != null && audioSource != null && !isBuzzing)
+        {
+            audioSource.clip = buzzSound;
+            audioSource.loop = true;
+            audioSource.volume = buzzVolume;
+            audioSource.Play();
+            isBuzzing = true;
+        }
+    }
+
+    private void StopBuzz()
+    {
+        if (isBuzzing && audioSource != null)
+        {
+            audioSource.Stop();
+            audioSource.loop = false;
+            isBuzzing = false;
+        }
     }
 
     public string GetInteractionText()

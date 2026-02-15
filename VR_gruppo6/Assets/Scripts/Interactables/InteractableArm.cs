@@ -51,6 +51,7 @@ public class InteractableArm : MonoBehaviour
 
         if (pivotBase == null)
         {
+            Debug.LogWarning("PivotBase non assegnato! Usa il transform principale.");
             pivotBase = transform;
         }
         
@@ -137,15 +138,12 @@ public class InteractableArm : MonoBehaviour
         recordedWaypoints.Clear();
         isRecording = true;
         recordingStartTime = Time.time;
-        
-        Debug.Log("Arm recording iniziato");
     }
     
     public void AddWaypoint()
     {
         if (!isRecording)
         {
-            Debug.LogWarning("Recording non attivo!");
             return;
         }
         
@@ -224,6 +222,11 @@ public class InteractableArm : MonoBehaviour
     
     public void Interact()
     {
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayInteractionSFX();
+        }
+        
         if (armPanel != null)
         {
             armPanel.OpenArmPanel();

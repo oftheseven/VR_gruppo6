@@ -66,6 +66,7 @@ public class UI_ComputerPanel :  MonoBehaviour
         }
 
         this.gameObject.SetActive(true);
+
         isOpen = true;
         PlayerController.EnableMovement(false);
 
