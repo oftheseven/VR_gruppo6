@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b790d9af7461cdb4cbb2d9450d806ccd
+guid: ee1da90187645da48ba1eaef7feca1d5
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,88 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: lambert16
-    second: {fileID: 2100000, guid: 8d25f6feaa8732d41afd44ae3755a316, type: 2}
+      name: Mic Body
+    second: {fileID: 2100000, guid: e972125ed92ee0f44b9c40cae5b52fd2, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: lambert22
-    second: {fileID: 2100000, guid: d03f4e9f1a20c814c82faace1021a42e, type: 2}
+      name: Mic Net
+    second: {fileID: 2100000, guid: d8d783c7c7bf13d429f294111bea4ec3, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: lambert23
-    second: {fileID: 2100000, guid: 7d238129db417e1419103788b6f936c4, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert24
-    second: {fileID: 2100000, guid: dc4aeef14498148459fac6a4642afc70, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert25
-    second: {fileID: 2100000, guid: 86ce85ac7d4e82a4d90b68f69d098dd3, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert26
-    second: {fileID: 2100000, guid: cc48af38d6461ed4691360de5b7b93f6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert35
-    second: {fileID: 2100000, guid: 6950ece11ff5b094ca4d8ee4417d753c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert36
-    second: {fileID: 2100000, guid: 892adf093cd88ca4eb097b77b5b8e202, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert37
-    second: {fileID: 2100000, guid: 486b8cb2511409f4591afa01f3b75313, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert40
-    second: {fileID: 2100000, guid: 1c2a8e5e3c68fda428e5e22aa73323b6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert43
-    second: {fileID: 2100000, guid: 5468a312baa0ec9469e28fe169c807b2, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert48
-    second: {fileID: 2100000, guid: 26705899ec3c8cb469bb66fb240f80f1, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert56
-    second: {fileID: 2100000, guid: 3ba63e7b5cee21746a0f3df54d79afb5, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: mia_material_x3
-    second: {fileID: 2100000, guid: cda47b314a74a9e40a426e1636af9cd5, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: mia_material_x4
-    second: {fileID: 2100000, guid: 918fe8b298421c84f963f6fdfe5b5e84, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: mia_material_x5
-    second: {fileID: 2100000, guid: 846b55dcfaa40664eb7e7fb8b4301933, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: phong5
-    second: {fileID: 2100000, guid: ef80948290f3db24ba0229839b2a58f4, type: 2}
+      name: Stand
+    second: {fileID: 2100000, guid: 41f7743755e662448bec4a612b8ada1c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
