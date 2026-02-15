@@ -61,41 +61,6 @@ public class UI_InfoPanel : MonoBehaviour
         PlayerController.HideCursor();
     }
 
-    // public void CloseInfoPanel()
-    // {
-    //     if (this.gameObject != null)
-    //     {
-    //         this.gameObject.SetActive(false);
-    //         isOpen = false;
-    //     }
-    
-    //     if (infoButton != null && !isFirstTime)
-    //     {
-    //         infoButton.gameObject.SetActive(true);
-    //     }
-
-    //     PlayerController.HideCursor();
-
-    //     // if (PlayerController.instance != null)
-    //     // {
-    //     //     PlayerController.instance.BlockInteractionsForCooldown();
-    //     //     Debug.Log("Info Panel chiuso, cooldown attivato");
-    //     // }
-
-    //     StartCoroutine(BlockInteractionsNextFrame());
-    // }
-
-    // private System.Collections.IEnumerator BlockInteractionsNextFrame()
-    // {
-    //     yield return new WaitForEndOfFrame(); // Aspetta fine frame corrente
-        
-    //     if (PlayerController.instance != null)
-    //     {
-    //         PlayerController.instance.BlockInteractionsForCooldown();
-    //         Debug.Log($"[Frame {Time.frameCount}] Interazioni bloccate (dopo fine frame)");
-    //     }
-    // }
-
     public void OnDeviceOpened()
     {
         if (isFirstTime)

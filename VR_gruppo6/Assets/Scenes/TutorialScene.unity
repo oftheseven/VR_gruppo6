@@ -20084,6 +20084,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 708376943304451336, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1743326255}
+    - targetCorrespondingSourceObject: {fileID: 708376943304451336, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1775824674}
   m_SourcePrefab: {fileID: 100100000, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
 --- !u!114 &1775824666 stripped
 MonoBehaviour:
@@ -20116,6 +20119,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6518825602173795191, guid: ea4db487505993e4da8aa48ced91c492, type: 3}
   m_PrefabInstance: {fileID: 1775824665}
   m_PrefabAsset: {fileID: 0}
+--- !u!81 &1775824674
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448886071}
+  m_Enabled: 1
 --- !u!4 &1775824675 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7576300193206956649, guid: ea4db487505993e4da8aa48ced91c492, type: 3}

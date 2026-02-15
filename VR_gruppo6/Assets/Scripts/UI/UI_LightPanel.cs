@@ -145,8 +145,6 @@ public class UI_LightPanel : MonoBehaviour
 
         UpdateUI();
         UpdateColorModeUI();
-
-        // Debug.Log($"Pannello luce aperto per: {currentLight.name}");
     }
 
     public void ClosePanel()
@@ -172,8 +170,6 @@ public class UI_LightPanel : MonoBehaviour
         this.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
-
-        // Debug.Log("Pannello luce chiuso");
     }
 
     private void UpdateUI()

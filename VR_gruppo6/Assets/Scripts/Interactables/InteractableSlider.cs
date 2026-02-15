@@ -135,10 +135,6 @@ public class InteractableSlider : MonoBehaviour
         Transform camTransform = sliderCamera.transform;
 
         camTransform.Rotate(Vector3.up, horizontal * cameraRotationSpeed * Time.deltaTime, Space.World);
-
-        // Vector3 euler = camTransform.localEulerAngles;
-        // euler.x += vertical * cameraRotationSpeed * Time.deltaTime;
-        // camTransform.localEulerAngles = euler;
     }
 
     private void UpdateSliderPosition(float t)
@@ -151,8 +147,6 @@ public class InteractableSlider : MonoBehaviour
 
         Vector3 newPosition = Vector3.Lerp(railStart.position, railEnd.position, t);
         sliderCart.position = newPosition;
-        
-        // Debug.Log($"Slider posizione: {t:F2} ({newPosition})");
     }
 
     public void StartRecording()

@@ -22,7 +22,7 @@ public class PickableItem : MonoBehaviour
 
         if (itemPrefab == null)
         {
-            Debug.LogWarning($"{itemDisplayName}:  itemPrefab non assegnato.  Verrà usato questo GameObject.");
+            Debug.LogWarning($"{itemDisplayName}:  itemPrefab non assegnato. Verrà usato questo GameObject.");
         }
     }
 

@@ -67,6 +67,7 @@ public class UI_ArmPanel : MonoBehaviour
                 Debug.Log("ArmCameraOrbit auto-detected");
             }
         }
+        armCamera.gameObject.GetComponent<AudioListener>().enabled = false;
     }
 
     void Start()
@@ -160,6 +161,7 @@ public class UI_ArmPanel : MonoBehaviour
         if (armCamera != null)
         {
             armCamera.enabled = true;
+            armCamera.gameObject.GetComponent<AudioListener>().enabled = true;
         }
 
         if (armCameraView != null)
@@ -202,6 +204,7 @@ public class UI_ArmPanel : MonoBehaviour
         if (armCamera != null)
         {
             armCamera.enabled = false;
+            armCamera.gameObject.GetComponent<AudioListener>().enabled = false;
             Debug.Log("armCamera (supporto) disabilitata");
         }
 

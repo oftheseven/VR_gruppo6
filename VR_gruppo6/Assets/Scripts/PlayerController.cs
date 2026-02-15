@@ -70,25 +70,6 @@ public class PlayerController : MonoBehaviour
     private bool isInteracting = false;
     public Camera playerCamera => _cameraTransform.GetComponent<Camera>();
 
-    private float lastInteractionTime = -999f;
-    private float globalInteractionCooldown = 1f;
-
-    private bool CanInteractNow()
-    {
-        return Time.time - lastInteractionTime >= globalInteractionCooldown;
-    }
-
-    private void RegisterInteraction()
-    {
-        lastInteractionTime = Time.time;
-    }
-
-    public void BlockInteractionsForCooldown()
-    {
-        RegisterInteraction();
-        Debug.Log($"Interazioni bloccate per {globalInteractionCooldown}s");
-    }
-
     void Awake()
     {
         if (_instance != null && _instance != this)

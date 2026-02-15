@@ -120,17 +120,17 @@ public class GreenScreenSelector : MonoBehaviour
         {
             imageConfirmed = true;
 
-            Debug.Log($"Immagine corretta selezionata su {computerID}");
+            // Debug.Log($"Immagine corretta selezionata su {computerID}");
 
             if (TortaInTestaManager.instance != null)
             {
                 TortaInTestaManager.instance.OnComputerImageCorrect(computerID);
             }
         }
-        else
-        {
-            Debug.Log($"Immagine sbagliata selezionata su {computerID}");
-        }
+        // else
+        // {
+        //     Debug.Log($"Immagine sbagliata selezionata su {computerID}");
+        // }
     }
 
     public bool IsCompleted => imageConfirmed;

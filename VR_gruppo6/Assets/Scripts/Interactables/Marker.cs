@@ -9,7 +9,6 @@ public class Marker : MonoBehaviour
     [SerializeField] private float detectionRadius = 1.5f;
 
     [Header("Visual feedback")]
-    [SerializeField] private Color normalColor = Color.white;
     [SerializeField] private Color activeColor = Color.green;
     [SerializeField] private float outlineWidth = 5f;
 
@@ -84,8 +83,6 @@ public class Marker : MonoBehaviour
 
                 StartCoroutine(StabilizeObject(rb));
             }
-
-            Debug.Log($"📦 '{item.GetItemID()}' droppato in {dropZoneName}");
         }
 
         return dropPosition;
@@ -154,22 +151,6 @@ public class Marker : MonoBehaviour
         
         return basePosition;
     }
-
-    // private void SetNormalState()
-    // {
-    //     if (markerRenderer != null)
-    //     {
-    //         markerMaterial.color = normalColor;
-    //     }
-    // }
-
-    // private void SetActiveState()
-    // {
-    //     if (markerRenderer != null)
-    //     {
-    //         markerMaterial.color = activeColor;
-    //     }
-    // }
 
     public bool IsPlayerNearby() => playerNearby;
     public string GetDropZoneName() => dropZoneName;

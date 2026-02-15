@@ -213,8 +213,6 @@ public class UI_InventoryPanel : MonoBehaviour
                 Debug.LogWarning($"Descrizione duplicata per l'oggetto: {itemID}");
             }
         }
-
-        // Debug.Log($"Caricate {descriptions.Count} descrizioni di oggetti.");
     }
 
     private void HandleItemNavigation()
