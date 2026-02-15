@@ -1,11 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_MenuPanel : MonoBehaviour
 {
     // singleton
     private static UI_MenuPanel _menuPanelUI;
     public static UI_MenuPanel instance => _menuPanelUI;
+
+    [Header("UI Elements")]
+    [SerializeField] private Button exitbutton;
 
     private bool isOpen = false;
     public bool IsOpen => isOpen;
@@ -34,6 +38,11 @@ public class UI_MenuPanel : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
     private IEnumerator CooldownCoroutine()

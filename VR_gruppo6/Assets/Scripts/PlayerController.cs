@@ -49,16 +49,8 @@ public class PlayerController : MonoBehaviour
     private InteractableOperator currentOperator = null;
     private bool isDialogueActive = false;
 
-    [Header("Cart interaction")]
-    private InteractableCart currentCart = null;
-    private InteractableCart pushingCart = null;
-
     [Header("Item interaction")]
     private PickableItem currentItem = null;
-
-    [Header("Dolly interaction")]
-    private InteractableDolly currentDolly = null;
-    private UI_DollyPanel currentDollyPanel = null;
 
     [Header("Arm interaction")]
     private InteractableArm currentArm = null;
@@ -131,9 +123,7 @@ public class PlayerController : MonoBehaviour
         HandleComputerInteraction();
         HandleCameraInteraction();
         HandleOperatorInteraction();
-        HandleCartInteraction();
         HandleItemInteraction();
-        HandleDollyInteraction();
         HandleArmInteraction();
         HandleDoorInteraction();
         HandleLightInteraction();
@@ -171,7 +161,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // funzione che modifica il valore di moveEnabled in modo che la variabile non sia pubblica
     public static void EnableMovement(bool enable) 
     { 
         moveEnabled = enable;
@@ -379,19 +368,6 @@ public class PlayerController : MonoBehaviour
                         ClearInteractable();
                     }
                     break;
-                
-                case "Carrello":
-                    InteractableCart carrello = hit.collider.GetComponent<InteractableCart>();
-                    if (carrello != null)
-                    {
-                        currentCart = carrello;
-                        ShowInteractionText(currentCart.GetInteractionText());
-                    }
-                    else
-                    {
-                        ClearInteractable();
-                    }
-                    break;
 
                 case "Pickable":
                     PickableItem item = hit.collider.GetComponent<PickableItem>();
@@ -405,19 +381,6 @@ public class PlayerController : MonoBehaviour
                         ClearInteractable();
                     }
                     break;
-                
-                // case "Dolly":
-                //     InteractableDolly dolly = hit.collider.GetComponent<InteractableDolly>();
-                //     if (dolly != null)
-                //     {
-                //         currentDolly = dolly;
-                //         ShowInteractionText(currentDolly.GetInteractionText());
-                //     }
-                //     else
-                //     {
-                //         ClearInteractable();
-                //     }
-                //     break;
                 
                 case "Arm":
                     InteractableArm arm = hit.collider.GetComponent<InteractableArm>();
@@ -483,10 +446,8 @@ public class PlayerController : MonoBehaviour
         currentComputer = null;
         currentCamera = null;
         currentOperator = null;
-        currentCart = null;
         currentSlider = null;
         currentItem = null;
-        currentDolly = null;
         currentArm = null;
         currentDoor = null;
         currentLight = null;
@@ -524,50 +485,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // private void HandleCameraInteraction()
-    // {
-    //     if (Keyboard.current.eKey.wasPressedThisFrame && currentCamera != null)
-    //     {
-    //         UI_CameraPanel panel = currentCamera.GetCameraPanel();
-    //         if (panel != null && !panel.IsOpen && panel.CanInteract)
-    //         {
-    //             currentCamera.Interact();
-    //             isInteracting = true;
-    //             interactiontext.gameObject.SetActive(false);
-    //             currentCameraPanel = panel;
-    //         }
-    //     }
-
-    //     if (currentCameraPanel != null && currentCameraPanel.IsOpen)
-    //     {
-    //         currentCameraPanel.HandleCameraClose();
-    //     }
-    //     else if (currentCameraPanel != null && !currentCameraPanel.IsOpen)
-    //     {
-    //         currentCameraPanel = null;
-    //         isInteracting = false;
-    //     }
-    // }
-
     private void HandleCameraInteraction()
     {
-        if (!CanInteractNow()) return;
-
         if (Keyboard.current.eKey.wasPressedThisFrame && currentCamera != null)
         {
             UI_CameraPanel panel = currentCamera.GetCameraPanel();
             if (panel != null && !panel.IsOpen && panel.CanInteract)
             {
-                if (currentCamera.CanInteract())
-                {
-                    currentCamera.Interact();
-                    isInteracting = true;
-                    interactiontext.gameObject.SetActive(false);
-                    currentCameraPanel = panel;
-                    RegisterInteraction();
-
-                    Debug.Log("✅ Camera panel aperto");
-                }
+                currentCamera.Interact();
+                isInteracting = true;
+                interactiontext.gameObject.SetActive(false);
+                currentCameraPanel = panel;
             }
         }
 
@@ -579,7 +507,6 @@ public class PlayerController : MonoBehaviour
         {
             currentCameraPanel = null;
             isInteracting = false;
-            RegisterInteraction();
         }
     }
 
@@ -591,30 +518,6 @@ public class PlayerController : MonoBehaviour
             isInteracting = true;
             interactiontext.gameObject.SetActive(false);
             isDialogueActive = true;
-        }
-    }
-
-    private void HandleCartInteraction()
-    {
-        if (pushingCart != null)
-        {
-            // l'utente sta già tenendo il carrello
-            if (Keyboard.current.eKey.wasPressedThisFrame)
-            {
-                pushingCart.Interact();
-                interactiontext.gameObject.SetActive(false);
-                isInteracting = false;
-            }
-        }
-        else
-        {   
-            // l'utente non sta tenendo niente
-            if (Keyboard.current.eKey.wasPressedThisFrame && currentCart != null && !isDialogueActive)
-            {
-                currentCart.Interact();
-                interactiontext.gameObject.SetActive(false);
-                isInteracting = true;
-            }
         }
     }
 
@@ -633,11 +536,6 @@ public class PlayerController : MonoBehaviour
 
     private void HandleArmInteraction()
     {
-        if (UI_AccuracyFeedback.instance != null && UI_AccuracyFeedback.instance.IsOpen)
-        {
-            return;
-        }
-
         if (Keyboard.current.eKey.wasPressedThisFrame && currentArm != null)
         {
             UI_ArmPanel panel = currentArm.GetArmPanel();
@@ -650,38 +548,9 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (currentArmPanel != null && currentArmPanel.IsOpen)
-        {
-            currentArmPanel.HandleArmClose();
-        }
-        else if (currentArmPanel != null && !currentArmPanel.IsOpen)
+        if (currentArmPanel != null && !currentArmPanel.IsOpen)
         {
             currentArmPanel = null;
-            isInteracting = false;
-        }
-    }
-
-    private void HandleDollyInteraction()
-    {
-        if (Keyboard.current.eKey.wasPressedThisFrame && currentDolly != null)
-        {
-            UI_DollyPanel panel = currentDolly.GetDollyPanel();
-            if (panel != null && !panel.IsOpen && panel.CanInteract)
-            {
-                currentDolly.Interact();
-                isInteracting = true;
-                interactiontext.gameObject.SetActive(false);
-                currentDollyPanel = panel;
-            }
-        }
-
-        if (currentDollyPanel != null && currentDollyPanel.IsOpen)
-        {
-            currentDollyPanel.HandleDollyClose();
-        }
-        else if (currentDollyPanel != null && !currentDollyPanel.IsOpen)
-        {
-            currentDollyPanel = null;
             isInteracting = false;
         }
     }
@@ -742,20 +611,6 @@ public class PlayerController : MonoBehaviour
         {
             currentSliderPanel = null;
             isInteracting = false;
-        }
-    }
-
-    public void SetPushingCart(InteractableCart cart)
-    {
-        pushingCart = cart;
-
-        if (cart != null)
-        {
-            _moveSpeed *= 0.7f;
-        }
-        else
-        {
-            _moveSpeed /= 0.7f;
         }
     }
 

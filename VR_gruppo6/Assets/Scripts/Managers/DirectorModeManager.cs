@@ -17,7 +17,6 @@ public class DirectorModeManager : MonoBehaviour
     [Header("Camera setup")]
     [SerializeField] private InteractableSlider sliderCamera;
     [SerializeField] private InteractableArm armCamera;
-    [SerializeField] private Camera armCameraView;
     [SerializeField] private Camera tripodCamera;
 
     [Header("UI")]
@@ -25,7 +24,7 @@ public class DirectorModeManager : MonoBehaviour
 
     private bool isDirectorModeActive = false;
     private bool isDirectorModeAvailable = false;
-    private int currentCameraIndex = 1; // 1 = slider, 2 = tripod
+    private int currentCameraIndex = 1; // 1 = slider, 2 = tripod, 3 = arm
     private float sceneStartTime;
     private float sceneDuration;
 
@@ -48,11 +47,6 @@ public class DirectorModeManager : MonoBehaviour
         if (tripodCamera != null)
         {
             tripodCamera.gameObject.SetActive(false);
-        }
-
-        if (armCameraView != null)
-        {
-            armCameraView.gameObject.SetActive(false);
         }
     }
 
@@ -111,10 +105,18 @@ public class DirectorModeManager : MonoBehaviour
         }
 
         // camera 3: arm
-        if (armCamera != null && armCameraView != null)
+        if (armCamera != null && 
+        armCamera.DirectorModeCamera != null)
         {
             availableCameras.Add(3);
-            Debug.Log("Camera 3 disponibile: BRACCIO MECCANICO");
+            Debug.Log($"Camera 3 disponibile: BRACCIO MECCANICO ({armCamera.WaypointCount} waypoint)");
+        }
+        else if (armCamera != null)
+        {
+            if (armCamera.DirectorModeCamera == null)
+                Debug.LogWarning("Camera Arm: Director Mode Camera non assegnata!");
+            else
+                Debug.LogWarning($"Camera Arm: Solo {armCamera.WaypointCount} waypoint (servono almeno 2)");
         }
 
         if (availableCameras.Count == 0)
@@ -190,9 +192,9 @@ public class DirectorModeManager : MonoBehaviour
             sliderCamera.StopPlayback();
         }
 
-        if (ArmMovementPlayback.instance != null && ArmMovementPlayback.instance.IsPlayingBack)
+        if (ArmWaypointPlayback.instance != null && ArmWaypointPlayback.instance.IsPlayingBack)
         {
-            ArmMovementPlayback.instance.StopPlayback();
+            ArmWaypointPlayback.instance.StopPlayback();
         }
 
         // disattivo tutte le camere
@@ -206,9 +208,10 @@ public class DirectorModeManager : MonoBehaviour
             tripodCamera.gameObject.SetActive(false);
         }
 
-        if (armCameraView != null)
+        if (armCamera != null && armCamera.DirectorModeCamera != null)
         {
-            armCameraView.gameObject.SetActive(false);
+            armCamera.DirectorModeCamera.enabled = false;
+            Debug.Log("Arm Director Mode Camera disabilitata");
         }
 
         DisableAllInteractableCameras();
@@ -229,16 +232,6 @@ public class DirectorModeManager : MonoBehaviour
         PlayerController.EnableMovement(true);
 
         Debug.Log("Scena completata!");
-
-        // if (TutorialManager.instance != null)
-        // {
-        //     TutorialManager.instance.ExitDoor.Unlock(); // sblocco la porta solo ALLA FINE DELLA DIRECTOR MODE
-        // }
-
-        // if (TortaInTestaManager.instance != null)
-        // {
-        //     TortaInTestaManager.instance.ExitDoor.Unlock(); // sblocco la porta solo ALLA FINE DELLA DIRECTOR MODE
-        // }
 
         UnlockExitDoor();
     }
@@ -292,16 +285,11 @@ public class DirectorModeManager : MonoBehaviour
             // Debug.Log($"Slider recording: {sliderDuration:F1}s ({sliderCamera.CurrentRecording.GetKeyframeCount()} keyframes)");
         }
 
-        if (armCamera != null && ArmMovementRecorder.instance != null && ArmMovementRecorder.instance.RecordedSnapshots != null)
+        if (armCamera != null && armCamera.WaypointCount >= 2)
         {
-            var snapshots = ArmMovementRecorder.instance.RecordedSnapshots;
-            
-            if (snapshots.Count > 0)
-            {
-                float armDuration = snapshots[snapshots.Count - 1].timestamp;
-                maxDuration = Mathf.Max(maxDuration, armDuration);
-                // Debug.Log($"Arm recording: {armDuration:F1}s ({snapshots.Count} snapshots)");
-            }
+            float armDuration = armCamera.GetPlaybackDuration();
+            maxDuration = Mathf.Max(maxDuration, armDuration);
+            Debug.Log($"Arm recording: {armDuration:F1}s ({armCamera.WaypointCount} waypoint)");
         }
 
         sceneDuration = maxDuration > 0 ? maxDuration : defaultSceneDuration;
@@ -454,17 +442,19 @@ public class DirectorModeManager : MonoBehaviour
             Debug.Log("Camera Treppiede: Ready");
         }
 
-        if (armCamera != null && ArmMovementRecorder.instance != null)
+        if (armCamera != null)
         {
-            int snapshotCount = ArmMovementRecorder.instance.SnapshotCount;
-            
-            if (snapshotCount > 0)
+            if (armCamera.DirectorModeCamera != null)
             {
-                Debug.Log($"Camera Arm: Recording trovata ({snapshotCount} snapshots)");
+                Debug.Log($"Camera Arm: Ready ({armCamera.WaypointCount} waypoint)");
+            }
+            else if (armCamera.DirectorModeCamera == null)
+            {
+                Debug.LogWarning("Camera Arm: Director Mode Camera non assegnata!");
             }
             else
             {
-                Debug.LogWarning("Camera Arm: Nessuna recording!");
+                Debug.LogWarning($"Camera Arm: Solo {armCamera.WaypointCount} waypoint (servono almeno 2)");
             }
         }
     }
@@ -491,13 +481,11 @@ public class DirectorModeManager : MonoBehaviour
     {
         if (!availableCameras.Contains(cameraIndex))
         {
-            // Debug.LogWarning($"Camera {cameraIndex} non disponibile in questa scena!");
             return;
         }
 
         currentCameraIndex = cameraIndex;
 
-        // disattivo TUTTE le camere
         if (sliderCamera != null && sliderCamera.SliderCamera != null)
         {
             sliderCamera.SliderCamera.gameObject.GetComponentInChildren<Camera>().enabled = false;
@@ -508,9 +496,9 @@ public class DirectorModeManager : MonoBehaviour
             tripodCamera.gameObject.SetActive(false);
         }
 
-        if (armCameraView != null)
+        if (armCamera != null && armCamera.DirectorModeCamera != null)
         {
-            armCameraView.gameObject.SetActive(false);
+            armCamera.DirectorModeCamera.enabled = false;
         }
 
         if (PlayerController.instance != null && PlayerController.instance.playerCamera != null)
@@ -524,15 +512,11 @@ public class DirectorModeManager : MonoBehaviour
                 if (sliderCamera != null && sliderCamera.SliderCamera != null)
                 {
                     sliderCamera.SliderCamera.gameObject.GetComponentInChildren<Camera>().enabled = true;
-                    
+
                     if (sliderCamera.CurrentRecording != null && !sliderCamera.IsPlaying)
                     {
                         sliderCamera.StartPlayback();
-                        Debug.Log("Camera 1: Slider playback started");
-                    }
-                    else if (sliderCamera.IsPlaying)
-                    {
-                        Debug.Log($"Camera 1: Slider (playback @ {sliderCamera.CurrentPosition:F2})");
+                        Debug.Log("Camera 1: Slider playback avviato");
                     }
                 }
                 break;
@@ -546,29 +530,28 @@ public class DirectorModeManager : MonoBehaviour
                 break;
 
             case 3: // arm
-                if (armCameraView != null)
+                if (armCamera != null && armCamera.DirectorModeCamera != null)
                 {
-                    armCameraView.gameObject.SetActive(true);
+                    armCamera.DirectorModeCamera.enabled = true;
+                    Debug.Log($"Camera 3: Arm Director Mode Camera attivata");
 
-                    if (ArmMovementRecorder.instance != null && 
-                        ArmMovementRecorder.instance.SnapshotCount > 0 &&
-                        ArmMovementPlayback.instance != null &&
-                        !ArmMovementPlayback.instance.IsPlayingBack)
+                    // Avvia playback se non già attivo
+                    if (ArmWaypointPlayback.instance != null && 
+                        armCamera.WaypointCount >= 2 &&
+                        !ArmWaypointPlayback.instance.IsPlayingBack)
                     {
-                        ArmMovementPlayback.instance.StartPlayback(
-                            ArmMovementRecorder.instance.RecordedSnapshots,
-                            armCamera,
-                            armCameraView,
-                            null
-                        );
-                        
-                        Debug.Log($"Camera 3: Arm playback started ({ArmMovementRecorder.instance.SnapshotCount} snapshots)");
+                        ArmWaypointPlayback.instance.StartPlayback(armCamera);
+                        Debug.Log($"Arm playback avviato ({armCamera.WaypointCount} waypoint)");
                     }
-                    else if (ArmMovementPlayback.instance != null && 
-                             ArmMovementPlayback.instance.IsPlayingBack)
+                    else if (ArmWaypointPlayback.instance != null && 
+                             ArmWaypointPlayback.instance.IsPlayingBack)
                     {
-                        Debug.Log($"Camera 3: Arm (playback @ {ArmMovementPlayback.instance.PlaybackProgress * 100:F0}%)");
+                        Debug.Log($"Arm playback @ {ArmWaypointPlayback.instance.PlaybackProgress * 100:F0}%");
                     }
+                }
+                else
+                {
+                    Debug.LogError("Arm Director Mode Camera non disponibile!");
                 }
                 break;
         }

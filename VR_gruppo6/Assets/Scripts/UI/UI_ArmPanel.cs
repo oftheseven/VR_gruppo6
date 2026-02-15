@@ -1,59 +1,76 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 using System.Collections;
 
 public class UI_ArmPanel : MonoBehaviour
 {
-    [Header("Camera timer settings")]
-    [SerializeField] private float holdTimeToClose = 2f;
-    [SerializeField] private float cooldownTime = 1f;
+    [Header("Arm reference")]
+    [SerializeField] private InteractableArm interactableArm;
+    
+    [Header("UI elements")]
+    [SerializeField] private TextMeshProUGUI waypointCountText;
+    [SerializeField] private TextMeshProUGUI instructionText;
+    [SerializeField] private TextMeshProUGUI playbackProgressText;
+    [SerializeField] private Button startRecordingButton;
+    [SerializeField] private Button stopRecordingButton;
+    [SerializeField] private Button clearButton;
+    [SerializeField] private Button closeButton;
+    [SerializeField] private Button playbackButton;
 
-    [Header("Info panel reference")]
-    [SerializeField] private UI_InfoPanel infoPanel; // reference al pannello info specifico per questa camera
+    [Header("Control settings")]
+    [SerializeField] private float rotationSpeed = 50f;
+    [SerializeField] private Camera armCamera;
+    [SerializeField] private Camera armCameraView;
+    [SerializeField] private ArmCameraOrbit armCameraOrbit;
 
     [Header("Hold to close UI")]
+    [SerializeField] private float holdTimeToClose = 2f;
+    [SerializeField] private float cooldownTime = 1f;
     [SerializeField] private GameObject holdIndicator; // container del cerchio
     [SerializeField] private Image holdFillImage; // image con fill radial
 
-    [Header("Arm reference")]
-    [SerializeField] private InteractableArm interactableArm; // reference all'InteractableArm da far muovere
-    [SerializeField] private Camera armCamera; // reference alla camera del braccio meccanico usata per muoverlo
-
-    [Header("Waypoint System")]
-    [SerializeField] private bool enableWaypointChallenge = true;
-
-    [Header("Visual effect pivot selection")]
-    [SerializeField] private Color selectedColor = Color.green;
-    [SerializeField] private float outlineWidth = 5f;
-
-    [Header("Accuracy feedback reference")]
-    [SerializeField] private UI_AccuracyFeedback accuracyFeedback;
-
     private bool isOpen = false;
     public bool IsOpen => isOpen;
+    
     private bool canInteract = true;
     public bool CanInteract => canInteract;
+
     private float holdTimer = 0f;
-    public Camera ArmCamera => armCamera;
-    public bool EnableWaypointChallenge => enableWaypointChallenge;
 
-    private enum PivotSelection
+    
+    void Awake()
     {
-        Base,
-        Pivot1,
-        Pivot2
+        this.gameObject.SetActive(false);
+        
+        if (startRecordingButton != null)
+            startRecordingButton.onClick.AddListener(OnStartRecording);
+        
+        if (stopRecordingButton != null)
+            stopRecordingButton.onClick.AddListener(OnStopRecording);
+        
+        if (clearButton != null)
+            clearButton.onClick.AddListener(OnClear);
+        
+        if (closeButton != null)
+            closeButton.onClick.AddListener(CloseArmPanel);
+
+        if (playbackButton != null)
+            playbackButton.onClick.AddListener(OnPlayback);
+
+        if (armCameraOrbit == null && armCamera != null)
+        {
+            armCameraOrbit = armCamera.GetComponent<ArmCameraOrbit>();
+            if (armCameraOrbit != null)
+            {
+                Debug.Log("ArmCameraOrbit auto-detected");
+            }
+        }
     }
-
-    private PivotSelection currentSelection = PivotSelection.Base;
-
-    private float targetPivot1X = 0f;
-    private float targetPivot2X = 0f;
 
     void Start()
     {
-        this.gameObject.SetActive(false);
-        armCamera.gameObject.SetActive(false);
         canInteract = true;
 
         if (holdIndicator != null)
@@ -65,137 +82,266 @@ public class UI_ArmPanel : MonoBehaviour
         {
             holdFillImage.fillAmount = 0;
         }
-
-        if (accuracyFeedback == null)
-        {
-            accuracyFeedback = UI_AccuracyFeedback.instance;
-            if (accuracyFeedback != null)
-            {
-                // Debug.Log("AccuracyFeedback trovato via singleton");
-            }
-            else
-            {
-                // Debug.LogWarning("AccuracyFeedback non trovato!");
-            }
-        }
-
-        SetupOutlines();
     }
 
     void Update()
     {
+        if (!isOpen) return;
+        
+        UpdateUI();
+
+        if (ArmWaypointPlayback.instance != null && ArmWaypointPlayback.instance.IsPlayingBack)
+        {
+            UpdatePlaybackProgress();
+        }
+
+        if (interactableArm.IsRecording)
+        {
+            HandleArmControl();
+        }
+        
+        if (interactableArm.IsRecording && Keyboard.current.enterKey.wasPressedThisFrame)
+        {
+            interactableArm.AddWaypoint();
+        }
+        
         if (isOpen)
         {
-            HandlePivotSelection();
-            HandleArmMovement();
+            HandleArmClose();
         }
     }
 
-    public void OpenArm()
+    private void HandleArmControl()
+    {
+        if (Keyboard.current == null) return;
+
+        float baseRotation = 0f;
+        float jointRotation = 0f;
+
+        if (Keyboard.current.leftArrowKey.isPressed)
+        {
+            baseRotation -= rotationSpeed * Time.deltaTime;
+        }
+        if (Keyboard.current.rightArrowKey.isPressed)
+        {
+            baseRotation += rotationSpeed * Time.deltaTime;
+        }
+
+        if (Keyboard.current.upArrowKey.isPressed)
+        {
+            jointRotation -= rotationSpeed * Time.deltaTime;
+        }
+        if (Keyboard.current.downArrowKey.isPressed)
+        {
+            jointRotation += rotationSpeed * Time.deltaTime;
+        }
+        
+        if (Mathf.Abs(baseRotation) > 0.01f)
+        {
+            interactableArm.RotateBase(baseRotation);
+        }
+
+        if (Mathf.Abs(jointRotation) > 0.01f)
+        {
+            interactableArm.RotateJoint(jointRotation);
+        }
+    }
+
+    public void OpenArmPanel()
     {
         this.gameObject.SetActive(true);
         isOpen = true;
+
         PlayerController.EnableMovement(false);
-
-        PlayerController.instance.playerCamera.gameObject.SetActive(false);
-        armCamera.gameObject.SetActive(true);
-
         PlayerController.ShowCursor();
+        PlayerController.instance.playerCamera.gameObject.SetActive(false);
 
-        currentSelection = PivotSelection.Base;
-        UpdateSelectionHighlight();
-
-        if (infoPanel != null)
+        if (armCamera != null)
         {
-            infoPanel.OnDeviceOpened();
-        }
-    
-        if (enableWaypointChallenge && WaypointManager.instance != null)
-        {
-            WaypointManager.instance.StartWaypointChallenge();
-        }
-    
-        if (ArmAccuracyTracker.instance != null)
-        {
-            ArmAccuracyTracker.instance.StartTracking();
+            armCamera.enabled = true;
         }
 
-        Transform armTip = FindArmTip();
-
-        if (ArmMovementRecorder.instance != null && armTip != null)
+        if (armCameraView != null)
         {
-            ArmMovementRecorder.instance.StartRecording(interactableArm, armTip);
+            armCameraView.enabled = false;
         }
+        
+        if (armCameraOrbit != null)
+        {
+            armCameraOrbit.EnableOrbit();
+        }
+        else
+        {
+            Debug.LogWarning("ArmCameraOrbit non trovato su armCamera!");
+        }
+
+        if (interactableArm.VisualFeedback != null)
+        {
+            interactableArm.VisualFeedback.EnableVisuals();
+        }
+
+        UpdateUI();
     }
 
-    public void CloseArm()
+    public void CloseArmPanel()
     {
+        if (interactableArm.IsRecording)
+        {
+            interactableArm.StopRecording();
+        }
+
+        if (ArmWaypointPlayback.instance != null && ArmWaypointPlayback.instance.IsPlayingBack)
+        {
+            ArmWaypointPlayback.instance.StopPlayback();
+        }
+
         isOpen = false;
         holdTimer = 0f;
-    
-        DisableAllOutlines();
+        
+        if (armCamera != null)
+        {
+            armCamera.enabled = false;
+            Debug.Log("armCamera (supporto) disabilitata");
+        }
+
+        if (armCameraOrbit != null)
+        {
+            armCameraOrbit.DisableOrbit();
+        }
+
+        if (interactableArm.VisualFeedback != null)
+        {
+            interactableArm.VisualFeedback.DisableVisuals();
+        }
 
         if (holdIndicator != null)
         {
             holdIndicator.SetActive(false);
         }
 
-        if (infoPanel != null)
-        {
-            infoPanel.OnDeviceClosed();
-        }
-    
-        float timeTaken = 0f;
-        if (ArmAccuracyTracker.instance != null)
-        {
-            timeTaken = ArmAccuracyTracker.instance.SessionDuration;
-            ArmAccuracyTracker.instance.StopTracking();
-        }
-    
-        if (enableWaypointChallenge && WaypointManager.instance != null)
-        {
-            WaypointManager.instance.StopWaypointChallenge();
-
-            AccuracyResults results = WaypointManager.instance.CalculateFinalScore();
-
-            if (accuracyFeedback == null)
-            {
-                accuracyFeedback = UI_AccuracyFeedback.instance;
-                // Debug.Log($"Cercato via singleton - trovato: {(accuracyFeedback != null ? "OK" : "NULL")}");
-            }
-
-            if (accuracyFeedback != null)
-            {
-                accuracyFeedback.ShowResults(results, timeTaken, interactableArm, this);
-            }
-            else
-            {
-                // Debug.LogError("accuracyFeedback è NULL! Non posso mostrare risultati.");
-            }
-        }
-    
         StartCoroutine(CooldownAndHide());
         this.gameObject.SetActive(false);
         canInteract = true;
+        PlayerController.EnableMovement(true);
         PlayerController.instance.playerCamera.gameObject.SetActive(true);
-        // PlayerController.EnableMovement(true);
-        armCamera.gameObject.SetActive(false);
         PlayerController.HideCursor();
+    }
+    
+    private void UpdateUI()
+    {
+        if (waypointCountText != null)
+        {
+            waypointCountText.text = $"Waypoint: {interactableArm.WaypointCount}";
+        }
+        
+        if (instructionText != null)
+        {
+            if (ArmWaypointPlayback.instance != null && ArmWaypointPlayback.instance.IsPlayingBack)
+            {
+                instructionText.text = "PLAYBACK IN CORSO...";
+            }
+            else if (interactableArm.IsRecording)
+            {
+                instructionText.text = "← → per ruotare\nINVIO = salva waypoint\n'Fine' = termina";
+            }
+            else if (interactableArm.WaypointCount > 0)
+            {
+                float duration = interactableArm.GetPlaybackDuration();
+                instructionText.text = $"Recording completo!\nDurata: {duration:F1}s\nPremi 'Play' per testare";
+            }
+            else
+            {
+                instructionText.text = "Premi 'Inizia' per registrare";
+            }
+        }
+        
+        bool isPlayingBack = ArmWaypointPlayback.instance != null && ArmWaypointPlayback.instance.IsPlayingBack;
+        
+        if (startRecordingButton != null)
+            startRecordingButton.interactable = !interactableArm.IsRecording && !isPlayingBack;
+        
+        if (stopRecordingButton != null)
+            stopRecordingButton.interactable = interactableArm.IsRecording;
+        
+        if (playbackButton != null)
+            playbackButton.interactable = interactableArm.WaypointCount >= 2 && !interactableArm.IsRecording && !isPlayingBack;
+        
+        if (clearButton != null)
+            clearButton.interactable = interactableArm.WaypointCount > 0 && !interactableArm.IsRecording && !isPlayingBack;
+    }
+
+    private void UpdatePlaybackProgress()
+    {
+        if (playbackProgressText != null && ArmWaypointPlayback.instance != null)
+        {
+            float progress = ArmWaypointPlayback.instance.PlaybackProgress * 100f;
+            playbackProgressText.text = $"Progresso: {progress:F0}%";
+            playbackProgressText.gameObject.SetActive(true);
+        }
+    }
+    
+    private void OnStartRecording()
+    {
+        interactableArm.StartRecording();
+        Debug.Log("Recording iniziato");
+    }
+    
+    private void OnStopRecording()
+    {
+        interactableArm.StopRecording();
+        Debug.Log("Recording fermato");
+
+        if (interactableArm.WaypointCount >= 2)
+        {
+            if (TutorialManager.instance != null)
+            {
+                TutorialManager.instance.OnArmCompleted();
+                Debug.Log("Task ARM completato per tutorial!");
+            }
+        }
+    }
+    
+    private void OnClear()
+    {
+        interactableArm.ClearWaypoints();
+        Debug.Log("Waypoint cancellati");
+    }
+
+    private void OnPlayback()
+    {
+        Debug.Log("Bottone PLAYBACK cliccato!");
+        
+        if (ArmWaypointPlayback.instance != null)
+        {
+            ArmWaypointPlayback.instance.StartPlayback(interactableArm);
+        }
+        else
+        {
+            Debug.LogError("ArmWaypointPlayback.instance è NULL!");
+        }
+        
+        if (playbackProgressText != null)
+        {
+            playbackProgressText.gameObject.SetActive(false);
+        }
+    }
+    
+    public UI_ArmPanel GetArmPanel()
+    {
+        return this;
     }
 
     public void HandleArmClose()
     {
-        if (Keyboard.current.eKey.isPressed && !infoPanel.IsOpen)
+        if (Keyboard.current.eKey.isPressed)
         {
             holdTimer += Time.deltaTime;
 
-            // mostro l'indicatore quando inizio a premere
             if (holdIndicator != null && !holdIndicator.activeSelf)
             {
                 holdIndicator.SetActive(true);
             }
 
-            // aggiorno il fill dell'immagine radiale
             if (holdFillImage != null)
             {
                 holdFillImage.fillAmount = Mathf.Clamp01(holdTimer / holdTimeToClose);
@@ -203,12 +349,11 @@ public class UI_ArmPanel : MonoBehaviour
             
             if (holdTimer >= holdTimeToClose)
             {
-                CloseArm();
+                CloseArmPanel();
             }
         }
         else
         {
-            // resetto quando rilascio il tasto
             holdTimer = 0f;
 
             if (holdIndicator != null)
@@ -226,201 +371,7 @@ public class UI_ArmPanel : MonoBehaviour
     private IEnumerator CooldownAndHide()
     {
         canInteract = false;
-        //Debug.Log("Cooldown iniziato - canInteract = " + canInteract);
         yield return new WaitForSeconds(cooldownTime);
-    }
-
-    private void HandlePivotSelection()
-    {
-        if (Keyboard.current.digit1Key.wasPressedThisFrame)
-        {
-            currentSelection = PivotSelection.Base;
-            UpdateSelectionHighlight();
-        }
-        else if (Keyboard.current.digit2Key.wasPressedThisFrame)
-        {
-            currentSelection = PivotSelection.Pivot1;
-            UpdateSelectionHighlight();
-        }
-        else if (Keyboard.current.digit3Key.wasPressedThisFrame)
-        {
-            currentSelection = PivotSelection.Pivot2;
-            UpdateSelectionHighlight();
-        }
-    }
-
-    private void UpdateSelectionHighlight()
-    {
-        DisableAllOutlines();
-
-        switch (currentSelection)
-        {
-            case PivotSelection.Base:
-                if (interactableArm.MechanicalArmPivot != null)
-                    SetOutlinesEnabled(interactableArm.MechanicalArmPivot, true);
-                break;
-            case PivotSelection.Pivot1:
-                if (interactableArm.Pivot1 != null)
-                    SetOutlinesEnabled(interactableArm.Pivot1, true);
-                break;
-            case PivotSelection.Pivot2:
-                if (interactableArm.Pivot2 != null)
-                    SetOutlinesEnabled(interactableArm.Pivot2, true);
-                break;
-        }
-    }
-
-    private void SetOutlinesEnabled(GameObject parent, bool enabled)
-    {
-        Outline[] outlines = parent.GetComponentsInChildren<Outline>();
-        foreach (Outline outline in outlines)
-        {
-            outline.enabled = enabled;
-        }
-    }
-
-    private void DisableAllOutlines()
-    {
-        if (interactableArm.MechanicalArmPivot != null)
-            SetOutlinesEnabled(interactableArm.MechanicalArmPivot, false);
-
-        if (interactableArm.Pivot1 != null)
-            SetOutlinesEnabled(interactableArm.Pivot1, false);
-
-        if (interactableArm.Pivot2 != null)
-            SetOutlinesEnabled(interactableArm.Pivot2, false);
-    }
-    
-    private void SetupOutlines()
-    {
-        if (interactableArm.MechanicalArmPivot != null)
-        {
-            GetOrAddOutline(interactableArm.MechanicalArmPivot);
-        }
-
-        if (interactableArm.Pivot1 != null)
-        {
-            GetOrAddOutline(interactableArm.Pivot1);
-        }
-
-        if (interactableArm.Pivot2 != null)
-        {
-            GetOrAddOutline(interactableArm.Pivot2);
-        }
-
-        DisableAllOutlines();
-    }
-
-    private void GetOrAddOutline(GameObject obj)
-    {
-        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
-    
-        foreach (Renderer renderer in renderers)
-        {
-            Outline outline = renderer.gameObject.GetComponent<Outline>();
-            if (outline == null)
-            {
-                outline = renderer.gameObject.AddComponent<Outline>();
-            }
-
-            outline.OutlineColor = selectedColor;
-            outline.OutlineWidth = outlineWidth;
-            outline.enabled = false;
-        }
-    }
-
-    // funzione che gestisce le varie rotazioni del braccio meccanico
-    private void HandleArmMovement()
-    {
-        if (currentSelection == PivotSelection.Base && interactableArm.MechanicalArmPivot != null)
-        {
-            if (Keyboard.current.rightArrowKey.isPressed)
-            {
-                interactableArm.MechanicalArmPivot.transform.Rotate(Vector3.up * 20f * Time.deltaTime);
-            }
-            else if (Keyboard.current.leftArrowKey.isPressed)
-            {
-                interactableArm.MechanicalArmPivot.transform.Rotate(Vector3.up * -20f * Time.deltaTime);
-            }
-        }
- 
-        if (currentSelection == PivotSelection.Pivot1 && interactableArm.Pivot1 != null)
-        {
-            if (Keyboard.current.upArrowKey.isPressed)
-            {
-                targetPivot1X -= interactableArm.RotationSpeed * Time.deltaTime;
-            }
-            else if (Keyboard.current.downArrowKey.isPressed)
-            {
-                targetPivot1X += interactableArm.RotationSpeed * Time.deltaTime;
-            }
-
-            targetPivot1X = Mathf.Clamp(targetPivot1X, interactableArm.MinPivot1X, interactableArm.MaxPivot1X);
-            Quaternion targetRotation = Quaternion.Euler(targetPivot1X, 0, 0);
-            interactableArm.Pivot1.transform.localRotation = Quaternion.Lerp(
-                interactableArm.Pivot1.transform.localRotation,
-                targetRotation,
-                Time.deltaTime * 5f
-            );
-        }
-
-        if (currentSelection == PivotSelection.Pivot2 && interactableArm.Pivot2 != null)
-        {
-            if (Keyboard.current.upArrowKey.isPressed)
-            {
-                targetPivot2X -= interactableArm.RotationSpeed * Time.deltaTime;
-            }
-            else if (Keyboard.current.downArrowKey.isPressed)
-            {
-                targetPivot2X += interactableArm.RotationSpeed * Time.deltaTime;
-            }
-
-            targetPivot2X = Mathf.Clamp(targetPivot2X, interactableArm.MinPivot2X, interactableArm.MaxPivot2X);
-            Quaternion targetRotation = Quaternion.Euler(targetPivot2X, 0, 0);
-            interactableArm.Pivot2.transform.localRotation = Quaternion.Lerp(
-                interactableArm.Pivot2.transform.localRotation,
-                targetRotation,
-                Time.deltaTime * 5f
-            );
-        }
-    }
-
-    private Transform FindArmTip()
-    {
-        if (interactableArm == null)
-        {
-            Debug.LogError("interactableArm è null!");
-            return null;
-        }
-    
-        Transform armTip = interactableArm.transform.Find("ArmTip");
-        
-        if (armTip == null)
-        {
-            armTip = interactableArm.GetComponentInChildren<Transform>().Find("ArmTip");
-        }
-    
-        if (armTip == null)
-        {
-            foreach (Transform child in interactableArm.GetComponentsInChildren<Transform>())
-            {
-                if (child.name == "ArmTip")
-                {
-                    armTip = child;
-                    break;
-                }
-            }
-        }
-    
-        if (armTip != null)
-        {
-            Debug.Log($"ArmTip trovato: {armTip.name}");
-        }
-        else
-        {
-            Debug.LogError($"ArmTip NON trovato nei children di {interactableArm.name}");
-        }
-    
-        return armTip;
+        canInteract = true;
     }
 }

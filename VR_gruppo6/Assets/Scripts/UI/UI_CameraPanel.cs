@@ -62,22 +62,17 @@ public class UI_CameraPanel :  MonoBehaviour
         isOpen = true;
         PlayerController.EnableMovement(false);
 
-        PlayerController.ShowCursor();
-
-        if (PlayerController.instance != null)
+        if (infoPanel != null)
         {
-            PlayerController.instance.playerCamera.gameObject.SetActive(false);
+            infoPanel.OnDeviceOpened();
         }
-        
+
         if (interactableCamera.ViewCamera != null)
         {
             interactableCamera.ViewCamera.gameObject.SetActive(true);
         }
 
-        if (infoPanel != null)
-        {
-            infoPanel.OnDeviceOpened();
-        }
+        PlayerController.ShowCursor();
     }
 
     public void CloseCamera()
@@ -96,19 +91,9 @@ public class UI_CameraPanel :  MonoBehaviour
         }
 
         PlayerController.HideCursor();
-
-        if (interactableCamera != null)
-        {
-            interactableCamera.ResetInteractionCooldown();
-        }
         
         StartCoroutine(CooldownAndHide());
 
-        if (PlayerController.instance != null)
-        {
-            PlayerController.instance.playerCamera.gameObject.SetActive(true);
-        }
-        
         if (interactableCamera != null && interactableCamera.ViewCamera != null)
         {
             interactableCamera.ViewCamera.gameObject.SetActive(false);
@@ -165,15 +150,4 @@ public class UI_CameraPanel :  MonoBehaviour
         //Debug.Log("Cooldown iniziato - canInteract = " + canInteract);
         yield return new WaitForSeconds(cooldownTime);
     }
-
-    // private IEnumerator CooldownAndHide()
-    // {
-    //     canInteract = false;
-    //     Debug.Log($"Camera panel cooldown iniziato: {cooldownTime}s");
-
-    //     yield return new WaitForSeconds(cooldownTime);
-
-    //     canInteract = true;
-    //     Debug.Log("Camera panel cooldown finito");
-    // }
 }

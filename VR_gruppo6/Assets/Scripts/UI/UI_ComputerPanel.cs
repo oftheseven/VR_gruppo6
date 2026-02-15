@@ -18,7 +18,6 @@ public class UI_ComputerPanel :  MonoBehaviour
     [Header("Hold to close UI")]
     [SerializeField] private GameObject holdIndicator; // container del cerchio
     [SerializeField] private Image holdFillImage; // image con fill radial
-    [SerializeField] private TextMeshProUGUI holdText; // tasto da cliccare
 
     private bool isOpen = false;
     public bool IsOpen => isOpen;

@@ -9,7 +9,7 @@ public class TutorialManager : MonoBehaviour
 
     [Header("Scene Setup")]
     [SerializeField] private InteractableDoor exitDoor;
-    [SerializeField] private int totalQuests = 6;
+    [SerializeField] private int totalQuests = 5;
 
     private HashSet<string> completedTasks = new HashSet<string>();
     private bool isFinished = false;
@@ -18,7 +18,6 @@ public class TutorialManager : MonoBehaviour
     private const string TASK_COMPUTER = "computer";
     private const string TASK_CAMERA = "camera";
     private const string TASK_ARM = "arm";
-    private const string TASK_CART = "cart";
     private const string TASK_LIGHT = "light";
     private const string TASK_SLIDER = "slider";
 
@@ -40,7 +39,7 @@ public class TutorialManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Exit door not assigned in TutorialManager.");
+            Debug.LogWarning("Exit door non assegnata al tutorialmanager.");
         }
     }
 
@@ -91,11 +90,6 @@ public class TutorialManager : MonoBehaviour
 
         Debug.Log("Tutorial completato!");
 
-        // if (exitDoor != null)
-        // {
-        //     exitDoor.Unlock();
-        // }
-
         if (DirectorModeManager.instance != null)
         {
             DirectorModeManager.instance.SetDirectorModeAvailable(true);
@@ -105,7 +99,6 @@ public class TutorialManager : MonoBehaviour
     public void OnComputerCompleted() => CompleteTask(TASK_COMPUTER);
     public void OnCameraCompleted() => CompleteTask(TASK_CAMERA);
     public void OnArmCompleted() => CompleteTask(TASK_ARM);
-    public void OnCartCompleted() => CompleteTask(TASK_CART);
     public void OnLightCompleted() => CompleteTask(TASK_LIGHT);
     public void OnSliderCompleted() => CompleteTask(TASK_SLIDER);
 
