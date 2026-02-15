@@ -13404,7 +13404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 194848850103672669, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 194848850103672669, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
       propertyPath: m_LocalRotation.x
@@ -13412,7 +13412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 194848850103672669, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 194848850103672669, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
       propertyPath: m_LocalRotation.z
@@ -13424,7 +13424,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 194848850103672669, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 194848850103672669, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -13434,34 +13434,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Light_Diffuse
       objectReference: {fileID: 0}
-    - target: {fileID: 2998516203182023349, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
-      propertyPath: m_AdditionalLightsShadowResolutionTier
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730835806461497066, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.043
-      objectReference: {fileID: 0}
     - target: {fileID: 8334917087905597246, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
       propertyPath: lightPanel
       value: 
       objectReference: {fileID: 31875088}
-    - target: {fileID: 8334917087905597246, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
-      propertyPath: interactionText
-      value: '[E] per gestire la luce'
-      objectReference: {fileID: 0}
-    - target: {fileID: 8417401126302668152, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
-      propertyPath: m_Range
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8417401126302668152, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
-      propertyPath: m_Shadows.m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8417401126302668152, guid: 9117f3e044af68147a9562bc8fb7070b, type: 3}
-      propertyPath: m_Shadows.m_Resolution
-      value: 4096
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18875,10 +18851,6 @@ PrefabInstance:
       propertyPath: lightPanel
       value: 
       objectReference: {fileID: 31875088}
-    - target: {fileID: 879073281449097825, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
-      propertyPath: interactionText
-      value: '[E] per gestire la luce'
-      objectReference: {fileID: 0}
     - target: {fileID: 1192690270912758188, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
       propertyPath: m_Name
       value: Light_SingleBulb
@@ -19904,7 +19876,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f9469bd642b438eac1c6901e361959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArmWaypointPlayback
-  interpolationSmoothing: 0.1
 --- !u!1 &1941848617
 GameObject:
   m_ObjectHideFlags: 0

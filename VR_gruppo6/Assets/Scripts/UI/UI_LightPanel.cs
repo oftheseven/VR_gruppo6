@@ -178,10 +178,17 @@ public class UI_LightPanel : MonoBehaviour
 
         if (intensitySlider != null)
         {
-            intensitySlider.SetValueWithoutNotify(currentLight.CurrentIntensity);
+            // inverto la curva per mostrare lo slider correttamente
+            float currentIntensity = currentLight.CurrentIntensity;
+            float normalizedIntensity = currentIntensity / currentLight.MaxIntensity;
+            float sliderValue = Mathf.Sqrt(normalizedIntensity) * currentLight.MaxIntensity;
+
+            intensitySlider.SetValueWithoutNotify(sliderValue);
+
             if (intensityText != null)            
             {
-                intensityText.text = $"Intensità: {currentLight.CurrentIntensity:F1}";
+                float percentage = (sliderValue / currentLight.MaxIntensity) * 100f;
+                intensityText.text = $"Intensità: {percentage:F0}%";
             }
         }
 
@@ -260,7 +267,14 @@ public class UI_LightPanel : MonoBehaviour
     {
         if (currentLight == null) return;
 
-        currentLight.SetIntensity(value);
+        // currentLight.SetIntensity(value);
+
+        float normalizedValue = value / currentLight.MaxIntensity; // 0-1
+        float curvedValue = Mathf.Pow(normalizedValue, 2f); // curva quadratica
+        float finalIntensity = curvedValue * currentLight.MaxIntensity;
+
+        currentLight.SetIntensity(finalIntensity);
+
         UpdateUI();
 
         CheckLightQuest();
