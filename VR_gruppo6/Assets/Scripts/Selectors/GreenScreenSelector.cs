@@ -7,35 +7,18 @@ public class GreenScreenSelector : MonoBehaviour
 {
     [Header("Green screen images and references")]
     [SerializeField] private RawImage[] images;
-    [SerializeField] private Renderer objectRenderer;
 
     [Header("Input settings")]
     [SerializeField] private float inputCooldown = 0.1f;
 
-    [Header("Correct image index")]
-    [SerializeField] private int correctImageIndex = 0; // indice dell'immagine corretta da scegliere
-    [SerializeField] private string computerID = "computer1";
-
     private int currentImageIndex = 0;
     private float lastInputTime = 0f;
     private UI_ComputerPanel computerPanel;
-    private bool imageConfirmed = false;
+    private GreenScreenTarget currentTarget;
 
     void Start()
     {
-        if (objectRenderer == null)
-        {
-            Debug.LogError("Manca la reference al renderer a cui applicare l'immagine!");
-            return;
-        }
-
         computerPanel = GetComponent<UI_ComputerPanel>();
-
-        if (computerPanel != null)
-        {
-            computerPanel.SetComputerID(computerID);
-        }
-
         UpdateImageColors();
     }
 
@@ -46,6 +29,15 @@ public class GreenScreenSelector : MonoBehaviour
             HandleImageSelection();
             HandleConfirmation();
         }
+    }
+
+    public void SetTarget(GreenScreenTarget target)
+    {
+        currentTarget = target;
+        currentImageIndex = 0;
+        UpdateImageColors();
+        
+        Debug.Log($"Target green screen impostato: {target.displayName}");
     }
 
     private void HandleImageSelection()
@@ -80,22 +72,72 @@ public class GreenScreenSelector : MonoBehaviour
         if (Keyboard.current.enterKey.wasPressedThisFrame)
         {
             ApplyCurrentImage();
-            CheckImageCorrectness();
+            CheckCompletion();
             computerPanel.CloseComputerImmediate();
         }
     }
 
+    // private void ApplyCurrentImage()
+    // {
+    //     RawImage selectedImage = images[currentImageIndex];
+    //     if (selectedImage != null)
+    //     {
+    //         objectRenderer.material.color = Color.white;
+    //         objectRenderer.material.mainTexture = selectedImage.texture;
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning("L'immagine all'indice " + currentImageIndex + " è null.");
+    //     }
+    // }
+
     private void ApplyCurrentImage()
     {
         RawImage selectedImage = images[currentImageIndex];
-        if (selectedImage != null)
+        
+        if (selectedImage != null && currentTarget != null && currentTarget.targetRenderer != null)
         {
-            objectRenderer.material.color = Color.white;
-            objectRenderer.material.mainTexture = selectedImage.texture;
+            currentTarget.targetRenderer.material.color = Color.white;
+            currentTarget.targetRenderer.material.mainTexture = selectedImage.texture;
+            
+            Debug.Log($"Immagine {currentImageIndex} applicata a {currentTarget.displayName}");
+            
+            if (AudioManager.instance != null)
+            {
+                AudioManager.instance.PlayUIClick();
+            }
         }
         else
         {
-            Debug.LogWarning("L'immagine all'indice " + currentImageIndex + " è null.");
+            Debug.LogWarning("Immagine o renderer mancante!");
+        }
+    }
+
+    private void CheckCompletion()
+    {
+        // tutorial: qualsiasi immagine va bene
+        if (QuestManager.instance != null && 
+            QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.GreenScreen))
+        {
+            Debug.Log("Tutorial GreenScreen completato!");
+            QuestManager.instance.CompleteCurrentQuest();
+        }
+        
+        // tortaintesta: deve essere l'immagine corretta
+        if (TortaInTestaManager.instance != null && currentTarget != null)
+        {
+            if (currentTarget.correctImageIndex != -1 && 
+                currentImageIndex == currentTarget.correctImageIndex)
+            {
+                currentTarget.isCompleted = true;
+                TortaInTestaManager.instance.OnComputerImageCorrect(currentTarget.id);
+                
+                Debug.Log($"Immagine corretta per {currentTarget.displayName}!");
+            }
+            else if (currentTarget.correctImageIndex != -1)
+            {
+                Debug.Log($"Immagine sbagliata per {currentTarget.displayName}");
+            }
         }
     }
 
@@ -113,25 +155,4 @@ public class GreenScreenSelector : MonoBehaviour
             }
         }
     }
-
-    private void CheckImageCorrectness()
-    {
-        if (currentImageIndex == correctImageIndex)
-        {
-            imageConfirmed = true;
-
-            // Debug.Log($"Immagine corretta selezionata su {computerID}");
-
-            if (TortaInTestaManager.instance != null)
-            {
-                TortaInTestaManager.instance.OnComputerImageCorrect(computerID);
-            }
-        }
-        // else
-        // {
-        //     Debug.Log($"Immagine sbagliata selezionata su {computerID}");
-        // }
-    }
-
-    public bool IsCompleted => imageConfirmed;
 }

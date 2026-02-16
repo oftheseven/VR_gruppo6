@@ -25,6 +25,7 @@ public class UI_ComputerPanel :  MonoBehaviour
     public bool CanInteract => canInteract;
     private float holdTimer = 0f;
     private GreenScreenSelector selector;
+    private GreenScreenTarget currentGreenScreen;
 
     void Start()
     {
@@ -57,16 +58,54 @@ public class UI_ComputerPanel :  MonoBehaviour
         computerID = id;
     }
 
-    public void OpenComputer()
+    // public void OpenComputer()
+    // {
+    //     if (selector != null && selector.IsCompleted)
+    //     {
+    //         Debug.Log($"{computerID} già completato!");
+    //         return;
+    //     }
+
+    //     this.gameObject.SetActive(true);
+
+    //     isOpen = true;
+    //     PlayerController.EnableMovement(false);
+
+    //     if (infoPanel != null)
+    //     {
+    //         infoPanel.OnDeviceOpened();
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning("Info panel reference is null in UI_ComputerPanel.");
+    //     }
+
+    //     PlayerController.ShowCursor();
+    // }
+
+    public void OpenComputer(GreenScreenTarget targetGreenScreen)
     {
-        if (selector != null && selector.IsCompleted)
+        if (targetGreenScreen == null || !targetGreenScreen.IsValid())
         {
-            Debug.Log($"{computerID} già completato!");
+            Debug.LogError("Green Screen target invalido!");
+            return;
+        }
+        
+        // Tutorial: se già completato (TortaInTesta), blocca
+        if (targetGreenScreen.isCompleted && TortaInTestaManager.instance != null)
+        {
+            Debug.Log($"{targetGreenScreen.displayName} già completato!");
             return;
         }
 
+        currentGreenScreen = targetGreenScreen;
+        
+        if (selector != null)
+        {
+            selector.SetTarget(targetGreenScreen);
+        }
+        
         this.gameObject.SetActive(true);
-
         isOpen = true;
         PlayerController.EnableMovement(false);
 
@@ -74,12 +113,10 @@ public class UI_ComputerPanel :  MonoBehaviour
         {
             infoPanel.OnDeviceOpened();
         }
-        else
-        {
-            Debug.LogWarning("Info panel reference is null in UI_ComputerPanel.");
-        }
 
         PlayerController.ShowCursor();
+        
+        Debug.Log($"Computer panel aperto per: {targetGreenScreen.displayName}");
     }
 
     public void CloseComputer()
@@ -167,5 +204,10 @@ public class UI_ComputerPanel :  MonoBehaviour
     {
         canInteract = false;
         yield return new WaitForSeconds(cooldownTime);
+    }
+
+    public GreenScreenTarget GetCurrentGreenScreen()
+    {
+        return currentGreenScreen;
     }
 }
