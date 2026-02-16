@@ -24269,6 +24269,63 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI_ButtonSound
   customClickSound: {fileID: 8300000, guid: 3f26a2bd36c4c9a4fbf0163723b5d927, type: 3}
+--- !u!1001 &5085573517352707855
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4765441557878233069, guid: 04390960645e4404a9204671c0587b0a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.8761921
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765441557878233069, guid: 04390960645e4404a9204671c0587b0a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0002582614
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765441557878233069, guid: 04390960645e4404a9204671c0587b0a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.7784855
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765441557878233069, guid: 04390960645e4404a9204671c0587b0a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.18626262
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765441557878233069, guid: 04390960645e4404a9204671c0587b0a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.18626261
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765441557878233069, guid: 04390960645e4404a9204671c0587b0a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.6821337
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765441557878233069, guid: 04390960645e4404a9204671c0587b0a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.68213356
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765441557878233069, guid: 04390960645e4404a9204671c0587b0a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765441557878233069, guid: 04390960645e4404a9204671c0587b0a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765441557878233069, guid: 04390960645e4404a9204671c0587b0a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290022526024879447, guid: 04390960645e4404a9204671c0587b0a, type: 3}
+      propertyPath: m_Name
+      value: UmbrellaLight
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 04390960645e4404a9204671c0587b0a, type: 3}
 --- !u!1001 &6541089106848013665
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24362,3 +24419,4 @@ SceneRoots:
   - {fileID: 1063760231}
   - {fileID: 6541089106848013665}
   - {fileID: 618977485}
+  - {fileID: 5085573517352707855}
