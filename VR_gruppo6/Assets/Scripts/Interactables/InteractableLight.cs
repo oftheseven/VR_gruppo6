@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InteractableLight : MonoBehaviour
@@ -13,6 +14,10 @@ public class InteractableLight : MonoBehaviour
 
     [Header("Light settings")]
     [SerializeField] private Light[] controlledLights;
+
+    [Header("Tutorial Tracking")]
+    private bool tutorialPanelOpened = false;
+    private bool tutorialSliderMoved = false;
 
     [Header("Audio")]
     [SerializeField] private AudioClip buzzSound;
@@ -84,16 +89,22 @@ public class InteractableLight : MonoBehaviour
         if (lightPanel != null)
         {
             lightPanel.OpenPanel(this);
+            if (QuestManager.instance != null && 
+            QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.Lights))
+            {
+                tutorialPanelOpened = true;
+                CheckTutorialComplete();
+            }
         }
         else
         {
             Debug.LogError("LightPanel non assegnato su " + this.name);
         }
 
-        if (TutorialManager.instance != null)
-        {
-            TutorialManager.instance.OnLightCompleted();
-        }
+        // if (TutorialManager.instance != null)
+        // {
+        //     TutorialManager.instance.OnLightCompleted();
+        // }
 
         // if (GameManager.instance != null)
         // {
@@ -119,6 +130,8 @@ public class InteractableLight : MonoBehaviour
     {
         currentIntensity = Mathf.Clamp(intensity, 0f, maxIntensity);
         UpdateLights();
+
+        OnSliderMoved();
     }
 
     public void SetTemperature(float temperature)
@@ -128,6 +141,8 @@ public class InteractableLight : MonoBehaviour
         currentTemperature = Mathf.Clamp(temperature, 1000f, 12000f);
         currentColor = KelvinToColor(currentTemperature);
         UpdateLights();
+
+        OnSliderMoved();
     }
 
     public void SetColor(Color color)
@@ -136,6 +151,30 @@ public class InteractableLight : MonoBehaviour
         
         currentColor = color;
         UpdateLights();
+
+        OnSliderMoved();
+    }
+
+    private void OnSliderMoved()
+    {
+        if (QuestManager.instance != null && 
+            QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.Lights))
+        {
+            tutorialSliderMoved = true;
+            CheckTutorialComplete();
+        }
+    }
+
+    private void CheckTutorialComplete()
+    {
+        if (tutorialPanelOpened && tutorialSliderMoved)
+        {
+            Debug.Log("Tutorial Luci completato!");
+            QuestManager.instance.CompleteCurrentQuest();
+            
+            tutorialPanelOpened = false;
+            tutorialSliderMoved = false;
+        }
     }
 
     public void SetColorMode(bool useTemperature)

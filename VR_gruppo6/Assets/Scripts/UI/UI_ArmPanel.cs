@@ -297,11 +297,11 @@ public class UI_ArmPanel : MonoBehaviour
 
         if (interactableArm.WaypointCount >= 2)
         {
-            if (TutorialManager.instance != null)
-            {
-                TutorialManager.instance.OnArmCompleted();
-                Debug.Log("Task ARM completato per tutorial!");
-            }
+            // if (TutorialManager.instance != null)
+            // {
+            //     TutorialManager.instance.OnArmCompleted();
+            //     Debug.Log("Task ARM completato per tutorial!");
+            // }
         }
     }
     

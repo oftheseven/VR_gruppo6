@@ -15,7 +15,7 @@ public class UI_DialoguePanel : MonoBehaviour
 
     private string[] currentDialogueLines;
     private int currentLineIndex = 0;
-    private InteractableOperator currentOperator;
+    private IDialogueSource currentDialogueSource;
     private bool isTyping = false;
     private bool dialogueActive = false;
 
@@ -45,11 +45,11 @@ public class UI_DialoguePanel : MonoBehaviour
         }
     }
 
-    public void ShowDialogue(string characterName, string[] lines, InteractableOperator operator_)
+    public void ShowDialogue(string characterName, string[] lines, IDialogueSource source)
     {
         currentDialogueLines = lines;
         currentLineIndex = 0;
-        currentOperator = operator_;
+        currentDialogueSource = source;
         dialogueActive = true;
 
         this.gameObject.SetActive(true);
@@ -108,9 +108,10 @@ public class UI_DialoguePanel : MonoBehaviour
         dialogueActive = false;
         this.gameObject.SetActive(false);
 
-        if (currentOperator != null)
+        if (currentDialogueSource != null)
         {
-            currentOperator.OnDialogueEnd();
+            currentDialogueSource.OnDialogueEnd();
         }
+        currentDialogueSource = null;
     }
 }

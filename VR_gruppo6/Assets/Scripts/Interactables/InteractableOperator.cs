@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class InteractableOperator : MonoBehaviour
+public class InteractableOperator : MonoBehaviour, IDialogueSource
 {
     [Header("Operator configuration")]
     [SerializeField] private string operatorID = "dop"; // identificatore del ruolo dell'operatore, usato per sbloccare la quest corretta

@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.Burst.Intrinsics;
 
 public class InteractableArm : MonoBehaviour
 {
@@ -29,7 +28,7 @@ public class InteractableArm : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioClip armSFX;
-    [SerializeField] [Range(0f, 1f)] private float motorVolume = 0.5f;
+    [SerializeField] [Range(0f, 2f)] private float motorVolume = 0.5f;
     [SerializeField] private float movementStopDelay = 0.3f;
     
     private AudioSource audioSource;
@@ -296,7 +295,7 @@ public class InteractableArm : MonoBehaviour
 
             if (AudioManager.instance != null && AudioManager.instance.AudioMixer != null)
             {
-                audioSource.outputAudioMixerGroup = AudioManager.instance.AudioMixer.FindMatchingGroups("SFX")[1];
+                audioSource.outputAudioMixerGroup = AudioManager.instance.AudioMixer.FindMatchingGroups("SFX")[0];
                 Debug.Log($"{gameObject.name} audio assegnato a: {audioSource.outputAudioMixerGroup.name}");
             }
         }

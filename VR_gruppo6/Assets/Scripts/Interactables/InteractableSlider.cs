@@ -108,10 +108,10 @@ public class InteractableSlider : MonoBehaviour
             Debug.LogError("UI_SliderPanel non assegnato!");
         }
 
-        if (TutorialManager.instance != null)
-        {
-            TutorialManager.instance.OnSliderCompleted();
-        }
+        // if (TutorialManager.instance != null)
+        // {
+        //     TutorialManager.instance.OnSliderCompleted();
+        // }
     }
 
     public void SetPosition(float normalizedPosition)

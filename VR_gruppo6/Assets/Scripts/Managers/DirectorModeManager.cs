@@ -254,12 +254,12 @@ public class DirectorModeManager : MonoBehaviour
     {
         bool doorUnlocked = false;
 
-        if (TutorialManager.instance != null && TutorialManager.instance.ExitDoor != null)
-        {
-            TutorialManager.instance.ExitDoor.Unlock();
-            Debug.Log("Porta Tutorial sbloccata!");
-            doorUnlocked = true;
-        }
+        // if (TutorialManager.instance != null && TutorialManager.instance.ExitDoor != null)
+        // {
+        //     TutorialManager.instance.ExitDoor.Unlock();
+        //     Debug.Log("Porta Tutorial sbloccata!");
+        //     doorUnlocked = true;
+        // }
 
         if (TortaInTestaManager.instance != null && TortaInTestaManager.instance.ExitDoor != null)
         {

@@ -36,11 +36,11 @@ public class InteractableComputer : MonoBehaviour
             computerPanel.OpenComputer();
         }
 
-        if (TutorialManager.instance != null)
-        {
-            Debug.Log($"Computer trovato TutorialManager, chiamo OnComputerCompleted()");
-            TutorialManager.instance.OnComputerCompleted();
-        }
+        // if (TutorialManager.instance != null)
+        // {
+        //     Debug.Log($"Computer trovato TutorialManager, chiamo OnComputerCompleted()");
+        //     TutorialManager.instance.OnComputerCompleted();
+        // }
     }
 
     public string getInteractionText()

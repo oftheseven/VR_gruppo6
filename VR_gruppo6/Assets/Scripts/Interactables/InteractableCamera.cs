@@ -36,10 +36,10 @@ public class InteractableCamera : MonoBehaviour
             cameraPanel.OpenCamera();
         }
 
-        if (TutorialManager.instance != null)
-        {
-            TutorialManager.instance.OnCameraCompleted();
-        }
+        // if (TutorialManager.instance != null)
+        // {
+        //     TutorialManager.instance.OnCameraCompleted();
+        // }
     }
 
     public string GetInteractionText()
