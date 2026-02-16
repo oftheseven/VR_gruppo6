@@ -12,10 +12,10 @@ public class InteractableOperator : MonoBehaviour, IDialogueSource
     
     [Header("Dialogue settings")]
     [SerializeField] private string operatorName = "Operatore";
-    [SerializeField] private TextAsset firstDialogueFile; // prima visita
-    [SerializeField] private TextAsset secondDialogueFile; // seconda visita (dopo camera completata)
-    [SerializeField] private TextAsset thirdDialogueFile; // terza visita (dopo camera completata ma prima di luce)
-    [SerializeField] private TextAsset completedDialogueFile; // dopo tutto completato
+    [SerializeField] private TextAsset dialogueFile;
+    // [SerializeField] private TextAsset secondDialogueFile; // seconda visita (dopo camera completata)
+    // [SerializeField] private TextAsset thirdDialogueFile; // terza visita (dopo camera completata ma prima di luce)
+    // [SerializeField] private TextAsset completedDialogueFile; // dopo tutto completato
 
     [Header("UI reference")]
     [SerializeField] private UI_DialoguePanel dialoguePanel; // riferimento al pannello di dialogo UI
@@ -41,86 +41,16 @@ public class InteractableOperator : MonoBehaviour, IDialogueSource
             StartDialogue();
         }
 
-        HandleQuestProgress();
+        // HandleQuestProgress();
     }
 
     private void LoadAppropriateDialogue()
     {
         dialogueLines.Clear();
 
-        TextAsset dialogueToUse = null;
-
-        // DOP
-        if (TortaInTestaManager.instance != null && operatorID == TortaInTestaManager.instance.GetOperatorID(1))
+        if (dialogueFile != null)
         {
-            if (TortaInTestaManager.instance.IsLightQuestCompleted())
-            {
-                // Caso 5: Tutto completato
-                dialogueToUse = completedDialogueFile;
-                // Debug.Log("Dialogo: Completato");
-            }
-            else if (TortaInTestaManager.instance.IsLightQuestUnlocked())
-            {
-                // Caso 4: Luce sbloccata ma non completata (dopo seconda visita)
-                dialogueToUse = thirdDialogueFile != null ? thirdDialogueFile : secondDialogueFile;
-                // Debug.Log("Dialogo: Luce in corso (reminder)");
-            }
-            else if (TortaInTestaManager.instance.IsCameraQuestCompleted())
-            {
-                // Caso 3: Camera completata, luce non ancora sbloccata (seconda visita)
-                dialogueToUse = secondDialogueFile;
-                // Debug.Log("Dialogo: Secondo (sblocca luce)");
-            }
-            else if (TortaInTestaManager.instance.IsCameraQuestUnlocked())
-            {
-                // Caso 2: Camera sbloccata ma non completata
-                dialogueToUse = firstDialogueFile;
-                // Debug.Log("Dialogo: Primo (reminder camera)");
-            }
-            else
-            {
-                // Caso 1: Prima visita, camera non ancora sbloccata
-                dialogueToUse = firstDialogueFile;
-                // Debug.Log("Dialogo: Primo (sblocca camera)");
-            }
-        }
-        // ASSISTENTE REGIA
-        else if (operatorID == TortaInTestaManager.instance.GetOperatorID(2))
-        {
-            if (TortaInTestaManager.instance.IsArmQuestCompleted())
-            {
-                dialogueToUse = completedDialogueFile;
-                // Debug.Log("[OP2] Dialogo: Completato");
-            }
-            else if (TortaInTestaManager.instance.IsArmQuestUnlocked())
-            {
-                dialogueToUse = thirdDialogueFile != null ? thirdDialogueFile : secondDialogueFile;
-                // Debug.Log("[OP2] Dialogo: Arm in corso (reminder)");
-            }
-            else if (TortaInTestaManager.instance.IsComputerQuestCompleted())
-            {
-                dialogueToUse = secondDialogueFile;
-                // Debug.Log("[OP2] Dialogo: Secondo (sblocca arm)");
-            }
-            else if (TortaInTestaManager.instance.IsComputerQuestUnlocked())
-            {
-                dialogueToUse = firstDialogueFile;
-                // Debug.Log("[OP2] Dialogo: Primo (reminder computer)");
-            }
-            else
-            {
-                dialogueToUse = firstDialogueFile;
-                // Debug.Log("[OP2] Dialogo: Primo (sblocca computer)");
-            }
-        }
-        else
-        {
-            dialogueToUse = firstDialogueFile;
-        }
-
-        if (dialogueToUse != null)
-        {
-            string[] lines = dialogueToUse.text.Split(new[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = dialogueFile.text.Split(new[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string line in lines)
             {
@@ -137,40 +67,40 @@ public class InteractableOperator : MonoBehaviour, IDialogueSource
         }
     }
 
-    private void HandleQuestProgress()
-    {
-        if (TortaInTestaManager.instance == null)
-        {
-            return;
-        }
+    // private void HandleQuestProgress()
+    // {
+    //     if (TortaInTestaManager.instance == null)
+    //     {
+    //         return;
+    //     }
 
-        // DOP
-        if (operatorID == TortaInTestaManager.instance.GetOperatorID(1))
-        {
-            if (!TortaInTestaManager.instance.IsCameraQuestUnlocked())
-            {
-                TortaInTestaManager.instance.OnOperatorFirstInteraction(operatorID);
-            }
-            else if (TortaInTestaManager.instance.IsCameraQuestCompleted() && !TortaInTestaManager.instance.IsLightQuestUnlocked())
-            {
-                TortaInTestaManager.instance.OnOperatorSecondInteraction(operatorID);
-            }
-        }
-        // ASSISTENTE REGIA
-        else if (operatorID == TortaInTestaManager.instance.GetOperatorID(2))
-        {
-            if (!TortaInTestaManager.instance.IsComputerQuestUnlocked())
-            {
-                TortaInTestaManager.instance.OnOperatorFirstInteraction(operatorID);
-                // Debug.Log("[OP2] Prima visita: sblocco computer");
-            }
-            else if (TortaInTestaManager.instance.IsComputerQuestCompleted() && !TortaInTestaManager.instance.IsArmQuestUnlocked())
-            {
-                TortaInTestaManager.instance.OnOperatorSecondInteraction(operatorID);
-                // Debug.Log("[OP2] Seconda visita: sblocco arm");
-            }
-        }
-    }
+    //     // DOP
+    //     if (operatorID == TortaInTestaManager.instance.GetOperatorID(1))
+    //     {
+    //         if (!TortaInTestaManager.instance.IsCameraQuestUnlocked())
+    //         {
+    //             TortaInTestaManager.instance.OnOperatorFirstInteraction(operatorID);
+    //         }
+    //         else if (TortaInTestaManager.instance.IsCameraQuestCompleted() && !TortaInTestaManager.instance.IsLightQuestUnlocked())
+    //         {
+    //             TortaInTestaManager.instance.OnOperatorSecondInteraction(operatorID);
+    //         }
+    //     }
+    //     // ASSISTENTE REGIA
+    //     else if (operatorID == TortaInTestaManager.instance.GetOperatorID(2))
+    //     {
+    //         if (!TortaInTestaManager.instance.IsComputerQuestUnlocked())
+    //         {
+    //             TortaInTestaManager.instance.OnOperatorFirstInteraction(operatorID);
+    //             // Debug.Log("[OP2] Prima visita: sblocco computer");
+    //         }
+    //         else if (TortaInTestaManager.instance.IsComputerQuestCompleted() && !TortaInTestaManager.instance.IsArmQuestUnlocked())
+    //         {
+    //             TortaInTestaManager.instance.OnOperatorSecondInteraction(operatorID);
+    //             // Debug.Log("[OP2] Seconda visita: sblocco arm");
+    //         }
+    //     }
+    // }
 
     public string GetInteractionText()
     {

@@ -2032,9 +2032,13 @@ MonoBehaviour:
   interactionText: '[E] per parlare con il Tutor'
   introDialogue: {fileID: 4900000, guid: 75b14b797f5464ae3aef4aae5768324f, type: 3}
   lightsAssignedDialogue: {fileID: 4900000, guid: 92ef875d3dd82466ebcb5049e26ee927, type: 3}
+  lightReminderDialogue: {fileID: 4900000, guid: 92ef875d3dd82466ebcb5049e26ee927, type: 3}
   sliderAssignedDialogue: {fileID: 4900000, guid: 048c5b5112a684f6b9b5a24b57a46f62, type: 3}
+  sliderReminderDialogue: {fileID: 4900000, guid: 048c5b5112a684f6b9b5a24b57a46f62, type: 3}
   armAssignedDialogue: {fileID: 4900000, guid: b7df523db23c84ae79f4acc6ea2c8a4e, type: 3}
+  armReminderDialogue: {fileID: 4900000, guid: b7df523db23c84ae79f4acc6ea2c8a4e, type: 3}
   greenscreenAssignedDialogue: {fileID: 4900000, guid: fc8c01f1a27c943b393834abd1c8f4b1, type: 3}
+  greenscreenReminderDialogue: {fileID: 4900000, guid: fc8c01f1a27c943b393834abd1c8f4b1, type: 3}
   tutorialCompleteDialogue: {fileID: 4900000, guid: 069997e9c168441e29ed50e6b8eb3710, type: 3}
   reminderDialogue: {fileID: 0}
   dialoguePanel: {fileID: 1984931237}

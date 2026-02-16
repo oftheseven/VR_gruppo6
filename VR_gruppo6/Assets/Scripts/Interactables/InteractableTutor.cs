@@ -4,21 +4,26 @@ using System.Collections;
 
 public class InteractableTutor : MonoBehaviour, IDialogueSource
 {
+    // singleton
+    private static InteractableTutor _instance;
+    public static InteractableTutor instance => _instance;
+
     [Header("Tutor Configuration")]
-    [SerializeField] private string tutorName = "Tutor";
-    [SerializeField] private string interactionText = "Premi E per parlare con il Tutor";
+    [SerializeField] private string tutorName = "Tutor Remy";
+    [SerializeField] private string interactionText = "[E] per parlare con il Tutor";
 
     [Header("Dialogue Files")]
-    [SerializeField] private TextAsset introDialogue;              // Prima volta (avvia tutorial)
-    [SerializeField] private TextAsset lightsAssignedDialogue;     // Dopo intro, assegna lights
-    // [SerializeField] private TextAsset lightsCompleteDialogue;     // Lights completata
-    [SerializeField] private TextAsset sliderAssignedDialogue;     // Assegna slider
-    // [SerializeField] private TextAsset sliderCompleteDialogue;     // Slider completata
-    [SerializeField] private TextAsset armAssignedDialogue;        // Assegna arm
-    // [SerializeField] private TextAsset armCompleteDialogue;        // Arm completata
-    [SerializeField] private TextAsset greenscreenAssignedDialogue;// Assegna greenscreen
-    [SerializeField] private TextAsset tutorialCompleteDialogue;   // Tutorial finito
-    [SerializeField] private TextAsset reminderDialogue;           // Reminder generico
+    [SerializeField] private TextAsset introDialogue;
+    [SerializeField] private TextAsset lightsAssignedDialogue;
+    [SerializeField] private TextAsset lightReminderDialogue;
+    [SerializeField] private TextAsset sliderAssignedDialogue;
+    [SerializeField] private TextAsset sliderReminderDialogue;
+    [SerializeField] private TextAsset armAssignedDialogue;
+    [SerializeField] private TextAsset armReminderDialogue;
+    [SerializeField] private TextAsset greenscreenAssignedDialogue;
+    [SerializeField] private TextAsset greenscreenReminderDialogue;
+    [SerializeField] private TextAsset tutorialCompleteDialogue;
+    [SerializeField] private TextAsset reminderDialogue; // reminder generico
 
     [Header("UI Reference")]
     [SerializeField] private UI_DialoguePanel dialoguePanel;
@@ -26,6 +31,16 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
     private Quaternion originalRotation;
     private Coroutine rotationCoroutine;
     private QuestManager.TutorialQuest lastSeenQuest = QuestManager.TutorialQuest.None;
+
+    void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
+    }
 
     void Start()
     {
@@ -51,7 +66,6 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
 
         QuestManager.TutorialQuest currentQuest = QuestManager.instance.CurrentQuest;
         
-        // Determina quale dialogo mostrare
         TextAsset dialogueToUse = GetAppropriateDialogue(currentQuest);
         
         if (dialogueToUse != null)
@@ -64,7 +78,6 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             Debug.LogWarning("Nessun dialogo assegnato per quest: " + currentQuest);
         }
 
-        // Aggiorna stato quest se necessario
         HandleQuestProgression(currentQuest);
     }
 
@@ -86,7 +99,7 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             }
             else
             {
-                return reminderDialogue;
+                return lightReminderDialogue;
             }
         }
 
@@ -99,7 +112,7 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             }
             else
             {
-                return reminderDialogue;
+                return sliderReminderDialogue;
             }
         }
 
@@ -112,7 +125,7 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             }
             else
             {
-                return reminderDialogue;
+                return armReminderDialogue;
             }
         }
 
@@ -125,7 +138,7 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             }
             else
             {
-                return reminderDialogue;
+                return greenscreenReminderDialogue;
             }
         }
 
