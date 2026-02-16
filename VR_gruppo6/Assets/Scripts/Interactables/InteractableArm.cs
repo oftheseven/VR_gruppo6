@@ -1,8 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Burst.Intrinsics;
 
 public class InteractableArm : MonoBehaviour
 {
+    [Header("Interaction")]
+    [SerializeField] private string interactionText = "Premi E per gestire il braccio";
+
     [Header("Arm Components")]
     [SerializeField] private Transform armEnd;
     [SerializeField] private Camera directorModeCamera; // camera da usare in director mode
@@ -22,10 +26,17 @@ public class InteractableArm : MonoBehaviour
 
     [Header("Visual Feedback")]
     [SerializeField] private ArmVisualFeedback visualFeedback;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip armSFX;
+    [SerializeField] [Range(0f, 1f)] private float motorVolume = 0.5f;
+    [SerializeField] private float movementStopDelay = 0.3f;
     
-    [Header("Interaction")]
-    [SerializeField] private string interactionText = "Premi E per gestire il braccio";
-    
+    private AudioSource audioSource;
+    private bool isMotorRunning = false;
+    private float lastMovementTime = 0f;
+    private bool isPlayingBack = false;
+
     private List<ArmWaypoint> recordedWaypoints = new List<ArmWaypoint>();
     private bool isRecording = false;
     private float recordingStartTime = 0f;
@@ -71,6 +82,12 @@ public class InteractableArm : MonoBehaviour
         }
 
         ClampJointRotation();
+        SetupAudio();
+    }
+
+    void Update()
+    {
+        UpdateAudio();
     }
 
     void LateUpdate()
@@ -98,6 +115,8 @@ public class InteractableArm : MonoBehaviour
         
         // rotazione orizzontale
         pivotBase.Rotate(Vector3.up, delta, Space.Self);
+
+        OnArmMoved();
     }
     
     public void RotateJoint(float delta)
@@ -107,6 +126,8 @@ public class InteractableArm : MonoBehaviour
         // rotazione verticale
         pivotJoint.Rotate(Vector3.right, delta, Space.Self);
         ClampJointRotation();
+
+        OnArmMoved();
     }
 
     private void ClampJointRotation()
@@ -256,5 +277,85 @@ public class InteractableArm : MonoBehaviour
         }
         
         return totalDistance / playbackSpeed;
+    }
+
+    private void SetupAudio()
+    {
+        if (armSFX != null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.clip = armSFX;
+            audioSource.playOnAwake = false;
+            audioSource.loop = true;
+            audioSource.spatialBlend = 1f;
+            audioSource.rolloffMode = AudioRolloffMode.Linear;
+            audioSource.minDistance = 1f;
+            audioSource.maxDistance = 10f;
+            audioSource.dopplerLevel = 0f;
+            audioSource.volume = motorVolume;
+
+            if (AudioManager.instance != null && AudioManager.instance.AudioMixer != null)
+            {
+                audioSource.outputAudioMixerGroup = AudioManager.instance.AudioMixer.FindMatchingGroups("SFX")[1];
+                Debug.Log($"{gameObject.name} audio assegnato a: {audioSource.outputAudioMixerGroup.name}");
+            }
+        }
+    }
+
+    private void OnArmMoved()
+    {
+        lastMovementTime = Time.time;
+        
+        if (!isMotorRunning)
+        {
+            StartMotor();
+        }
+    }
+
+    private void UpdateAudio()
+    {
+        if (audioSource == null) return;
+        
+        bool hasRecentMovement = (Time.time - lastMovementTime) < movementStopDelay;
+        
+        bool isCurrentlyMoving = hasRecentMovement || isPlayingBack;
+        
+        if (isCurrentlyMoving && !isMotorRunning)
+        {
+            StartMotor();
+        }
+        else if (!isCurrentlyMoving && isMotorRunning)
+        {
+            StopMotor();
+        }
+    }
+
+    private void StartMotor()
+    {
+        if (audioSource == null || isMotorRunning) return;
+        
+        audioSource.Play();
+        isMotorRunning = true;
+    }
+    private void StopMotor()
+    {
+        if (audioSource == null || !isMotorRunning) return;
+        
+        audioSource.Stop();
+        isMotorRunning = false;
+    }
+
+    public void OnPlaybackStart()
+    {
+        isPlayingBack = true;
+        StartMotor();
+    }
+    public void OnPlaybackMoving()
+    {
+        OnArmMoved();
+    }
+    public void OnPlaybackStop()
+    {
+        isPlayingBack = false;
     }
 }

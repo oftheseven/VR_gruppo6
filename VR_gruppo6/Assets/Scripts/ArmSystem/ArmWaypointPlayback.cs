@@ -50,6 +50,8 @@ public class ArmWaypointPlayback : MonoBehaviour
     {
         isPlayingBack = true;
         playbackProgress = 0f;
+
+        currentArm.OnPlaybackStart();
         
         List<ArmWaypoint> waypoints = currentArm.RecordedWaypoints;
         float speed = currentArm.PlaybackSpeed;
@@ -110,7 +112,7 @@ public class ArmWaypointPlayback : MonoBehaviour
                 waypoints[segmentIndex + 1].rotation,
                 t
             );
-            
+            currentArm.OnPlaybackMoving();
             ApplyArmTransform(interpolatedPos, interpolatedRot, waypoints[segmentIndex], waypoints[segmentIndex + 1], t);
             
             yield return null;
@@ -118,6 +120,7 @@ public class ArmWaypointPlayback : MonoBehaviour
         
         ArmWaypoint lastWaypoint = waypoints[waypoints.Count - 1];
         ApplyArmTransform(lastWaypoint.position, lastWaypoint.rotation, lastWaypoint, lastWaypoint, 1f);
+        currentArm.OnPlaybackStop();
         
         isPlayingBack = false;
         playbackProgress = 1f;
