@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0713c3158ed61420b8c7205d8de950d4
+guid: f36a910cbc69e430cb988cbc059d3291
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,23 +7,28 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Metal
-    second: {fileID: 2100000, guid: 2bcbeeaf028254d01a6d5cda1046d919, type: 2}
+      name: cables+
+    second: {fileID: 2100000, guid: c21541a2af9d943d68517af5a1b735c9, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Plastic
-    second: {fileID: 2100000, guid: 21936ecba7fbc47f9a3cb54f0680f51e, type: 2}
+      name: driverL
+    second: {fileID: 2100000, guid: 41c9e476e6869406c96913493c2c58e3, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Suitcase
-    second: {fileID: 2100000, guid: 283edba68bb7b47958b7987602afacf5, type: 2}
+      name: driverR
+    second: {fileID: 2100000, guid: 383c88027e02345aaad5384aa72e8a80, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Super
-    second: {fileID: 2100000, guid: c65982be3b3ce46fabde3fa1bc28fcbb, type: 2}
+      name: header
+    second: {fileID: 2100000, guid: 401c6e2d1986047e08df78ec250e1702, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: stand
+    second: {fileID: 2100000, guid: 15dc757a8997744c1958a18df73b7659, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
