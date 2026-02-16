@@ -11,11 +11,11 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
     [Header("Dialogue Files")]
     [SerializeField] private TextAsset introDialogue;              // Prima volta (avvia tutorial)
     [SerializeField] private TextAsset lightsAssignedDialogue;     // Dopo intro, assegna lights
-    [SerializeField] private TextAsset lightsCompleteDialogue;     // Lights completata
+    // [SerializeField] private TextAsset lightsCompleteDialogue;     // Lights completata
     [SerializeField] private TextAsset sliderAssignedDialogue;     // Assegna slider
-    [SerializeField] private TextAsset sliderCompleteDialogue;     // Slider completata
+    // [SerializeField] private TextAsset sliderCompleteDialogue;     // Slider completata
     [SerializeField] private TextAsset armAssignedDialogue;        // Assegna arm
-    [SerializeField] private TextAsset armCompleteDialogue;        // Arm completata
+    // [SerializeField] private TextAsset armCompleteDialogue;        // Arm completata
     [SerializeField] private TextAsset greenscreenAssignedDialogue;// Assegna greenscreen
     [SerializeField] private TextAsset tutorialCompleteDialogue;   // Tutorial finito
     [SerializeField] private TextAsset reminderDialogue;           // Reminder generico
@@ -70,38 +70,31 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
 
     private TextAsset GetAppropriateDialogue(QuestManager.TutorialQuest currentQuest)
     {
-        // Caso 1: Prima volta (Tutorial non ancora iniziato)
+        // prima volta (tutorial non ancora iniziato)
         if (currentQuest == QuestManager.TutorialQuest.None)
         {
             return introDialogue;
         }
 
-        // Caso 2: Quest Lights
+        // quest Lights
         if (currentQuest == QuestManager.TutorialQuest.Lights)
         {
-            // Se è la prima volta che vedi questa quest, dai l'assegnazione
+            // se è la prima volta che vedi questa quest, dai l'assegnazione
             if (lastSeenQuest != QuestManager.TutorialQuest.Lights)
             {
                 return lightsAssignedDialogue;
             }
             else
             {
-                // Altrimenti reminder
                 return reminderDialogue;
             }
         }
 
-        // Caso 3: Quest Slider (Lights appena completata)
+        // quest slider (lights appena completata)
         if (currentQuest == QuestManager.TutorialQuest.Slider)
         {
-            if (lastSeenQuest == QuestManager.TutorialQuest.Lights)
+            if (lastSeenQuest != QuestManager.TutorialQuest.Slider)
             {
-                // Prima volta dopo completamento lights
-                return lightsCompleteDialogue;
-            }
-            else if (lastSeenQuest != QuestManager.TutorialQuest.Slider)
-            {
-                // Assegna slider
                 return sliderAssignedDialogue;
             }
             else
@@ -110,14 +103,10 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             }
         }
 
-        // Caso 4: Quest Arm (Slider appena completata)
+        // quest arm (slider appena completata)
         if (currentQuest == QuestManager.TutorialQuest.Arm)
         {
-            if (lastSeenQuest == QuestManager.TutorialQuest.Slider)
-            {
-                return sliderCompleteDialogue;
-            }
-            else if (lastSeenQuest != QuestManager.TutorialQuest.Arm)
+            if (lastSeenQuest != QuestManager.TutorialQuest.Arm)
             {
                 return armAssignedDialogue;
             }
@@ -127,14 +116,10 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             }
         }
 
-        // Caso 5: Quest GreenScreen (Arm appena completata)
+        // quest greenscreen (arm appena completata)
         if (currentQuest == QuestManager.TutorialQuest.GreenScreen)
         {
-            if (lastSeenQuest == QuestManager.TutorialQuest.Arm)
-            {
-                return armCompleteDialogue;
-            }
-            else if (lastSeenQuest != QuestManager.TutorialQuest.GreenScreen)
+            if (lastSeenQuest != QuestManager.TutorialQuest.GreenScreen)
             {
                 return greenscreenAssignedDialogue;
             }
@@ -144,7 +129,7 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             }
         }
 
-        // Caso 6: Tutorial completato
+        // tutorial completato
         if (currentQuest == QuestManager.TutorialQuest.Complete)
         {
             return tutorialCompleteDialogue;
@@ -196,7 +181,6 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
 
         dialoguePanel.ShowDialogue(tutorName, lines.ToArray(), this);
 
-        // Ruota verso player
         if (rotationCoroutine != null)
         {
             StopCoroutine(rotationCoroutine);

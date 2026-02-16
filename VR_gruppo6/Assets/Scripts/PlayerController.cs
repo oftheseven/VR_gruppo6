@@ -49,6 +49,9 @@ public class PlayerController : MonoBehaviour
     private InteractableOperator currentOperator = null;
     private bool isDialogueActive = false;
 
+    [Header("Tutor interaction")]
+    private InteractableTutor currentTutor = null;
+
     [Header("Item interaction")]
     private PickableItem currentItem = null;
 
@@ -104,6 +107,7 @@ public class PlayerController : MonoBehaviour
         HandleComputerInteraction();
         HandleCameraInteraction();
         HandleOperatorInteraction();
+        HandleTutorInteraction();
         HandleItemInteraction();
         HandleArmInteraction();
         HandleDoorInteraction();
@@ -350,6 +354,19 @@ public class PlayerController : MonoBehaviour
                     }
                     break;
 
+                case "Tutor":
+                    InteractableTutor tutor = hit.collider.GetComponent<InteractableTutor>();
+                    if (tutor != null)
+                    {
+                        currentTutor = tutor;
+                        ShowInteractionText(currentTutor.GetInteractionText());
+                    }
+                    else
+                    {
+                        ClearInteractable();
+                    }
+                    break;
+
                 case "Pickable":
                     PickableItem item = hit.collider.GetComponent<PickableItem>();
                     if (item != null)
@@ -427,6 +444,7 @@ public class PlayerController : MonoBehaviour
         currentComputer = null;
         currentCamera = null;
         currentOperator = null;
+        currentTutor = null;
         currentSlider = null;
         currentItem = null;
         currentArm = null;
@@ -496,6 +514,17 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current.eKey.wasPressedThisFrame && currentOperator != null && !isDialogueActive)
         {
             currentOperator.Interact();
+            isInteracting = true;
+            interactiontext.gameObject.SetActive(false);
+            isDialogueActive = true;
+        }
+    }
+
+    private void HandleTutorInteraction()
+    {
+        if (Keyboard.current.eKey.wasPressedThisFrame && currentTutor != null && !isDialogueActive)
+        {
+            currentTutor.Interact();
             isInteracting = true;
             interactiontext.gameObject.SetActive(false);
             isDialogueActive = true;
@@ -599,6 +628,7 @@ public class PlayerController : MonoBehaviour
     {
         isDialogueActive = false;
         currentOperator = null;
+        currentTutor = null;
         isInteracting = false;
     }
 

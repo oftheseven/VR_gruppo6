@@ -35,15 +35,6 @@ public class QuestManager : MonoBehaviour
         _instance = this;
     }
 
-    // void Start()
-    // {
-    //     if (exitDoor != null)
-    //     {
-    //         exitDoor.Lock();
-    //         Debug.Log("Porta bloccata all'inizio del tutorial");
-    //     }
-    // }
-
     public void StartTutorial()
     {
         if (currentQuest != TutorialQuest.None)

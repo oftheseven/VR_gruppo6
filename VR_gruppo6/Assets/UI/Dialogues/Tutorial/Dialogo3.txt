@@ -1,0 +1,1 @@
+Nelle due scene a disposizione, puoi gestire due differenti movimenti di camera. Inizia familiarizzando con il movimento della camera nel Salotto dei Dursley tramite lo slider: esplora un po’ per acquisire dimestichezza!
