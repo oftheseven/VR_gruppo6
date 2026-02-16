@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections;
-using TMPro;
 
 public class UI_ComputerPanel :  MonoBehaviour
 {   
@@ -57,31 +56,6 @@ public class UI_ComputerPanel :  MonoBehaviour
     {
         computerID = id;
     }
-
-    // public void OpenComputer()
-    // {
-    //     if (selector != null && selector.IsCompleted)
-    //     {
-    //         Debug.Log($"{computerID} già completato!");
-    //         return;
-    //     }
-
-    //     this.gameObject.SetActive(true);
-
-    //     isOpen = true;
-    //     PlayerController.EnableMovement(false);
-
-    //     if (infoPanel != null)
-    //     {
-    //         infoPanel.OnDeviceOpened();
-    //     }
-    //     else
-    //     {
-    //         Debug.LogWarning("Info panel reference is null in UI_ComputerPanel.");
-    //     }
-
-    //     PlayerController.ShowCursor();
-    // }
 
     public void OpenComputer(GreenScreenTarget targetGreenScreen)
     {

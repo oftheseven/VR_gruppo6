@@ -9,6 +9,9 @@ public class GreenScreenTarget
     
     [Header("Visual")]
     public Renderer targetRenderer;
+
+    [Header("Available images")]
+    public Texture2D[] availableImages = new Texture2D[4];
     
     [Header("Quest Data (TortaInTesta)")]
     public int correctImageIndex = -1; // -1 qualsiasi immagine va bene
@@ -18,6 +21,32 @@ public class GreenScreenTarget
     
     public bool IsValid()
     {
-        return targetRenderer != null && !string.IsNullOrEmpty(id);
+        return targetRenderer != null && 
+               !string.IsNullOrEmpty(id) && 
+               availableImages != null && 
+               availableImages.Length > 0;
+    }
+    public bool HasValidImages()
+    {
+        if (availableImages == null || availableImages.Length == 0)
+            return false;
+        
+        foreach (var tex in availableImages)
+        {
+            if (tex != null) return true;
+        }
+        return false;
+    }
+    
+    public int GetValidImageCount()
+    {
+        if (availableImages == null) return 0;
+        
+        int count = 0;
+        foreach (var tex in availableImages)
+        {
+            if (tex != null) count++;
+        }
+        return count;
     }
 }

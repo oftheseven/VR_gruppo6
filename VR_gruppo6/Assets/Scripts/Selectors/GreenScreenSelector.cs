@@ -6,20 +6,26 @@ using UnityEngine.UI;
 public class GreenScreenSelector : MonoBehaviour
 {
     [Header("Green screen images and references")]
-    [SerializeField] private RawImage[] images;
+    [SerializeField] private RawImage[] imageSlots; // slot UI per mostrare le immagini disponibili
 
     [Header("Input settings")]
     [SerializeField] private float inputCooldown = 0.1f;
+
+    [Header("Outline Settings")]
+    [SerializeField] private Color outlineColorSelected = Color.green;
+    [SerializeField] private float outlineDistance = 4f;
 
     private int currentImageIndex = 0;
     private float lastInputTime = 0f;
     private UI_ComputerPanel computerPanel;
     private GreenScreenTarget currentTarget;
+    private Outline[] imageOutlines;
 
     void Start()
     {
         computerPanel = GetComponent<UI_ComputerPanel>();
-        UpdateImageColors();
+        SetupOutlines();
+        // UpdateImageColors();
     }
 
     void Update()
@@ -31,13 +37,82 @@ public class GreenScreenSelector : MonoBehaviour
         }
     }
 
+    // GLI OUTLINE HANNO UN PROBLEMA DI SETUP, RISOLVERE!!!!!!!
+    private void SetupOutlines()
+    {
+        imageOutlines = new Outline[imageSlots.Length];
+        
+        for (int i = 0; i < imageSlots.Length; i++)
+        {
+            if (imageSlots[i] != null)
+            {
+                imageOutlines[i] = imageSlots[i].GetComponent<Outline>();
+
+                if (imageOutlines[i] != null)
+                {
+                    imageOutlines[i].enabled = false;
+                    imageOutlines[i] = imageSlots[i].GetComponent<Outline>();
+                }
+            }
+        }
+    }
+
     public void SetTarget(GreenScreenTarget target)
     {
+        if (target == null || !target.IsValid())
+        {
+            Debug.LogError("Target green screen invalido!");
+            return;
+        }
+
         currentTarget = target;
         currentImageIndex = 0;
-        UpdateImageColors();
         
-        Debug.Log($"Target green screen impostato: {target.displayName}");
+        LoadTargetImages();
+        
+        UpdateImageColors();
+    }
+
+    private void LoadTargetImages()
+    {
+        if (currentTarget == null || currentTarget.availableImages == null)
+        {
+            Debug.LogWarning("Nessuna immagine disponibile per questo target!");
+            return;
+        }
+
+        DisableAllOutlines();
+        
+        for (int i = 0; i < imageSlots.Length; i++)
+        {
+            if (imageSlots[i] != null)
+            {
+                if (i < currentTarget.availableImages.Length && currentTarget.availableImages[i] != null)
+                {
+                    imageSlots[i].texture = currentTarget.availableImages[i];
+                    imageSlots[i].gameObject.SetActive(true);
+                    imageSlots[i].color = Color.white;
+                }
+                else
+                {
+                    imageSlots[i].texture = null;
+                    imageSlots[i].gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+
+    private void DisableAllOutlines()
+    {
+        if (imageOutlines == null) return;
+        
+        for (int i = 0; i < imageOutlines.Length; i++)
+        {
+            if (imageOutlines[i] != null)
+            {
+                imageOutlines[i].enabled = false;
+            }
+        }
     }
 
     private void HandleImageSelection()
@@ -49,14 +124,16 @@ public class GreenScreenSelector : MonoBehaviour
         
         bool inputDetected = false;
 
+        int validImageCount = currentTarget != null ? currentTarget.GetValidImageCount() : imageSlots.Length;
+
         if (Keyboard.current.rightArrowKey.wasPressedThisFrame)
         {
-            currentImageIndex = (currentImageIndex + 1) % images.Length;
+            currentImageIndex = (currentImageIndex + 1) % validImageCount;
             inputDetected = true;
         }
         else if (Keyboard.current.leftArrowKey.wasPressedThisFrame)
         {
-            currentImageIndex = (currentImageIndex - 1 + images.Length) % images.Length;
+            currentImageIndex = (currentImageIndex - 1 + validImageCount) % validImageCount;
             inputDetected = true;
         }
 
@@ -77,23 +154,9 @@ public class GreenScreenSelector : MonoBehaviour
         }
     }
 
-    // private void ApplyCurrentImage()
-    // {
-    //     RawImage selectedImage = images[currentImageIndex];
-    //     if (selectedImage != null)
-    //     {
-    //         objectRenderer.material.color = Color.white;
-    //         objectRenderer.material.mainTexture = selectedImage.texture;
-    //     }
-    //     else
-    //     {
-    //         Debug.LogWarning("L'immagine all'indice " + currentImageIndex + " è null.");
-    //     }
-    // }
-
     private void ApplyCurrentImage()
     {
-        RawImage selectedImage = images[currentImageIndex];
+        RawImage selectedImage = imageSlots[currentImageIndex];
         
         if (selectedImage != null && currentTarget != null && currentTarget.targetRenderer != null)
         {
@@ -141,17 +204,38 @@ public class GreenScreenSelector : MonoBehaviour
         }
     }
 
+    // QUESTO FUNZIONA PERFETTAMENTE, VOGLIO PROVARE A FARE L'OUTLINE
+    // private void UpdateImageColors()
+    // {
+    //     for (int i = 0; i < imageSlots.Length; i++)
+    //     {
+    //         if (imageSlots[i] != null && imageSlots[i].gameObject.activeSelf)
+    //         {
+    //             if (i == currentImageIndex)
+    //             {
+    //                 imageSlots[i].color = Color.green;
+    //             }
+    //             else
+    //             {
+    //                 imageSlots[i].color = Color.white;
+    //             }
+    //         }
+    //     }
+    // }
+
     private void UpdateImageColors()
     {
-        for (int i = 0; i < images.Length; i++)
+        for (int i = 0; i < imageSlots.Length; i++)
         {
-            if (i == currentImageIndex)
+            if (imageSlots[i] != null && imageSlots[i].gameObject.activeSelf)
             {
-                images[i].color = Color.green;
-            }
-            else
-            {
-                images[i].color = Color.white;
+                imageSlots[i].color = Color.white;
+                
+                if (imageOutlines != null && i < imageOutlines.Length && imageOutlines[i] != null)
+                {
+                    bool shouldEnable = (i == currentImageIndex);
+                    imageOutlines[i].enabled = shouldEnable;
+                }
             }
         }
     }

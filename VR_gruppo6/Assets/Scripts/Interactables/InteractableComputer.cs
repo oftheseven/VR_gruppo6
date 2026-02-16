@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class InteractableComputer : MonoBehaviour
 {
@@ -44,23 +43,6 @@ public class InteractableComputer : MonoBehaviour
         {
             
         }
-        
-        // if (selector != null && selector.IsCompleted)
-        // {
-        //     Debug.Log($"{computerID} già completato!");
-        //     return;
-        // }
-
-        // if (computerPanel != null)
-        // {
-        //     computerPanel.OpenComputer();
-        // }
-
-        // if (TutorialManager.instance != null)
-        // {
-        //     Debug.Log($"Computer trovato TutorialManager, chiamo OnComputerCompleted()");
-        //     TutorialManager.instance.OnComputerCompleted();
-        // }
     }
 
     public void OpenComputerPanel(GreenScreenTarget targetGreenScreen)
@@ -82,21 +64,10 @@ public class InteractableComputer : MonoBehaviour
 
     public string getInteractionText()
     {
-        // if (selector != null && selector.IsCompleted)
-        // {
-        //     return "Computer completato";
-        // }
-        // return interactionText;
-
         int completed = 0;
         foreach (var gs in managedGreenScreens)
         {
             if (gs.isCompleted) completed++;
-        }
-        
-        if (completed == managedGreenScreens.Length && managedGreenScreens.Length > 0)
-        {
-            return "Computer - Tutti i Green Screen completati";
         }
         
         return interactionText;

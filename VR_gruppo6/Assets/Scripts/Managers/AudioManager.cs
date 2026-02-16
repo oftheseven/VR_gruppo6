@@ -17,7 +17,7 @@ public class AudioManager : MonoBehaviour
     [Header("UI library")]
     [SerializeField] private AudioClip uiClickSound;
     [SerializeField] private AudioClip uiOpenPanelSound;
-    [SerializeField] private AudioClip uiScreenPlaySound;
+    // [SerializeField] private AudioClip uiScreenPlaySound;
     
     [Header("Ambient library")]
     [SerializeField] private AudioClip ambientStudioSound; // rumore del set
@@ -146,13 +146,13 @@ public class AudioManager : MonoBehaviour
         }
     }
     
-    public void PlayUIScreenPlay()
-    {
-        if (uiScreenPlaySound != null)
-        {
-            uiAudioSource.PlayOneShot(uiScreenPlaySound);
-        }
-    }
+    // public void PlayUIScreenPlay()
+    // {
+    //     if (uiScreenPlaySound != null)
+    //     {
+    //         uiAudioSource.PlayOneShot(uiScreenPlaySound);
+    //     }
+    // }
     
     public void PlayUISound(AudioClip clip)
     {
