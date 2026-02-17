@@ -105,7 +105,21 @@ public class LensesSelector : MonoBehaviour
             }
         }
 
+        CheckTutorialCompletion();
+
         CheckLensQuest();
+    }
+
+    private void CheckTutorialCompletion()
+    {
+        // tutorial: Qualsiasi lente va bene, basta cambiarla
+        if (QuestManager.instance != null && 
+            QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.Camera) &&
+            !tutorialQuestCompleted)
+        {
+            tutorialQuestCompleted = true;
+            QuestManager.instance.CompleteCurrentQuest();
+        }
     }
 
     private void CheckLensQuest()
@@ -147,5 +161,10 @@ public class LensesSelector : MonoBehaviour
                 images[i].color = Color.white;
             }
         }
+    }
+
+    public void ResetTutorialFlag()
+    {
+        tutorialQuestCompleted = false;
     }
 }

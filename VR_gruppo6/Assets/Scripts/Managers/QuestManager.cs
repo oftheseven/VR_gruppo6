@@ -5,10 +5,7 @@ public class QuestManager : MonoBehaviour
 {
     private static QuestManager _instance;
     public static QuestManager instance => _instance;
-
-    // [Header("Quest Configuration")]
-    // [SerializeField] private InteractableDoor exitDoor; // Porta da sbloccare alla fine
-
+    
     public enum TutorialQuest
     {
         None,           // Inizio gioco, prima di parlare con Tutor
@@ -59,7 +56,7 @@ public class QuestManager : MonoBehaviour
                 break;
             
             case TutorialQuest.Camera:
-                SetQuest(TutorialQuest.Slider);
+                SetQuest(TutorialQuest.Camera);
                 break;
 
             case TutorialQuest.Slider:
@@ -105,11 +102,11 @@ public class QuestManager : MonoBehaviour
         return currentQuest switch
         {
             TutorialQuest.None => "Parla con il Tutor per iniziare",
-            TutorialQuest.Lights => "Vai alle luci e modifica l'intensità",
-            TutorialQuest.Camera => "Vai alla camera e modifica l'inquadratura",
-            TutorialQuest.Slider => "Vai allo slider e crea un keyframe",
-            TutorialQuest.Arm => "Vai al braccio meccanico e crea un waypoint",
-            TutorialQuest.GreenScreen => "Vai al computer e seleziona un'immagine",
+            TutorialQuest.Lights => "Fai pratica con una luce",
+            TutorialQuest.Camera => "Fai pratica con la camera sul treppiede",
+            TutorialQuest.Slider => "Fai pratica con lo slider facendo una breve registrazione del movimento",
+            TutorialQuest.Arm => "Fai pratica con il braccio meccanico facendo una breve registrazione del movimento",
+            TutorialQuest.GreenScreen => "Fai pratica con il computer selezionando un'immagine per il green screen",
             TutorialQuest.Complete => "Tutorial completato!",
             _ => "Quest sconosciuta"
         };

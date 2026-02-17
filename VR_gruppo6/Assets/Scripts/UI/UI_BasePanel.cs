@@ -1,3 +1,4 @@
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,8 +9,11 @@ public class UI_BasePanel : MonoBehaviour
     private static UI_BasePanel _instance;
     public static UI_BasePanel instance => _instance;
 
+    [Header("Quest UI")]
+    [SerializeField] private TextMeshProUGUI questText;
+
     [Header("Quick slots UI")]
-    public Image[] quickSlotImages;
+    [SerializeField] private Image[] quickSlotImages;
 
     void Awake()
     {
@@ -20,6 +24,14 @@ public class UI_BasePanel : MonoBehaviour
         else
         {
             _instance = this;
+        }
+    }
+
+    void Update()
+    {
+        if (QuestManager.instance != null)
+        {
+            questText.text = QuestManager.instance.GetCurrentQuestDescription();
         }
     }
 

@@ -104,6 +104,7 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             }
         }
 
+        // quest camera
         if (currentQuest == QuestManager.TutorialQuest.Camera)
         {
             if (lastSeenQuest != QuestManager.TutorialQuest.Camera)
