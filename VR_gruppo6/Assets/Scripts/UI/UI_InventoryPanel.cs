@@ -18,16 +18,16 @@ public class UI_InventoryPanel : MonoBehaviour
     [SerializeField] private GameObject detailsPanel; // pannello con nome, descrizione, icona, bottone di drop e quantità dell'oggetto
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemDescriptionText;
-    [SerializeField] private Image itemIconImage;
-    [SerializeField] private Button dropItemButton;
-    [SerializeField] private Button useItemButton;
+    // [SerializeField] private Image itemIconImage;
+    // [SerializeField] private Button dropItemButton;
+    // [SerializeField] private Button useItemButton;
     [SerializeField] private TextMeshProUGUI itemCountText; // testo che mostra il numero di item di quel tipo nell'inventario
 
     [Header("Navigation settings")]
     [SerializeField] private Image[] itemPreviewImages; // immagini degli slot dell'inventario
     [SerializeField] private Color selectedColor = Color.green;
     [SerializeField] private Color normalColor = Color.white;
-    [SerializeField] private Color emptySlotColor = new Color(0.3f, 0.3f, 0.3f, 0.5f);
+    [SerializeField] private Color emptySlotColor = new Color(1f, 1f, 1f, 0f);
     [SerializeField] private float inputCooldown = 0.2f;
 
     [Header("Item descriptions files")]
@@ -61,15 +61,15 @@ public class UI_InventoryPanel : MonoBehaviour
     {
         this.gameObject.SetActive(false);
 
-        if (useItemButton != null)
-        {
-            useItemButton.onClick.AddListener(UseSelectedItem);
-        }
+        // if (useItemButton != null)
+        // {
+        //     useItemButton.onClick.AddListener(UseSelectedItem);
+        // }
 
-        if (dropItemButton != null)
-        {
-            dropItemButton.onClick.AddListener(DropSelectedItem);
-        }
+        // if (dropItemButton != null)
+        // {
+        //     dropItemButton.onClick.AddListener(DropSelectedItem);
+        // }
 
         if (detailsPanel != null)
         {
@@ -90,12 +90,22 @@ public class UI_InventoryPanel : MonoBehaviour
         {
             dropInfoText.text = Inventory.instance.GetNearbyDropZoneInfo();
         }
+
+        if (isOpen && Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            UseSelectedItem();
+        }
+        if (isOpen && Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            DropSelectedItem();
+        }
     }
 
     public void OpenInventory()
     {
         this.gameObject.SetActive(true); // attivo l'oggetto UI se clicco il bottone di apertura
         PlayerController.EnableMovement(false); // disabilito il movimento del player quando apro l'inventario
+        PlayerController.instance.BasePanel.gameObject.SetActive(false); // nascondo il pannello di base del player quando apro l'inventario
         PlayerController.ShowCursor();
         
         selectedIndex = 0;
@@ -107,6 +117,7 @@ public class UI_InventoryPanel : MonoBehaviour
     {
         this.gameObject.SetActive(false); // disattivo l'oggetto UI se clicco il bottone di chiusura
         PlayerController.EnableMovement(true); // riabilito il movimento del player quando chiudo l'inventario
+        PlayerController.instance.BasePanel.gameObject.SetActive(true); // riattivo il pannello di base del player quando chiudo l'inventario
         PlayerController.HideCursor();
         
         isOpen = false;
@@ -308,7 +319,7 @@ public class UI_InventoryPanel : MonoBehaviour
         {
             if (selectedItem.IsAccumulable())
             {
-                itemCountText.text = $"Quantità: x{selectedItem.GetQuantity()}";
+                itemCountText.text = $"(x{selectedItem.GetQuantity()})";
                 itemCountText.gameObject.SetActive(true);
             }
             else
@@ -318,27 +329,27 @@ public class UI_InventoryPanel : MonoBehaviour
             }
         }
 
-        if (dropItemButton != null)
-        {
-            dropItemButton.gameObject.SetActive(true);
-        }
+        // if (dropItemButton != null)
+        // {
+        //     dropItemButton.gameObject.SetActive(true);
+        // }
 
-        if (useItemButton != null)
-        {
-            if (selectedItem.IsUsable())
-            {
-                useItemButton.gameObject.SetActive(true);
-            }
-            else
-            {
-                useItemButton.gameObject.SetActive(false);
-            }
-        }
+        // if (useItemButton != null)
+        // {
+        //     if (selectedItem.IsUsable())
+        //     {
+        //         useItemButton.gameObject.SetActive(true);
+        //     }
+        //     else
+        //     {
+        //         useItemButton.gameObject.SetActive(false);
+        //     }
+        // }
 
-        if (itemIconImage != null)
-        {
-            itemIconImage.sprite = selectedItem.GetItemIcon();
-        }
+        // if (itemIconImage != null)
+        // {
+        //     itemIconImage.sprite = selectedItem.GetItemIcon();
+        // }
     }
 
     private void HideItemDetails()
@@ -348,15 +359,15 @@ public class UI_InventoryPanel : MonoBehaviour
             detailsPanel.SetActive(false);
         }
 
-        if (dropItemButton != null)
-        {
-            dropItemButton.gameObject.SetActive(false);
-        }
+        // if (dropItemButton != null)
+        // {
+        //     dropItemButton.gameObject.SetActive(false);
+        // }
 
-        if (useItemButton != null)
-        {
-            useItemButton.gameObject.SetActive(false);
-        }
+        // if (useItemButton != null)
+        // {
+        //     useItemButton.gameObject.SetActive(false);
+        // }
     }
 
     private void DropSelectedItem()

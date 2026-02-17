@@ -8,7 +8,10 @@ public class Inventory : MonoBehaviour
     // singleton
     private static Inventory _instance;
     public static Inventory instance => _instance;
-    private Dictionary<string, PickableItem> itemTemplates = new Dictionary<string, PickableItem>();
+    private Dictionary<string, PickableItem> itemTemplates = new Dictionary<string, PickableItem>();    
+
+    private readonly int quickSlotMax = 3;
+    private LinkedList<string> quickSlotsHistory = new LinkedList<string>(); // itemID più recenti
 
     void Awake()
     {
@@ -59,9 +62,21 @@ public class Inventory : MonoBehaviour
             item.AddQuantity();
             item.gameObject.SetActive(false); // disattivo l'oggetto nella scena
             itemTemplates.Add(itemID, item);
+            AddToQuickSlots(itemID);
             NotifyInventoryChanged();
             return true;
         }
+    }
+
+    private void AddToQuickSlots(string itemID)
+    {
+        if (quickSlotsHistory.Contains(itemID)) 
+        {
+            quickSlotsHistory.Remove(itemID);
+        }
+        quickSlotsHistory.AddFirst(itemID);
+        while (quickSlotsHistory.Count > quickSlotMax)
+            quickSlotsHistory.RemoveLast();
     }
 
     public void RemoveItem(string itemID)
@@ -89,6 +104,7 @@ public class Inventory : MonoBehaviour
         if (item.GetQuantity() <= 0)
         {
             itemTemplates.Remove(itemID);
+            quickSlotsHistory.Remove(itemID);
             Destroy(item.gameObject);
         }
         
@@ -166,6 +182,10 @@ public class Inventory : MonoBehaviour
         {
             UI_InventoryPanel.instance.OnInventoryChanged();
         }
+        if (UI_BasePanel.instance != null)
+        {
+            UI_BasePanel.instance.UpdateQuickSlots();
+        }
     }
 
     public List<PickableItem> GetItems()
@@ -203,5 +223,16 @@ public class Inventory : MonoBehaviour
         }
         
         return "Drop davanti a te";
+    }
+
+    public List<PickableItem> GetQuickSlotItems()
+    {
+        List<PickableItem> quickItems = new List<PickableItem>();
+        foreach (string id in quickSlotsHistory)
+        {
+            if (itemTemplates.ContainsKey(id))
+                quickItems.Add(itemTemplates[id]);
+        }
+        return quickItems;
     }
 }
