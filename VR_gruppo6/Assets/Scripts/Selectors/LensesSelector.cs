@@ -15,7 +15,6 @@ public class LensesSelector : MonoBehaviour
     private int currentImageIndex = 2;
     private float lastInputTime = 0f;
     private UI_CameraPanel cameraPanel;
-    private bool lensConfirmed = false;
     private bool tutorialQuestCompleted = false;
 
     void Start()
@@ -94,10 +93,6 @@ public class LensesSelector : MonoBehaviour
                 {
                     AudioManager.instance.PlayCameraLensChange();
                 }
-                // if (TortaInTestaManager.instance != null && currentImageIndex == correctLensIndex && SceneManager.GetActiveScene().name == "TortaInTesta")
-                // {
-                //     TortaInTestaManager.instance.OnCameraCompleted();
-                // }
             }
             else
             {
@@ -107,7 +102,7 @@ public class LensesSelector : MonoBehaviour
 
         CheckTutorialCompletion();
 
-        // CheckLensQuest();
+        CheckLivingRoomQuest();
     }
 
     private void CheckTutorialCompletion()
@@ -122,31 +117,16 @@ public class LensesSelector : MonoBehaviour
         }
     }
 
-    // private void CheckLensQuest()
-    // {
-    //     // if (TortaInTestaManager.instance == null)
-    //     // {
-    //     //     Debug.LogWarning("TortaInTestaManager non trovato!");
-    //     //     return;
-    //     // }
-
-    //     // if (!TortaInTestaManager.instance.IsCameraQuestUnlocked())
-    //     // {
-    //     //     return;
-    //     // }
-
-    //     // if (TortaInTestaManager.instance.IsCameraQuestCompleted())
-    //     // {
-    //     //     return;
-    //     // }
-
-    //     // TortaInTestaManager.instance.OnCameraLensSelected(currentImageIndex);
-
-    //     // if (currentImageIndex == TortaInTestaManager.instance.GetCorrectLensIndex())
-    //     // {
-    //     //     lensConfirmed = true;
-    //     // }
-    // }
+    private void CheckLivingRoomQuest()
+    {
+        if (QuestManager.instance != null && 
+            QuestManager.instance.IsQuestActive(QuestManager.MainQuest.LivingRoomCamera) &&
+            QuestManager.instance.LivingLensIndex == currentImageIndex) // indice della lente corretta per la quest del salotto
+        {
+            Debug.Log("Quest camera salotto COMPLETATA: lente corretta selezionata");
+            QuestManager.instance.CompleteCurrentQuest();
+        }
+    }
 
     private void UpdateImageColors()
     {

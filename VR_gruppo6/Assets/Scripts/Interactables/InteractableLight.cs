@@ -213,7 +213,7 @@ public class InteractableLight : MonoBehaviour
 
         if (allOk)
         {
-            Debug.Log("Quest luce salotto COMPLETATA: intensità e temperatura OK!");
+            Debug.Log("Quest luce salotto COMPLETATA: intensità e temperatura OK");
             livingRoomLightCompleted = true;
             QuestManager.instance.CompleteCurrentQuest();
         }

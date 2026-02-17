@@ -32,9 +32,16 @@ public class QuestManager : MonoBehaviour
         DivinationComplete,     // divination completata
     }
 
+    // SETTAGGI PER LE QUEST DEL SALOTTO
     [Header("Living room lights")]
     [SerializeField] private InteractableLight[] livingRoomLights;
     public InteractableLight[] LivingRoomLights => livingRoomLights;
+
+    [Header("Living room lens index")]
+    [SerializeField] private int livingLensIndex = 0;
+    public int LivingLensIndex => livingLensIndex;
+
+    // SETTAGGI PER LE QUEST DELLA DIVINATION
 
     private MainQuest currentQuest = MainQuest.None; // iniziamo dalla prima quest introduttiva
     public MainQuest CurrentQuest => currentQuest;
@@ -197,13 +204,4 @@ public class QuestManager : MonoBehaviour
     {
         return currentQuest == MainQuest.TutorialComplete;
     }
-
-    // void Update()
-    // {
-    //     if (UnityEngine.InputSystem.Keyboard.current.uKey.wasPressedThisFrame)
-    //     {
-    //         Debug.Log($"Debug: Completo quest {currentQuest}");
-    //         CompleteCurrentQuest();
-    //     }
-    // }
 }

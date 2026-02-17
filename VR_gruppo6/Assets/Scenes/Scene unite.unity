@@ -20698,6 +20698,7 @@ MonoBehaviour:
   livingRoomLights:
   - {fileID: 94458805}
   - {fileID: 1629927363}
+  livingLensIndex: 0
 --- !u!114 &781280361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39274,7 +39275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 28e3710a16df3fd4ab2cdf675ac7de7e, type: 3}
       propertyPath: m_TagString
-      value: Operatore
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 28e3710a16df3fd4ab2cdf675ac7de7e, type: 3}
       propertyPath: m_Controller
@@ -39312,7 +39313,7 @@ MonoBehaviour:
   interactionText: '[E] per parlare'
   operatorName: DOP Tony
   dialogueFile: {fileID: 0}
-  dialoguePanel: {fileID: 0}
+  dialoguePanel: {fileID: 252036505}
 --- !u!136 &1574715708
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -51629,7 +51630,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fc9eeabbf4d980244bcf173fdc48b5d2, type: 3}
       propertyPath: m_TagString
-      value: Operatore
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: fc9eeabbf4d980244bcf173fdc48b5d2, type: 3}
       propertyPath: m_Controller
@@ -51667,7 +51668,7 @@ MonoBehaviour:
   interactionText: '[E] per parlare'
   operatorName: Operatrice Fiona
   dialogueFile: {fileID: 0}
-  dialoguePanel: {fileID: 0}
+  dialoguePanel: {fileID: 252036505}
 --- !u!136 &2031996737
 CapsuleCollider:
   m_ObjectHideFlags: 0
