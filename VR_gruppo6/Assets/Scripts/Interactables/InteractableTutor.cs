@@ -194,61 +194,17 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
 
         dialoguePanel.ShowDialogue(tutorName, lines.ToArray(), this);
 
-        if (rotationCoroutine != null)
-        {
-            StopCoroutine(rotationCoroutine);
-        }
-        rotationCoroutine = StartCoroutine(SmoothLookAtPlayer());
-
         PlayerController.EnableMovement(false);
     }
 
     public void OnDialogueEnd()
     {
-        if (rotationCoroutine != null)
-        {
-            StopCoroutine(rotationCoroutine);
-        }
-        rotationCoroutine = StartCoroutine(ReturnToOriginalRotation());
-
         PlayerController.EnableMovement(true);
         
         if (PlayerController.instance != null)
         {
             PlayerController.instance.OnDialogueEnded();
         }
-    }
-
-    private IEnumerator SmoothLookAtPlayer()
-    {
-        if (PlayerController.instance == null) yield break;
-
-        Vector3 direction = PlayerController.instance.transform.position - transform.position;
-        direction.y = 0;
-
-        if (direction.sqrMagnitude < 0.01f) yield break;
-
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-
-        while (Quaternion.Angle(transform.rotation, targetRotation) > 0.5f)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2f);
-            yield return null;
-        }
-
-        transform.rotation = targetRotation;
-    }
-
-    private IEnumerator ReturnToOriginalRotation()
-    {
-        while (Quaternion.Angle(transform.rotation, originalRotation) > 0.5f)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, originalRotation, Time.deltaTime * 2f);
-            yield return null;
-        }
-
-        transform.rotation = originalRotation;
-        rotationCoroutine = null;
     }
 
     public string GetInteractionText()

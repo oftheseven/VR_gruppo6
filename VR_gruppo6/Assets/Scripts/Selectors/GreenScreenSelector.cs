@@ -205,25 +205,6 @@ public class GreenScreenSelector : MonoBehaviour
         }
     }
 
-    // QUESTO FUNZIONA PERFETTAMENTE, VOGLIO PROVARE A FARE L'OUTLINE
-    // private void UpdateImageColors()
-    // {
-    //     for (int i = 0; i < imageSlots.Length; i++)
-    //     {
-    //         if (imageSlots[i] != null && imageSlots[i].gameObject.activeSelf)
-    //         {
-    //             if (i == currentImageIndex)
-    //             {
-    //                 imageSlots[i].color = Color.green;
-    //             }
-    //             else
-    //             {
-    //                 imageSlots[i].color = Color.white;
-    //             }
-    //         }
-    //     }
-    // }
-
     private void UpdateImageColors()
     {
         for (int i = 0; i < imageSlots.Length; i++)
