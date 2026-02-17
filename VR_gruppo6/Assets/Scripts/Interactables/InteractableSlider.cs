@@ -8,6 +8,12 @@ public class InteractableSlider : MonoBehaviour
     [SerializeField] private Transform railStart;
     [SerializeField] private Transform railEnd;
 
+    [Header("Collider quest slider")]
+    [SerializeField] private Collider questLookTarget;
+    [SerializeField] private float raycastDistance = 40f;
+    private float lookTimer = 0f;
+    private bool livingRoomSliderCompleted = false;
+
     [Header("Slider settings")]
     [SerializeField] private string sliderName = "Slider tutorial";
     [SerializeField] private float currentPosition = 0.5f;
@@ -65,6 +71,8 @@ public class InteractableSlider : MonoBehaviour
         {
             sliderCamera.gameObject.GetComponentInChildren<Camera>().enabled = false;
         }
+
+        questLookTarget.enabled = false;
     }
 
     void Update()
@@ -106,6 +114,10 @@ public class InteractableSlider : MonoBehaviour
         if (sliderPanel != null)
         {
             sliderPanel.OpenPanel(this);
+            if (questLookTarget != null)
+            {
+                questLookTarget.enabled = false;
+            }
         }
         else
         {
@@ -156,6 +168,13 @@ public class InteractableSlider : MonoBehaviour
         isRecording = true;
         recordingStartTime = Time.time;
 
+        lookTimer = 0f;
+        livingRoomSliderCompleted = false;
+        if (questLookTarget != null)
+        {
+            questLookTarget.enabled = true;
+        }
+
         Debug.Log($"Recording STARTED: {currentRecording.recordingName}");
     }
 
@@ -165,7 +184,12 @@ public class InteractableSlider : MonoBehaviour
 
         isRecording = false;
 
-        CheckTutorialCompletion();
+        if (questLookTarget != null)
+        {
+            questLookTarget.enabled = false;
+        }
+
+        CheckSliderCompletion();
     }
 
     private void UpdateRecording()
@@ -178,11 +202,21 @@ public class InteractableSlider : MonoBehaviour
             Quaternion cameraRot = sliderCamera != null ? sliderCamera.transform.localRotation : Quaternion.identity;
             currentRecording.AddKeyframe(elapsedTime, currentPosition, cameraRot);
         }
+
+        if (QuestManager.instance != null && 
+            QuestManager.instance.IsQuestActive(QuestManager.MainQuest.LivingRoomSlider))
+        {
+            if (IsLookingAtTarget())
+            {
+                lookTimer += Time.deltaTime;
+                Debug.Log($"SLIDER QUEST lookTimer={lookTimer:F2}s");
+            }
+        }
     }
 
-    private void CheckTutorialCompletion()
+    private void CheckSliderCompletion()
     {
-        // tutorial: Deve aver creato almeno 1 keyframe
+        // tutorial: deve aver creato almeno 1 keyframe
         if (QuestManager.instance != null && 
             QuestManager.instance.IsQuestActive(QuestManager.MainQuest.TutorialSlider) &&
             !tutorialQuestCompleted)
@@ -192,6 +226,23 @@ public class InteractableSlider : MonoBehaviour
                 tutorialQuestCompleted = true;
                 QuestManager.instance.CompleteCurrentQuest();
             }
+        }
+
+        // salotto: deve guardare verso il target per un tot di secondi durante la registrazione
+        if (livingRoomSliderCompleted) return;
+
+        if (QuestManager.instance != null && QuestManager.instance.IsQuestActive(QuestManager.MainQuest.LivingRoomSlider))
+        {
+            if (lookTimer >= QuestManager.instance.LookDurationRequired)
+            {
+                livingRoomSliderCompleted = true;
+                Debug.Log($"Quest slider salotto COMPLETATA! Guardato verso scena per {lookTimer:F2}s");
+                QuestManager.instance.CompleteCurrentQuest();
+            }
+            // else
+            // {
+            //     Debug.Log($"Quest slider salotto NON completata: solo {lookTimer:F2}s su {lookDurationRequired}s richiesti.");
+            // }
         }
     }
 
@@ -293,6 +344,26 @@ public class InteractableSlider : MonoBehaviour
     {
         if (railStart == null || railEnd == null) return 0f;
         return Vector3.Distance(railStart.position, railEnd.position);
+    }
+
+    private bool IsLookingAtTarget()
+    {
+        if (sliderCamera == null || questLookTarget == null) return false;
+
+        Camera cam = sliderCamera.GetComponentInChildren<Camera>();
+        if (cam == null) return false;
+        
+        RaycastHit hit;
+
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, raycastDistance))
+        {
+            if (hit.collider == questLookTarget)
+            {
+                Debug.DrawRay(cam.transform.position, cam.transform.forward * hit.distance, Color.red, 0.15f);
+                return true;
+            }
+        }
+        return false;
     }
     
     public string GetInteractionText()

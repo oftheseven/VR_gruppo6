@@ -41,6 +41,10 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private int livingLensIndex = 0;
     public int LivingLensIndex => livingLensIndex;
 
+    [Header("Living room slider time requirement")]
+    [SerializeField] private float lookDurationRequired = 3.0f;
+    public float LookDurationRequired => lookDurationRequired;
+
     // SETTAGGI PER LE QUEST DELLA DIVINATION
 
     private MainQuest currentQuest = MainQuest.None; // iniziamo dalla prima quest introduttiva

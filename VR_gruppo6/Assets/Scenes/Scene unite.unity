@@ -2618,6 +2618,59 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 74517435}
   m_Mesh: {fileID: 5066968463259608955, guid: 3216e0ef8c63741e4b7012fbb6a99987, type: 3}
+--- !u!1 &77103669
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 77103670}
+  - component: {fileID: 77103671}
+  m_Layer: 0
+  m_Name: ColliderSliderQuest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &77103670
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77103669}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.88, y: 0.5, z: 11.11}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 618524480}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &77103671
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77103669}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 13.939941, y: 2.8224332, z: 11.112673}
+  m_Center: {x: -1.26754, y: 0.9112166, z: 2.6672935}
 --- !u!1001 &83655902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16596,6 +16649,14 @@ PrefabInstance:
       value: '[E] per interagire con lo slider'
       objectReference: {fileID: 0}
     - target: {fileID: 2836189983696887598, guid: d78557df7221543e0b2929855cb2fccb, type: 3}
+      propertyPath: questLookTarget
+      value: 
+      objectReference: {fileID: 77103671}
+    - target: {fileID: 2836189983696887598, guid: d78557df7221543e0b2929855cb2fccb, type: 3}
+      propertyPath: raycastDistance
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 2836189983696887598, guid: d78557df7221543e0b2929855cb2fccb, type: 3}
       propertyPath: cameraRotationSpeed
       value: 5
       objectReference: {fileID: 0}
@@ -16607,6 +16668,9 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 8362151268627691964, guid: d78557df7221543e0b2929855cb2fccb, type: 3}
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 397318114242263203, guid: d78557df7221543e0b2929855cb2fccb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 77103670}
     - targetCorrespondingSourceObject: {fileID: 134239272392673140, guid: d78557df7221543e0b2929855cb2fccb, type: 3}
       insertIndex: 0
       addedObject: {fileID: 580049596}
@@ -20699,6 +20763,7 @@ MonoBehaviour:
   - {fileID: 94458805}
   - {fileID: 1629927363}
   livingLensIndex: 0
+  lookDurationRequired: 3
 --- !u!114 &781280361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39275,7 +39340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 28e3710a16df3fd4ab2cdf675ac7de7e, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Operatore
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 28e3710a16df3fd4ab2cdf675ac7de7e, type: 3}
       propertyPath: m_Controller
@@ -39312,7 +39377,7 @@ MonoBehaviour:
   operatorID: dop
   interactionText: '[E] per parlare'
   operatorName: DOP Tony
-  dialogueFile: {fileID: 0}
+  dialogueFile: {fileID: 4900000, guid: 4ed8591b9b52052419f2abd1f042dc98, type: 3}
   dialoguePanel: {fileID: 252036505}
 --- !u!136 &1574715708
 CapsuleCollider:
@@ -51630,7 +51695,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fc9eeabbf4d980244bcf173fdc48b5d2, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Operatore
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: fc9eeabbf4d980244bcf173fdc48b5d2, type: 3}
       propertyPath: m_Controller
@@ -51667,7 +51732,7 @@ MonoBehaviour:
   operatorID: assistente_regia
   interactionText: '[E] per parlare'
   operatorName: Operatrice Fiona
-  dialogueFile: {fileID: 0}
+  dialogueFile: {fileID: 4900000, guid: da7c064d70ae714488e0798ce9908811, type: 3}
   dialoguePanel: {fileID: 252036505}
 --- !u!136 &2031996737
 CapsuleCollider:
