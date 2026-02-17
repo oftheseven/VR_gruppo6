@@ -64,13 +64,6 @@ public class UI_ComputerPanel :  MonoBehaviour
             Debug.LogError("Green Screen target invalido!");
             return;
         }
-        
-        // Tutorial: se già completato (TortaInTesta), blocca
-        if (targetGreenScreen.isCompleted && TortaInTestaManager.instance != null)
-        {
-            Debug.Log($"{targetGreenScreen.displayName} già completato!");
-            return;
-        }
 
         currentGreenScreen = targetGreenScreen;
         

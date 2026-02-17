@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class InteractableTutor : MonoBehaviour, IDialogueSource
 {
@@ -42,8 +43,6 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
     [SerializeField] private Animator animator;
     [SerializeField] private string animIsTalkingParam = "IsTalking";
 
-    private Quaternion originalRotation;
-    private Coroutine rotationCoroutine;
     private QuestManager.MainQuest lastSeenQuest = QuestManager.MainQuest.None;
 
     void Awake()
@@ -58,8 +57,6 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
 
     void Start()
     {
-        originalRotation = transform.rotation;
-
         if (animator == null)
         {
             animator = GetComponent<Animator>();
@@ -79,6 +76,15 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
         }
     }
 
+    void Update()
+    {
+        // mando avanti le quest per debug
+        if (Keyboard.current.pKey.wasPressedThisFrame)
+        {
+            QuestManager.instance.AdvanceQuest();
+        }
+    }
+
     public void Interact()
     {
         if (QuestManager.instance == null)
@@ -87,8 +93,13 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             return;
         }
 
+        if (QuestManager.instance.AwaitingTutorConfirm)
+        {
+            Debug.Log("Tutor conferma avanzamento quest!");
+            QuestManager.instance.TutorConfirmedQuestAdvance();
+        }
+
         QuestManager.MainQuest currentQuest = QuestManager.instance.CurrentQuest;
-        
         TextAsset dialogueToUse = GetAppropriateDialogue(currentQuest);
         
         if (dialogueToUse != null)
@@ -99,6 +110,12 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
         else
         {
             Debug.LogWarning("Nessun dialogo assegnato per quest: " + currentQuest);
+        }
+
+        // CONDIZIONE DA CAMBIARE, MAGARI METTERE UN FADE-IN FADE-OUT A SCHERMO PER FAR CAPIRE CHE SI E' PASSATI ALLA FASE SUCCESSIVA
+        if (currentQuest == QuestManager.MainQuest.TutorialComplete)
+        {
+            QuestManager.instance.AdvanceQuest(); // passo alla fase del salotto
         }
 
         HandleQuestProgression(currentQuest);

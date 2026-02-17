@@ -285,7 +285,7 @@ public class UI_LightPanel : MonoBehaviour
         
         UpdateUI();
 
-        CheckLightQuest();
+        // CheckLightQuest();
     }
 
     private void OnTemperatureChanged(float value)
@@ -299,7 +299,7 @@ public class UI_LightPanel : MonoBehaviour
             temperatureText.text = $"{value:F0}K";
         }
 
-        CheckLightQuest();
+        // CheckLightQuest();
     }
 
     private void OnColorChanged()
@@ -317,19 +317,19 @@ public class UI_LightPanel : MonoBehaviour
         }
     }
 
-    private void CheckLightQuest()
-    {
-        if (currentLight == null || TortaInTestaManager.instance == null)
-        {
-            return;
-        }
+    // private void CheckLightQuest()
+    // {
+    //     // if (currentLight == null || TortaInTestaManager.instance == null)
+    //     // {
+    //     //     return;
+    //     // }
 
-        // TortaInTestaManager.instance.OnLightValuesChanged(
-        //     currentLight.CurrentTemperature,
-        //     currentLight.CurrentIntensity,
-        //     currentLight.IsTemperatureMode
-        // );
-    }
+    //     // TortaInTestaManager.instance.OnLightValuesChanged(
+    //     //     currentLight.CurrentTemperature,
+    //     //     currentLight.CurrentIntensity,
+    //     //     currentLight.IsTemperatureMode
+    //     // );
+    // }
 
     public void HandlePanelClose()
     {

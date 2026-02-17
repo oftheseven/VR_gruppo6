@@ -107,7 +107,7 @@ public class LensesSelector : MonoBehaviour
 
         CheckTutorialCompletion();
 
-        CheckLensQuest();
+        // CheckLensQuest();
     }
 
     private void CheckTutorialCompletion()
@@ -122,31 +122,31 @@ public class LensesSelector : MonoBehaviour
         }
     }
 
-    private void CheckLensQuest()
-    {
-        if (TortaInTestaManager.instance == null)
-        {
-            Debug.LogWarning("TortaInTestaManager non trovato!");
-            return;
-        }
+    // private void CheckLensQuest()
+    // {
+    //     // if (TortaInTestaManager.instance == null)
+    //     // {
+    //     //     Debug.LogWarning("TortaInTestaManager non trovato!");
+    //     //     return;
+    //     // }
 
-        // if (!TortaInTestaManager.instance.IsCameraQuestUnlocked())
-        // {
-        //     return;
-        // }
+    //     // if (!TortaInTestaManager.instance.IsCameraQuestUnlocked())
+    //     // {
+    //     //     return;
+    //     // }
 
-        // if (TortaInTestaManager.instance.IsCameraQuestCompleted())
-        // {
-        //     return;
-        // }
+    //     // if (TortaInTestaManager.instance.IsCameraQuestCompleted())
+    //     // {
+    //     //     return;
+    //     // }
 
-        // TortaInTestaManager.instance.OnCameraLensSelected(currentImageIndex);
+    //     // TortaInTestaManager.instance.OnCameraLensSelected(currentImageIndex);
 
-        // if (currentImageIndex == TortaInTestaManager.instance.GetCorrectLensIndex())
-        // {
-        //     lensConfirmed = true;
-        // }
-    }
+    //     // if (currentImageIndex == TortaInTestaManager.instance.GetCorrectLensIndex())
+    //     // {
+    //     //     lensConfirmed = true;
+    //     // }
+    // }
 
     private void UpdateImageColors()
     {

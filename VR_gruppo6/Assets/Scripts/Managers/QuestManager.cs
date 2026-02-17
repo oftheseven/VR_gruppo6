@@ -1,13 +1,10 @@
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.Events;
 
 public class QuestManager : MonoBehaviour
 {
     private static QuestManager _instance;
     public static QuestManager instance => _instance;
-
-    private int currentPhaseIndex = 0;
 
     public enum MainQuest
     {
@@ -35,11 +32,18 @@ public class QuestManager : MonoBehaviour
         DivinationComplete,     // divination completata
     }
 
+    [Header("Living room lights")]
+    [SerializeField] private InteractableLight[] livingRoomLights;
+    public InteractableLight[] LivingRoomLights => livingRoomLights;
+
     private MainQuest currentQuest = MainQuest.None; // iniziamo dalla prima quest introduttiva
     public MainQuest CurrentQuest => currentQuest;
 
-    public UnityEvent<MainQuest> OnQuestChanged;
-    public UnityEvent OnTutorialComplete;
+    private UnityEvent<MainQuest> OnQuestChanged;
+    private UnityEvent OnTutorialComplete;
+
+    private bool awaitingTutorConfirm = false;
+    public bool AwaitingTutorConfirm => awaitingTutorConfirm;
 
     void Awake()
     {
@@ -67,44 +71,62 @@ public class QuestManager : MonoBehaviour
     {
         Debug.Log($"Quest completata: {currentQuest}");
 
+        // mostro una frase intermedia per far tornare l'utente dal tutor
+        awaitingTutorConfirm = true;
+    
+        if (UI_BasePanel.instance != null)
+        {
+            UI_BasePanel.instance.ShowTalkToRemy();
+        }
+    }
+
+    public void TutorConfirmedQuestAdvance()
+    {
+        awaitingTutorConfirm = false;
+        AdvanceQuest();
+    }
+
+    public void AdvanceQuest()
+    {
+        Debug.Log($"Quest completata: {currentQuest}");
+
         switch (currentQuest)
         {
+            // TUTORIAL
             case MainQuest.TutorialLights:
                 SetQuest(MainQuest.TutorialCamera);
                 break;
-            
             case MainQuest.TutorialCamera:
                 SetQuest(MainQuest.TutorialSlider);
                 break;
-
             case MainQuest.TutorialSlider:
                 SetQuest(MainQuest.TutorialArm);
                 break;
-
             case MainQuest.TutorialArm:
                 SetQuest(MainQuest.TutorialGreenScreen);
                 break;
-
             case MainQuest.TutorialGreenScreen:
                 SetQuest(MainQuest.TutorialComplete);
                 break;
+            case MainQuest.TutorialComplete:
+                SetQuest(MainQuest.LivingRoomLight); // inizio quest salotto
+                break;
             
+            // SALOTTO
             case MainQuest.LivingRoomLight:
                 SetQuest(MainQuest.LivingRoomCamera);
                 break;
-            
             case MainQuest.LivingRoomCamera:
                 SetQuest(MainQuest.LivingRoomSlider);
                 break;
-
             case MainQuest.LivingRoomSlider:
                 SetQuest(MainQuest.LivingRoomGreenScreen);
                 break;
-
             case MainQuest.LivingRoomGreenScreen:
                 SetQuest(MainQuest.LivingRoomComplete); 
                 break;
 
+            // DIVINATION
             case MainQuest.LivingRoomComplete:
                 SetQuest(MainQuest.DivinationLight); 
                 break;

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class InteractableLight : MonoBehaviour
@@ -22,6 +21,12 @@ public class InteractableLight : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioClip buzzSound;
     [SerializeField] [Range(0f, 1f)] private float buzzVolume = 0.3f;
+
+    [Header("Quest Target (per quest salotto)")]
+    [SerializeField, Range(0f, 1f)] private float questTargetIntensity = 0.8f;
+    [SerializeField] private float questTargetTemperature = 5000f;
+    [SerializeField] private float questThreshold = 0.05f;
+    private bool livingRoomLightCompleted = false;
 
     private AudioSource audioSource;
     private bool isBuzzing = false;
@@ -157,11 +162,17 @@ public class InteractableLight : MonoBehaviour
 
     private void OnSliderMoved()
     {
-        if (QuestManager.instance != null && 
-            QuestManager.instance.IsQuestActive(QuestManager.MainQuest.TutorialLights))
+        // TUTORIAL
+        if (QuestManager.instance != null && QuestManager.instance.IsQuestActive(QuestManager.MainQuest.TutorialLights))
         {
             tutorialSliderMoved = true;
             CheckTutorialComplete();
+        }
+
+        // SALOTTO
+        if (QuestManager.instance != null && QuestManager.instance.IsQuestActive(QuestManager.MainQuest.LivingRoomLight))
+        {
+            CheckLivingRoomLightQuest();
         }
     }
 
@@ -174,6 +185,37 @@ public class InteractableLight : MonoBehaviour
             
             tutorialPanelOpened = false;
             tutorialSliderMoved = false;
+        }
+    }
+
+    private void CheckLivingRoomLightQuest()
+    {
+        if (livingRoomLightCompleted) return;
+
+        bool allOk = true;
+
+        foreach (InteractableLight light in QuestManager.instance.LivingRoomLights)
+        {
+            float normalizedIntensity = light.CurrentIntensity / light.MaxIntensity;
+            float sliderValue = Mathf.Sqrt(normalizedIntensity) * light.MaxIntensity;
+            float percentage = sliderValue / light.MaxIntensity;
+            bool okIntensity = Mathf.Abs(percentage - questTargetIntensity) < questThreshold;
+            bool okTemp = Mathf.Abs(light.CurrentTemperature - questTargetTemperature) < 100f;
+
+            // if (!okIntensity || !okTemp)
+            // {
+            //     allOk = false;
+            //     break;
+            // }
+            if (!(okIntensity && okTemp))
+                allOk = false;
+        }
+
+        if (allOk)
+        {
+            Debug.Log("Quest luce salotto COMPLETATA: intensità e temperatura OK!");
+            livingRoomLightCompleted = true;
+            QuestManager.instance.CompleteCurrentQuest();
         }
     }
 

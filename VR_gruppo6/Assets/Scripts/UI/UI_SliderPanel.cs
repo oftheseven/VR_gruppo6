@@ -334,11 +334,11 @@ public class UI_SliderPanel : MonoBehaviour
         
         if (Keyboard.current.aKey.isPressed)
         {
-            movement = keyboardMoveSpeed * Time.deltaTime;
+            movement = -keyboardMoveSpeed * Time.deltaTime;
         }
         else if (Keyboard.current.dKey.isPressed)
         {
-            movement = -keyboardMoveSpeed * Time.deltaTime;
+            movement = keyboardMoveSpeed * Time.deltaTime;
         }
 
         if (movement != 0f)

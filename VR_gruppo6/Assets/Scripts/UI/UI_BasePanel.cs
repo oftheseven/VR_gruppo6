@@ -28,10 +28,22 @@ public class UI_BasePanel : MonoBehaviour
 
     void Update()
     {
-        if (QuestManager.instance != null)
+        if (QuestManager.instance != null) 
         {
-            questText.text = QuestManager.instance.GetCurrentQuestDescription();
+            if (QuestManager.instance.AwaitingTutorConfirm)
+            {
+                questText.text = "Torna a parlare da Remy";
+            }
+            else
+            {
+                questText.text = QuestManager.instance.GetCurrentQuestDescription();
+            }
         }
+    }
+
+    public void ShowTalkToRemy()
+    {
+        questText.text = "Torna a parlare da Remy";
     }
 
     public void UpdateQuickSlots()

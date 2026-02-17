@@ -2304,6 +2304,7 @@ Transform:
   - {fileID: 666598282}
   - {fileID: 416359377}
   - {fileID: 991368899}
+  - {fileID: 2076148556}
   - {fileID: 1243636443}
   - {fileID: 618524480}
   m_Father: {fileID: 0}
@@ -2817,6 +2818,17 @@ Transform:
   - {fileID: 2077957073}
   m_Father: {fileID: 1362496593}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &94458805 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 879073281449097825, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+  m_PrefabInstance: {fileID: 991368898}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be303487dbf600040bb6088b71fe3ac0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableLight
 --- !u!1001 &106123458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20665,7 +20677,7 @@ GameObject:
   - component: {fileID: 781280361}
   - component: {fileID: 781280360}
   m_Layer: 0
-  m_Name: TutorialManager
+  m_Name: QuestManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20683,12 +20695,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b866482582c54bc3aaffb6cec5bb7a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestManager
-  OnQuestChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTutorialComplete:
-    m_PersistentCalls:
-      m_Calls: []
+  livingRoomLights:
+  - {fileID: 94458805}
+  - {fileID: 1629927363}
 --- !u!114 &781280361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25100,17 +25109,25 @@ PrefabInstance:
       propertyPath: interactionText
       value: '[E] per gestire la luce'
       objectReference: {fileID: 0}
+    - target: {fileID: 879073281449097825, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: questTargetIntensity
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 1192690270912758188, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
       propertyPath: m_Name
       value: Light_SingleBulb
       objectReference: {fileID: 0}
     - target: {fileID: 1428600092793818533, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.00000012479724
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428600092793818533, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.775
       objectReference: {fileID: 0}
     - target: {fileID: 1428600092793818533, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.044000063
+      value: 1.114
       objectReference: {fileID: 0}
     - target: {fileID: 1428600092793818533, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
       propertyPath: m_LocalRotation.w
@@ -41051,6 +41068,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1216551652148712639, guid: dbeda1d38df43334a9b231b465bec897, type: 3}
   m_PrefabInstance: {fileID: 1624876127}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1629927363 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 879073281449097825, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+  m_PrefabInstance: {fileID: 2076148555}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be303487dbf600040bb6088b71fe3ac0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableLight
 --- !u!1 &1642145540
 GameObject:
   m_ObjectHideFlags: 0
@@ -41573,9 +41601,9 @@ MonoBehaviour:
   tutorialGreenscreenAssignedDialogue: {fileID: 4900000, guid: fc8c01f1a27c943b393834abd1c8f4b1, type: 3}
   tutorialCompleteDialogue: {fileID: 4900000, guid: 069997e9c168441e29ed50e6b8eb3710, type: 3}
   reminderDialogue: {fileID: 0}
-  livingRoomLightsAssignedDialogue: {fileID: 0}
-  livingRoomCameraAssignedDialogue: {fileID: 0}
-  livingRoomSliderAssignedDialogue: {fileID: 0}
+  livingRoomLightsAssignedDialogue: {fileID: 4900000, guid: 92ef875d3dd82466ebcb5049e26ee927, type: 3}
+  livingRoomCameraAssignedDialogue: {fileID: 4900000, guid: a3ae89bc645a148a48ff1f202bb6ec5b, type: 3}
+  livingRoomSliderAssignedDialogue: {fileID: 4900000, guid: 048c5b5112a684f6b9b5a24b57a46f62, type: 3}
   livingRoomGreenscreenAssignedDialogue: {fileID: 0}
   livingRoomCompleteDialogue: {fileID: 0}
   divinationLightsAssignedDialogue: {fileID: 0}
@@ -52723,6 +52751,72 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2066038929}
   m_CullTransparentMesh: 1
+--- !u!1001 &2076148555
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 59866683}
+    m_Modifications:
+    - target: {fileID: 879073281449097825, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: lightPanel
+      value: 
+      objectReference: {fileID: 1964195999}
+    - target: {fileID: 1192690270912758188, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: m_Name
+      value: Light_SingleBulb (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001456237109156630, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.144
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001456237109156630, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001456237109156630, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.896
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001456237109156630, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.88588
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001456237109156630, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001456237109156630, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.4639146
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001456237109156630, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001456237109156630, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001456237109156630, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -415.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 2001456237109156630, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+--- !u!4 &2076148556 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2001456237109156630, guid: 250137668ee3550428ac1b07c6ee7c76, type: 3}
+  m_PrefabInstance: {fileID: 2076148555}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2076841533
 GameObject:
   m_ObjectHideFlags: 0
