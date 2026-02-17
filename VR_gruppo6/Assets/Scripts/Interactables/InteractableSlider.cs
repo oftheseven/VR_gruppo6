@@ -184,7 +184,7 @@ public class InteractableSlider : MonoBehaviour
     {
         // tutorial: Deve aver creato almeno 1 keyframe
         if (QuestManager.instance != null && 
-            QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.Slider) &&
+            QuestManager.instance.IsQuestActive(QuestManager.MainQuest.TutorialSlider) &&
             !tutorialQuestCompleted)
         {
             if (currentRecording != null && currentRecording.keyframes.Count >= 1)

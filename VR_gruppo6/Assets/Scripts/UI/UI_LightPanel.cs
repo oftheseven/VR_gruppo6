@@ -324,11 +324,11 @@ public class UI_LightPanel : MonoBehaviour
             return;
         }
 
-        TortaInTestaManager.instance.OnLightValuesChanged(
-            currentLight.CurrentTemperature,
-            currentLight.CurrentIntensity,
-            currentLight.IsTemperatureMode
-        );
+        // TortaInTestaManager.instance.OnLightValuesChanged(
+        //     currentLight.CurrentTemperature,
+        //     currentLight.CurrentIntensity,
+        //     currentLight.IsTemperatureMode
+        // );
     }
 
     public void HandlePanelClose()

@@ -235,7 +235,7 @@ public class InteractableArm : MonoBehaviour
     {
         // tutorial: l'utente deve aver creato almeno 1 waypoint
         if (QuestManager.instance != null && 
-            QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.Arm) &&
+            QuestManager.instance.IsQuestActive(QuestManager.MainQuest.TutorialArm) &&
             !tutorialQuestCompleted)
         {
             if (recordedWaypoints.Count >= 1)

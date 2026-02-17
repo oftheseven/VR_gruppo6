@@ -39,7 +39,7 @@ public class InteractableComputer : MonoBehaviour
             Debug.LogError("PickerPanel non assegnato!");
         }
         
-        if (QuestManager.instance != null && QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.GreenScreen))
+        if (QuestManager.instance != null && QuestManager.instance.IsQuestActive(QuestManager.MainQuest.TutorialGreenScreen))
         {
             
         }

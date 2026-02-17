@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.Events;
 
 public class QuestManager : MonoBehaviour
@@ -6,21 +7,38 @@ public class QuestManager : MonoBehaviour
     private static QuestManager _instance;
     public static QuestManager instance => _instance;
 
-    public enum TutorialQuest
+    private int currentPhaseIndex = 0;
+
+    public enum MainQuest
     {
-        None,           // Inizio gioco, prima di parlare con Tutor
-        Lights,         // Quest 1: Modifica luci
-        Camera,         // Quest 2: Modifica camera
-        Slider,         // Quest 3: Crea keyframe slider
-        Arm,            // Quest 4: Crea waypoint braccio
-        GreenScreen,    // Quest 5: Seleziona immagine computer
-        Complete        // Tutorial completato
+        // TUTORIAL
+        None,
+        TutorialLights,         // quest 1: modifica luci
+        TutorialCamera,         // quest 2: modifica camera
+        TutorialSlider,         // quest 3: crea keyframe slider
+        TutorialArm,            // quest 4: crea waypoint braccio
+        TutorialGreenScreen,    // quest 5: seleziona immagine computer
+        TutorialComplete,       // tutorial completato
+
+        // SALOTTO
+        LivingRoomLight,        // quest 1: modifica luci salotto
+        LivingRoomCamera,       // quest 2: modifica camera salotto
+        LivingRoomSlider,       // quest 3: crea keyframe slider salotto
+        LivingRoomGreenScreen,  // quest 4: seleziona immagine computer salotto
+        LivingRoomComplete,     // salotto completato
+
+        // DIVINATION
+        DivinationLight,        // quest 1: modifica luci divination
+        DivinationCamera,       // quest 2: modifica camera divination
+        DivinationArm,          // quest 3: crea waypoint braccio divination
+        DivinationGreenScreen,  // quest 4: seleziona immagine computer divination
+        DivinationComplete,     // divination completata
     }
 
-    private TutorialQuest currentQuest = TutorialQuest.None;
-    public TutorialQuest CurrentQuest => currentQuest;
+    private MainQuest currentQuest = MainQuest.None; // iniziamo dalla prima quest introduttiva
+    public MainQuest CurrentQuest => currentQuest;
 
-    public UnityEvent<TutorialQuest> OnQuestChanged;
+    public UnityEvent<MainQuest> OnQuestChanged;
     public UnityEvent OnTutorialComplete;
 
     void Awake()
@@ -35,13 +53,13 @@ public class QuestManager : MonoBehaviour
 
     public void StartTutorial()
     {
-        if (currentQuest != TutorialQuest.None)
+        if (currentQuest != MainQuest.None)
         {
             Debug.LogWarning("Tutorial già iniziato!");
             return;
         }
 
-        SetQuest(TutorialQuest.Lights);
+        SetQuest(MainQuest.TutorialLights);
         Debug.Log("Tutorial avviato - Quest: Lights");
     }
 
@@ -51,24 +69,53 @@ public class QuestManager : MonoBehaviour
 
         switch (currentQuest)
         {
-            case TutorialQuest.Lights:
-                SetQuest(TutorialQuest.Slider);
+            case MainQuest.TutorialLights:
+                SetQuest(MainQuest.TutorialCamera);
                 break;
             
-            case TutorialQuest.Camera:
-                SetQuest(TutorialQuest.Camera);
+            case MainQuest.TutorialCamera:
+                SetQuest(MainQuest.TutorialSlider);
                 break;
 
-            case TutorialQuest.Slider:
-                SetQuest(TutorialQuest.Arm);
+            case MainQuest.TutorialSlider:
+                SetQuest(MainQuest.TutorialArm);
                 break;
 
-            case TutorialQuest.Arm:
-                SetQuest(TutorialQuest.GreenScreen);
+            case MainQuest.TutorialArm:
+                SetQuest(MainQuest.TutorialGreenScreen);
                 break;
 
-            case TutorialQuest.GreenScreen:
-                CompleteTutorial();
+            case MainQuest.TutorialGreenScreen:
+                SetQuest(MainQuest.TutorialComplete);
+                break;
+            
+            case MainQuest.LivingRoomLight:
+                SetQuest(MainQuest.LivingRoomCamera);
+                break;
+            
+            case MainQuest.LivingRoomCamera:
+                SetQuest(MainQuest.LivingRoomSlider);
+                break;
+
+            case MainQuest.LivingRoomSlider:
+                SetQuest(MainQuest.LivingRoomGreenScreen);
+                break;
+
+            case MainQuest.LivingRoomGreenScreen:
+                SetQuest(MainQuest.LivingRoomComplete); 
+                break;
+
+            case MainQuest.LivingRoomComplete:
+                SetQuest(MainQuest.DivinationLight); 
+                break;
+            case MainQuest.DivinationLight:
+                SetQuest(MainQuest.DivinationArm); 
+                break;
+            case MainQuest.DivinationArm:
+                SetQuest(MainQuest.DivinationGreenScreen);
+                break;
+            case MainQuest.DivinationGreenScreen:
+                SetQuest(MainQuest.DivinationComplete);
                 break;
 
             default:
@@ -77,21 +124,15 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    private void CompleteTutorial()
-    {
-        SetQuest(TutorialQuest.Complete);
+    // private void CompleteTutorial()
+    // {
+    //     SetQuest(MainQuest.TutorialComplete);
 
-        if (DirectorModeManager.instance != null)
-        {
-            DirectorModeManager.instance.SetDirectorModeAvailable(true);
-            Debug.Log("Director Mode sbloccato!");
-        }
+    //     OnTutorialComplete?.Invoke();
+    //     Debug.Log("Tutorial completato!");
+    // }
 
-        OnTutorialComplete?.Invoke();
-        Debug.Log("Tutorial completato!");
-    }
-
-    private void SetQuest(TutorialQuest newQuest)
+    private void SetQuest(MainQuest newQuest)
     {
         currentQuest = newQuest;
         OnQuestChanged?.Invoke(currentQuest);
@@ -101,33 +142,46 @@ public class QuestManager : MonoBehaviour
     {
         return currentQuest switch
         {
-            TutorialQuest.None => "Parla con il Tutor per iniziare",
-            TutorialQuest.Lights => "Fai pratica con una luce",
-            TutorialQuest.Camera => "Fai pratica con la camera sul treppiede",
-            TutorialQuest.Slider => "Fai pratica con lo slider facendo una breve registrazione del movimento",
-            TutorialQuest.Arm => "Fai pratica con il braccio meccanico facendo una breve registrazione del movimento",
-            TutorialQuest.GreenScreen => "Fai pratica con il computer selezionando un'immagine per il green screen",
-            TutorialQuest.Complete => "Tutorial completato!",
+            MainQuest.None => "Parla con il Tutor per iniziare",
+            MainQuest.TutorialLights => "Fai pratica con una luce",
+            MainQuest.TutorialCamera => "Fai pratica con la camera sul treppiede",
+            MainQuest.TutorialSlider => "Fai pratica con lo slider facendo una breve registrazione del movimento",
+            MainQuest.TutorialArm => "Fai pratica con il braccio meccanico facendo una breve registrazione del movimento",
+            MainQuest.TutorialGreenScreen => "Fai pratica con il computer selezionando un'immagine per il green screen",
+            MainQuest.TutorialComplete => "Tutorial completato!",
+
+            MainQuest.LivingRoomLight => "Modifica le luci del salotto",
+            MainQuest.LivingRoomCamera => "Modifica la camera del salotto",
+            MainQuest.LivingRoomSlider => "Crea un keyframe per lo slider del salotto",
+            MainQuest.LivingRoomGreenScreen => "Seleziona un'immagine per il computer del salotto",
+            MainQuest.LivingRoomComplete => "Salotto completato!",
+
+            MainQuest.DivinationLight => "Modifica le luci della divination",
+            MainQuest.DivinationCamera => "Modifica la camera della divination",
+            MainQuest.DivinationArm => "Crea un waypoint per il braccio della divination",
+            MainQuest.DivinationGreenScreen => "Seleziona un'immagine per il computer della divination",
+            MainQuest.DivinationComplete => "Divination completata!",
+
             _ => "Quest sconosciuta"
         };
     }
 
-    public bool IsQuestActive(TutorialQuest quest)
+    public bool IsQuestActive(MainQuest quest)
     {
         return currentQuest == quest;
     }
 
     public bool IsTutorialComplete()
     {
-        return currentQuest == TutorialQuest.Complete;
+        return currentQuest == MainQuest.TutorialComplete;
     }
 
-    void Update()
-    {
-        if (UnityEngine.InputSystem.Keyboard.current.uKey.wasPressedThisFrame)
-        {
-            Debug.Log($"Debug: Completo quest {currentQuest}");
-            CompleteCurrentQuest();
-        }
-    }
+    // void Update()
+    // {
+    //     if (UnityEngine.InputSystem.Keyboard.current.uKey.wasPressedThisFrame)
+    //     {
+    //         Debug.Log($"Debug: Completo quest {currentQuest}");
+    //         CompleteCurrentQuest();
+    //     }
+    // }
 }

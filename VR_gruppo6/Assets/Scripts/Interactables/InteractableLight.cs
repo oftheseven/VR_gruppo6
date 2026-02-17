@@ -90,7 +90,7 @@ public class InteractableLight : MonoBehaviour
         {
             lightPanel.OpenPanel(this);
             if (QuestManager.instance != null && 
-            QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.Lights))
+                QuestManager.instance.IsQuestActive(QuestManager.MainQuest.TutorialLights))
             {
                 tutorialPanelOpened = true;
                 CheckTutorialComplete();
@@ -158,7 +158,7 @@ public class InteractableLight : MonoBehaviour
     private void OnSliderMoved()
     {
         if (QuestManager.instance != null && 
-            QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.Lights))
+            QuestManager.instance.IsQuestActive(QuestManager.MainQuest.TutorialLights))
         {
             tutorialSliderMoved = true;
             CheckTutorialComplete();

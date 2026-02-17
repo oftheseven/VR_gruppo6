@@ -114,7 +114,7 @@ public class LensesSelector : MonoBehaviour
     {
         // tutorial: Qualsiasi lente va bene, basta cambiarla
         if (QuestManager.instance != null && 
-            QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.Camera) &&
+            QuestManager.instance.IsQuestActive(QuestManager.MainQuest.TutorialCamera) &&
             !tutorialQuestCompleted)
         {
             tutorialQuestCompleted = true;
@@ -130,22 +130,22 @@ public class LensesSelector : MonoBehaviour
             return;
         }
 
-        if (!TortaInTestaManager.instance.IsCameraQuestUnlocked())
-        {
-            return;
-        }
+        // if (!TortaInTestaManager.instance.IsCameraQuestUnlocked())
+        // {
+        //     return;
+        // }
 
-        if (TortaInTestaManager.instance.IsCameraQuestCompleted())
-        {
-            return;
-        }
+        // if (TortaInTestaManager.instance.IsCameraQuestCompleted())
+        // {
+        //     return;
+        // }
 
-        TortaInTestaManager.instance.OnCameraLensSelected(currentImageIndex);
+        // TortaInTestaManager.instance.OnCameraLensSelected(currentImageIndex);
 
-        if (currentImageIndex == TortaInTestaManager.instance.GetCorrectLensIndex())
-        {
-            lensConfirmed = true;
-        }
+        // if (currentImageIndex == TortaInTestaManager.instance.GetCorrectLensIndex())
+        // {
+        //     lensConfirmed = true;
+        // }
     }
 
     private void UpdateImageColors()

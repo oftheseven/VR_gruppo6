@@ -41703,18 +41703,23 @@ MonoBehaviour:
   tutorName: Tutor Remy
   interactionText: '[E] per parlare con il Tutor'
   introDialogue: {fileID: 4900000, guid: 75b14b797f5464ae3aef4aae5768324f, type: 3}
-  lightsAssignedDialogue: {fileID: 4900000, guid: 92ef875d3dd82466ebcb5049e26ee927, type: 3}
-  lightReminderDialogue: {fileID: 4900000, guid: 92ef875d3dd82466ebcb5049e26ee927, type: 3}
-  cameraAssigneDialogue: {fileID: 4900000, guid: a3ae89bc645a148a48ff1f202bb6ec5b, type: 3}
-  cameraReminderDialogue: {fileID: 4900000, guid: a3ae89bc645a148a48ff1f202bb6ec5b, type: 3}
-  sliderAssignedDialogue: {fileID: 4900000, guid: 048c5b5112a684f6b9b5a24b57a46f62, type: 3}
-  sliderReminderDialogue: {fileID: 4900000, guid: 048c5b5112a684f6b9b5a24b57a46f62, type: 3}
-  armAssignedDialogue: {fileID: 4900000, guid: b7df523db23c84ae79f4acc6ea2c8a4e, type: 3}
-  armReminderDialogue: {fileID: 4900000, guid: b7df523db23c84ae79f4acc6ea2c8a4e, type: 3}
-  greenscreenAssignedDialogue: {fileID: 4900000, guid: fc8c01f1a27c943b393834abd1c8f4b1, type: 3}
-  greenscreenReminderDialogue: {fileID: 4900000, guid: fc8c01f1a27c943b393834abd1c8f4b1, type: 3}
+  tutorialLightsAssignedDialogue: {fileID: 4900000, guid: 92ef875d3dd82466ebcb5049e26ee927, type: 3}
+  tutorialCameraAssignedDialogue: {fileID: 4900000, guid: a3ae89bc645a148a48ff1f202bb6ec5b, type: 3}
+  tutorialSliderAssignedDialogue: {fileID: 4900000, guid: 048c5b5112a684f6b9b5a24b57a46f62, type: 3}
+  tutorialArmAssignedDialogue: {fileID: 4900000, guid: b7df523db23c84ae79f4acc6ea2c8a4e, type: 3}
+  tutorialGreenscreenAssignedDialogue: {fileID: 4900000, guid: fc8c01f1a27c943b393834abd1c8f4b1, type: 3}
   tutorialCompleteDialogue: {fileID: 4900000, guid: 069997e9c168441e29ed50e6b8eb3710, type: 3}
   reminderDialogue: {fileID: 0}
+  livingRoomLightsAssignedDialogue: {fileID: 0}
+  livingRoomCameraAssignedDialogue: {fileID: 0}
+  livingRoomSliderAssignedDialogue: {fileID: 0}
+  livingRoomGreenscreenAssignedDialogue: {fileID: 0}
+  livingRoomCompleteDialogue: {fileID: 0}
+  divinationLightsAssignedDialogue: {fileID: 0}
+  divinationCameraAssignedDialogue: {fileID: 0}
+  divinationArmAssignedDialogue: {fileID: 0}
+  divinationGreenscreenAssignedDialogue: {fileID: 0}
+  divinationCompleteDialogue: {fileID: 0}
   dialoguePanel: {fileID: 252036505}
   animator: {fileID: 1647170769}
   animIsTalkingParam: IsTalking

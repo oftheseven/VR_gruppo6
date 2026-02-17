@@ -181,28 +181,28 @@ public class GreenScreenSelector : MonoBehaviour
     {
         // tutorial: qualsiasi immagine va bene
         if (QuestManager.instance != null && 
-            QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.GreenScreen))
+            QuestManager.instance.IsQuestActive(QuestManager.MainQuest.TutorialGreenScreen))
         {
             Debug.Log("Tutorial GreenScreen completato!");
             QuestManager.instance.CompleteCurrentQuest();
         }
         
-        // tortaintesta: deve essere l'immagine corretta
-        if (TortaInTestaManager.instance != null && currentTarget != null)
-        {
-            if (currentTarget.correctImageIndex != -1 && 
-                currentImageIndex == currentTarget.correctImageIndex)
-            {
-                currentTarget.isCompleted = true;
-                TortaInTestaManager.instance.OnComputerImageCorrect(currentTarget.id);
+        // // tortaintesta: deve essere l'immagine corretta
+        // if (TortaInTestaManager.instance != null && currentTarget != null)
+        // {
+        //     if (currentTarget.correctImageIndex != -1 && 
+        //         currentImageIndex == currentTarget.correctImageIndex)
+        //     {
+        //         currentTarget.isCompleted = true;
+        //         // TortaInTestaManager.instance.OnComputerImageCorrect(currentTarget.id);
                 
-                Debug.Log($"Immagine corretta per {currentTarget.displayName}!");
-            }
-            else if (currentTarget.correctImageIndex != -1)
-            {
-                Debug.Log($"Immagine sbagliata per {currentTarget.displayName}");
-            }
-        }
+        //         Debug.Log($"Immagine corretta per {currentTarget.displayName}!");
+        //     }
+        //     else if (currentTarget.correctImageIndex != -1)
+        //     {
+        //         Debug.Log($"Immagine sbagliata per {currentTarget.displayName}");
+        //     }
+        // }
     }
 
     private void UpdateImageColors()

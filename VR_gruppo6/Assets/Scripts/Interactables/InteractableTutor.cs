@@ -11,22 +11,31 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
     [SerializeField] private string tutorName = "Tutor Remy";
     [SerializeField] private string interactionText = "[E] per parlare con il Tutor";
 
-    [Header("Dialogue Files")]
+    [Header("Tutorial dialogue files")]
     [SerializeField] private TextAsset introDialogue;
-    [SerializeField] private TextAsset lightsAssignedDialogue;
-    [SerializeField] private TextAsset lightReminderDialogue;
-    [SerializeField] private TextAsset cameraAssigneDialogue;
-    [SerializeField] private TextAsset cameraReminderDialogue;
-    [SerializeField] private TextAsset sliderAssignedDialogue;
-    [SerializeField] private TextAsset sliderReminderDialogue;
-    [SerializeField] private TextAsset armAssignedDialogue;
-    [SerializeField] private TextAsset armReminderDialogue;
-    [SerializeField] private TextAsset greenscreenAssignedDialogue;
-    [SerializeField] private TextAsset greenscreenReminderDialogue;
+    [SerializeField] private TextAsset tutorialLightsAssignedDialogue;
+    [SerializeField] private TextAsset tutorialCameraAssignedDialogue;
+    [SerializeField] private TextAsset tutorialSliderAssignedDialogue;
+    [SerializeField] private TextAsset tutorialArmAssignedDialogue;
+    [SerializeField] private TextAsset tutorialGreenscreenAssignedDialogue;
     [SerializeField] private TextAsset tutorialCompleteDialogue;
     [SerializeField] private TextAsset reminderDialogue; // reminder generico
 
-    [Header("UI Reference")]
+    [Header("Salotto dialogue files")]
+    [SerializeField] private TextAsset livingRoomLightsAssignedDialogue;
+    [SerializeField] private TextAsset livingRoomCameraAssignedDialogue;
+    [SerializeField] private TextAsset livingRoomSliderAssignedDialogue;
+    [SerializeField] private TextAsset livingRoomGreenscreenAssignedDialogue;
+    [SerializeField] private TextAsset livingRoomCompleteDialogue;
+
+    [Header("Divination dialogue files")]
+    [SerializeField] private TextAsset divinationLightsAssignedDialogue;
+    [SerializeField] private TextAsset divinationCameraAssignedDialogue;
+    [SerializeField] private TextAsset divinationArmAssignedDialogue;
+    [SerializeField] private TextAsset divinationGreenscreenAssignedDialogue;
+    [SerializeField] private TextAsset divinationCompleteDialogue;
+
+    [Header("UI reference")]
     [SerializeField] private UI_DialoguePanel dialoguePanel;
 
     [Header("Animation")]
@@ -35,7 +44,7 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
 
     private Quaternion originalRotation;
     private Coroutine rotationCoroutine;
-    private QuestManager.TutorialQuest lastSeenQuest = QuestManager.TutorialQuest.None;
+    private QuestManager.MainQuest lastSeenQuest = QuestManager.MainQuest.None;
 
     void Awake()
     {
@@ -78,7 +87,7 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             return;
         }
 
-        QuestManager.TutorialQuest currentQuest = QuestManager.instance.CurrentQuest;
+        QuestManager.MainQuest currentQuest = QuestManager.instance.CurrentQuest;
         
         TextAsset dialogueToUse = GetAppropriateDialogue(currentQuest);
         
@@ -95,92 +104,59 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
         HandleQuestProgression(currentQuest);
     }
 
-    private TextAsset GetAppropriateDialogue(QuestManager.TutorialQuest currentQuest)
+    private TextAsset GetAppropriateDialogue(QuestManager.MainQuest currentQuest)
     {
-        // prima volta (tutorial non ancora iniziato)
-        if (currentQuest == QuestManager.TutorialQuest.None)
+        switch (currentQuest)
         {
-            return introDialogue;
-        }
+            // ------------------TUTORIAL-------------------
 
-        // quest Lights
-        if (currentQuest == QuestManager.TutorialQuest.Lights)
-        {
-            // se è la prima volta che vedi questa quest, dai l'assegnazione
-            if (lastSeenQuest != QuestManager.TutorialQuest.Lights)
-            {
-                return lightsAssignedDialogue;
-            }
-            else
-            {
-                return lightReminderDialogue;
-            }
-        }
+            case QuestManager.MainQuest.None:
+                return introDialogue;
+            case QuestManager.MainQuest.TutorialLights:
+                return tutorialLightsAssignedDialogue;
+            case QuestManager.MainQuest.TutorialCamera:
+                return tutorialCameraAssignedDialogue;
+            case QuestManager.MainQuest.TutorialSlider:
+                return tutorialSliderAssignedDialogue;
+            case QuestManager.MainQuest.TutorialArm:
+                return tutorialArmAssignedDialogue;
+            case QuestManager.MainQuest.TutorialGreenScreen:
+                return tutorialGreenscreenAssignedDialogue;
+            case QuestManager.MainQuest.TutorialComplete:
+                return tutorialCompleteDialogue;
 
-        // quest camera
-        if (currentQuest == QuestManager.TutorialQuest.Camera)
-        {
-            if (lastSeenQuest != QuestManager.TutorialQuest.Camera)
-            {
-                return cameraAssigneDialogue;
-            }
-            else
-            {
-                return cameraReminderDialogue;
-            }
-        }
+            // ------------------SALOTTO-------------------
 
-        // quest slider (lights appena completata)
-        if (currentQuest == QuestManager.TutorialQuest.Slider)
-        {
-            if (lastSeenQuest != QuestManager.TutorialQuest.Slider)
-            {
-                return sliderAssignedDialogue;
-            }
-            else
-            {
-                return sliderReminderDialogue;
-            }
-        }
+            case QuestManager.MainQuest.LivingRoomLight:
+                return livingRoomLightsAssignedDialogue;
+            case QuestManager.MainQuest.LivingRoomCamera:
+                return livingRoomCameraAssignedDialogue;
+            case QuestManager.MainQuest.LivingRoomSlider:
+                return livingRoomSliderAssignedDialogue;
+            case QuestManager.MainQuest.LivingRoomComplete:
+                return livingRoomCompleteDialogue;
 
-        // quest arm (slider appena completata)
-        if (currentQuest == QuestManager.TutorialQuest.Arm)
-        {
-            if (lastSeenQuest != QuestManager.TutorialQuest.Arm)
-            {
-                return armAssignedDialogue;
-            }
-            else
-            {
-                return armReminderDialogue;
-            }
-        }
+            // ------------------DIVINATION-------------------
 
-        // quest greenscreen (arm appena completata)
-        if (currentQuest == QuestManager.TutorialQuest.GreenScreen)
-        {
-            if (lastSeenQuest != QuestManager.TutorialQuest.GreenScreen)
-            {
-                return greenscreenAssignedDialogue;
-            }
-            else
-            {
-                return greenscreenReminderDialogue;
-            }
-        }
+            case QuestManager.MainQuest.DivinationLight:
+                return divinationLightsAssignedDialogue;
+            case QuestManager.MainQuest.DivinationCamera:
+                return divinationCameraAssignedDialogue;
+            case QuestManager.MainQuest.DivinationArm:
+                return divinationArmAssignedDialogue;
+            case QuestManager.MainQuest.DivinationComplete:
+                return divinationCompleteDialogue;
 
-        // tutorial completato
-        if (currentQuest == QuestManager.TutorialQuest.Complete)
-        {
-            return tutorialCompleteDialogue;
-        }
+            // ------------------REMINDER-------------------
 
-        return reminderDialogue;
+            default:
+                return reminderDialogue;
+        }
     }
 
-    private void HandleQuestProgression(QuestManager.TutorialQuest currentQuest)
+    private void HandleQuestProgression(QuestManager.MainQuest currentQuest)
     {
-        if (currentQuest == QuestManager.TutorialQuest.None)
+        if (currentQuest == QuestManager.MainQuest.None)
         {
             QuestManager.instance.StartTutorial();
         }
