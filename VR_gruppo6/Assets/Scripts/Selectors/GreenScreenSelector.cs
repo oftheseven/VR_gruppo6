@@ -19,13 +19,12 @@ public class GreenScreenSelector : MonoBehaviour
     private float lastInputTime = 0f;
     private UI_ComputerPanel computerPanel;
     private GreenScreenTarget currentTarget;
-    private Outline[] imageOutlines;
+    private UnityEngine.UI.Outline[] imageOutlines;
 
     void Start()
     {
         computerPanel = GetComponent<UI_ComputerPanel>();
         SetupOutlines();
-        // UpdateImageColors();
     }
 
     void Update()
@@ -37,22 +36,24 @@ public class GreenScreenSelector : MonoBehaviour
         }
     }
 
-    // GLI OUTLINE HANNO UN PROBLEMA DI SETUP, RISOLVERE!!!!!!!
     private void SetupOutlines()
     {
-        imageOutlines = new Outline[imageSlots.Length];
+        imageOutlines = new UnityEngine.UI.Outline[imageSlots.Length];
         
         for (int i = 0; i < imageSlots.Length; i++)
         {
             if (imageSlots[i] != null)
             {
-                imageOutlines[i] = imageSlots[i].GetComponent<Outline>();
-
-                if (imageOutlines[i] != null)
+                UnityEngine.UI.Outline outline = imageSlots[i].GetComponent<UnityEngine.UI.Outline>();
+                if (outline == null)
                 {
-                    imageOutlines[i].enabled = false;
-                    imageOutlines[i] = imageSlots[i].GetComponent<Outline>();
+                    outline = imageSlots[i].gameObject.AddComponent<UnityEngine.UI.Outline>();
                 }
+
+                outline.effectColor = outlineColorSelected;
+                outline.effectDistance = new Vector2(outlineDistance, outlineDistance);
+                outline.enabled = false;
+                imageOutlines[i] = outline;
             }
         }
     }
