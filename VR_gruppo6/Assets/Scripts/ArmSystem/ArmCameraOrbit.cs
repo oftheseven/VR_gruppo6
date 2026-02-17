@@ -52,14 +52,14 @@ public class ArmCameraOrbit : MonoBehaviour
     {
         if (Keyboard.current == null) return;
         
-        if (Keyboard.current.aKey.isPressed)
-        {
-            currentYaw -= orbitSpeed * Time.deltaTime;
-        }
-        
-        if (Keyboard.current.dKey.isPressed)
+        if (Keyboard.current.leftArrowKey.isPressed)
         {
             currentYaw += orbitSpeed * Time.deltaTime;
+        }
+        
+        if (Keyboard.current.rightArrowKey.isPressed)
+        {
+            currentYaw -= orbitSpeed * Time.deltaTime;
         }
     }
     

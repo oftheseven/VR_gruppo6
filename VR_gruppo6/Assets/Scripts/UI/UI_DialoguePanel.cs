@@ -52,6 +52,7 @@ public class UI_DialoguePanel : MonoBehaviour
         currentDialogueSource = source;
         dialogueActive = true;
 
+        PlayerController.instance.BasePanel.gameObject.SetActive(false); // nascondo il pannello di base del player durante il dialogo
         this.gameObject.SetActive(true);
         operatorNameText.text = characterName;
 
@@ -113,5 +114,6 @@ public class UI_DialoguePanel : MonoBehaviour
             currentDialogueSource.OnDialogueEnd();
         }
         currentDialogueSource = null;
+        PlayerController.instance.BasePanel.gameObject.SetActive(true); // riattivo il pannello di base del player dopo il dialogo
     }
 }

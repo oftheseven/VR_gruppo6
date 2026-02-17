@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     [Header("Interaction")]
     [SerializeField] private float interactionDistance = 1f;
     [SerializeField] private TextMeshProUGUI interactiontext;
+    [SerializeField] private UI_BasePanel basePanel;
     [SerializeField] private LayerMask interactionLayerMask = ~0;
 
     private Rigidbody rb;
@@ -72,6 +73,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isInteracting = false;
     public Camera playerCamera => _cameraTransform.GetComponent<Camera>();
+    public UI_BasePanel BasePanel => basePanel; // riferimento al pannello di base del player
 
     void Awake()
     {

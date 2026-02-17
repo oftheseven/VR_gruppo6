@@ -119,20 +119,20 @@ public class UI_ArmPanel : MonoBehaviour
         float baseRotation = 0f;
         float jointRotation = 0f;
 
-        if (Keyboard.current.leftArrowKey.isPressed)
+        if (Keyboard.current.aKey.isPressed)
         {
             baseRotation -= rotationSpeed * Time.deltaTime;
         }
-        if (Keyboard.current.rightArrowKey.isPressed)
+        if (Keyboard.current.dKey.isPressed)
         {
             baseRotation += rotationSpeed * Time.deltaTime;
         }
 
-        if (Keyboard.current.upArrowKey.isPressed)
+        if (Keyboard.current.wKey.isPressed)
         {
             jointRotation -= rotationSpeed * Time.deltaTime;
         }
-        if (Keyboard.current.downArrowKey.isPressed)
+        if (Keyboard.current.sKey.isPressed)
         {
             jointRotation += rotationSpeed * Time.deltaTime;
         }
@@ -294,15 +294,6 @@ public class UI_ArmPanel : MonoBehaviour
     {
         interactableArm.StopRecording();
         Debug.Log("Recording fermato");
-
-        if (interactableArm.WaypointCount >= 2)
-        {
-            // if (TutorialManager.instance != null)
-            // {
-            //     TutorialManager.instance.OnArmCompleted();
-            //     Debug.Log("Task ARM completato per tutorial!");
-            // }
-        }
     }
     
     private void OnClear()
