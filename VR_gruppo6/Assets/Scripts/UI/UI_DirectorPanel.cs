@@ -58,6 +58,7 @@ public class UI_DirectorPanel : MonoBehaviour
         {
             sceneStatusText.text = "REGISTRAZIONE IN CORSO";
         }
+        PlayerController.instance.BasePanel.gameObject.SetActive(false);
 
         UpdateCameraDisplay(cameras[0]);
     }
@@ -92,6 +93,7 @@ public class UI_DirectorPanel : MonoBehaviour
         {
             panelContainer.SetActive(false);
         }
+        PlayerController.instance.BasePanel.gameObject.SetActive(true);
     }
 
     public void UpdateCameraDisplay(int cameraIndex)

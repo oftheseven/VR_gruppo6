@@ -646,26 +646,26 @@ public class PlayerController : MonoBehaviour
             UI_MenuPanel.instance.CloseMenu();
         }
         
-        // APERTURA/CHIUSURA SCREENPLAY IN BASE ALLA SCENA
-        if (Keyboard.current.tabKey.wasPressedThisFrame && !isInteracting)
-        {
-            // Tutorial
-            if (UI_ScreenplayTutorial.instance != null)
-            {
-                if (!UI_ScreenplayTutorial.instance.IsOpen)
-                    UI_ScreenplayTutorial.instance.OpenScreenplay();
-                else
-                    UI_ScreenplayTutorial.instance.CloseScreenplay();
-            }
-            // TortaInTesta
-            else if (UI_Screenplay_TortaInTesta.instance != null)
-            {
-                if (!UI_Screenplay_TortaInTesta.instance.IsOpen)
-                    UI_Screenplay_TortaInTesta.instance.OpenScreenplay();
-                else
-                    UI_Screenplay_TortaInTesta.instance.CloseScreenplay();
-            }
-        }
+        // // APERTURA/CHIUSURA SCREENPLAY IN BASE ALLA SCENA
+        // if (Keyboard.current.tabKey.wasPressedThisFrame && !isInteracting)
+        // {
+        //     // Tutorial
+        //     if (UI_ScreenplayTutorial.instance != null)
+        //     {
+        //         if (!UI_ScreenplayTutorial.instance.IsOpen)
+        //             UI_ScreenplayTutorial.instance.OpenScreenplay();
+        //         else
+        //             UI_ScreenplayTutorial.instance.CloseScreenplay();
+        //     }
+        //     // TortaInTesta
+        //     else if (UI_Screenplay_TortaInTesta.instance != null)
+        //     {
+        //         if (!UI_Screenplay_TortaInTesta.instance.IsOpen)
+        //             UI_Screenplay_TortaInTesta.instance.OpenScreenplay();
+        //         else
+        //             UI_Screenplay_TortaInTesta.instance.CloseScreenplay();
+        //     }
+        // }
 
         // APERTURA/CHIUSURA INVENTARIO
         if (Keyboard.current.iKey.wasPressedThisFrame && !isInteracting && !UI_InventoryPanel.instance.IsOpen)

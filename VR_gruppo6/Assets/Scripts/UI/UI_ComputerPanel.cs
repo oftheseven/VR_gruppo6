@@ -89,6 +89,7 @@ public class UI_ComputerPanel :  MonoBehaviour
         }
 
         PlayerController.ShowCursor();
+        PlayerController.instance.BasePanel.gameObject.SetActive(false);
         
         Debug.Log($"Computer panel aperto per: {targetGreenScreen.displayName}");
     }
@@ -112,7 +113,7 @@ public class UI_ComputerPanel :  MonoBehaviour
         this.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
-
+        PlayerController.instance.BasePanel.gameObject.SetActive(true);
         PlayerController.HideCursor();
     }
 
@@ -133,7 +134,7 @@ public class UI_ComputerPanel :  MonoBehaviour
         this.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
-
+        PlayerController.instance.BasePanel.gameObject.SetActive(true);
         PlayerController.HideCursor();
     }
 

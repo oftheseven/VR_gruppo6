@@ -17,7 +17,6 @@ public class InteractableSlider : MonoBehaviour
     [SerializeField] private UI_SliderPanel sliderPanel;
 
     [Header("Camera settings")]
-    [SerializeField] private Transform cameraTarget;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float cameraRotationSpeed = 5f;
 
@@ -48,6 +47,10 @@ public class InteractableSlider : MonoBehaviour
 
     private bool tutorialQuestCompleted = false;
 
+    void Awake()
+    {
+        sliderCamera.gameObject.GetComponentInChildren<AudioListener>().enabled = false;
+    }
 
     void Start()
     {

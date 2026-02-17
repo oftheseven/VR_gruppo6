@@ -90,12 +90,15 @@ public class UI_SliderPanel : MonoBehaviour
         }
 
         currentSlider = slider;
+        currentSlider.gameObject.GetComponentInChildren<AudioListener>().enabled = true;
         this.gameObject.SetActive(true);
 
         isOpen = true;
 
         PlayerController.EnableMovement(false);
         PlayerController.ShowCursor();
+        PlayerController.instance.gameObject.GetComponentInChildren<AudioListener>().enabled = false;
+        PlayerController.instance.BasePanel.gameObject.SetActive(false);
 
         if (PlayerController.instance != null)
         {
@@ -153,10 +156,14 @@ public class UI_SliderPanel : MonoBehaviour
             PlayerController.instance.playerCamera.gameObject.SetActive(true);
         }
 
+        currentSlider.gameObject.GetComponentInChildren<AudioListener>().enabled = false;
+
         currentSlider = null;
 
         PlayerController.HideCursor();
         PlayerController.EnableMovement(true);
+        PlayerController.instance.gameObject.GetComponentInChildren<AudioListener>().enabled = true;
+        PlayerController.instance.BasePanel.gameObject.SetActive(true);
 
         StartCoroutine(CooldownAndHide());
         canInteract = true;
@@ -181,7 +188,7 @@ public class UI_SliderPanel : MonoBehaviour
             }
             else
             {
-                controlHintText.text = "W/S: Muovi slider | ←→↑↓: Ruota camera";
+                controlHintText.text = "A/D: Muovi slider | ←→↑↓: Ruota camera";
             }
         }
     }
@@ -325,11 +332,11 @@ public class UI_SliderPanel : MonoBehaviour
 
         float movement = 0f;
         
-        if (Keyboard.current.wKey.isPressed)
+        if (Keyboard.current.aKey.isPressed)
         {
             movement = keyboardMoveSpeed * Time.deltaTime;
         }
-        else if (Keyboard.current.sKey.isPressed)
+        else if (Keyboard.current.dKey.isPressed)
         {
             movement = -keyboardMoveSpeed * Time.deltaTime;
         }

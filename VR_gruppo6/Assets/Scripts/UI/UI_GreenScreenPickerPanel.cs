@@ -49,6 +49,7 @@ public class UI_GreenScreenPickerPanel : MonoBehaviour
         }
         
         PlayerController.EnableMovement(false);
+        PlayerController.instance.BasePanel.gameObject.SetActive(false);
         PlayerController.ShowCursor();
         
         Debug.Log($"GreenScreenPicker aperto con {greenScreens.Length} green screen");

@@ -5,7 +5,7 @@ public class QuestManager : MonoBehaviour
 {
     private static QuestManager _instance;
     public static QuestManager instance => _instance;
-    
+
     public enum TutorialQuest
     {
         None,           // Inizio gioco, prima di parlare con Tutor
@@ -42,7 +42,7 @@ public class QuestManager : MonoBehaviour
         }
 
         SetQuest(TutorialQuest.Lights);
-        Debug.Log("🎓 Tutorial avviato - Quest: Lights");
+        Debug.Log("Tutorial avviato - Quest: Lights");
     }
 
     public void CompleteCurrentQuest()

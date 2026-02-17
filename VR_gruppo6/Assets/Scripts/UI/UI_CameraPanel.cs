@@ -74,6 +74,7 @@ public class UI_CameraPanel :  MonoBehaviour
         }
 
         PlayerController.ShowCursor();
+        PlayerController.instance.BasePanel.gameObject.SetActive(false);
     }
 
     public void CloseCamera()
@@ -103,6 +104,7 @@ public class UI_CameraPanel :  MonoBehaviour
         this.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
+        PlayerController.instance.BasePanel.gameObject.SetActive(true);
     }
 
     public void HandleCameraClose()

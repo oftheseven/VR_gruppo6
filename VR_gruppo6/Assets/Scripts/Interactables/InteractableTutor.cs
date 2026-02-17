@@ -29,6 +29,10 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
     [Header("UI Reference")]
     [SerializeField] private UI_DialoguePanel dialoguePanel;
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private string animIsTalkingParam = "IsTalking";
+
     private Quaternion originalRotation;
     private Coroutine rotationCoroutine;
     private QuestManager.TutorialQuest lastSeenQuest = QuestManager.TutorialQuest.None;
@@ -46,6 +50,15 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
     void Start()
     {
         originalRotation = transform.rotation;
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+            if (animator == null)
+            {
+                Debug.LogError("Animator non trovato su InteractableTutor!");
+            }
+        }
 
         if (dialoguePanel == null)
         {
@@ -206,6 +219,8 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             return;
         }
 
+        SetTalking(true);
+
         dialoguePanel.ShowDialogue(tutorName, lines.ToArray(), this);
 
         PlayerController.EnableMovement(false);
@@ -218,6 +233,16 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
         if (PlayerController.instance != null)
         {
             PlayerController.instance.OnDialogueEnded();
+        }
+
+        SetTalking(false);
+    }
+
+    private void SetTalking(bool talking)
+    {
+        if (animator != null && animator.isActiveAndEnabled)
+        {
+            animator.SetBool(animIsTalkingParam, talking);
         }
     }
 

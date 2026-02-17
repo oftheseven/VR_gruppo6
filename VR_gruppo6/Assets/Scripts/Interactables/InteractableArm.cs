@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class InteractableArm : MonoBehaviour
 {
     [Header("Interaction")]
-    [SerializeField] private string interactionText = "Premi E per gestire il braccio";
+    [SerializeField] private string interactionText = "[E] per gestire il braccio";
 
     [Header("Arm Components")]
     [SerializeField] private Transform armEnd;
@@ -233,7 +233,7 @@ public class InteractableArm : MonoBehaviour
 
     private void CheckTutorialCompletion()
     {
-        // tutorial: Deve aver creato almeno 1 waypoint
+        // tutorial: l'utente deve aver creato almeno 1 waypoint
         if (QuestManager.instance != null && 
             QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.Arm) &&
             !tutorialQuestCompleted)
