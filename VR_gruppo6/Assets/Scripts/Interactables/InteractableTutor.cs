@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
 
 public class InteractableTutor : MonoBehaviour, IDialogueSource
 {
@@ -16,6 +15,8 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
     [SerializeField] private TextAsset introDialogue;
     [SerializeField] private TextAsset lightsAssignedDialogue;
     [SerializeField] private TextAsset lightReminderDialogue;
+    [SerializeField] private TextAsset cameraAssigneDialogue;
+    [SerializeField] private TextAsset cameraReminderDialogue;
     [SerializeField] private TextAsset sliderAssignedDialogue;
     [SerializeField] private TextAsset sliderReminderDialogue;
     [SerializeField] private TextAsset armAssignedDialogue;
@@ -100,6 +101,18 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             else
             {
                 return lightReminderDialogue;
+            }
+        }
+
+        if (currentQuest == QuestManager.TutorialQuest.Camera)
+        {
+            if (lastSeenQuest != QuestManager.TutorialQuest.Camera)
+            {
+                return cameraAssigneDialogue;
+            }
+            else
+            {
+                return cameraReminderDialogue;
             }
         }
 

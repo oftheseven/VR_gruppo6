@@ -16,6 +16,7 @@ public class LensesSelector : MonoBehaviour
     private float lastInputTime = 0f;
     private UI_CameraPanel cameraPanel;
     private bool lensConfirmed = false;
+    private bool tutorialQuestCompleted = false;
 
     void Start()
     {

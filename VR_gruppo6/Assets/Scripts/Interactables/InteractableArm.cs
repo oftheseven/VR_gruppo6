@@ -52,6 +52,8 @@ public class InteractableArm : MonoBehaviour
     public Camera DirectorModeCamera => directorModeCamera;
     public ArmVisualFeedback VisualFeedback => visualFeedback;
 
+    private bool tutorialQuestCompleted = false;
+
     void Start()
     {
         if (armEnd == null)
@@ -212,6 +214,8 @@ public class InteractableArm : MonoBehaviour
         {
             visualFeedback.CreateWaypointMarker(recordedWaypoints.Count);
         }
+
+        CheckTutorialCompletion();
     }
     
     public void StopRecording()
@@ -226,11 +230,27 @@ public class InteractableArm : MonoBehaviour
         
         Debug.Log($"Recording completato! {recordedWaypoints.Count} waypoint salvati");
     }
+
+    private void CheckTutorialCompletion()
+    {
+        // tutorial: Deve aver creato almeno 1 waypoint
+        if (QuestManager.instance != null && 
+            QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.Arm) &&
+            !tutorialQuestCompleted)
+        {
+            if (recordedWaypoints.Count >= 1)
+            {
+                tutorialQuestCompleted = true;
+                QuestManager.instance.CompleteCurrentQuest();
+            }
+        }
+    }
     
     public void ClearWaypoints()
     {
         recordedWaypoints.Clear();
         isRecording = false;
+        tutorialQuestCompleted = false;
 
         if (visualFeedback != null)
         {

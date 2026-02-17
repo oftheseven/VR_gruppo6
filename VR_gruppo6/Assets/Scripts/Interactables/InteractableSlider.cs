@@ -46,6 +46,9 @@ public class InteractableSlider : MonoBehaviour
     private Quaternion startingCameraRotation;
     public Quaternion CameraStartingRotation() => startingCameraRotation;
 
+    private bool tutorialQuestCompleted = false;
+
+
     void Start()
     {
         if (sliderCamera != null)
@@ -57,8 +60,6 @@ public class InteractableSlider : MonoBehaviour
 
         if (sliderCamera != null)
         {
-            // sliderCamera.gameObject.SetActive(false);
-
             sliderCamera.gameObject.GetComponentInChildren<Camera>().enabled = false;
         }
     }
@@ -107,11 +108,6 @@ public class InteractableSlider : MonoBehaviour
         {
             Debug.LogError("UI_SliderPanel non assegnato!");
         }
-
-        // if (TutorialManager.instance != null)
-        // {
-        //     TutorialManager.instance.OnSliderCompleted();
-        // }
     }
 
     public void SetPosition(float normalizedPosition)
@@ -165,6 +161,8 @@ public class InteractableSlider : MonoBehaviour
         if (!isRecording) return;
 
         isRecording = false;
+
+        CheckTutorialCompletion();
     }
 
     private void UpdateRecording()
@@ -176,6 +174,21 @@ public class InteractableSlider : MonoBehaviour
         {
             Quaternion cameraRot = sliderCamera != null ? sliderCamera.transform.localRotation : Quaternion.identity;
             currentRecording.AddKeyframe(elapsedTime, currentPosition, cameraRot);
+        }
+    }
+
+    private void CheckTutorialCompletion()
+    {
+        // tutorial: Deve aver creato almeno 1 keyframe
+        if (QuestManager.instance != null && 
+            QuestManager.instance.IsQuestActive(QuestManager.TutorialQuest.Slider) &&
+            !tutorialQuestCompleted)
+        {
+            if (currentRecording != null && currentRecording.keyframes.Count >= 1)
+            {
+                tutorialQuestCompleted = true;
+                QuestManager.instance.CompleteCurrentQuest();
+            }
         }
     }
 
@@ -261,6 +274,7 @@ public class InteractableSlider : MonoBehaviour
         if (isPlaying) StopPlayback();
 
         currentRecording = null;
+        tutorialQuestCompleted = false;
         Debug.Log("Recording cancellata");
     }
 

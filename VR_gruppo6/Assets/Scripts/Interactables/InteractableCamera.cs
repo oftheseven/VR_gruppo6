@@ -3,7 +3,7 @@ using UnityEngine;
 public class InteractableCamera : MonoBehaviour
 {
     [Header("Interaction text")]
-    [SerializeField] private string interactionText = "Premi E per gestire la camera";
+    [SerializeField] private string interactionText = "[E] per gestire la camera";
 
     [Header("Camera panel reference")]
     [SerializeField] private UI_CameraPanel cameraPanel; // camera associata all'InteractableCamera (viene usata dall'utente nell'UI_CameraPanel)
@@ -35,11 +35,6 @@ public class InteractableCamera : MonoBehaviour
         {
             cameraPanel.OpenCamera();
         }
-
-        // if (TutorialManager.instance != null)
-        // {
-        //     TutorialManager.instance.OnCameraCompleted();
-        // }
     }
 
     public string GetInteractionText()

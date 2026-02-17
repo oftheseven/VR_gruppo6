@@ -13,9 +13,10 @@ public class QuestManager : MonoBehaviour
     {
         None,           // Inizio gioco, prima di parlare con Tutor
         Lights,         // Quest 1: Modifica luci
-        Slider,         // Quest 2: Crea keyframe slider
-        Arm,            // Quest 3: Crea waypoint braccio
-        GreenScreen,    // Quest 4: Seleziona immagine computer
+        Camera,         // Quest 2: Modifica camera
+        Slider,         // Quest 3: Crea keyframe slider
+        Arm,            // Quest 4: Crea waypoint braccio
+        GreenScreen,    // Quest 5: Seleziona immagine computer
         Complete        // Tutorial completato
     }
 
@@ -56,6 +57,10 @@ public class QuestManager : MonoBehaviour
             case TutorialQuest.Lights:
                 SetQuest(TutorialQuest.Slider);
                 break;
+            
+            case TutorialQuest.Camera:
+                SetQuest(TutorialQuest.Slider);
+                break;
 
             case TutorialQuest.Slider:
                 SetQuest(TutorialQuest.Arm);
@@ -78,15 +83,7 @@ public class QuestManager : MonoBehaviour
     private void CompleteTutorial()
     {
         SetQuest(TutorialQuest.Complete);
-        
-        // // Sblocca porta
-        // if (exitDoor != null)
-        // {
-        //     exitDoor.Unlock();
-        //     Debug.Log("Porta sbloccata!");
-        // }
 
-        // Sblocca Director Mode (se esiste)
         if (DirectorModeManager.instance != null)
         {
             DirectorModeManager.instance.SetDirectorModeAvailable(true);
@@ -109,6 +106,7 @@ public class QuestManager : MonoBehaviour
         {
             TutorialQuest.None => "Parla con il Tutor per iniziare",
             TutorialQuest.Lights => "Vai alle luci e modifica l'intensità",
+            TutorialQuest.Camera => "Vai alla camera e modifica l'inquadratura",
             TutorialQuest.Slider => "Vai allo slider e crea un keyframe",
             TutorialQuest.Arm => "Vai al braccio meccanico e crea un waypoint",
             TutorialQuest.GreenScreen => "Vai al computer e seleziona un'immagine",
