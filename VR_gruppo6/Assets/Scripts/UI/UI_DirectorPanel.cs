@@ -11,10 +11,10 @@ public class UI_DirectorPanel : MonoBehaviour
     // [SerializeField] private TextMeshProUGUI controlsText;
     // [SerializeField] private TextMeshProUGUI sceneStatusText;
 
-    [Header("Visual Settings")]
-    [SerializeField] private Color camera1Color = Color.cyan;
-    [SerializeField] private Color camera2Color = Color.yellow;
-    [SerializeField] private Color camera3Color = Color.magenta;
+    // [Header("Visual Settings")]
+    // [SerializeField] private Color camera1Color = Color.cyan;
+    // [SerializeField] private Color camera2Color = Color.yellow;
+    // [SerializeField] private Color camera3Color = Color.magenta;
 
     private float sceneStartTime;
     private float sceneDuration;
@@ -49,8 +49,6 @@ public class UI_DirectorPanel : MonoBehaviour
             panelContainer.SetActive(true);
         }
 
-        PlayerController.instance.BasePanel.gameObject.SetActive(false);
-
         // if (controlsText != null)
         // {
         //     controlsText.text = GetControlsText();
@@ -60,32 +58,31 @@ public class UI_DirectorPanel : MonoBehaviour
         // {
         //     sceneStatusText.text = "REGISTRAZIONE IN CORSO";
         // }
-        PlayerController.instance.BasePanel.gameObject.SetActive(false);
 
         UpdateCameraDisplay(cameras[0]);
     }
 
-    private string GetControlsText()
-    {
-        List<string> controls = new List<string>();
+    // private string GetControlsText()
+    // {
+    //     List<string> controls = new List<string>();
 
-        if (availableCameras.Contains(1))
-        {
-            controls.Add("1: Camera Slider");
-        }
+    //     if (availableCameras.Contains(1))
+    //     {
+    //         controls.Add("1: Camera Slider");
+    //     }
 
-        if (availableCameras.Contains(2))
-        {
-            controls.Add("2: Camera Treppiede");
-        }
+    //     if (availableCameras.Contains(2))
+    //     {
+    //         controls.Add("2: Camera Treppiede");
+    //     }
 
-        if (availableCameras.Contains(3))
-        {
-            controls.Add("3: Braccio Meccanico");
-        }
+    //     if (availableCameras.Contains(3))
+    //     {
+    //         controls.Add("3: Braccio Meccanico");
+    //     }
 
-        return string.Join(" | ", controls);
-    }
+    //     return string.Join(" | ", controls);
+    // }
 
     public void HidePanel()
     {
@@ -95,8 +92,6 @@ public class UI_DirectorPanel : MonoBehaviour
         {
             panelContainer.SetActive(false);
         }
-        PlayerController.instance.BasePanel.gameObject.SetActive(true);
-        PlayerController.instance.BasePanel.gameObject.SetActive(true);
     }
 
     public void UpdateCameraDisplay(int cameraIndex)

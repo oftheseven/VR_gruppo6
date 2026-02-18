@@ -49,11 +49,6 @@ public class UI_SliderPanel : MonoBehaviour
             holdIndicator.SetActive(false);
         }
 
-        // if (resetButton != null)
-        // {
-        //     resetButton.onClick.AddListener(ResetToCenter);
-        // }
-
         if (startRecordingButton != null)
         {
             startRecordingButton.onClick.AddListener(StartRecording);
@@ -82,8 +77,7 @@ public class UI_SliderPanel : MonoBehaviour
             HandleCameraRotation();
             HandleKeyboardMovement();
             HandlePanelClose();
-            UpdateUI();
-            UpdateRecordingUI();
+            UpdateRecordingButtonStates();
         }
     }
 
@@ -121,7 +115,6 @@ public class UI_SliderPanel : MonoBehaviour
             infoPanel.OnDeviceOpened();
         }
 
-        UpdateUI();
         UpdateRecordingButtonStates();
     }
 
@@ -175,59 +168,6 @@ public class UI_SliderPanel : MonoBehaviour
         canInteract = true;
     }
 
-    private void UpdateUI()
-    {
-        if (currentSlider == null) return;
-
-        // if (positionText != null)
-        // {
-        //     float distance = currentSlider.GetDistanceInMeters();
-        //     float total = currentSlider.GetTotalLength();
-        //     positionText.text = $"{distance:F1}m / {total:F1}m";
-        // }
-
-        // if (controlHintText != null)
-        // {
-        //     if (currentSlider.IsPlaying)
-        //     {
-        //         controlHintText.text = "Riproduzione in corso...";
-        //     }
-        //     else
-        //     {
-        //         controlHintText.text = "A/D: Muovi slider | ←→↑↓: Ruota camera";
-        //     }
-        // }
-    }
-
-    private void UpdateRecordingUI()
-    {
-        if (currentSlider == null) return;
-
-        // if (recordingStatusText != null)
-        // {
-        //     if (currentSlider.IsRecording)
-        //     {
-        //         recordingStatusText.text = "REGISTRAZIONE IN CORSO";
-        //     }
-        //     else if (currentSlider.IsPlaying)
-        //     {
-        //         recordingStatusText.text = "RIPRODUZIONE IN CORSO";
-        //     }
-        //     else if (currentSlider.CurrentRecording != null)
-        //     {
-        //         int keyframes = currentSlider.CurrentRecording.GetKeyframeCount();
-        //         float duration = currentSlider.CurrentRecording.duration;
-        //         recordingStatusText.text = $"Recording salvata: {duration:F1}s ({keyframes} frames)";
-        //     }
-        //     else
-        //     {
-        //         recordingStatusText.text = "Nessuna registrazione";
-        //     }
-        // }
-
-        UpdateRecordingButtonStates();
-    }
-
     private void UpdateRecordingButtonStates()
     {
         if (currentSlider == null) return;
@@ -252,20 +192,6 @@ public class UI_SliderPanel : MonoBehaviour
             clearButton.interactable = hasRecording && !isRecording && !isPlaying;
         }
     }
-
-    // private void ToggleRecording()
-    // {
-    //     if (currentSlider == null) return;
-
-    //     if (currentSlider.IsRecording)
-    //     {
-    //         currentSlider.StopRecording();
-    //     }
-    //     else
-    //     {
-    //         currentSlider.StartRecording();
-    //     }
-    // }
 
     private void StartRecording()
     {
@@ -357,16 +283,6 @@ public class UI_SliderPanel : MonoBehaviour
             currentSlider.MoveSlider(movement);
         }
     }
-
-    // private void ResetToCenter()
-    // {
-    //     if (currentSlider == null) return;
-    //     currentSlider.SetPosition(0.5f);
-    //     if (currentSlider.SliderCamera != null)
-    //     {
-    //         currentSlider.SliderCamera.transform.localRotation = currentSlider.CameraStartingRotation();
-    //     }
-    // }
 
     public void HandlePanelClose()
     {

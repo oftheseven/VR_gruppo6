@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using UnityEngine.AI;
 
@@ -17,7 +16,12 @@ public class DirectorModeManager : MonoBehaviour
     [Header("Camera setup")]
     [SerializeField] private InteractableSlider sliderCamera;
     [SerializeField] private InteractableArm armCamera;
-    [SerializeField] private Camera tripodCamera;
+    [SerializeField] private InteractableCamera livingRoomTripodCamera;
+    [SerializeField] private InteractableCamera divinationTripodCamera;
+    private InteractableCamera currentTripodCamera;
+
+    [Header("Tripod camera duration")]
+    [SerializeField] private float fixedCameraDuration = 4f; // durata fissa per camera senza recording
 
     [Header("UI")]
     [SerializeField] private UI_DirectorPanel directorPanel;
@@ -32,6 +36,16 @@ public class DirectorModeManager : MonoBehaviour
     public int CurrentCameraIndex => currentCameraIndex;
     private List<int> availableCameras = new List<int>();
 
+    private enum PhaseType { LivingRoom, Divination }
+    private PhaseType currentPhase;
+
+    private int animatedCameraIndex;     // 1 = slider, 3 = arm
+    private int fixedCameraIndex;        // 2 = tripod
+
+    private bool isAnimatingCamera = false;
+    private bool isRunningFixedCamera = false;
+    private float fixedCameraTimer = 0f;
+
     void Awake()
     {
         if (_instance != null && _instance != this)
@@ -43,10 +57,10 @@ public class DirectorModeManager : MonoBehaviour
         _instance = this;
         Debug.Log($"DirectorModeManager inizializzato per scena: {gameObject.scene.name}");
 
-
-        if (tripodCamera != null)
+        if (livingRoomTripodCamera != null || divinationTripodCamera != null)
         {
-            tripodCamera.gameObject.SetActive(false);
+            livingRoomTripodCamera.gameObject.GetComponentInChildren<Camera>().gameObject.SetActive(false);
+            divinationTripodCamera.gameObject.GetComponentInChildren<Camera>().gameObject.SetActive(false);
         }
     }
 
@@ -58,74 +72,46 @@ public class DirectorModeManager : MonoBehaviour
             _instance = null;
         }
     }
-    
-    void Start()
-    {
-        DetectAvailableCameras();
-    }
 
     void Update()
     {
-        if (!isDirectorModeActive)
+        if (!isDirectorModeActive) return;
+
+        if (isAnimatingCamera)
         {
-            if (Keyboard.current.pKey.wasPressedThisFrame)
+            // salotto: playback slider
+            if (currentPhase == PhaseType.LivingRoom && sliderCamera != null)
             {
-                if (IsDirectorModeAvailable())
+                if (!sliderCamera.IsPlaying)
                 {
-                    StartDirectorMode();
+                    // playback finito, passa a camera fissa
+                    SwitchToCamera(fixedCameraIndex);
+                    isAnimatingCamera = false;
+                    isRunningFixedCamera = true;
+                    fixedCameraTimer = 0f;
                 }
             }
-            return;
+            // divination: playback arm
+            else if (currentPhase == PhaseType.Divination && ArmWaypointPlayback.instance != null)
+            {
+                if (!ArmWaypointPlayback.instance.IsPlayingBack)
+                {
+                    // playback finito, passo a camera fissa
+                    SwitchToCamera(fixedCameraIndex);
+                    isAnimatingCamera = false;
+                    isRunningFixedCamera = true;
+                    fixedCameraTimer = 0f;
+                }
+            }
         }
-
-        HandleCameraSwitch();
-
-        if (Time.time - sceneStartTime >= sceneDuration)
+        else if (isRunningFixedCamera)
         {
-            EndDirectorMode();
-        }
-    }
-
-    private void DetectAvailableCameras()
-    {
-        availableCameras.Clear();
-
-        // camera 1: slider
-        if (sliderCamera != null && sliderCamera.SliderCamera != null)
-        {
-            availableCameras.Add(1);
-            Debug.Log("Camera 1 disponibile: SLIDER");
-        }
-
-        // camera 2: tripod
-        if (tripodCamera != null)
-        {
-            availableCameras.Add(2);
-            Debug.Log("Camera 2 disponibile: TREPPIEDE");
-        }
-
-        // camera 3: arm
-        if (armCamera != null && 
-        armCamera.DirectorModeCamera != null)
-        {
-            availableCameras.Add(3);
-            Debug.Log($"Camera 3 disponibile: BRACCIO MECCANICO ({armCamera.WaypointCount} waypoint)");
-        }
-        else if (armCamera != null)
-        {
-            if (armCamera.DirectorModeCamera == null)
-                Debug.LogWarning("Camera Arm: Director Mode Camera non assegnata!");
-            else
-                Debug.LogWarning($"Camera Arm: Solo {armCamera.WaypointCount} waypoint (servono almeno 2)");
-        }
-
-        if (availableCameras.Count == 0)
-        {
-            Debug.LogError("NESSUNA CAMERA DISPONIBILE!");
-        }
-        else
-        {
-            Debug.Log($"{availableCameras.Count} camere disponibili: {string.Join(", ", availableCameras)}");
+            fixedCameraTimer += Time.deltaTime;
+            if (fixedCameraTimer >= fixedCameraDuration)
+            {
+                isRunningFixedCamera = false;
+                EndDirectorMode();
+            }
         }
     }
 
@@ -142,8 +128,33 @@ public class DirectorModeManager : MonoBehaviour
 
     public void StartDirectorMode()
     {
-        if (isDirectorModeActive) return;
+        availableCameras.Clear();
 
+        // camera 1: slider
+        if (sliderCamera != null && sliderCamera.SliderCamera != null && sliderCamera.CurrentRecording != null)
+        {
+            availableCameras.Add(1);
+            Debug.Log("Camera 1 disponibile: SLIDER");
+        }
+        // camera 2: tripod livingroom
+        if (livingRoomTripodCamera != null && currentPhase != PhaseType.Divination)
+        {
+            availableCameras.Add(2);
+            Debug.Log("Camera 2 disponibile: TREPPIEDE SALOTTO");
+        }
+        // camera 2: tripod divination
+        if (divinationTripodCamera != null && currentPhase == PhaseType.Divination)
+        {
+            availableCameras.Add(2);
+            Debug.Log("Camera 2 disponibile: TREPPIEDE DIVINATION");
+        }
+        // camera 3: arm
+        if (armCamera != null && armCamera.DirectorModeCamera != null && armCamera.WaypointCount >= 2)
+        {
+            availableCameras.Add(3);
+            Debug.Log($"Camera 3 disponibile: BRACCIO MECCANICO ({armCamera.WaypointCount} waypoint)");
+        }
+        if (isDirectorModeActive) return;
         if (availableCameras.Count == 0)
         {
             Debug.LogError("Impossibile avviare Director Mode: nessuna camera disponibile!");
@@ -152,31 +163,56 @@ public class DirectorModeManager : MonoBehaviour
 
         Debug.Log("DIRECTOR MODE STARTED");
 
+        if (sliderCamera != null && sliderCamera.CurrentRecording != null)
+        {
+            currentPhase = PhaseType.LivingRoom;
+            animatedCameraIndex = 1; // slider
+            fixedCameraIndex = 2;    // tripod
+            currentTripodCamera = livingRoomTripodCamera;
+        }
+        else if (armCamera != null && armCamera.WaypointCount >= 2)
+        {
+            currentPhase = PhaseType.Divination;
+            animatedCameraIndex = 3; // arm
+            fixedCameraIndex = 2;    // tripod
+            currentTripodCamera = divinationTripodCamera;
+        }
+        else
+        {
+            Debug.LogError("Non è definita una fase valida per Director Mode!");
+            return;
+        }
+
         isDirectorModeActive = true;
+        isAnimatingCamera = true;
+        isRunningFixedCamera = false;
 
         PlayerController.EnableMovement(false);
+        // PlayerController.instance.BasePanel.gameObject.SetActive(false);
         PlayerController.HideCursor();
 
         PrepareActors();
         StartActorAnimations();
-
-        SetupCameras();
-
         CalculateSceneDuration();
 
         sceneStartTime = Time.time;
 
         if (PlayerController.instance != null && PlayerController.instance.playerCamera != null)
-        {
             PlayerController.instance.playerCamera.gameObject.SetActive(false);
-        }
 
-        SwitchToCamera(availableCameras[0]);
+        SwitchToCamera(animatedCameraIndex);
+
+        // START playback
+        if (currentPhase == PhaseType.LivingRoom && sliderCamera != null)
+            sliderCamera.StartPlayback();
+        else if (currentPhase == PhaseType.Divination && armCamera != null)
+            ArmWaypointPlayback.instance.StartPlayback(armCamera);
 
         if (directorPanel != null)
-        {
             directorPanel.ShowPanel(sceneDuration, availableCameras);
-        }
+
+        if (PlayerController.instance != null && PlayerController.instance.BasePanel != null)
+            PlayerController.instance.BasePanel.gameObject.SetActive(false);
     }
 
     public void EndDirectorMode()
@@ -203,10 +239,10 @@ public class DirectorModeManager : MonoBehaviour
             sliderCamera.SliderCamera.gameObject.GetComponentInChildren<Camera>().enabled = false;
         }
 
-        if (tripodCamera != null)
-        {
-            tripodCamera.gameObject.SetActive(false);
-        }
+        if (livingRoomTripodCamera != null && livingRoomTripodCamera.ViewCamera != null)
+            livingRoomTripodCamera.ViewCamera.gameObject.SetActive(false);
+        if (divinationTripodCamera != null && divinationTripodCamera.ViewCamera != null)
+            divinationTripodCamera.ViewCamera.gameObject.SetActive(false);
 
         if (armCamera != null && armCamera.DirectorModeCamera != null)
         {
@@ -229,11 +265,20 @@ public class DirectorModeManager : MonoBehaviour
             directorPanel.HidePanel();
         }
 
+        if (PlayerController.instance != null && PlayerController.instance.BasePanel != null)
+            PlayerController.instance.BasePanel.gameObject.SetActive(true);
+
         PlayerController.EnableMovement(true);
+        // PlayerController.instance.BasePanel.gameObject.SetActive(true);
 
         Debug.Log("Scena completata!");
 
-        // UnlockExitDoor();
+        if (!isDirectorModeActive) return;
+        isDirectorModeActive = false;
+        isAnimatingCamera = false;
+        isRunningFixedCamera = false;
+        fixedCameraTimer = 0f;
+        isDirectorModeAvailable= false;
     }
 
     private void DisableAllInteractableCameras()
@@ -298,7 +343,6 @@ public class DirectorModeManager : MonoBehaviour
             if (animator != null)
             {
                 animator.Rebind();
-                // animator.Update(0f);
             }
 
             Debug.Log($"Attore {i} ({sceneActors[i].name}) ready");
@@ -399,59 +443,23 @@ public class DirectorModeManager : MonoBehaviour
         Debug.Log("Attori resettati alla posizione iniziale");
     }
 
-    private void SetupCameras()
-    {
-        if (sliderCamera != null)
-        {
-            if (sliderCamera.CurrentRecording != null && sliderCamera.CurrentRecording.GetKeyframeCount() > 0)
-            {
-                Debug.Log("Camera Slider: Recording trovata, pronta per playback");
-            }
-            else
-            {
-                Debug.LogWarning("Camera Slider: Nessuna recording! Usa posizione fissa.");
-            }
-        }
+    // private void HandleCameraSwitch()
+    // {
+    //     if (Keyboard.current.digit1Key.wasPressedThisFrame && availableCameras.Contains(1))
+    //     {
+    //         SwitchToCamera(1);
+    //     }
 
-        if (tripodCamera != null)
-        {
-            Debug.Log("Camera Treppiede: Ready");
-        }
+    //     if (Keyboard.current.digit2Key.wasPressedThisFrame && availableCameras.Contains(2))
+    //     {
+    //         SwitchToCamera(2);
+    //     }
 
-        if (armCamera != null)
-        {
-            if (armCamera.DirectorModeCamera != null)
-            {
-                Debug.Log($"Camera Arm: Ready ({armCamera.WaypointCount} waypoint)");
-            }
-            else if (armCamera.DirectorModeCamera == null)
-            {
-                Debug.LogWarning("Camera Arm: Director Mode Camera non assegnata!");
-            }
-            else
-            {
-                Debug.LogWarning($"Camera Arm: Solo {armCamera.WaypointCount} waypoint (servono almeno 2)");
-            }
-        }
-    }
-
-    private void HandleCameraSwitch()
-    {
-        if (Keyboard.current.digit1Key.wasPressedThisFrame && availableCameras.Contains(1))
-        {
-            SwitchToCamera(1);
-        }
-
-        if (Keyboard.current.digit2Key.wasPressedThisFrame && availableCameras.Contains(2))
-        {
-            SwitchToCamera(2);
-        }
-
-        if (Keyboard.current.digit3Key.wasPressedThisFrame && availableCameras.Contains(3))
-        {
-            SwitchToCamera(3);
-        }
-    }
+    //     if (Keyboard.current.digit3Key.wasPressedThisFrame && availableCameras.Contains(3))
+    //     {
+    //         SwitchToCamera(3);
+    //     }
+    // }
 
     private void SwitchToCamera(int cameraIndex)
     {
@@ -467,11 +475,6 @@ public class DirectorModeManager : MonoBehaviour
             sliderCamera.SliderCamera.gameObject.GetComponentInChildren<Camera>().enabled = false;
         }
 
-        if (tripodCamera != null)
-        {
-            tripodCamera.gameObject.SetActive(false);
-        }
-
         if (armCamera != null && armCamera.DirectorModeCamera != null)
         {
             armCamera.DirectorModeCamera.enabled = false;
@@ -481,6 +484,11 @@ public class DirectorModeManager : MonoBehaviour
         {
             PlayerController.instance.playerCamera.gameObject.SetActive(false);
         }
+
+        if (livingRoomTripodCamera != null && livingRoomTripodCamera.ViewCamera != null)
+            livingRoomTripodCamera.ViewCamera.gameObject.SetActive(false);
+        if (divinationTripodCamera != null && divinationTripodCamera.ViewCamera != null)
+            divinationTripodCamera.ViewCamera.gameObject.SetActive(false);
 
         switch (cameraIndex)
         {
@@ -498,10 +506,10 @@ public class DirectorModeManager : MonoBehaviour
                 break;
 
             case 2: // tripod
-                if (tripodCamera != null)
+                if (currentTripodCamera != null && currentTripodCamera.ViewCamera != null)
                 {
-                    tripodCamera.gameObject.SetActive(true);
-                    Debug.Log("Camera 2: Treppiede");
+                    currentTripodCamera.ViewCamera.gameObject.SetActive(true);
+                    Debug.Log("Tripod camera attivata: " + currentTripodCamera.name);
                 }
                 break;
 
