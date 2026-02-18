@@ -9,6 +9,7 @@ public class GreenScreenTarget
     
     [Header("Visual")]
     public Renderer targetRenderer;
+    public Renderer previewRenderer;
     public Camera previewCamera;
     public int appliedImageIndex = -1;
 

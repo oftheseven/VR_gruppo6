@@ -18,6 +18,7 @@ public class InteractableComputer : MonoBehaviour
             if (gs != null && gs.previewCamera != null)
             {
                 gs.previewCamera.gameObject.SetActive(false);
+                gs.previewRenderer.gameObject.SetActive(false);
             }
         }
     }

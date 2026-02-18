@@ -173,11 +173,8 @@ public class UI_GreenScreenPanel : MonoBehaviour
                 }
             }
 
-            if (greenScreens[gsIdx].targetRenderer != null && greenScreenMaterial != null)
-            {
-                greenScreens[gsIdx].targetRenderer.material = greenScreenMaterial;
-                greenScreens[gsIdx].targetRenderer.material.mainTexture = null;
-            }
+            if (greenScreens[gsIdx].previewRenderer != null)
+                greenScreens[gsIdx].previewRenderer.gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0);
         }
 
         currentImageIndex = greenScreens[gsIdx].appliedImageIndex;
@@ -194,13 +191,16 @@ public class UI_GreenScreenPanel : MonoBehaviour
         currentImageIndex = imgIdx;
         var gs = greenScreens[currentGSIndex];
         gs.appliedImageIndex = imgIdx;
-    
-        if (gs.previewCamera != null && gs.targetRenderer != null &&
-            gs.availableImages.Length > imgIdx && gs.availableImages[imgIdx] != null)
+
+        if (gs.previewRenderer != null && gs.availableImages.Length > imgIdx && gs.availableImages[imgIdx] != null)
         {
+            gs.previewRenderer.gameObject.SetActive(true);
             if (gs.defaultMaterial != null)
-                gs.targetRenderer.material = gs.defaultMaterial;
-            gs.targetRenderer.material.mainTexture = gs.availableImages[imgIdx];
+            {
+                gs.previewRenderer.material = gs.defaultMaterial;
+            }
+            gs.previewRenderer.material.mainTexture = gs.availableImages[imgIdx];
+            gs.previewRenderer.material.color = new Color(1, 1, 1, 1);
         }
 
         UpdateImageHighlight();
@@ -239,6 +239,8 @@ public class UI_GreenScreenPanel : MonoBehaviour
         {
             if (greenScreens[i] != null && greenScreens[i].previewCamera != null)
                 greenScreens[i].previewCamera.gameObject.SetActive(false);
+            if (greenScreens[i]?.previewRenderer != null)
+                greenScreens[i].previewRenderer.gameObject.SetActive(false);
         }
 
         for (int i = 0; i < greenScreens.Length; i++)
