@@ -61,6 +61,7 @@ public class QuestManager : MonoBehaviour
 
     [Header("Divination arm accuracy requirement")]
     [SerializeField] private float armAccuracy = 0.8f;
+    public float ArmAccuracy => armAccuracy;
     
     // VARIABILI GENERALI
     private MainQuest currentQuest = MainQuest.None; // iniziamo dalla prima quest introduttiva

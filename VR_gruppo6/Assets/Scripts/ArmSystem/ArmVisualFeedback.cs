@@ -280,6 +280,28 @@ public class ArmVisualFeedback : MonoBehaviour
         HideWaypointMarkers();
     }
 
+    public void ShowTargetMarkers(Transform[] targets)
+    {
+        foreach (var t in targets)
+        {
+            GameObject marker = CreateDefaultWaypointMarker(t.position);
+            marker.name = "TargetWaypoint";
+
+            marker.GetComponent<Renderer>().material.color = Color.blue;
+            waypointMarkers.Add(marker);
+        }
+    }
+    public void HideTargetMarkers()
+    {
+        foreach (var m in waypointMarkers)
+        {
+            if (m != null && m.name == "TargetWaypoint")
+                Destroy(m);
+        }
+        
+        waypointMarkers.RemoveAll(m => m == null || (m != null && m.name == "TargetWaypoint"));
+    }
+
     void OnDestroy()
     {
         ClearAllWaypointMarkers();

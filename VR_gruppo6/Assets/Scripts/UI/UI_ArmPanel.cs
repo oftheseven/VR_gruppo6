@@ -192,6 +192,16 @@ public class UI_ArmPanel : MonoBehaviour
         }
 
         UpdateUI();
+
+        if (QuestManager.instance != null && QuestManager.instance.IsQuestActive(QuestManager.MainQuest.DivinationArm)
+            && interactableArm.VisualFeedback != null && interactableArm.DivinationTargetWaypoints != null)
+        {
+            interactableArm.VisualFeedback.ShowTargetMarkers(interactableArm.DivinationTargetWaypoints);
+        }
+        else if (interactableArm.VisualFeedback != null)
+        {
+            interactableArm.VisualFeedback.HideTargetMarkers(); 
+        }
     }
 
     public void CloseArmPanel()

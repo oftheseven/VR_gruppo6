@@ -14,6 +14,13 @@ public class InteractableArm : MonoBehaviour
     [SerializeField] private float playbackSpeed = 1.0f;
     [SerializeField] private int maxWaypoints = 20;
 
+    [Header("Divination Target Waypoints")]
+    [SerializeField] private Transform[] divinationTargetWaypoints;
+    // [SerializeField] private float accuracyThreshold = 1.0f; // distanza massima consentita
+    private bool accuracyQuestCompleted = false;
+
+    public Transform[] DivinationTargetWaypoints => divinationTargetWaypoints;
+
     [Header("Pivot Controls")]
     [SerializeField] private Transform pivotBase;
     [SerializeField] private Transform pivotJoint;
@@ -229,6 +236,7 @@ public class InteractableArm : MonoBehaviour
         isRecording = false;
         
         Debug.Log($"Recording completato! {recordedWaypoints.Count} waypoint salvati");
+        CheckDivinationAccuracy();
     }
 
     private void CheckTutorialCompletion()
@@ -243,6 +251,44 @@ public class InteractableArm : MonoBehaviour
                 tutorialQuestCompleted = true;
                 QuestManager.instance.CompleteCurrentQuest();
             }
+        }
+    }
+
+    private void CheckDivinationAccuracy()
+    {
+        if (QuestManager.instance == null
+            || !QuestManager.instance.IsQuestActive(QuestManager.MainQuest.DivinationArm)
+            || accuracyQuestCompleted)
+            return;
+
+        if (recordedWaypoints.Count != divinationTargetWaypoints.Length)
+        {
+            Debug.Log("Numero di waypoint utente diverso dai target!");
+            return;
+        }
+
+        float maxDistance = 0f;
+        float sumDistance = 0f;
+        for (int i=0; i < divinationTargetWaypoints.Length; i++)
+        {
+            float dist = Vector3.Distance(
+                recordedWaypoints[i].position,
+                divinationTargetWaypoints[i].position
+            );
+            sumDistance += dist;
+            if (dist > maxDistance) maxDistance = dist;
+        }
+        float averageDistance = sumDistance / divinationTargetWaypoints.Length;
+    
+        if (averageDistance <= QuestManager.instance.ArmAccuracy)
+        {
+            accuracyQuestCompleted = true;
+            Debug.Log($"Quest divination COMPLETATA (accuratezza: {averageDistance:F2})");
+            QuestManager.instance.CompleteCurrentQuest();
+        }
+        else
+        {
+            Debug.Log($"Divination: accuratezza insufficiente: avg={averageDistance:F2}, max={maxDistance:F2}, soglia={QuestManager.instance.ArmAccuracy:F2}");
         }
     }
     
