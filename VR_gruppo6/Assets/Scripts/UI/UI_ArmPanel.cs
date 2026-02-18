@@ -18,7 +18,7 @@ public class UI_ArmPanel : MonoBehaviour
     [SerializeField] private Button startRecordingButton;
     [SerializeField] private Button stopRecordingButton;
     [SerializeField] private Button clearButton;
-    [SerializeField] private Button closeButton;
+    // [SerializeField] private Button closeButton;
     [SerializeField] private Button playbackButton;
 
     [Header("Control settings")]
@@ -55,8 +55,8 @@ public class UI_ArmPanel : MonoBehaviour
         if (clearButton != null)
             clearButton.onClick.AddListener(OnClear);
         
-        if (closeButton != null)
-            closeButton.onClick.AddListener(CloseArmPanel);
+        // if (closeButton != null)
+        //     closeButton.onClick.AddListener(CloseArmPanel);
 
         if (playbackButton != null)
             playbackButton.onClick.AddListener(OnPlayback);

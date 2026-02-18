@@ -9,7 +9,7 @@ public class ArmWaypoint
     
     public ArmWaypoint(Transform transform, float time)
     {
-        position = transform.position;
+        position = transform.localPosition;
         rotation = transform.rotation;
         timestamp = time;
         jointRotations = null;
@@ -17,7 +17,7 @@ public class ArmWaypoint
     
     public ArmWaypoint(Transform transform, float time, Quaternion[] joints)
     {
-        position = transform.position;
+        position = transform.localPosition;
         rotation = transform.rotation;
         timestamp = time;
         jointRotations = joints;

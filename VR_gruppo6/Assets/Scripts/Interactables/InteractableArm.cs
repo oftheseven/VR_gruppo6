@@ -202,10 +202,6 @@ public class InteractableArm : MonoBehaviour
             recordedWaypoints.Add(waypoint);
             
             string debugInfo = $"Waypoint {recordedWaypoints.Count} aggiunto:";
-            if (pivotBase != null)
-                debugInfo += $"\n   Base Y: {pivotBase.localEulerAngles.y:F1}°";
-            if (pivotJoint != null)
-                debugInfo += $"\n   Joint X: {pivotJoint.localEulerAngles.x:F1}°";
             
             Debug.Log(debugInfo);
         }
