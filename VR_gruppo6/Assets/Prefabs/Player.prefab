@@ -70,7 +70,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -148,12 +148,11 @@ GameObject:
   - component: {fileID: 4134167842104455575}
   - component: {fileID: 1871527241946297893}
   - component: {fileID: 239431829218852824}
-  - component: {fileID: 2859370080568025140}
   - component: {fileID: 8899695880865628900}
   - component: {fileID: 7142357418301249556}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,7 +167,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.9, z: 0}
-  m_LocalScale: {x: 1, y: 1.8, z: 1}
+  m_LocalScale: {x: 1, y: 1.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6206136061979084514}
@@ -224,28 +223,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!195 &2859370080568025140
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8625873275658748454}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &8899695880865628900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,14 +239,17 @@ MonoBehaviour:
   _runMultiplier: 2
   _rotationSpeed: 15
   _maxLookAngle: 89
-  _jumpForce: 250
+  _jumpForce: 500
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  _groundCheckDistance: 2
   _cameraTransform: {fileID: 6206136061979084514}
-  interactionDistance: 2
+  interactionDistance: 2.5
   interactiontext: {fileID: 0}
+  basePanel: {fileID: 0}
+  interactionLayerMask:
+    serializedVersion: 2
+    m_Bits: 63
 --- !u!114 &7142357418301249556
 MonoBehaviour:
   m_ObjectHideFlags: 0

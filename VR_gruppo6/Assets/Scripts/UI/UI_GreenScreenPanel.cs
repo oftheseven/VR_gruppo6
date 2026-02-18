@@ -26,8 +26,8 @@ public class UI_GreenScreenPanel : MonoBehaviour
     [Header("Image selection buttons")]
     [SerializeField] private Button[] imageSelectButtons = new Button[4];
 
-    [Header("Preview materials")]
-    [SerializeField] private Material greenScreenMaterial;
+    // [Header("Preview materials")]
+    // [SerializeField] private Material greenScreenMaterial;
 
     private int currentGSIndex = 0;
     private int currentImageIndex = -1;
@@ -74,8 +74,8 @@ public class UI_GreenScreenPanel : MonoBehaviour
         {
             if (greenScreens[i] != null && greenScreens[i].previewCamera != null)
                 greenScreens[i].previewCamera.gameObject.SetActive(false);
-            if (greenScreens[i] != null && greenScreens[i].targetRenderer != null && greenScreenMaterial != null)
-                greenScreens[i].targetRenderer.material = greenScreenMaterial;
+            // if (greenScreens[i] != null && greenScreens[i].targetRenderer != null && greenScreenMaterial != null)
+            //     greenScreens[i].targetRenderer.material = greenScreenMaterial;
         }
     }
 
@@ -86,8 +86,8 @@ public class UI_GreenScreenPanel : MonoBehaviour
         {
             if (greenScreens[i] != null && greenScreens[i].previewCamera != null)
                 greenScreens[i].previewCamera.gameObject.SetActive(false);
-            if (greenScreens[i] != null && greenScreens[i].targetRenderer != null && greenScreenMaterial != null)
-                greenScreens[i].targetRenderer.material = greenScreenMaterial;
+            // if (greenScreens[i] != null && greenScreens[i].targetRenderer != null && greenScreenMaterial != null)
+            //     greenScreens[i].targetRenderer.material = greenScreenMaterial;
         }
     }
 
@@ -173,8 +173,8 @@ public class UI_GreenScreenPanel : MonoBehaviour
         currentImageIndex = greenScreens[gsIdx].appliedImageIndex;
         UpdateImageHighlight();
 
-        if (greenScreens[gsIdx].targetRenderer != null && greenScreenMaterial != null)
-            greenScreens[gsIdx].targetRenderer.material = greenScreenMaterial;
+        // if (greenScreens[gsIdx].targetRenderer != null && greenScreenMaterial != null)
+        //     greenScreens[gsIdx].targetRenderer.material = greenScreenMaterial;
     
         UpdateGSButtonSprites();
     }
@@ -188,9 +188,9 @@ public class UI_GreenScreenPanel : MonoBehaviour
         if (gs.previewRenderer != null && gs.availableImages.Length > imgIdx && gs.availableImages[imgIdx] != null)
         {
             gs.previewRenderer.gameObject.SetActive(true);
-            if (gs.defaultMaterial != null)
+            if (gs.defaultPreviewMaterial != null)
             {
-                gs.previewRenderer.material = gs.defaultMaterial;
+                gs.previewRenderer.material = gs.defaultPreviewMaterial;
             }
             gs.previewRenderer.material.mainTexture = gs.availableImages[imgIdx];
             gs.previewRenderer.material.color = new Color(1, 1, 1, 1);
@@ -238,14 +238,14 @@ public class UI_GreenScreenPanel : MonoBehaviour
                 greenScreens[i].previewRenderer.gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < greenScreens.Length; i++)
-        {
-            if (greenScreens[i] != null && greenScreens[i].targetRenderer != null && greenScreenMaterial != null)
-            {
-                greenScreens[i].targetRenderer.material = greenScreenMaterial;
-                greenScreens[i].targetRenderer.material.mainTexture = null;
-            }
-        }
+        // for (int i = 0; i < greenScreens.Length; i++)
+        // {
+        //     if (greenScreens[i] != null && greenScreens[i].targetRenderer != null && greenScreenMaterial != null)
+        //     {
+        //         greenScreens[i].targetRenderer.material = greenScreenMaterial;
+        //         greenScreens[i].targetRenderer.material.mainTexture = null;
+        //     }
+        // }
 
         PlayerController.EnableMovement(true);
         PlayerController.instance.BasePanel.gameObject.SetActive(true);

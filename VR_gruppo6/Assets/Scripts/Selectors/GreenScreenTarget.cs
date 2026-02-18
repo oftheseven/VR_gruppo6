@@ -8,13 +8,13 @@ public class GreenScreenTarget
     public string displayName;
     
     [Header("Visual")]
-    public Renderer targetRenderer;
+    // public Renderer targetRenderer;
     public Renderer previewRenderer;
     public Camera previewCamera;
     public int appliedImageIndex = -1;
 
     [Header("Materials")]
-    public Material defaultMaterial;
+    public Material defaultPreviewMaterial;
 
     [Header("Available images")]
     public Texture2D[] availableImages = new Texture2D[4];
@@ -27,7 +27,7 @@ public class GreenScreenTarget
     
     public bool IsValid()
     {
-        return targetRenderer != null && 
+        return previewRenderer != null && 
                !string.IsNullOrEmpty(id) && 
                availableImages != null && 
                availableImages.Length > 0;

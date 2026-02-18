@@ -6,10 +6,10 @@ public class InteractableComputer : MonoBehaviour
     [SerializeField] private string interactionText = "[E] per usare il computer";
 
     [Header("Green Screens Gestiti")]
-    [SerializeField] private GreenScreenTarget[] managedGreenScreens; // populato da Inspector
+    [SerializeField] private GreenScreenTarget[] managedGreenScreens;
 
     [Header("UI Panels")]
-    [SerializeField] private UI_GreenScreenPanel greenScreenPanel; // nuovo panel unico
+    [SerializeField] private UI_GreenScreenPanel greenScreenPanel; // reference al pannello UI specifico per questo computer
 
     void Awake()
     {
