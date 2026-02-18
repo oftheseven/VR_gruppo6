@@ -1,0 +1,1 @@
+Adesso passiamo al terzo, vai a definire le differenti posizioni che il braccio meccanico deve raggiungere affinché si realizzi un movimento lineare e adatto alla ripresa della scena in questione.

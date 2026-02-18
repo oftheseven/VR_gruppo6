@@ -1,0 +1,4 @@
+Adesso si passa alla sala di Divinazione e anche qui iniziamo settando in modo corretto l’illuminazione delle lampade in scena, imposta:
+ 1. l’INTENSITA’ 
+ 2. la TEMPERATURA a …K o RGB a …
+Appena hai terminato il tuo compito ti aspetto qui!
