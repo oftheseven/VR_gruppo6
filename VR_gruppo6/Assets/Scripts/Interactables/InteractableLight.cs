@@ -23,10 +23,15 @@ public class InteractableLight : MonoBehaviour
     [SerializeField] [Range(0f, 1f)] private float buzzVolume = 0.3f;
 
     [Header("Quest Target (per quest salotto)")]
-    [SerializeField, Range(0f, 1f)] private float questTargetIntensity = 0.8f;
-    [SerializeField] private float questTargetTemperature = 5000f;
+    [SerializeField, Range(0f, 1f)] private float livingTargetIntensity = 0.8f;
+    [SerializeField] private float livingTargetTemperature = 5000f;
     [SerializeField] private float questThreshold = 0.05f;
     private bool livingRoomLightCompleted = false;
+
+    [Header("Quest Target (per quest divination)")]
+    [SerializeField, Range(0f, 1f)] private float divinationTargetIntensity = 0.8f;
+    [SerializeField] private float divinationTargetTemperature = 5000f;
+    private bool divinationRoomLightCompleted = false;
 
     private AudioSource audioSource;
     private bool isBuzzing = false;
@@ -199,14 +204,9 @@ public class InteractableLight : MonoBehaviour
             float normalizedIntensity = light.CurrentIntensity / light.MaxIntensity;
             float sliderValue = Mathf.Sqrt(normalizedIntensity) * light.MaxIntensity;
             float percentage = sliderValue / light.MaxIntensity;
-            bool okIntensity = Mathf.Abs(percentage - questTargetIntensity) < questThreshold;
-            bool okTemp = Mathf.Abs(light.CurrentTemperature - questTargetTemperature) < 100f;
+            bool okIntensity = Mathf.Abs(percentage - livingTargetIntensity) < 0.05f;
+            bool okTemp = Mathf.Abs(light.CurrentTemperature - livingTargetTemperature) < 100f;
 
-            // if (!okIntensity || !okTemp)
-            // {
-            //     allOk = false;
-            //     break;
-            // }
             if (!(okIntensity && okTemp))
                 allOk = false;
         }
@@ -215,6 +215,32 @@ public class InteractableLight : MonoBehaviour
         {
             Debug.Log("Quest luce salotto COMPLETATA: intensità e temperatura OK");
             livingRoomLightCompleted = true;
+            QuestManager.instance.CompleteCurrentQuest();
+        }
+    }
+
+    private void CheckDivinationLightQuest()
+    {
+        if (divinationRoomLightCompleted) return;
+
+        bool allOk = true;
+
+        foreach (InteractableLight light in QuestManager.instance.DivinationLights)
+        {
+            float normalizedIntensity = light.CurrentIntensity / light.MaxIntensity;
+            float sliderValue = Mathf.Sqrt(normalizedIntensity) * light.MaxIntensity;
+            float percentage = sliderValue / light.MaxIntensity;
+            bool okIntensity = Mathf.Abs(percentage - divinationTargetIntensity) < 0.05f;
+            bool okTemp = Mathf.Abs(light.CurrentTemperature - divinationTargetTemperature) < 100f;
+            
+            if (!(okIntensity && okTemp))
+                allOk = false;
+        }
+
+        if (allOk)
+        {
+            Debug.Log("Quest luce divination room COMPLETATA: intensità e temperatura OK");
+            divinationRoomLightCompleted = true;
             QuestManager.instance.CompleteCurrentQuest();
         }
     }
@@ -305,7 +331,7 @@ public class InteractableLight : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.clip = buzzSound;
             audioSource.playOnAwake = false;
-            audioSource.loop = false;
+            audioSource.loop = true;
             audioSource.spatialBlend = 1f;
             audioSource.rolloffMode = AudioRolloffMode.Linear;
             audioSource.minDistance = 1f;

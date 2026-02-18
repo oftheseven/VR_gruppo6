@@ -26,8 +26,8 @@ public class UI_LightPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI temperatureText;
 
     [Header("Mode switch")]
-    [SerializeField] private Button toggleModeButton;
-    [SerializeField] private TextMeshProUGUI modeButtonText;
+    [SerializeField] private Button temperatureModeButton;
+    [SerializeField] private Button RGBModeButton;
 
     [Header("Audio")]
     [SerializeField] private AudioClip toggleLight;
@@ -88,9 +88,13 @@ public class UI_LightPanel : MonoBehaviour
         }
 
         // bottone per la modalità
-        if (toggleModeButton != null)
+        if (temperatureModeButton != null)
         {
-            toggleModeButton.onClick.AddListener(ToggleColorMode);
+            temperatureModeButton.onClick.AddListener(SetTemperatureMode);
+        }
+        if (RGBModeButton != null)
+        {
+            RGBModeButton.onClick.AddListener(SetRGBMode);
         }
     }
 
@@ -244,13 +248,22 @@ public class UI_LightPanel : MonoBehaviour
         UpdateUI();
     }
 
-    private void ToggleColorMode()
+    private void SetTemperatureMode()
     {
         if (currentLight == null) return;
+        if (currentLight.IsTemperatureMode) return;
 
-        bool newMode = !currentLight.IsTemperatureMode;
-        currentLight.SetColorMode(newMode);
-        
+        currentLight.SetColorMode(true);
+        UpdateUI();
+        UpdateColorModeUI();
+    }
+
+    private void SetRGBMode()
+    {
+        if (currentLight == null) return;
+        if (!currentLight.IsTemperatureMode) return;
+
+        currentLight.SetColorMode(false);
         UpdateUI();
         UpdateColorModeUI();
     }
@@ -262,19 +275,15 @@ public class UI_LightPanel : MonoBehaviour
         bool isTempMode = currentLight.IsTemperatureMode;
 
         if (rgbPanel != null)
-        {
             rgbPanel.SetActive(!isTempMode);
-        }
-
         if (temperaturePanel != null)
-        {
             temperaturePanel.SetActive(isTempMode);
-        }
 
-        if (modeButtonText != null)
-        {
-            modeButtonText.text = isTempMode ? "Usa RGB" : "Usa Temperatura";
-        }
+        if (temperatureModeButton != null)
+            temperatureModeButton.gameObject.SetActive(!isTempMode);
+    
+        if (RGBModeButton != null)
+            RGBModeButton.gameObject.SetActive(isTempMode);
     }
 
     private void OnIntensityChanged(float value)

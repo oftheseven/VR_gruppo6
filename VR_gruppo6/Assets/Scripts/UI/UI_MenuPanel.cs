@@ -142,7 +142,6 @@ public class UI_MenuPanel : MonoBehaviour
     {
         // Application.Quit();
         SceneManager.LoadSceneAsync(0);
-        SceneManager.UnloadSceneAsync(1);
     }
 
     private IEnumerator CooldownCoroutine()
