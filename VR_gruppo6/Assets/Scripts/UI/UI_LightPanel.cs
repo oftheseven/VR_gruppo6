@@ -13,7 +13,6 @@ public class UI_LightPanel : MonoBehaviour
     [SerializeField] private Slider intensitySlider;
     [SerializeField] private TextMeshProUGUI intensityText;
     [SerializeField] private Button onOffButton;
-    [SerializeField] private TextMeshProUGUI buttonText;
 
     [Header("RGB light color slider")]
     [SerializeField] private GameObject rgbPanel;
@@ -178,11 +177,6 @@ public class UI_LightPanel : MonoBehaviour
     {
         if (currentLight == null) return;
 
-        if (buttonText != null)
-        {
-            buttonText.text = currentLight.IsOn ? "Spegni" : "Accendi";
-        }
-
         if (intensitySlider != null)
         {
             // inverto la curva per mostrare lo slider correttamente
@@ -195,7 +189,7 @@ public class UI_LightPanel : MonoBehaviour
             if (intensityText != null)            
             {
                 float percentage = (sliderValue / currentLight.MaxIntensity) * 100f;
-                intensityText.text = $"Intensità: {percentage:F0}%";
+                intensityText.text = $"{percentage:F0}%";
             }
         }
 
@@ -208,7 +202,7 @@ public class UI_LightPanel : MonoBehaviour
             }
             if (temperatureText != null)
             {
-                temperatureText.text = $"Temperatura: {currentLight.CurrentTemperature:F0}K";
+                temperatureText.text = $"{currentLight.CurrentTemperature:F0}K";
             }
         }
         else
@@ -234,6 +228,15 @@ public class UI_LightPanel : MonoBehaviour
         if (currentLight == null) return;
 
         currentLight.SetLightState(!currentLight.IsOn);
+        if (currentLight.IsOn)
+        {
+            onOffButton.gameObject.GetComponent<Image>().sprite = onOffButton.spriteState.pressedSprite;
+        }
+        else
+        {
+            onOffButton.gameObject.GetComponent<Image>().sprite = onOffButton.spriteState.disabledSprite;
+        }
+
         if (AudioManager.instance != null)
         {
             AudioManager.instance.PlayUISound(toggleLight?? null);
@@ -284,8 +287,6 @@ public class UI_LightPanel : MonoBehaviour
         currentLight.SetIntensity(finalIntensity);
         
         UpdateUI();
-
-        // CheckLightQuest();
     }
 
     private void OnTemperatureChanged(float value)
@@ -298,8 +299,6 @@ public class UI_LightPanel : MonoBehaviour
         {
             temperatureText.text = $"{value:F0}K";
         }
-
-        // CheckLightQuest();
     }
 
     private void OnColorChanged()
@@ -316,20 +315,6 @@ public class UI_LightPanel : MonoBehaviour
             currentLight.SetColor(newColor);
         }
     }
-
-    // private void CheckLightQuest()
-    // {
-    //     // if (currentLight == null || TortaInTestaManager.instance == null)
-    //     // {
-    //     //     return;
-    //     // }
-
-    //     // TortaInTestaManager.instance.OnLightValuesChanged(
-    //     //     currentLight.CurrentTemperature,
-    //     //     currentLight.CurrentIntensity,
-    //     //     currentLight.IsTemperatureMode
-    //     // );
-    // }
 
     public void HandlePanelClose()
     {
