@@ -48,6 +48,8 @@ public class UI_CameraPanel :  MonoBehaviour
         {
             HandleCameraClose();
         }
+
+        infoPanel.HandleInfoPanel();
     }
 
     public void OpenCamera()

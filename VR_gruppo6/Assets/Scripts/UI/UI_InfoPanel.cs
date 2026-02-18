@@ -48,6 +48,18 @@ public class UI_InfoPanel : MonoBehaviour
         }
     }
 
+    public void HandleInfoPanel()
+    {
+        if (Keyboard.current.tabKey.wasPressedThisFrame && this != null && !this.IsOpen)
+        {
+            OpenInfoPanel();
+        }
+        else if (Keyboard.current.eKey.wasPressedThisFrame && this != null && this.IsOpen)
+        {
+            CloseInfoPanel();
+        }
+    }
+
     public void OpenInfoPanel()
     {
         // controllo che il pannello di info sia associato

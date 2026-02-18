@@ -98,14 +98,7 @@ public class UI_GreenScreenPanel : MonoBehaviour
             HandleComputerClose();
         }
 
-        if (Keyboard.current.tabKey.wasPressedThisFrame && infoPanel != null && !infoPanel.IsOpen)
-        {
-            infoPanel.OpenInfoPanel();
-        }
-        else if (Keyboard.current.tabKey.wasPressedThisFrame && infoPanel != null && infoPanel.IsOpen)
-        {
-            infoPanel.CloseInfoPanel();
-        }
+        infoPanel.HandleInfoPanel();
     }
 
     private void UpdateGSButtonSprites()
