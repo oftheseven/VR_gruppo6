@@ -6,10 +6,10 @@ public class UI_DirectorPanel : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private GameObject panelContainer;
-    [SerializeField] private TextMeshProUGUI cameraNameText;
+    // [SerializeField] private TextMeshProUGUI cameraNameText;
     [SerializeField] private TextMeshProUGUI timerText;
-    [SerializeField] private TextMeshProUGUI controlsText;
-    [SerializeField] private TextMeshProUGUI sceneStatusText;
+    // [SerializeField] private TextMeshProUGUI controlsText;
+    // [SerializeField] private TextMeshProUGUI sceneStatusText;
 
     [Header("Visual Settings")]
     [SerializeField] private Color camera1Color = Color.cyan;
@@ -49,15 +49,17 @@ public class UI_DirectorPanel : MonoBehaviour
             panelContainer.SetActive(true);
         }
 
-        if (controlsText != null)
-        {
-            controlsText.text = GetControlsText();
-        }
+        PlayerController.instance.BasePanel.gameObject.SetActive(false);
 
-        if (sceneStatusText != null)
-        {
-            sceneStatusText.text = "REGISTRAZIONE IN CORSO";
-        }
+        // if (controlsText != null)
+        // {
+        //     controlsText.text = GetControlsText();
+        // }
+
+        // if (sceneStatusText != null)
+        // {
+        //     sceneStatusText.text = "REGISTRAZIONE IN CORSO";
+        // }
         PlayerController.instance.BasePanel.gameObject.SetActive(false);
 
         UpdateCameraDisplay(cameras[0]);
@@ -94,34 +96,35 @@ public class UI_DirectorPanel : MonoBehaviour
             panelContainer.SetActive(false);
         }
         PlayerController.instance.BasePanel.gameObject.SetActive(true);
+        PlayerController.instance.BasePanel.gameObject.SetActive(true);
     }
 
     public void UpdateCameraDisplay(int cameraIndex)
     {
-        if (cameraNameText != null)
-        {
-            string cameraName = "";
-            Color color = Color.white;
+        // if (cameraNameText != null)
+        // {
+        //     string cameraName = "";
+        //     Color color = Color.white;
 
-            switch (cameraIndex)
-            {
-                case 1:
-                    cameraName = "CAMERA 1: SLIDER";
-                    color = camera1Color;
-                    break;
-                case 2:
-                    cameraName = "CAMERA 2: TREPPIEDE";
-                    color = camera2Color;
-                    break;
-                case 3:
-                    cameraName = "CAMERA 3: BRACCIO MECCANICO";
-                    color = camera3Color;
-                    break;
-            }
+        //     switch (cameraIndex)
+        //     {
+        //         case 1:
+        //             cameraName = "CAMERA 1: SLIDER";
+        //             color = camera1Color;
+        //             break;
+        //         case 2:
+        //             cameraName = "CAMERA 2: TREPPIEDE";
+        //             color = camera2Color;
+        //             break;
+        //         case 3:
+        //             cameraName = "CAMERA 3: BRACCIO MECCANICO";
+        //             color = camera3Color;
+        //             break;
+        //     }
 
-            cameraNameText.text = cameraName;
-            cameraNameText.color = color;
-        }
+        //     cameraNameText.text = cameraName;
+        //     cameraNameText.color = color;
+        // }
     }
 
     private void UpdateTimer()

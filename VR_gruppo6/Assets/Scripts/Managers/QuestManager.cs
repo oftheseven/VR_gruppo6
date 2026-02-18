@@ -143,7 +143,8 @@ public class QuestManager : MonoBehaviour
                 SetQuest(MainQuest.LivingRoomGreenScreen);
                 break;
             case MainQuest.LivingRoomGreenScreen:
-                SetQuest(MainQuest.LivingRoomComplete); 
+                SetQuest(MainQuest.LivingRoomComplete);
+                DirectorModeManager.instance.SetDirectorModeAvailable(true);
                 break;
 
             // DIVINATION
@@ -151,13 +152,17 @@ public class QuestManager : MonoBehaviour
                 SetQuest(MainQuest.DivinationLight); 
                 break;
             case MainQuest.DivinationLight:
-                SetQuest(MainQuest.DivinationArm); 
+                SetQuest(MainQuest.DivinationCamera); 
+                break;
+            case MainQuest.DivinationCamera:
+                SetQuest(MainQuest.DivinationArm);
                 break;
             case MainQuest.DivinationArm:
                 SetQuest(MainQuest.DivinationGreenScreen);
                 break;
             case MainQuest.DivinationGreenScreen:
                 SetQuest(MainQuest.DivinationComplete);
+                DirectorModeManager.instance.SetDirectorModeAvailable(true);
                 break;
 
             default:

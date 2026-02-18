@@ -250,30 +250,6 @@ public class DirectorModeManager : MonoBehaviour
         }
     }
 
-    // private void UnlockExitDoor()
-    // {
-    //     bool doorUnlocked = false;
-
-    //     if (TutorialManager.instance != null && TutorialManager.instance.ExitDoor != null)
-    //     {
-    //         TutorialManager.instance.ExitDoor.Unlock();
-    //         Debug.Log("Porta Tutorial sbloccata!");
-    //         doorUnlocked = true;
-    //     }
-
-    //     if (TortaInTestaManager.instance != null && TortaInTestaManager.instance.ExitDoor != null)
-    //     {
-    //         TortaInTestaManager.instance.ExitDoor.Unlock();
-    //         Debug.Log("Porta TortaInTesta sbloccata!");
-    //         doorUnlocked = true;
-    //     }
-
-    //     if (!doorUnlocked)
-    //     {
-    //         Debug.LogWarning("Nessuna porta da sbloccare trovata!");
-    //     }
-    // }
-
     private void CalculateSceneDuration()
     {
         float maxDuration = 0f;

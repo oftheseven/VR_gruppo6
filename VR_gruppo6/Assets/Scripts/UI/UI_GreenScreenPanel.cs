@@ -203,6 +203,8 @@ public class UI_GreenScreenPanel : MonoBehaviour
             gs.previewRenderer.material.color = new Color(1, 1, 1, 1);
         }
 
+        CheckCompletion();
+
         UpdateImageHighlight();
     }
 
@@ -291,6 +293,33 @@ public class UI_GreenScreenPanel : MonoBehaviour
             {
                 holdFillImage.fillAmount = 0;
             }
+        }
+    }
+
+    private void CheckCompletion()
+    {
+        // tutorial: qualsiasi immagine va bene
+        if (QuestManager.instance != null && 
+            QuestManager.instance.IsQuestActive(QuestManager.MainQuest.TutorialGreenScreen))
+        {
+            Debug.Log("Tutorial GreenScreen completato!");
+            QuestManager.instance.CompleteCurrentQuest();
+        }
+    
+        // salotto: qualsiasi immagine va bene
+        if (QuestManager.instance != null && 
+            QuestManager.instance.IsQuestActive(QuestManager.MainQuest.LivingRoomGreenScreen))
+        {
+            Debug.Log("Living Room GreenScreen completato!");
+            QuestManager.instance.CompleteCurrentQuest();
+        }
+
+        // divination: qualsiasi immagine va bene
+        if (QuestManager.instance != null && 
+            QuestManager.instance.IsQuestActive(QuestManager.MainQuest.DivinationGreenScreen))
+        {
+            Debug.Log("Divination GreenScreen completato!");
+            QuestManager.instance.CompleteCurrentQuest();
         }
     }
 
