@@ -46,7 +46,16 @@ public class QuestManager : MonoBehaviour
     public float LookDurationRequired => lookDurationRequired;
 
     // SETTAGGI PER LE QUEST DELLA DIVINATION
+    [Header("Divination lights")]
+    [SerializeField] private InteractableLight[] divinationLights;
+    public InteractableLight[] DivinationLights => divinationLights;
 
+    [Header("Divination lens index")]
+    [SerializeField] private int divinationLensIndex = 0;
+    public int DivinationLensIndex => divinationLensIndex;
+
+    
+    // VARIABILI GENERALI
     private MainQuest currentQuest = MainQuest.None; // iniziamo dalla prima quest introduttiva
     public MainQuest CurrentQuest => currentQuest;
 
@@ -156,14 +165,6 @@ public class QuestManager : MonoBehaviour
                 break;
         }
     }
-
-    // private void CompleteTutorial()
-    // {
-    //     SetQuest(MainQuest.TutorialComplete);
-
-    //     OnTutorialComplete?.Invoke();
-    //     Debug.Log("Tutorial completato!");
-    // }
 
     private void SetQuest(MainQuest newQuest)
     {

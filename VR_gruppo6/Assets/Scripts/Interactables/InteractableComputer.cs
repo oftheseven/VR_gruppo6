@@ -3,23 +3,30 @@ using UnityEngine;
 public class InteractableComputer : MonoBehaviour
 {
     [Header("Computer configuration")]
-    [SerializeField] private string computerID = "computer1";
-    [SerializeField] private string interactionText = "Premi E per usare il computer";
+    [SerializeField] private string interactionText = "[E] per usare il computer";
 
     [Header("Green Screens Gestiti")]
-    [SerializeField] private GreenScreenTarget[] managedGreenScreens;
+    [SerializeField] private GreenScreenTarget[] managedGreenScreens; // populato da Inspector
 
     [Header("UI Panels")]
-    [SerializeField] private UI_GreenScreenPickerPanel pickerPanel;
-    [SerializeField] private UI_ComputerPanel computerPanel; 
+    [SerializeField] private UI_GreenScreenPanel greenScreenPanel; // nuovo panel unico
 
-    private GreenScreenSelector selector;
+    void Awake()
+    {
+        foreach (var gs in managedGreenScreens)
+        {
+            if (gs != null && gs.previewCamera != null)
+            {
+                gs.previewCamera.gameObject.SetActive(false);
+            }
+        }
+    }
 
     void Start()
     {
-        if (computerPanel != null)
+        if (greenScreenPanel != null)
         {
-            computerPanel.SetComputerID(computerID);
+            greenScreenPanel.SetGreenScreens(managedGreenScreens);
         }
     }
 
@@ -30,36 +37,14 @@ public class InteractableComputer : MonoBehaviour
             AudioManager.instance.PlayInteractionSFX();
         }
 
-        if (pickerPanel != null)
+        if (greenScreenPanel != null)
         {
-            pickerPanel.OpenPicker(this, managedGreenScreens);
+            greenScreenPanel.OpenPanel();
         }
         else
         {
-            Debug.LogError("PickerPanel non assegnato!");
+            Debug.LogError("GreenScreenPanel non assegnato!");
         }
-        
-        if (QuestManager.instance != null && QuestManager.instance.IsQuestActive(QuestManager.MainQuest.TutorialGreenScreen))
-        {
-            
-        }
-    }
-
-    public void OpenComputerPanel(GreenScreenTarget targetGreenScreen)
-    {
-        if (computerPanel == null)
-        {
-            Debug.LogError("ComputerPanel non assegnato!");
-            return;
-        }
-        
-        if (targetGreenScreen == null || !targetGreenScreen.IsValid())
-        {
-            Debug.LogError("Green Screen target invalido!");
-            return;
-        }
-        
-        computerPanel.OpenComputer(targetGreenScreen);
     }
 
     public string getInteractionText()
@@ -69,13 +54,13 @@ public class InteractableComputer : MonoBehaviour
         {
             if (gs.isCompleted) completed++;
         }
-        
+
         return interactionText;
     }
 
-    public UI_ComputerPanel GetComputerPanel()
+    public UI_GreenScreenPanel GetGreenScreenPanel()
     {
-        return computerPanel;
+        return greenScreenPanel;
     }
 
     public GreenScreenTarget GetGreenScreenByID(string id)

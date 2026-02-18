@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Computer interaction")]
     private InteractableComputer currentComputer = null;
-    private UI_ComputerPanel currentComputerPanel = null;
+    private UI_GreenScreenPanel currentComputerPanel = null;
 
     [Header("Camera interaction")]
     private InteractableCamera currentCamera = null;
@@ -465,7 +465,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Keyboard.current.eKey.wasPressedThisFrame && currentComputer != null)
         {
-            UI_ComputerPanel panel = currentComputer.GetComputerPanel();
+            UI_GreenScreenPanel panel = currentComputer.GetGreenScreenPanel();
             if (panel != null && !panel.IsOpen && panel.CanInteract)
             {
                 currentComputer.Interact();

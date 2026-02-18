@@ -9,6 +9,11 @@ public class GreenScreenTarget
     
     [Header("Visual")]
     public Renderer targetRenderer;
+    public Camera previewCamera;
+    public int appliedImageIndex = -1;
+
+    [Header("Materials")]
+    public Material defaultMaterial;
 
     [Header("Available images")]
     public Texture2D[] availableImages = new Texture2D[4];
@@ -25,17 +30,6 @@ public class GreenScreenTarget
                !string.IsNullOrEmpty(id) && 
                availableImages != null && 
                availableImages.Length > 0;
-    }
-    public bool HasValidImages()
-    {
-        if (availableImages == null || availableImages.Length == 0)
-            return false;
-        
-        foreach (var tex in availableImages)
-        {
-            if (tex != null) return true;
-        }
-        return false;
     }
     
     public int GetValidImageCount()

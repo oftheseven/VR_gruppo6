@@ -150,6 +150,8 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
                 return livingRoomCameraAssignedDialogue;
             case QuestManager.MainQuest.LivingRoomSlider:
                 return livingRoomSliderAssignedDialogue;
+            case QuestManager.MainQuest.LivingRoomGreenScreen:
+                return livingRoomGreenscreenAssignedDialogue;
             case QuestManager.MainQuest.LivingRoomComplete:
                 return livingRoomCompleteDialogue;
 
@@ -161,6 +163,8 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
                 return divinationCameraAssignedDialogue;
             case QuestManager.MainQuest.DivinationArm:
                 return divinationArmAssignedDialogue;
+            case QuestManager.MainQuest.DivinationGreenScreen:
+                return divinationGreenscreenAssignedDialogue;
             case QuestManager.MainQuest.DivinationComplete:
                 return divinationCompleteDialogue;
 
