@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using System.Collections;
 
 public class QuestManager : MonoBehaviour
 {
@@ -31,6 +33,9 @@ public class QuestManager : MonoBehaviour
         DivinationGreenScreen,  // quest 4: seleziona immagine computer divination
         DivinationComplete,     // divination completata
     }
+
+    [Header("Quest completed image")]
+    [SerializeField] private RawImage questCompletedImage; // immagine mostrata quando si completa una quest (es. "Quest Completed!")
 
     // SETTAGGI PER LE QUEST DEL SALOTTO
     [Header("Living room lights")]
@@ -73,6 +78,7 @@ public class QuestManager : MonoBehaviour
             return;
         }
         _instance = this;
+        questCompletedImage.gameObject.SetActive(false);
     }
 
     public void StartTutorial()
@@ -97,6 +103,11 @@ public class QuestManager : MonoBehaviour
         if (UI_BasePanel.instance != null)
         {
             UI_BasePanel.instance.ShowTalkToRemy();
+        }
+
+        if (questCompletedImage != null)
+        {
+            StartCoroutine(FadeInAndOut(questCompletedImage, 3f));
         }
     }
 
@@ -189,9 +200,9 @@ public class QuestManager : MonoBehaviour
             MainQuest.TutorialGreenScreen => "Fai pratica con il computer selezionando un'immagine per il green screen",
             MainQuest.TutorialComplete => "Tutorial completato!",
 
-            MainQuest.LivingRoomLight => "Modifica le luci del salotto",
-            MainQuest.LivingRoomCamera => "Modifica la camera del salotto",
-            MainQuest.LivingRoomSlider => "Crea un keyframe per lo slider del salotto",
+            MainQuest.LivingRoomLight => "Imposta le luci del salotto all'80% e a 5000K",
+            MainQuest.LivingRoomCamera => "Monta il 24mm sulla camera del salotto",
+            MainQuest.LivingRoomSlider => "Fai una breve carrellata con lo slider del salotto",
             MainQuest.LivingRoomGreenScreen => "Seleziona un'immagine per il computer del salotto",
             MainQuest.LivingRoomComplete => "Salotto completato!",
 
@@ -213,5 +224,39 @@ public class QuestManager : MonoBehaviour
     public bool IsTutorialComplete()
     {
         return currentQuest == MainQuest.TutorialComplete;
+    }
+
+    private IEnumerator FadeInAndOut(RawImage image, float duration)
+    {
+        if (image == null) yield break;
+
+        float timer = 0f;
+        Color color = image.color;
+        color.a = 0f;
+        image.color = color;
+        image.gameObject.SetActive(true);
+        while (timer < duration / 2f)
+        {
+            color.a = Mathf.Lerp(0f, 1f, timer / (duration / 2f));
+            image.color = color;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        color.a = 1f;
+        image.color = color;
+
+        yield return new WaitForSeconds(1.5f);
+
+        timer = 0f;
+        while (timer < duration / 2f)
+        {
+            color.a = Mathf.Lerp(1f, 0f, timer / (duration / 2f));
+            image.color = color;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        color.a = 0f;
+        image.color = color;
+        image.gameObject.SetActive(false);
     }
 }

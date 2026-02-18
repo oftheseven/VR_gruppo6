@@ -52,11 +52,11 @@ public class LensesSelector : MonoBehaviour
         if (AudioManager.instance != null)
             AudioManager.instance.PlayCameraLensChange();
 
-        CheckTutorialCompletion(lensIndex);
+        CheckTutorialCompletion();
         CheckLivingRoomQuest(lensIndex);
     }
 
-    private void CheckTutorialCompletion(int lensIndex)
+    private void CheckTutorialCompletion()
     {
         if (QuestManager.instance != null && 
             QuestManager.instance.IsQuestActive(QuestManager.MainQuest.TutorialCamera) &&
