@@ -73,7 +73,23 @@ public class PlayerController : MonoBehaviour
 
     private bool isInteracting = false;
     public Camera playerCamera => _cameraTransform.GetComponent<Camera>();
-    public UI_BasePanel BasePanel => basePanel; // riferimento al pannello di base del player
+
+    public static bool BlockBasePanel = false;
+
+    public static void SetBasePanelActive(bool active)
+    {
+        if (instance == null || instance.basePanel == null) return;
+
+        if (active && !BlockBasePanel)
+        {
+            instance.basePanel.gameObject.SetActive(true);
+        }
+        else if (!active)
+        {
+            instance.basePanel.gameObject.SetActive(false);
+        }
+    }
+
 
     void Awake()
     {
@@ -641,31 +657,6 @@ public class PlayerController : MonoBehaviour
         {
             UI_MenuPanel.instance.OpenMenu();
         }
-        // else if (Keyboard.current.escapeKey.wasPressedThisFrame && UI_MenuPanel.instance.IsOpen)
-        // {
-        //     UI_MenuPanel.instance.CloseMenu();
-        // }
-        
-        // // APERTURA/CHIUSURA SCREENPLAY IN BASE ALLA SCENA
-        // if (Keyboard.current.tabKey.wasPressedThisFrame && !isInteracting)
-        // {
-        //     // Tutorial
-        //     if (UI_ScreenplayTutorial.instance != null)
-        //     {
-        //         if (!UI_ScreenplayTutorial.instance.IsOpen)
-        //             UI_ScreenplayTutorial.instance.OpenScreenplay();
-        //         else
-        //             UI_ScreenplayTutorial.instance.CloseScreenplay();
-        //     }
-        //     // TortaInTesta
-        //     else if (UI_Screenplay_TortaInTesta.instance != null)
-        //     {
-        //         if (!UI_Screenplay_TortaInTesta.instance.IsOpen)
-        //             UI_Screenplay_TortaInTesta.instance.OpenScreenplay();
-        //         else
-        //             UI_Screenplay_TortaInTesta.instance.CloseScreenplay();
-        //     }
-        // }
 
         // APERTURA/CHIUSURA INVENTARIO
         if (Keyboard.current.iKey.wasPressedThisFrame && !isInteracting && !UI_InventoryPanel.instance.IsOpen)

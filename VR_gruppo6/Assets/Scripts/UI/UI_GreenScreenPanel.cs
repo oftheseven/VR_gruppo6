@@ -129,7 +129,7 @@ public class UI_GreenScreenPanel : MonoBehaviour
             infoPanel.OnDeviceOpened();
         }
         PlayerController.ShowCursor();
-        PlayerController.instance.BasePanel.gameObject.SetActive(false);
+        PlayerController.SetBasePanelActive(false);
     }
 
     private void SelectGS(int gsIdx)
@@ -248,7 +248,7 @@ public class UI_GreenScreenPanel : MonoBehaviour
         // }
 
         PlayerController.EnableMovement(true);
-        PlayerController.instance.BasePanel.gameObject.SetActive(true);
+        PlayerController.SetBasePanelActive(true);
         PlayerController.HideCursor();
     }
 

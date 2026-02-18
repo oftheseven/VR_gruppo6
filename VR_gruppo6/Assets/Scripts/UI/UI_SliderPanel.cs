@@ -98,7 +98,7 @@ public class UI_SliderPanel : MonoBehaviour
         PlayerController.EnableMovement(false);
         PlayerController.ShowCursor();
         PlayerController.instance.gameObject.GetComponentInChildren<AudioListener>().enabled = false;
-        PlayerController.instance.BasePanel.gameObject.SetActive(false);
+        PlayerController.SetBasePanelActive(false);
 
         if (PlayerController.instance != null)
         {
@@ -162,10 +162,11 @@ public class UI_SliderPanel : MonoBehaviour
         PlayerController.HideCursor();
         PlayerController.EnableMovement(true);
         PlayerController.instance.gameObject.GetComponentInChildren<AudioListener>().enabled = true;
-        PlayerController.instance.BasePanel.gameObject.SetActive(true);
+        
 
         StartCoroutine(CooldownAndHide());
         canInteract = true;
+        PlayerController.SetBasePanelActive(true);
     }
 
     private void UpdateRecordingButtonStates()

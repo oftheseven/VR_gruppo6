@@ -125,7 +125,7 @@ public class UI_LightPanel : MonoBehaviour
         currentLight.SetCameraActive(true);
         isOpen = true;
         PlayerController.EnableMovement(false);
-        PlayerController.instance.BasePanel.gameObject.SetActive(false);
+        PlayerController.SetBasePanelActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
@@ -174,7 +174,7 @@ public class UI_LightPanel : MonoBehaviour
         this.gameObject.SetActive(false);
         canInteract = true;
         PlayerController.EnableMovement(true);
-        PlayerController.instance.BasePanel.gameObject.SetActive(true);
+        PlayerController.SetBasePanelActive(true);
     }
 
     private void UpdateUI()

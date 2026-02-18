@@ -190,6 +190,8 @@ public class DirectorModeManager : MonoBehaviour
         PlayerController.EnableMovement(false);
         // PlayerController.instance.BasePanel.gameObject.SetActive(false);
         PlayerController.HideCursor();
+        PlayerController.BlockBasePanel = true;
+        PlayerController.SetBasePanelActive(false);
 
         PrepareActors();
         StartActorAnimations();
@@ -210,9 +212,6 @@ public class DirectorModeManager : MonoBehaviour
 
         if (directorPanel != null)
             directorPanel.ShowPanel(sceneDuration, availableCameras);
-
-        if (PlayerController.instance != null && PlayerController.instance.BasePanel != null)
-            PlayerController.instance.BasePanel.gameObject.SetActive(false);
     }
 
     public void EndDirectorMode()
@@ -265,8 +264,8 @@ public class DirectorModeManager : MonoBehaviour
             directorPanel.HidePanel();
         }
 
-        if (PlayerController.instance != null && PlayerController.instance.BasePanel != null)
-            PlayerController.instance.BasePanel.gameObject.SetActive(true);
+        PlayerController.BlockBasePanel = false;
+        PlayerController.SetBasePanelActive(true);
 
         PlayerController.EnableMovement(true);
         // PlayerController.instance.BasePanel.gameObject.SetActive(true);
@@ -314,6 +313,7 @@ public class DirectorModeManager : MonoBehaviour
         }
 
         sceneDuration = maxDuration > 0 ? maxDuration : defaultSceneDuration;
+        sceneDuration += fixedCameraDuration;
 
         if (maxDuration <= 0)
         {

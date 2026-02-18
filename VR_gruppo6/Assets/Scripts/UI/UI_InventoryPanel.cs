@@ -105,7 +105,7 @@ public class UI_InventoryPanel : MonoBehaviour
     {
         this.gameObject.SetActive(true); // attivo l'oggetto UI se clicco il bottone di apertura
         PlayerController.EnableMovement(false); // disabilito il movimento del player quando apro l'inventario
-        PlayerController.instance.BasePanel.gameObject.SetActive(false); // nascondo il pannello di base del player quando apro l'inventario
+        PlayerController.SetBasePanelActive(false); // nascondo il pannello di base del player quando apro l'inventario
         PlayerController.ShowCursor();
         
         selectedIndex = 0;
@@ -117,7 +117,7 @@ public class UI_InventoryPanel : MonoBehaviour
     {
         this.gameObject.SetActive(false); // disattivo l'oggetto UI se clicco il bottone di chiusura
         PlayerController.EnableMovement(true); // riabilito il movimento del player quando chiudo l'inventario
-        PlayerController.instance.BasePanel.gameObject.SetActive(true); // riattivo il pannello di base del player quando chiudo l'inventario
+        PlayerController.SetBasePanelActive(true); // riattivo il pannello di base del player quando chiudo l'inventario
         PlayerController.HideCursor();
         
         isOpen = false;

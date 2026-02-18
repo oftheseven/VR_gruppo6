@@ -159,7 +159,7 @@ public class UI_ArmPanel : MonoBehaviour
         PlayerController.EnableMovement(false);
         PlayerController.ShowCursor();
         PlayerController.instance.playerCamera.gameObject.SetActive(false);
-        PlayerController.instance.BasePanel.gameObject.SetActive(false);
+        PlayerController.SetBasePanelActive(false);
 
         if (infoPanel != null)
         {
@@ -241,7 +241,7 @@ public class UI_ArmPanel : MonoBehaviour
         canInteract = true;
         PlayerController.EnableMovement(true);
         PlayerController.instance.playerCamera.gameObject.SetActive(true);
-        PlayerController.instance.BasePanel.gameObject.SetActive(true);
+        PlayerController.SetBasePanelActive(true);
         PlayerController.HideCursor();
     }
     
