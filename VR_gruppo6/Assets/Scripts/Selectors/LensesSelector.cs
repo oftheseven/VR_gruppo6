@@ -54,6 +54,7 @@ public class LensesSelector : MonoBehaviour
 
         CheckTutorialCompletion();
         CheckLivingRoomQuest(lensIndex);
+        CheckDivinationRoomQuest(lensIndex);
     }
 
     private void CheckTutorialCompletion()
@@ -77,6 +78,18 @@ public class LensesSelector : MonoBehaviour
             QuestManager.instance.CompleteCurrentQuest();
         }
     }
+
+    private void CheckDivinationRoomQuest(int lensIndex)
+    {
+        if (QuestManager.instance != null && 
+            QuestManager.instance.IsQuestActive(QuestManager.MainQuest.DivinationCamera) &&
+            QuestManager.instance.DivinationLensIndex == lensIndex)
+        {
+            Debug.Log("Quest camera sala divinazione COMPLETATA: lente corretta selezionata");
+            QuestManager.instance.CompleteCurrentQuest();
+        }
+    }
+
     public void ResetTutorialFlag()
     {
         tutorialQuestCompleted = false;

@@ -179,6 +179,12 @@ public class InteractableLight : MonoBehaviour
         {
             CheckLivingRoomLightQuest();
         }
+
+        // DIVINATION
+        if (QuestManager.instance != null && QuestManager.instance.IsQuestActive(QuestManager.MainQuest.DivinationLight))
+        {
+            CheckDivinationLightQuest();
+        }
     }
 
     private void CheckTutorialComplete()

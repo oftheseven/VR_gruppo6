@@ -59,6 +59,8 @@ public class QuestManager : MonoBehaviour
     [SerializeField] private int divinationLensIndex = 0;
     public int DivinationLensIndex => divinationLensIndex;
 
+    [Header("Divination arm accuracy requirement")]
+    [SerializeField] private float armAccuracy = 0.8f;
     
     // VARIABILI GENERALI
     private MainQuest currentQuest = MainQuest.None; // iniziamo dalla prima quest introduttiva
