@@ -8,11 +8,13 @@ public class UI_ArmPanel : MonoBehaviour
 {
     [Header("Arm reference")]
     [SerializeField] private InteractableArm interactableArm;
+
+    [Header("Info panel reference")]
+    [SerializeField] private UI_InfoPanel infoPanel;
     
     [Header("UI elements")]
-    [SerializeField] private TextMeshProUGUI waypointCountText;
-    [SerializeField] private TextMeshProUGUI instructionText;
-    [SerializeField] private TextMeshProUGUI playbackProgressText;
+    // [SerializeField] private TextMeshProUGUI waypointCountText;
+    // [SerializeField] private TextMeshProUGUI playbackProgressText;
     [SerializeField] private Button startRecordingButton;
     [SerializeField] private Button stopRecordingButton;
     [SerializeField] private Button clearButton;
@@ -91,10 +93,10 @@ public class UI_ArmPanel : MonoBehaviour
         
         UpdateUI();
 
-        if (ArmWaypointPlayback.instance != null && ArmWaypointPlayback.instance.IsPlayingBack)
-        {
-            UpdatePlaybackProgress();
-        }
+        // if (ArmWaypointPlayback.instance != null && ArmWaypointPlayback.instance.IsPlayingBack)
+        // {
+        //     UpdatePlaybackProgress();
+        // }
 
         if (interactableArm.IsRecording)
         {
@@ -159,6 +161,11 @@ public class UI_ArmPanel : MonoBehaviour
         PlayerController.instance.playerCamera.gameObject.SetActive(false);
         PlayerController.instance.BasePanel.gameObject.SetActive(false);
 
+        if (infoPanel != null)
+        {
+            infoPanel.OnDeviceOpened();
+        }
+
         if (armCamera != null)
         {
             armCamera.enabled = true;
@@ -201,6 +208,11 @@ public class UI_ArmPanel : MonoBehaviour
 
         isOpen = false;
         holdTimer = 0f;
+
+        if (infoPanel != null)
+        {
+            infoPanel.OnDeviceClosed();
+        }
         
         if (armCamera != null)
         {
@@ -235,31 +247,31 @@ public class UI_ArmPanel : MonoBehaviour
     
     private void UpdateUI()
     {
-        if (waypointCountText != null)
-        {
-            waypointCountText.text = $"Waypoint: {interactableArm.WaypointCount}";
-        }
+        // if (waypointCountText != null)
+        // {
+        //     waypointCountText.text = $"Waypoint: {interactableArm.WaypointCount}";
+        // }
         
-        if (instructionText != null)
-        {
-            if (ArmWaypointPlayback.instance != null && ArmWaypointPlayback.instance.IsPlayingBack)
-            {
-                instructionText.text = "PLAYBACK IN CORSO...";
-            }
-            else if (interactableArm.IsRecording)
-            {
-                instructionText.text = "← → per ruotare\nINVIO = salva waypoint\n'Fine' = termina";
-            }
-            else if (interactableArm.WaypointCount > 0)
-            {
-                float duration = interactableArm.GetPlaybackDuration();
-                instructionText.text = $"Recording completo!\nDurata: {duration:F1}s\nPremi 'Play' per testare";
-            }
-            else
-            {
-                instructionText.text = "Premi 'Inizia' per registrare";
-            }
-        }
+        // if (instructionText != null)
+        // {
+        //     if (ArmWaypointPlayback.instance != null && ArmWaypointPlayback.instance.IsPlayingBack)
+        //     {
+        //         instructionText.text = "PLAYBACK IN CORSO...";
+        //     }
+        //     else if (interactableArm.IsRecording)
+        //     {
+        //         instructionText.text = "← → per ruotare\nINVIO = salva waypoint\n'Fine' = termina";
+        //     }
+        //     else if (interactableArm.WaypointCount > 0)
+        //     {
+        //         float duration = interactableArm.GetPlaybackDuration();
+        //         instructionText.text = $"Recording completo!\nDurata: {duration:F1}s\nPremi 'Play' per testare";
+        //     }
+        //     else
+        //     {
+        //         instructionText.text = "Premi 'Inizia' per registrare";
+        //     }
+        // }
         
         bool isPlayingBack = ArmWaypointPlayback.instance != null && ArmWaypointPlayback.instance.IsPlayingBack;
         
@@ -276,15 +288,15 @@ public class UI_ArmPanel : MonoBehaviour
             clearButton.interactable = interactableArm.WaypointCount > 0 && !interactableArm.IsRecording && !isPlayingBack;
     }
 
-    private void UpdatePlaybackProgress()
-    {
-        if (playbackProgressText != null && ArmWaypointPlayback.instance != null)
-        {
-            float progress = ArmWaypointPlayback.instance.PlaybackProgress * 100f;
-            playbackProgressText.text = $"Progresso: {progress:F0}%";
-            playbackProgressText.gameObject.SetActive(true);
-        }
-    }
+    // private void UpdatePlaybackProgress()
+    // {
+    //     if (playbackProgressText != null && ArmWaypointPlayback.instance != null)
+    //     {
+    //         float progress = ArmWaypointPlayback.instance.PlaybackProgress * 100f;
+    //         playbackProgressText.text = $"Progresso: {progress:F0}%";
+    //         playbackProgressText.gameObject.SetActive(true);
+    //     }
+    // }
     
     private void OnStartRecording()
     {
@@ -317,10 +329,10 @@ public class UI_ArmPanel : MonoBehaviour
             Debug.LogError("ArmWaypointPlayback.instance è NULL!");
         }
         
-        if (playbackProgressText != null)
-        {
-            playbackProgressText.gameObject.SetActive(false);
-        }
+        // if (playbackProgressText != null)
+        // {
+        //     playbackProgressText.gameObject.SetActive(false);
+        // }
     }
     
     public UI_ArmPanel GetArmPanel()

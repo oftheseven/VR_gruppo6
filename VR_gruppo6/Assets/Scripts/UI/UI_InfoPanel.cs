@@ -1,11 +1,15 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UI_InfoPanel : MonoBehaviour
 {
     [Header("UI elements")]
-    [SerializeField] private Button infoButton; // bottone per riaprire le info
-    [SerializeField] private Button closeInfoButton; // bottone per chiudere le info
+    [SerializeField] private RawImage closeImage;
+
+    [Header("Blinking")]
+    [SerializeField] private float blinkSpeed = 2f;
+    private float blinkTimer = 0f;
 
     private bool isOpen = false;
     public bool IsOpen => isOpen;
@@ -15,10 +19,32 @@ public class UI_InfoPanel : MonoBehaviour
     void Awake()
     {
         this.gameObject.SetActive(false);
+    }
 
-        if (infoButton != null)
+    void Update()
+    {
+        if (Keyboard.current.tabKey.wasPressedThisFrame && !isOpen)
         {
-            infoButton.gameObject.SetActive(false);
+            OpenInfoPanel();
+        }
+        else if (Keyboard.current.eKey.wasPressedThisFrame && isOpen)
+        {
+            CloseInfoPanel();
+        }
+
+        if (isOpen && closeImage != null)
+        {
+            blinkTimer += Time.deltaTime * blinkSpeed;
+            float alpha = Mathf.Lerp(0.2f, 1f, (Mathf.Sin(blinkTimer * Mathf.PI) + 1f) / 2f);
+            var c = closeImage.color;
+            c.a = alpha;
+            closeImage.color = c;
+        }
+        else if (closeImage != null)
+        {
+            var c = closeImage.color;
+            c.a = 1f;
+            closeImage.color = c;
         }
     }
 
@@ -35,12 +61,6 @@ public class UI_InfoPanel : MonoBehaviour
             Debug.LogWarning("Info panel GameObject is null.");
         }
 
-        // nascondo il bottone info quando il pannello è aperto
-        if (infoButton != null)
-        {
-            infoButton.gameObject.SetActive(false);
-        }
-
         PlayerController.ShowCursor();
     }
 
@@ -50,12 +70,12 @@ public class UI_InfoPanel : MonoBehaviour
         {
             this.gameObject.SetActive(false);
             isOpen = false;
-        }
-
-        // mostro il bottone info solo se non è la prima volta
-        if (infoButton != null && !isFirstTime)
-        {
-            infoButton.gameObject.SetActive(true);
+            if (closeImage != null)
+            {
+                var c = closeImage.color;
+                c.a = 1f;
+                closeImage.color = c;
+            }
         }
 
         PlayerController.HideCursor();
@@ -71,12 +91,6 @@ public class UI_InfoPanel : MonoBehaviour
         }
         else
         {
-            // volte successive: mostro solo il bottone info
-            if (infoButton != null)
-            {
-                infoButton.gameObject.SetActive(true);
-            }
-
             if (this.gameObject != null && this.gameObject.activeSelf)
             {
                 this.gameObject.SetActive(false);
@@ -90,11 +104,6 @@ public class UI_InfoPanel : MonoBehaviour
         if (isOpen)
         {
             CloseInfoPanel();
-        }
-
-        if (infoButton != null)
-        {
-            infoButton.gameObject.SetActive(false);
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UI_MenuPanel : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class UI_MenuPanel : MonoBehaviour
     public static UI_MenuPanel instance => _menuPanelUI;
 
     [Header("UI Elements")]
+    [SerializeField] private Button resumeButton;
     [SerializeField] private Button exitButton;
     [SerializeField] private Button muteButton;
     [SerializeField] private Slider masterVolumeSlider;
@@ -40,6 +42,7 @@ public class UI_MenuPanel : MonoBehaviour
         {
             muteButton.onClick.AddListener(ToggleMuteAll);
         }
+
         SetupSliders();
     }
 
@@ -137,7 +140,9 @@ public class UI_MenuPanel : MonoBehaviour
 
     public void ExitGame()
     {
-        Application.Quit();
+        // Application.Quit();
+        SceneManager.LoadSceneAsync(0);
+        SceneManager.UnloadSceneAsync(1);
     }
 
     private IEnumerator CooldownCoroutine()
