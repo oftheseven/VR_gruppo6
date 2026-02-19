@@ -292,6 +292,22 @@ public class DirectorModeManager : MonoBehaviour
 
         Debug.Log("Scena completata!");
 
+        if (QuestManager.instance != null)
+        {
+            if (QuestManager.instance.CurrentQuest == QuestManager.MainQuest.DivinationComplete)
+            {
+                QuestManager.instance.CompleteCurrentQuest();
+                if (UI_EndPanel.instance != null)
+                {
+                    UI_EndPanel.instance.ShowEndPanel();
+                }
+            }
+            else if (QuestManager.instance.CurrentQuest == QuestManager.MainQuest.LivingRoomComplete)
+            {
+                QuestManager.instance.CompleteCurrentQuest();
+            }
+        }
+
         if (!isDirectorModeActive) return;
         isDirectorModeActive = false;
         isAnimatingCamera = false;

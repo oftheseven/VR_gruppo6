@@ -129,7 +129,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator WaitAndTriggerFirstDialogue()
     {
-        while (
+        while 
+        (
             InteractableTutor.instance == null ||
             QuestManager.instance == null ||
             FindFirstObjectByType<UI_DialoguePanel>() == null
@@ -683,6 +684,11 @@ public class PlayerController : MonoBehaviour
         currentOperator = null;
         currentTutor = null;
         isInteracting = false;
+    }
+
+    public void StartTutorialDialogueIfNeeded()
+    {
+        StartCoroutine(WaitAndTriggerFirstDialogue());
     }
 
     private void CheckPanelsInteraction()

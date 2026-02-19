@@ -150,61 +150,7 @@ public class ActorController : MonoBehaviour
 
         Debug.Log($"{gameObject.name}: Reset to Idle");
     }
-
-    // private void UpdateAnimationState()
-    // {
-    //     if (agent == null || animator == null) return;
-
-    //     if (agent.pathPending)
-    //     {
-    //         animator.SetBool(PARAM_IS_WALKING, true);
-    //         return;
-    //     }
-
-    //     float remainingDistance = agent.remainingDistance;
-    //     float checkDistance = agent.stoppingDistance + stoppingDistanceOffset;
-
-    //     bool shouldWalk = agent.hasPath && remainingDistance > checkDistance;
-        
-    //     animator.SetBool(PARAM_IS_WALKING, shouldWalk);
-
-    //     if (!destinationReached && remainingDistance <= checkDistance)
-    //     {
-    //         if (agent.velocity.sqrMagnitude < 0.01f)
-    //         {
-    //             OnDestinationReached();
-    //         }
-    //     }
-    // }
-
-    // private void UpdateAnimationState()
-    // {
-    //     if (agent == null || animator == null) return;
-
-    //     if (agent.pathPending)
-    //     {
-    //         animator.SetBool(PARAM_IS_WALKING, true);
-    //         return;
-    //     }
-
-    //     float remainingDistance = agent.remainingDistance;
-    //     float checkDistance = agent.stoppingDistance + stoppingDistanceOffset;
-
-    //     bool closeEnough = remainingDistance <= checkDistance;
-    //     bool isMoving = agent.velocity.sqrMagnitude > 0.01f;
-    //     bool shouldWalk = agent.hasPath && !closeEnough && isMoving;
-
-    //     animator.SetBool(PARAM_IS_WALKING, shouldWalk);
-
-    //     if (!destinationReached && closeEnough)
-    //     {
-    //         if (!isMoving)
-    //         {
-    //             OnDestinationReached();
-    //         }
-    //     }
-    // }
-
+    
     private void UpdateAnimationState()
     {
         if (agent == null || animator == null) return;

@@ -10,10 +10,13 @@ public class UI_EndPanel : MonoBehaviour
     private static UI_EndPanel _instance;
     public static UI_EndPanel instance => _instance;
 
-    [SerializeField] private GameObject pressToContinueGroup;
-    [SerializeField] private RawImage finalImage;
-    [SerializeField] private TextMeshProUGUI pressKeyText;
-    [SerializeField] private float waitTime = 3f;
+    [Header("Continue text reference")]
+    [SerializeField] private RawImage continueText;
+    [SerializeField] private float showContinueDelay = 2f;
+
+    [Header("Blinking")]
+    [SerializeField] private float blinkSpeed = 2f;
+    private float blinkTimer = 0f;
 
     private bool canAcceptInput = false;
 
@@ -28,9 +31,33 @@ public class UI_EndPanel : MonoBehaviour
             _instance = this;
         }
         gameObject.SetActive(false);
-        if (pressToContinueGroup != null) pressToContinueGroup.SetActive(false);
-        if (finalImage != null) finalImage.enabled = false;
+        if (continueText != null) continueText.gameObject.SetActive(false);
     }
+
+    void Update()
+    {
+        if (this.gameObject.activeSelf && continueText != null)
+        {
+            blinkTimer += Time.deltaTime * blinkSpeed;
+            float alpha = Mathf.Lerp(0.2f, 1f, (Mathf.Sin(blinkTimer * Mathf.PI) + 1f) / 2f);
+            var c = continueText.color;
+            c.a = alpha;
+            continueText.color = c;
+        }
+        else if (continueText != null)
+        {
+            var c = continueText.color;
+            c.a = 1f;
+            continueText.color = c;
+        }
+
+        if (!canAcceptInput) return;
+        if (Keyboard.current == null) return;
+        if (Keyboard.current.eKey.wasPressedThisFrame)
+        {
+            Application.Quit();
+        }
+    }   
 
     public void ShowEndPanel()
     {
@@ -42,23 +69,12 @@ public class UI_EndPanel : MonoBehaviour
 
     private IEnumerator FinaleCoroutine()
     {
-        if (finalImage != null) finalImage.enabled = true;
-        if (pressToContinueGroup != null) pressToContinueGroup.SetActive(false);
+        if (continueText != null) continueText.gameObject.SetActive(false);
 
         canAcceptInput = false;
-        yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSeconds(showContinueDelay);
 
-        if (pressToContinueGroup != null) pressToContinueGroup.SetActive(true);
+        if (continueText != null) continueText.gameObject.SetActive(true);
         canAcceptInput = true;
-    }
-
-    void Update()
-    {
-        if (!canAcceptInput) return;
-        if (Keyboard.current == null) return;
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-        {
-            Application.Quit();
-        }
     }
 }
