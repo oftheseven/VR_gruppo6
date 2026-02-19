@@ -37,6 +37,10 @@ public class InteractableSlider : MonoBehaviour
 
     [Header("Recording variables & settings")]
     [SerializeField] private float recordingSampleRate = 0.05f;
+
+    [Header("Recording max duration")]
+    [SerializeField] private float maxRecordingDuration = 3f;
+    public float MaxRecordingDuration => maxRecordingDuration;
     private SliderRecording currentRecording;
     private bool isRecording = false;
     private bool isPlaying = false;
@@ -192,9 +196,39 @@ public class InteractableSlider : MonoBehaviour
         CheckSliderCompletion();
     }
 
+    // private void UpdateRecording()
+    // {
+    //     float elapsedTime = Time.time - recordingStartTime;
+
+    //     if (currentRecording.keyframes.Count == 0 || 
+    //         elapsedTime - currentRecording.duration >= recordingSampleRate)
+    //     {
+    //         Quaternion cameraRot = sliderCamera != null ? sliderCamera.transform.localRotation : Quaternion.identity;
+    //         currentRecording.AddKeyframe(elapsedTime, currentPosition, cameraRot);
+    //     }
+
+    //     if (QuestManager.instance != null && 
+    //         QuestManager.instance.IsQuestActive(QuestManager.MainQuest.LivingRoomSlider))
+    //     {
+    //         if (IsLookingAtTarget())
+    //         {
+    //             lookTimer += Time.deltaTime;
+    //             Debug.Log($"SLIDER QUEST lookTimer={lookTimer:F2}s");
+    //         }
+    //     }
+    // }
+
     private void UpdateRecording()
     {
         float elapsedTime = Time.time - recordingStartTime;
+
+        if (elapsedTime >= maxRecordingDuration)
+        {
+            Debug.LogWarning($"Registrazione fermata: durata massima ({maxRecordingDuration}s) superata!");
+            StopRecording();
+            QuestManager.instance.ShowMessage("DURATA MASSIMA DI REGISTRAZIONE RAGGIUNTA!");
+            return;
+        }
 
         if (currentRecording.keyframes.Count == 0 || 
             elapsedTime - currentRecording.duration >= recordingSampleRate)
