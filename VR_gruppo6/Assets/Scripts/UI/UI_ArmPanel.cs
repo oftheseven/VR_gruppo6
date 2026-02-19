@@ -85,7 +85,6 @@ public class UI_ArmPanel : MonoBehaviour
 
         if (armCamera != null && armCameraPreviewImage != null && armCameraRenderTexture != null)
         {
-            armCamera.targetTexture = armCameraRenderTexture;
             armCameraPreviewImage.texture = armCameraRenderTexture;
         }
     }
@@ -154,6 +153,25 @@ public class UI_ArmPanel : MonoBehaviour
     {
         this.gameObject.SetActive(true);
 
+        if (armCamera != null) 
+        {
+            armCamera.enabled = true;
+            armCamera.targetTexture = null;
+            armCamera.gameObject.GetComponent<AudioListener>().enabled = true;
+        }
+
+        if (armCameraView != null && armCameraRenderTexture != null) 
+        {
+            armCameraView.enabled = true;
+            armCameraView.targetTexture = armCameraRenderTexture;
+        }
+
+        if (armCameraPreviewImage != null && armCameraRenderTexture != null)
+        {
+            armCameraPreviewImage.texture = armCameraRenderTexture;
+            armCameraPreviewImage.gameObject.SetActive(true);
+        }
+
         isOpen = true;
 
         PlayerController.EnableMovement(false);
@@ -172,10 +190,10 @@ public class UI_ArmPanel : MonoBehaviour
             armCamera.gameObject.GetComponent<AudioListener>().enabled = true;
         }
 
-        if (armCameraView != null)
-        {
-            armCameraView.enabled = false;
-        }
+        // if (armCameraView != null)
+        // {
+        //     armCameraView.enabled = false;
+        // }
         
         if (armCameraOrbit != null)
         {
@@ -192,13 +210,6 @@ public class UI_ArmPanel : MonoBehaviour
         }
 
         UpdateUI();
-
-        if (armCameraPreviewImage != null && armCameraRenderTexture != null && armCamera != null)
-        {
-            armCamera.targetTexture = armCameraRenderTexture;
-            armCameraPreviewImage.texture = armCameraRenderTexture;
-            armCameraPreviewImage.gameObject.SetActive(true);
-        }
 
         if (QuestManager.instance != null && QuestManager.instance.IsQuestActive(QuestManager.MainQuest.DivinationArm)
             && interactableArm.VisualFeedback != null && interactableArm.DivinationTargetWaypoints != null)
@@ -254,9 +265,20 @@ public class UI_ArmPanel : MonoBehaviour
         }
 
         StartCoroutine(CooldownAndHide());
-        
+
         if (armCamera != null)
+        {
+            armCamera.enabled = false;
             armCamera.targetTexture = null;
+            armCamera.gameObject.GetComponent<AudioListener>().enabled = false;
+        }
+
+        if (armCameraView != null)
+        {
+            armCameraView.enabled = false;
+            armCameraView.targetTexture = null;
+        }
+
         if (armCameraPreviewImage != null)
             armCameraPreviewImage.gameObject.SetActive(false);
 
