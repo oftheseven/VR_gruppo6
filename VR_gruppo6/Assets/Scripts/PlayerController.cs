@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -100,7 +101,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(transform.root.gameObject);
+            DontDestroyOnLoad(this.gameObject);
         }
     }
 
@@ -115,6 +116,27 @@ public class PlayerController : MonoBehaviour
 
         Application.targetFrameRate = 60;
         QualitySettings.vSyncCount = 1;
+        
+        StartCoroutine(WaitAndTriggerFirstDialogue());
+    }
+
+    private IEnumerator WaitAndTriggerFirstDialogue()
+    {
+        while (
+            InteractableTutor.instance == null ||
+            QuestManager.instance == null ||
+            FindFirstObjectByType<UI_DialoguePanel>() == null
+        )
+        {
+            yield return null;
+        }
+
+        yield return null;
+
+        if (QuestManager.instance.CurrentQuest == QuestManager.MainQuest.None)
+        {
+            InteractableTutor.instance.Interact();
+        }
     }
 
     void Update()

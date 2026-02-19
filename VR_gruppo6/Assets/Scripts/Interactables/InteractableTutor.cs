@@ -216,11 +216,11 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
             return;
         }
 
+        PlayerController.EnableMovement(false);
+
         SetTalking(true);
 
         dialoguePanel.ShowDialogue(tutorName, lines.ToArray(), this);
-
-        PlayerController.EnableMovement(false);
     }
 
     public void OnDialogueEnd()
