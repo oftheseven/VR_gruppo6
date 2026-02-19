@@ -10,6 +10,7 @@ public class DirectorModeManager : MonoBehaviour
 
     [Header("Scene setup")]
     [SerializeField] private GameObject[] salottoActors;
+    [SerializeField] private DirectorModeAnimStarter[] salottoAnimStarters;
     [SerializeField] private GameObject[] divinationActors;
     [SerializeField] private string[] actorAnimationTriggers;
     [SerializeField] private float defaultSceneDuration = 30f;
@@ -213,6 +214,7 @@ public class DirectorModeManager : MonoBehaviour
 
         PrepareActors();
         StartActorAnimations();
+        StartObjectsAnimations();
         CalculateSceneDuration();
 
         sceneStartTime = Time.time;
@@ -276,6 +278,7 @@ public class DirectorModeManager : MonoBehaviour
         }
 
         ResetActors();
+        ResetObjects();
 
         if (directorPanel != null)
         {
@@ -428,6 +431,28 @@ public class DirectorModeManager : MonoBehaviour
         }
 
         Debug.Log("Animazioni attori avviate");
+    }
+
+    private void StartObjectsAnimations()
+    {
+        foreach (var starter in salottoAnimStarters)
+        {
+            if (starter != null)
+            {
+                starter.PlayDirectorAnim();
+            }
+        }
+    }
+
+    private void ResetObjects()
+    {
+        foreach (var starter in salottoAnimStarters)
+        {
+            if (starter != null)
+            {
+                starter.Reset();
+            }
+        }
     }
     
     private System.Collections.IEnumerator WalkThenAction(ActorController controller)

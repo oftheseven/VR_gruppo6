@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 3068104051294302061}
   - component: {fileID: 6381304553078451632}
   - component: {fileID: 8903516390020186848}
+  - component: {fileID: 8296931766654549048}
   m_Layer: 0
   m_Name: main_camera
   m_TagString: Camera
@@ -118,7 +119,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.36099902, y: 0.36099905, z: 0.36099902}
+  m_LocalScale: {x: 0.15999998, y: 0.16, z: 0.15999998}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1172654153699662039}
@@ -158,8 +159,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8a594f0301d24ebfb342b5362faa9f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableCamera
-  interactionText: Premi E per gestire la camera
+  interactionText: '[E] per gestire la camera'
   cameraPanel: {fileID: 0}
+  viewCamera: {fileID: 2012903353007258769}
   cameraLenses:
   - {fileID: 3065341761761385333}
   - {fileID: 6220511021931282575}
@@ -191,6 +193,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 2
+--- !u!114 &8296931766654549048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 930562088259485485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbccc19509187412892ef08a6c762445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RotatingCamera
+  cameraReference: {fileID: 930562088259485485}
+  rotationSpeed: 10
 --- !u!1 &1274506367803989308
 GameObject:
   m_ObjectHideFlags: 0
