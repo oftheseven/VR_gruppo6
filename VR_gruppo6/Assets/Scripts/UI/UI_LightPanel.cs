@@ -104,6 +104,8 @@ public class UI_LightPanel : MonoBehaviour
         {
             HandlePanelClose();
         }
+
+        infoPanel.HandleInfoPanel();
     }
 
     public void OpenPanel(InteractableLight light)

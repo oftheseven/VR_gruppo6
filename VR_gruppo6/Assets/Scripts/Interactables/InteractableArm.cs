@@ -9,7 +9,7 @@ public class InteractableArm : MonoBehaviour
     [Header("Arm Components")]
     [SerializeField] private Transform armTip;
     [SerializeField] private Transform armEnd;
-    [SerializeField] private Camera directorModeCamera; // camera da usare in director mode
+    [SerializeField] private Camera directorModeCamera;
     
     [Header("Waypoint Settings")]
     [SerializeField] private float playbackSpeed = 1.0f;
@@ -17,7 +17,6 @@ public class InteractableArm : MonoBehaviour
 
     [Header("Divination Target Waypoints")]
     [SerializeField] private Transform[] divinationTargetWaypoints;
-    // [SerializeField] private float accuracyThreshold = 1.0f; // distanza massima consentita
     private bool accuracyQuestCompleted = false;
 
     public Transform[] DivinationTargetWaypoints => divinationTargetWaypoints;

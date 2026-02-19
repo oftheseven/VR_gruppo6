@@ -1,25 +1,36 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class UI_DirectorPanel : MonoBehaviour
 {
+    // singleton
+    private static UI_DirectorPanel _instance;
+    public static UI_DirectorPanel instance => _instance;
+
     [Header("UI References")]
     [SerializeField] private GameObject panelContainer;
-    // [SerializeField] private TextMeshProUGUI cameraNameText;
+    [SerializeField] private Texture2D camera1Image;
+    [SerializeField] private Texture2D camera2Image;
     [SerializeField] private TextMeshProUGUI timerText;
-    // [SerializeField] private TextMeshProUGUI controlsText;
-    // [SerializeField] private TextMeshProUGUI sceneStatusText;
-
-    // [Header("Visual Settings")]
-    // [SerializeField] private Color camera1Color = Color.cyan;
-    // [SerializeField] private Color camera2Color = Color.yellow;
-    // [SerializeField] private Color camera3Color = Color.magenta;
 
     private float sceneStartTime;
     private float sceneDuration;
     private bool isActive = false;
     private List<int> availableCameras = new List<int>();
+
+    void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
 
     void Start()
     {
@@ -48,41 +59,7 @@ public class UI_DirectorPanel : MonoBehaviour
         {
             panelContainer.SetActive(true);
         }
-
-        // if (controlsText != null)
-        // {
-        //     controlsText.text = GetControlsText();
-        // }
-
-        // if (sceneStatusText != null)
-        // {
-        //     sceneStatusText.text = "REGISTRAZIONE IN CORSO";
-        // }
-
-        UpdateCameraDisplay(cameras[0]);
     }
-
-    // private string GetControlsText()
-    // {
-    //     List<string> controls = new List<string>();
-
-    //     if (availableCameras.Contains(1))
-    //     {
-    //         controls.Add("1: Camera Slider");
-    //     }
-
-    //     if (availableCameras.Contains(2))
-    //     {
-    //         controls.Add("2: Camera Treppiede");
-    //     }
-
-    //     if (availableCameras.Contains(3))
-    //     {
-    //         controls.Add("3: Braccio Meccanico");
-    //     }
-
-    //     return string.Join(" | ", controls);
-    // }
 
     public void HidePanel()
     {
@@ -94,32 +71,23 @@ public class UI_DirectorPanel : MonoBehaviour
         }
     }
 
-    public void UpdateCameraDisplay(int cameraIndex)
+    public void SetCameraPanel(int panel)
     {
-        // if (cameraNameText != null)
-        // {
-        //     string cameraName = "";
-        //     Color color = Color.white;
-
-        //     switch (cameraIndex)
-        //     {
-        //         case 1:
-        //             cameraName = "CAMERA 1: SLIDER";
-        //             color = camera1Color;
-        //             break;
-        //         case 2:
-        //             cameraName = "CAMERA 2: TREPPIEDE";
-        //             color = camera2Color;
-        //             break;
-        //         case 3:
-        //             cameraName = "CAMERA 3: BRACCIO MECCANICO";
-        //             color = camera3Color;
-        //             break;
-        //     }
-
-        //     cameraNameText.text = cameraName;
-        //     cameraNameText.color = color;
-        // }
+        switch(panel)
+        {
+            case 1:
+                if (camera1Image != null)
+                {
+                    panelContainer.GetComponent<RawImage>().texture = camera1Image;
+                }
+                break;
+            case 2:
+                if (camera2Image != null)
+                {
+                    panelContainer.GetComponent<RawImage>().texture = camera2Image;
+                }
+                break;
+        }
     }
 
     private void UpdateTimer()

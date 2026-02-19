@@ -112,6 +112,8 @@ public class UI_ArmPanel : MonoBehaviour
         {
             HandleArmClose();
         }
+
+        infoPanel.HandleInfoPanel();
     }
 
     private void HandleArmControl()
@@ -391,6 +393,5 @@ public class UI_ArmPanel : MonoBehaviour
     {
         canInteract = false;
         yield return new WaitForSeconds(cooldownTime);
-        canInteract = true;
     }
 }

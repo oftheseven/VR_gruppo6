@@ -43,6 +43,7 @@ public class UI_SliderPanel : MonoBehaviour
     void Start()
     {
         this.gameObject.SetActive(false);
+        canInteract = true;
 
         if (holdIndicator != null)
         {
@@ -79,6 +80,8 @@ public class UI_SliderPanel : MonoBehaviour
             HandlePanelClose();
             UpdateRecordingButtonStates();
         }
+
+        infoPanel.HandleInfoPanel();
     }
 
     public void OpenPanel(InteractableSlider slider)

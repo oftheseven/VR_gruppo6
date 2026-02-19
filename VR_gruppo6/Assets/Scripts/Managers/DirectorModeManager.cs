@@ -518,6 +518,7 @@ public class DirectorModeManager : MonoBehaviour
                     if (sliderCamera.CurrentRecording != null && !sliderCamera.IsPlaying)
                     {
                         sliderCamera.StartPlayback();
+                        UI_DirectorPanel.instance.SetCameraPanel(1);
                         Debug.Log("Camera 1: Slider playback avviato");
                     }
                 }
@@ -527,6 +528,7 @@ public class DirectorModeManager : MonoBehaviour
                 if (currentTripodCamera != null && currentTripodCamera.ViewCamera != null)
                 {
                     currentTripodCamera.ViewCamera.gameObject.SetActive(true);
+                    UI_DirectorPanel.instance.SetCameraPanel(2);
                     Debug.Log("Tripod camera attivata: " + currentTripodCamera.name);
                 }
                 break;
@@ -537,13 +539,14 @@ public class DirectorModeManager : MonoBehaviour
                     armCamera.DirectorModeCamera.enabled = true;
                     Debug.Log($"Camera 3: Arm Director Mode Camera attivata");
 
-                    // Avvia playback se non già attivo
                     if (ArmWaypointPlayback.instance != null && 
                         armCamera.WaypointCount >= 2 &&
                         !ArmWaypointPlayback.instance.IsPlayingBack)
                     {
                         ArmWaypointPlayback.instance.StartPlayback(armCamera);
+                        UI_DirectorPanel.instance.SetCameraPanel(1);
                         Debug.Log($"Arm playback avviato ({armCamera.WaypointCount} waypoint)");
+
                     }
                     else if (ArmWaypointPlayback.instance != null && 
                              ArmWaypointPlayback.instance.IsPlayingBack)
@@ -556,11 +559,6 @@ public class DirectorModeManager : MonoBehaviour
                     Debug.LogWarning("Arm Director Mode Camera non disponibile!");
                 }
                 break;
-        }
-
-        if (directorPanel != null)
-        {
-            directorPanel.UpdateCameraDisplay(cameraIndex);
         }
     }
 }

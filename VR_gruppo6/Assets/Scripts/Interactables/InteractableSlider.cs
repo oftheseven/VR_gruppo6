@@ -239,10 +239,10 @@ public class InteractableSlider : MonoBehaviour
                 Debug.Log($"Quest slider salotto COMPLETATA! Guardato verso scena per {lookTimer:F2}s");
                 QuestManager.instance.CompleteCurrentQuest();
             }
-            // else
-            // {
-            //     Debug.Log($"Quest slider salotto NON completata: solo {lookTimer:F2}s su {lookDurationRequired}s richiesti.");
-            // }
+            else
+            {
+                QuestManager.instance.ShowMessage("Devi guardare verso la scena per almeno 3 secondi per completare l'incarico!");
+            }
         }
     }
 

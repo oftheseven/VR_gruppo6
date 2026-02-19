@@ -70,7 +70,6 @@ public class QuestManager : MonoBehaviour
     public MainQuest CurrentQuest => currentQuest;
 
     private UnityEvent<MainQuest> OnQuestChanged;
-    private UnityEvent OnTutorialComplete;
 
     private bool awaitingTutorConfirm = false;
     public bool AwaitingTutorConfirm => awaitingTutorConfirm;
@@ -120,6 +119,11 @@ public class QuestManager : MonoBehaviour
     public void TutorConfirmedQuestAdvance()
     {
         awaitingTutorConfirm = false;
+        if (currentQuest == MainQuest.DivinationComplete)
+        {
+            UI_EndPanel.instance?.ShowEndPanel();
+            return;
+        }
         AdvanceQuest();
     }
 
@@ -272,7 +276,7 @@ public class QuestManager : MonoBehaviour
         color.a = 0f;
         image.color = color;
         image.gameObject.SetActive(false);
-        questCompletedImageText.text = "Quest Completed!";
+        questCompletedImageText.text = "INCARICO COMPLETATO!";
     }
 
     private void ShowSalottoActors() 

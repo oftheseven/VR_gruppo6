@@ -23,15 +23,6 @@ public class UI_InfoPanel : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current.tabKey.wasPressedThisFrame && !isOpen)
-        {
-            OpenInfoPanel();
-        }
-        else if (Keyboard.current.eKey.wasPressedThisFrame && isOpen)
-        {
-            CloseInfoPanel();
-        }
-
         if (isOpen && closeImage != null)
         {
             blinkTimer += Time.deltaTime * blinkSpeed;
