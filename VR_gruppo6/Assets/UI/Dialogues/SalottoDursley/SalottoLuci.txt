@@ -1,5 +1,5 @@
 Adesso si fa sul serio!
 Basandoci sulla sistemazione del salotto dei Dursley, iniziamo settando in modo corretto l’illuminazione delle nostre lampade, imposta:
- 1. l’INTENSITA’ 
- 2. la TEMPERATURA a …K o RGB a …
+ 1. l’INTENSITA’ all' 80 %
+ 2. la TEMPERATURA a 5000 K 
 Appena hai terminato il tuo compito torna qui da me!

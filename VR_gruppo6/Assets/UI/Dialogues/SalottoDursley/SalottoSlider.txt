@@ -1,2 +1,2 @@
-Adesso passiamo al terzo, vai a sistemare correttamente la posizione della camera sullo slider e a definire il movimento che vuoi che essa faccia sullo slider dopo il ciak.
+Molto bene! Adesso passiamo al terzo step, vai a sistemare correttamente la posizione della camera sullo slider e a definire il movimento che vuoi che essa faccia su di esso dopo il ciak.
 La precisione è fondamentale, coraggio!
