@@ -6,6 +6,10 @@ public class ArmVisualFeedback : MonoBehaviour
     [Header("References")]
     [SerializeField] private InteractableArm arm;
     [SerializeField] private Camera armDirectorCamera;
+    // [SerializeField] private GameObject targetWaypointPrefab;
+    // [SerializeField] private GameObject targetWaypointGroup;
+    // [SerializeField] private Color targetWaypointColor = new Color(0f, 1f, 0f, 0.2f);
+    // [SerializeField] private float targetWaypointScale = 0.7f;
     
     [Header("Laser Settings")]
     [SerializeField] private bool showLaser = true;
@@ -57,6 +61,7 @@ public class ArmVisualFeedback : MonoBehaviour
         }
         
         DisableVisuals();
+        HideTargetMarkers();
     }
 
     void Update()
@@ -282,24 +287,42 @@ public class ArmVisualFeedback : MonoBehaviour
 
     public void ShowTargetMarkers(Transform[] targets)
     {
+        int idx = 1;
         foreach (var t in targets)
         {
-            GameObject marker = CreateDefaultWaypointMarker(t.position);
-            marker.name = "TargetWaypoint";
+            Renderer renderer = t.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                t.gameObject.SetActive(true);
+            }
 
-            marker.GetComponent<Renderer>().material.color = Color.blue;
-            waypointMarkers.Add(marker);
+            TextMesh textMesh = t.GetComponentInChildren<TextMesh>();
+            if (textMesh == null)
+            {
+                GameObject textObj = new GameObject("TargetNumber");
+                textObj.transform.SetParent(t, false);
+                textObj.transform.localPosition = Vector3.up * 0.4f;
+                textObj.transform.localRotation = Quaternion.identity;
+
+                textMesh = textObj.AddComponent<TextMesh>();
+            }
+            textMesh.text = idx.ToString();
+            textMesh.fontSize = 36;
+            textMesh.characterSize = 0.2f;
+            textMesh.anchor = TextAnchor.MiddleCenter;
+            textMesh.alignment = TextAlignment.Center;
+            textMesh.color = Color.white;
+            textMesh.transform.localPosition = Vector3.up * 0.8f;
+
+            idx++;
         }
     }
     public void HideTargetMarkers()
     {
-        foreach (var m in waypointMarkers)
+        foreach (var m in arm.DivinationTargetWaypoints)
         {
-            if (m != null && m.name == "TargetWaypoint")
-                Destroy(m);
+            m.gameObject.SetActive(false);
         }
-        
-        waypointMarkers.RemoveAll(m => m == null || (m != null && m.name == "TargetWaypoint"));
     }
 
     void OnDestroy()

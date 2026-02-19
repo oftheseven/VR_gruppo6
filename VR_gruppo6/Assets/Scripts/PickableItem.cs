@@ -101,7 +101,7 @@ public class PickableItem : MonoBehaviour
     {
         Debug.Log("CIAK! Avvio Director Mode!");
 
-        if (DirectorModeManager.instance != null && DirectorModeManager.instance.IsDirectorModeAvailable())
+        if (DirectorModeManager.instance != null && DirectorModeManager.instance.IsDirectorModeAvailable() && (QuestManager.instance.CurrentQuest == QuestManager.MainQuest.LivingRoomComplete || QuestManager.instance.CurrentQuest == QuestManager.MainQuest.DivinationComplete))
         {
             DirectorModeManager.instance.StartDirectorMode();
         }

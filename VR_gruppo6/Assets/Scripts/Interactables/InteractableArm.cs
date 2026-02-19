@@ -7,6 +7,7 @@ public class InteractableArm : MonoBehaviour
     [SerializeField] private string interactionText = "[E] per gestire il braccio";
 
     [Header("Arm Components")]
+    [SerializeField] private Transform armTip;
     [SerializeField] private Transform armEnd;
     [SerializeField] private Camera directorModeCamera; // camera da usare in director mode
     
@@ -105,7 +106,7 @@ public class InteractableArm : MonoBehaviour
 
     private void StabilizeArmTip()
     {
-        if (armEnd == null) return;
+        if (armTip == null) return;
         
         float baseYRotation = 0f;
         
@@ -114,7 +115,7 @@ public class InteractableArm : MonoBehaviour
             baseYRotation = pivotBase.eulerAngles.y;
         }
         
-        armEnd.rotation = Quaternion.Euler(0f, baseYRotation, 0f);
+        armTip.rotation = Quaternion.Euler(0f, baseYRotation, 0f);
     }
 
     public void RotateBase(float delta)
@@ -202,6 +203,7 @@ public class InteractableArm : MonoBehaviour
             recordedWaypoints.Add(waypoint);
             
             string debugInfo = $"Waypoint {recordedWaypoints.Count} aggiunto:";
+            debugInfo += $" Pos={waypoint.position}s";
             
             Debug.Log(debugInfo);
         }
