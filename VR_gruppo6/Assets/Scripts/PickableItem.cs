@@ -111,7 +111,7 @@ public class PickableItem : MonoBehaviour
         }
         else
         {
-            Debug.LogError("DirectorModeManager non trovato nella scena");
+            Debug.LogWarning("DirectorModeManager non trovato nella scena");
         }
     }
 

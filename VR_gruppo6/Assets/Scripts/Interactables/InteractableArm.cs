@@ -287,6 +287,7 @@ public class InteractableArm : MonoBehaviour
         else
         {
             Debug.Log($"Divination: accuratezza insufficiente: avg={averageDistance:F2}, max={maxDistance:F2}, soglia={QuestManager.instance.ArmAccuracy:F2}");
+            QuestManager.instance.ShowMessage("Accuratezza insufficiente, riprova!");
         }
     }
     

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 public class QuestManager : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class QuestManager : MonoBehaviour
 
     [Header("Quest completed image")]
     [SerializeField] private RawImage questCompletedImage; // immagine mostrata quando si completa una quest (es. "Quest Completed!")
+    private TextMeshProUGUI questCompletedImageText = null;
 
     // SETTAGGI PER LE QUEST DEL SALOTTO
     [Header("Living room lights")]
@@ -81,6 +83,7 @@ public class QuestManager : MonoBehaviour
             return;
         }
         _instance = this;
+        questCompletedImageText = questCompletedImage.GetComponentInChildren<TextMeshProUGUI>();
         questCompletedImage.gameObject.SetActive(false);
     }
 
@@ -229,6 +232,12 @@ public class QuestManager : MonoBehaviour
         return currentQuest == MainQuest.TutorialComplete;
     }
 
+    public void ShowMessage(string text)
+    {
+        questCompletedImageText.text = text;
+        StartCoroutine(FadeInAndOut(questCompletedImage, 3f));
+    }
+
     private IEnumerator FadeInAndOut(RawImage image, float duration)
     {
         if (image == null) yield break;
@@ -261,5 +270,6 @@ public class QuestManager : MonoBehaviour
         color.a = 0f;
         image.color = color;
         image.gameObject.SetActive(false);
+        questCompletedImageText.text = "Quest Completed!";
     }
 }

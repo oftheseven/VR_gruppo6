@@ -301,7 +301,7 @@ public class ArmVisualFeedback : MonoBehaviour
             {
                 GameObject textObj = new GameObject("TargetNumber");
                 textObj.transform.SetParent(t, false);
-                textObj.transform.localPosition = Vector3.up * 0.4f;
+                textObj.transform.localPosition = Vector3.zero;
                 textObj.transform.localRotation = Quaternion.identity;
 
                 textMesh = textObj.AddComponent<TextMesh>();
@@ -312,7 +312,7 @@ public class ArmVisualFeedback : MonoBehaviour
             textMesh.anchor = TextAnchor.MiddleCenter;
             textMesh.alignment = TextAlignment.Center;
             textMesh.color = Color.white;
-            textMesh.transform.localPosition = Vector3.up * 0.8f;
+            textMesh.transform.localPosition = Vector3.zero;
 
             idx++;
         }

@@ -336,7 +336,7 @@ public class UI_ArmPanel : MonoBehaviour
         }
         else
         {
-            Debug.LogError("ArmWaypointPlayback.instance è NULL!");
+            Debug.LogWarning("ArmWaypointPlayback.instance è NULL!");
         }
         
         // if (playbackProgressText != null)

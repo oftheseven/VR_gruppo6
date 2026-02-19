@@ -157,7 +157,7 @@ public class DirectorModeManager : MonoBehaviour
         if (isDirectorModeActive) return;
         if (availableCameras.Count == 0)
         {
-            Debug.LogError("Impossibile avviare Director Mode: nessuna camera disponibile!");
+            Debug.LogWarning("Impossibile avviare Director Mode: nessuna camera disponibile!");
             return;
         }
 
@@ -179,7 +179,7 @@ public class DirectorModeManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Non è definita una fase valida per Director Mode!");
+            Debug.LogWarning("Non è definita una fase valida per Director Mode!");
             return;
         }
 
@@ -443,24 +443,6 @@ public class DirectorModeManager : MonoBehaviour
         Debug.Log("Attori resettati alla posizione iniziale");
     }
 
-    // private void HandleCameraSwitch()
-    // {
-    //     if (Keyboard.current.digit1Key.wasPressedThisFrame && availableCameras.Contains(1))
-    //     {
-    //         SwitchToCamera(1);
-    //     }
-
-    //     if (Keyboard.current.digit2Key.wasPressedThisFrame && availableCameras.Contains(2))
-    //     {
-    //         SwitchToCamera(2);
-    //     }
-
-    //     if (Keyboard.current.digit3Key.wasPressedThisFrame && availableCameras.Contains(3))
-    //     {
-    //         SwitchToCamera(3);
-    //     }
-    // }
-
     private void SwitchToCamera(int cameraIndex)
     {
         if (!availableCameras.Contains(cameraIndex))
@@ -535,7 +517,7 @@ public class DirectorModeManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("Arm Director Mode Camera non disponibile!");
+                    Debug.LogWarning("Arm Director Mode Camera non disponibile!");
                 }
                 break;
         }
