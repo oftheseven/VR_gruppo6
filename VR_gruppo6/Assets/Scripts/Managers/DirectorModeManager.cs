@@ -9,7 +9,8 @@ public class DirectorModeManager : MonoBehaviour
     public static DirectorModeManager instance => _instance;
 
     [Header("Scene setup")]
-    [SerializeField] private GameObject[] sceneActors;
+    [SerializeField] private GameObject[] salottoActors;
+    [SerializeField] private GameObject[] divinationActors;
     [SerializeField] private string[] actorAnimationTriggers;
     [SerializeField] private float defaultSceneDuration = 30f;
 
@@ -31,6 +32,9 @@ public class DirectorModeManager : MonoBehaviour
     private int currentCameraIndex = 1; // 1 = slider, 2 = tripod, 3 = arm
     private float sceneStartTime;
     private float sceneDuration;
+
+    public GameObject[] SalottoActors => salottoActors;
+    public GameObject[] DivinationActors => divinationActors;
 
     public bool IsDirectorModeActive => isDirectorModeActive;
     public int CurrentCameraIndex => currentCameraIndex;
@@ -61,6 +65,21 @@ public class DirectorModeManager : MonoBehaviour
         {
             livingRoomTripodCamera.gameObject.GetComponentInChildren<Camera>().gameObject.SetActive(false);
             divinationTripodCamera.gameObject.GetComponentInChildren<Camera>().gameObject.SetActive(false);
+        }
+
+        SetActorsActive(salottoActors, false);
+        SetActorsActive(divinationActors, false);
+    }
+
+    public void SetActorsActive(GameObject[] actors, bool active)
+    {
+        if (actors == null) return;
+        foreach (var actor in actors)
+        {
+            if (actor != null)
+            {
+                actor.SetActive(active);
+            }
         }
     }
 
@@ -188,7 +207,6 @@ public class DirectorModeManager : MonoBehaviour
         isRunningFixedCamera = false;
 
         PlayerController.EnableMovement(false);
-        // PlayerController.instance.BasePanel.gameObject.SetActive(false);
         PlayerController.HideCursor();
         PlayerController.BlockBasePanel = true;
         PlayerController.SetBasePanelActive(false);
@@ -268,7 +286,6 @@ public class DirectorModeManager : MonoBehaviour
         PlayerController.SetBasePanelActive(true);
 
         PlayerController.EnableMovement(true);
-        // PlayerController.instance.BasePanel.gameObject.SetActive(true);
 
         Debug.Log("Scena completata!");
 
@@ -327,43 +344,55 @@ public class DirectorModeManager : MonoBehaviour
 
     private void PrepareActors()
     {
-        if (sceneActors == null || sceneActors.Length == 0)
+        GameObject[] activeActors = currentPhase switch
+        {
+            PhaseType.LivingRoom => salottoActors,
+            PhaseType.Divination => divinationActors,
+            _ => null
+        };
+
+        if (activeActors == null || activeActors.Length == 0)
         {
             Debug.LogWarning("Nessun attore assegnato!");
             return;
         }
 
-        for (int i = 0; i < sceneActors.Length; i++)
+        foreach (var actor in activeActors)
         {
-            if (sceneActors[i] == null) continue;
+            if (actor == null) continue;
 
-            sceneActors[i].SetActive(true);
+            actor.SetActive(true);
+            Animator animator = actor.GetComponent<Animator>();
 
-            Animator animator = sceneActors[i].GetComponent<Animator>();
             if (animator != null)
             {
                 animator.Rebind();
             }
-
-            Debug.Log($"Attore {i} ({sceneActors[i].name}) ready");
+            Debug.Log($"Attore scene ready: {actor.name}");
         }
-
-        Debug.Log("Attori preparati per la scena");
+        Debug.Log("Attori preparati per la scena (zona: " + currentPhase + ")");
     }
 
     private void StartActorAnimations()
     {
-        if (sceneActors == null || sceneActors.Length == 0)
+        GameObject[] activeActors = currentPhase switch
+        {
+            PhaseType.LivingRoom => salottoActors,
+            PhaseType.Divination => divinationActors,
+            _ => null
+        };
+
+        if (activeActors == null || activeActors.Length == 0)
         {
             Debug.LogWarning("Nessun attore assegnato!");
             return;
         }
 
-        for (int i = 0; i < sceneActors.Length; i++)
+        for (int i = 0; i < activeActors.Length; i++)
         {
-            if (sceneActors[i] == null) continue;
+            if (activeActors[i] == null) continue;
 
-            ActorController navController = sceneActors[i].GetComponent<ActorController>();
+            ActorController navController = activeActors[i].GetComponent<ActorController>();
             if (navController != null)
             {
                 string trigger = "DoAction";
@@ -376,17 +405,17 @@ public class DirectorModeManager : MonoBehaviour
                 {
                     case "WalkToTarget":
                         navController.WalkToTarget();
-                        Debug.Log($"Attore {sceneActors[i].name} → Cammina verso target");
+                        Debug.Log($"Attore {activeActors[i].name} → Cammina verso target");
                         break;
 
                     case "DoAction":
                         navController.TriggerAction();
-                        Debug.Log($"Attore {sceneActors[i].name} → Action");
+                        Debug.Log($"Attore {activeActors[i].name} → Action");
                         break;
 
                     case "WalkAndAction":
                         StartCoroutine(WalkThenAction(navController));
-                        Debug.Log($"Attore {sceneActors[i].name} → Walk + Action");
+                        Debug.Log($"Attore {activeActors[i].name} → Walk + Action");
                         break;
 
                     default:
@@ -418,25 +447,32 @@ public class DirectorModeManager : MonoBehaviour
 
     private void ResetActors()
     {
-        if (sceneActors == null || sceneActors.Length == 0) return;
-
-        for (int i = 0; i < sceneActors.Length; i++)
+        GameObject[] activeActors = currentPhase switch
         {
-            if (sceneActors[i] == null) continue;
+            PhaseType.LivingRoom => salottoActors,
+            PhaseType.Divination => divinationActors,
+            _ => null
+        };
 
-            ActorController navController = sceneActors[i].GetComponent<ActorController>();
+        if (activeActors == null || activeActors.Length == 0) return;
+
+        for (int i = 0; i < activeActors.Length; i++)
+        {
+            if (activeActors[i] == null) continue;
+
+            ActorController navController = activeActors[i].GetComponent<ActorController>();
             if (navController != null)
             {
                 navController.ResetToIdle();
-                Debug.Log($"Attore {sceneActors[i].name} reset");
+                Debug.Log($"Attore {activeActors[i].name} reset");
                 continue;
             }
 
-            Animator animator = sceneActors[i].GetComponent<Animator>();
+            Animator animator = activeActors[i].GetComponent<Animator>();
             if (animator != null)
             {
                 animator.Play("Idle");
-                Debug.Log($"Attore {sceneActors[i].name} reset a Idle");
+                Debug.Log($"Attore {activeActors[i].name} reset a Idle");
             }
             }
 

@@ -146,6 +146,7 @@ public class QuestManager : MonoBehaviour
                 SetQuest(MainQuest.TutorialComplete);
                 break;
             case MainQuest.TutorialComplete:
+                ShowSalottoActors();
                 SetQuest(MainQuest.LivingRoomLight); // inizio quest salotto
                 break;
             
@@ -166,7 +167,8 @@ public class QuestManager : MonoBehaviour
 
             // DIVINATION
             case MainQuest.LivingRoomComplete:
-                SetQuest(MainQuest.DivinationLight); 
+                SetQuest(MainQuest.DivinationLight);
+                ShowDivinationActors();
                 break;
             case MainQuest.DivinationLight:
                 SetQuest(MainQuest.DivinationCamera); 
@@ -271,5 +273,14 @@ public class QuestManager : MonoBehaviour
         image.color = color;
         image.gameObject.SetActive(false);
         questCompletedImageText.text = "Quest Completed!";
+    }
+
+    private void ShowSalottoActors() 
+    {
+        DirectorModeManager.instance?.SetActorsActive(DirectorModeManager.instance.SalottoActors, true);
+    }
+    private void ShowDivinationActors() 
+    {
+        DirectorModeManager.instance?.SetActorsActive(DirectorModeManager.instance.DivinationActors, true);
     }
 }
