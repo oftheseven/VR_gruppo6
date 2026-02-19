@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 using System.Collections;
+using UnityEngine.UI;
 
 public class UI_DialoguePanel : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class UI_DialoguePanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI operatorNameText;
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private GameObject continueIndicator;
+    [SerializeField] private Image[] quickSlotImages;
 
     [Header("Typing Settings")]
     [SerializeField] private float typingSpeed = 0.05f; // velocità di digitazione del testo
@@ -55,6 +57,8 @@ public class UI_DialoguePanel : MonoBehaviour
         PlayerController.SetBasePanelActive(false); // nascondo il pannello di base del player durante il dialogo
         this.gameObject.SetActive(true);
         operatorNameText.text = characterName;
+
+        UpdateQuickSlots();
 
         ShowCurrentLine();
     }
@@ -115,5 +119,25 @@ public class UI_DialoguePanel : MonoBehaviour
         }
         currentDialogueSource = null;
         PlayerController.SetBasePanelActive(true); // riattivo il pannello di base del player dopo il dialogo
+    }
+
+    private void UpdateQuickSlots()
+    {
+        if (quickSlotImages == null || quickSlotImages.Length == 0 || Inventory.instance == null) return;
+
+        var quickItems = Inventory.instance.GetQuickSlotItems();
+        for (int i = 0; i < quickSlotImages.Length; i++)
+        {
+            if (i < quickItems.Count && quickItems[i] != null)
+            {
+                quickSlotImages[i].sprite = quickItems[i].GetItemIcon();
+                quickSlotImages[i].color = Color.white;
+            }
+            else
+            {
+                quickSlotImages[i].sprite = null;
+                quickSlotImages[i].color = new Color(1, 1, 1, 0);
+            }
+        }
     }
 }
