@@ -217,6 +217,8 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
         }
 
         PlayerController.EnableMovement(false);
+        PlayerController.instance.OnDialogueStarted();
+        Debug.Log($"Starting dialogue, player dialogue active: {PlayerController.instance.IsDialogueActive}");
 
         SetTalking(true);
 
@@ -226,11 +228,7 @@ public class InteractableTutor : MonoBehaviour, IDialogueSource
     public void OnDialogueEnd()
     {
         PlayerController.EnableMovement(true);
-        
-        if (PlayerController.instance != null)
-        {
-            PlayerController.instance.OnDialogueEnded();
-        }
+        PlayerController.instance.OnDialogueEnded();
 
         SetTalking(false);
     }

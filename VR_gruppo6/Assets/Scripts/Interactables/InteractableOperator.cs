@@ -13,10 +13,6 @@ public class InteractableOperator : MonoBehaviour, IDialogueSource
     [Header("Dialogue settings")]
     [SerializeField] private string operatorName = "Operatore";
     [SerializeField] private TextAsset dialogueFile;
-    // [SerializeField] private TextAsset secondDialogueFile; // seconda visita (dopo camera completata)
-    // [SerializeField] private TextAsset thirdDialogueFile; // terza visita (dopo camera completata ma prima di luce)
-    // [SerializeField] private TextAsset completedDialogueFile; // dopo tutto completato
-
     [Header("UI reference")]
     [SerializeField] private UI_DialoguePanel dialoguePanel; // riferimento al pannello di dialogo UI
 
@@ -40,8 +36,6 @@ public class InteractableOperator : MonoBehaviour, IDialogueSource
         {
             StartDialogue();
         }
-
-        // HandleQuestProgress();
     }
 
     private void LoadAppropriateDialogue()
@@ -67,41 +61,6 @@ public class InteractableOperator : MonoBehaviour, IDialogueSource
         }
     }
 
-    // private void HandleQuestProgress()
-    // {
-    //     if (TortaInTestaManager.instance == null)
-    //     {
-    //         return;
-    //     }
-
-    //     // DOP
-    //     if (operatorID == TortaInTestaManager.instance.GetOperatorID(1))
-    //     {
-    //         if (!TortaInTestaManager.instance.IsCameraQuestUnlocked())
-    //         {
-    //             TortaInTestaManager.instance.OnOperatorFirstInteraction(operatorID);
-    //         }
-    //         else if (TortaInTestaManager.instance.IsCameraQuestCompleted() && !TortaInTestaManager.instance.IsLightQuestUnlocked())
-    //         {
-    //             TortaInTestaManager.instance.OnOperatorSecondInteraction(operatorID);
-    //         }
-    //     }
-    //     // ASSISTENTE REGIA
-    //     else if (operatorID == TortaInTestaManager.instance.GetOperatorID(2))
-    //     {
-    //         if (!TortaInTestaManager.instance.IsComputerQuestUnlocked())
-    //         {
-    //             TortaInTestaManager.instance.OnOperatorFirstInteraction(operatorID);
-    //             // Debug.Log("[OP2] Prima visita: sblocco computer");
-    //         }
-    //         else if (TortaInTestaManager.instance.IsComputerQuestCompleted() && !TortaInTestaManager.instance.IsArmQuestUnlocked())
-    //         {
-    //             TortaInTestaManager.instance.OnOperatorSecondInteraction(operatorID);
-    //             // Debug.Log("[OP2] Seconda visita: sblocco arm");
-    //         }
-    //     }
-    // }
-
     public string GetInteractionText()
     {
         return interactionText;
@@ -119,6 +78,7 @@ public class InteractableOperator : MonoBehaviour, IDialogueSource
         rotationCoroutine = StartCoroutine(SmoothLookAtPlayer());
 
         PlayerController.EnableMovement(false);
+        PlayerController.instance.OnDialogueStarted();
     }
 
     public void OnDialogueEnd()

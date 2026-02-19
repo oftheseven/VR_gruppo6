@@ -142,8 +142,7 @@ public class UI_MenuPanel : MonoBehaviour
 
     public void ExitGame()
     {
-        // Application.Quit();
-        SceneManager.LoadSceneAsync(0);
+        Application.Quit();
     }
 
     private IEnumerator CooldownCoroutine()

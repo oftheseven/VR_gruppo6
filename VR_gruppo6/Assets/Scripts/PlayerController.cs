@@ -9,6 +9,10 @@ public class PlayerController : MonoBehaviour
     private static PlayerController _instance;
     public static PlayerController instance => _instance;
 
+    [Header("Player starting position")]
+    [SerializeField] private Vector3 _startingPosition;
+    [SerializeField] private Vector3 _startingRotation;
+
     [Header("Movement")]
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _runMultiplier = 2f; // moltiplicatore per la corsa
@@ -50,6 +54,7 @@ public class PlayerController : MonoBehaviour
     [Header("Operator interaction")]
     private InteractableOperator currentOperator = null;
     private bool isDialogueActive = false;
+    public bool IsDialogueActive => isDialogueActive;
 
     [Header("Tutor interaction")]
     private InteractableTutor currentTutor = null;
@@ -91,7 +96,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     void Awake()
     {
         if (_instance != null && _instance != this)
@@ -116,6 +120,9 @@ public class PlayerController : MonoBehaviour
 
         Application.targetFrameRate = 60;
         QualitySettings.vSyncCount = 1;
+
+        this.transform.position = _startingPosition;
+        this.transform.eulerAngles = _startingRotation;
         
         StartCoroutine(WaitAndTriggerFirstDialogue());
     }
@@ -664,6 +671,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnDialogueStarted()
+    {
+        isDialogueActive = true;
+        isInteracting = true;
+    }
+
     public void OnDialogueEnded()
     {
         isDialogueActive = false;
@@ -675,13 +688,13 @@ public class PlayerController : MonoBehaviour
     private void CheckPanelsInteraction()
     {
         // APERTURA/CHIUSURA MENU
-        if (Keyboard.current.escapeKey.wasPressedThisFrame && !isInteracting && !UI_MenuPanel.instance.IsOpen)
+        if (Keyboard.current.escapeKey.wasPressedThisFrame && !isInteracting && !isDialogueActive && !UI_MenuPanel.instance.IsOpen)
         {
             UI_MenuPanel.instance.OpenMenu();
         }
 
         // APERTURA/CHIUSURA INVENTARIO
-        if (Keyboard.current.iKey.wasPressedThisFrame && !isInteracting && !UI_InventoryPanel.instance.IsOpen)
+        if (Keyboard.current.iKey.wasPressedThisFrame && !isInteracting && !isDialogueActive && !UI_InventoryPanel.instance.IsOpen)
         {
             UI_InventoryPanel.instance.OpenInventory();
         }
