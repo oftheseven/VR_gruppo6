@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -158,6 +159,7 @@ public class AudioManager : MonoBehaviour
         if (ambientClip != null && ambientAudioSource != null)
         {
             ambientAudioSource.clip = ambientClip;
+            ambientAudioSource.loop = true;
             ambientAudioSource.Play();
         }
     }

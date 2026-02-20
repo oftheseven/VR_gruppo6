@@ -150,30 +150,52 @@ public class DirectorModeManager : MonoBehaviour
     {
         availableCameras.Clear();
 
-        // camera 1: slider
-        if (sliderCamera != null && sliderCamera.SliderCamera != null && sliderCamera.CurrentRecording != null)
+        if (QuestManager.instance != null)
         {
-            availableCameras.Add(1);
-            Debug.Log("Camera 1 disponibile: SLIDER");
+            switch (QuestManager.instance.CurrentQuest)
+            {
+                case QuestManager.MainQuest.LivingRoomComplete:
+                    currentPhase = PhaseType.LivingRoom;
+                    break;
+                case QuestManager.MainQuest.DivinationComplete:
+                    currentPhase = PhaseType.Divination;
+                    break;
+                default:
+                    Debug.LogWarning("Quest non valida per director mode!");
+                    return;
+            }
         }
-        // camera 2: tripod livingroom
-        if (livingRoomTripodCamera != null && currentPhase != PhaseType.Divination)
+
+        if (currentPhase == PhaseType.LivingRoom)
         {
-            availableCameras.Add(2);
-            Debug.Log("Camera 2 disponibile: TREPPIEDE SALOTTO");
+            // camere salotto
+            if (sliderCamera != null && sliderCamera.SliderCamera != null && sliderCamera.CurrentRecording != null)
+                availableCameras.Add(1); // slider
+            if (livingRoomTripodCamera != null)
+                availableCameras.Add(2); // treppiede salotto
+
+            animatedCameraIndex = 1;
+            fixedCameraIndex = 2;
+            currentTripodCamera = livingRoomTripodCamera;
         }
-        // camera 2: tripod divination
-        if (divinationTripodCamera != null && currentPhase == PhaseType.Divination)
+        else if (currentPhase == PhaseType.Divination)
         {
-            availableCameras.Add(2);
-            Debug.Log("Camera 2 disponibile: TREPPIEDE DIVINATION");
+            // camere divination
+            if (armCamera != null && armCamera.DirectorModeCamera != null && armCamera.WaypointCount >= 2)
+                availableCameras.Add(3); // braccio
+            if (divinationTripodCamera != null)
+                availableCameras.Add(2); // treppiede divination
+
+            animatedCameraIndex = 3;
+            fixedCameraIndex = 2;
+            currentTripodCamera = divinationTripodCamera;
         }
-        // camera 3: arm
-        if (armCamera != null && armCamera.DirectorModeCamera != null && armCamera.WaypointCount >= 2)
+        else
         {
-            availableCameras.Add(3);
-            Debug.Log($"Camera 3 disponibile: BRACCIO MECCANICO ({armCamera.WaypointCount} waypoint)");
+            Debug.LogWarning("Non è definita una fase valida per Director Mode!");
+            return;
         }
+
         if (isDirectorModeActive) return;
         if (availableCameras.Count == 0)
         {
@@ -182,26 +204,6 @@ public class DirectorModeManager : MonoBehaviour
         }
 
         Debug.Log("DIRECTOR MODE STARTED");
-
-        if (sliderCamera != null && sliderCamera.CurrentRecording != null)
-        {
-            currentPhase = PhaseType.LivingRoom;
-            animatedCameraIndex = 1; // slider
-            fixedCameraIndex = 2;    // tripod
-            currentTripodCamera = livingRoomTripodCamera;
-        }
-        else if (armCamera != null && armCamera.WaypointCount >= 2)
-        {
-            currentPhase = PhaseType.Divination;
-            animatedCameraIndex = 3; // arm
-            fixedCameraIndex = 2;    // tripod
-            currentTripodCamera = divinationTripodCamera;
-        }
-        else
-        {
-            Debug.LogWarning("Non è definita una fase valida per Director Mode!");
-            return;
-        }
 
         isDirectorModeActive = true;
         isAnimatingCamera = true;
@@ -578,6 +580,7 @@ public class DirectorModeManager : MonoBehaviour
                 if (armCamera != null && armCamera.DirectorModeCamera != null)
                 {
                     armCamera.DirectorModeCamera.enabled = true;
+                    armCamera.DirectorModeCamera.gameObject.SetActive(true);
                     Debug.Log($"Camera 3: Arm Director Mode Camera attivata");
 
                     if (ArmWaypointPlayback.instance != null && 

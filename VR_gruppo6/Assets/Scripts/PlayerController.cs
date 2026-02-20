@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using NUnit.Framework;
 
 public class PlayerController : MonoBehaviour
 {
@@ -124,7 +125,7 @@ public class PlayerController : MonoBehaviour
         this.transform.position = _startingPosition;
         this.transform.eulerAngles = _startingRotation;
         
-        StartCoroutine(WaitAndTriggerFirstDialogue());
+        // StartCoroutine(WaitAndTriggerFirstDialogue());
     }
 
     private IEnumerator WaitAndTriggerFirstDialogue()

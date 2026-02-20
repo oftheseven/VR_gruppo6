@@ -189,11 +189,6 @@ public class UI_ArmPanel : MonoBehaviour
             armCamera.enabled = true;
             armCamera.gameObject.GetComponent<AudioListener>().enabled = true;
         }
-
-        // if (armCameraView != null)
-        // {
-        //     armCameraView.enabled = false;
-        // }
         
         if (armCameraOrbit != null)
         {
@@ -257,6 +252,7 @@ public class UI_ArmPanel : MonoBehaviour
         if (interactableArm.VisualFeedback != null)
         {
             interactableArm.VisualFeedback.DisableVisuals();
+            interactableArm.VisualFeedback.HideTargetMarkers();
         }
 
         if (holdIndicator != null)
