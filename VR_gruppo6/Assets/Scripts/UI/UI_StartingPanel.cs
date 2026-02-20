@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class UI_StartingPanel : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class UI_StartingPanel : MonoBehaviour
     private float blinkTimer = 0f;
 
     public static bool ShownIntroPanels = false;
+    public static bool IsBlockingInput = false;
 
     void Start()
     {
@@ -50,6 +52,7 @@ public class UI_StartingPanel : MonoBehaviour
     public void ShowPanel()
     {
         this.gameObject.SetActive(true);
+        IsBlockingInput = true;
         PlayerController.SetBasePanelActive(false);
         PlayerController.EnableMovement(false);
     }
@@ -96,6 +99,7 @@ public class UI_StartingPanel : MonoBehaviour
 
         PlayerController.EnableMovement(true);
         PlayerController.SetBasePanelActive(true);
+        IsBlockingInput = false;
     }
 
     private IEnumerator TriggerDialogueAfterInputReleased()

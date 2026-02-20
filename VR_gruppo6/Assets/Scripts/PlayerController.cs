@@ -345,7 +345,7 @@ public class PlayerController : MonoBehaviour
     private void CheckForInteractable()
     {
         // se il dialogo è attivo o l'utente sta interagendo con un pannello, non fare il raycast
-        if (isDialogueActive || isInteracting || !moveEnabled)
+        if (isDialogueActive || isInteracting || !moveEnabled || UI_StartingPanel.IsBlockingInput)
         {
             return;
         }
@@ -695,13 +695,13 @@ public class PlayerController : MonoBehaviour
     private void CheckPanelsInteraction()
     {
         // APERTURA/CHIUSURA MENU
-        if (Keyboard.current.escapeKey.wasPressedThisFrame && !isInteracting && !isDialogueActive && !UI_MenuPanel.instance.IsOpen)
+        if (Keyboard.current.escapeKey.wasPressedThisFrame && !isInteracting && !isDialogueActive && !UI_StartingPanel.IsBlockingInput && !UI_MenuPanel.instance.IsOpen)
         {
             UI_MenuPanel.instance.OpenMenu();
         }
 
         // APERTURA/CHIUSURA INVENTARIO
-        if (Keyboard.current.iKey.wasPressedThisFrame && !isInteracting && !isDialogueActive && !UI_InventoryPanel.instance.IsOpen)
+        if (Keyboard.current.iKey.wasPressedThisFrame && !isInteracting && !isDialogueActive && !UI_StartingPanel.IsBlockingInput && !UI_InventoryPanel.instance.IsOpen)
         {
             UI_InventoryPanel.instance.OpenInventory();
         }
